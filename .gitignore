@@ -1,0 +1,6 @@
+# gem
+Gemfile.lock
+
+# intellij
+*.iml
+/.idea
