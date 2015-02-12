@@ -1,8 +1,7 @@
-diagram:
-	for txt in diagrams/*.txt
-	do
-		ditaa -E $txt
-	done
+diagrams = $(shell ls diagrams/*.txt)
 
-pdf:
-	pandoc --standalone --toc --number-sections --biblio sources.bib src/*.md -o symcloud-thesis.pdf
+diagram:
+	$(foreach f,$(diagrams), ditaa -E -o $(f);)
+
+pdf: diagram
+	pandoc --standalone --toc --number-sections --biblio sources.bib *.md -o symcloud-thesis.pdf
