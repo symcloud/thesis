@@ -39,8 +39,71 @@ Die Abbildung \ref{overview} beschreibt die Abhängigkeiten auf denen Symcloud a
 
 TODO diagram erweitern
 
-## Wissenschaftliche Relevanz
+# Mögliche Themen (nur Notizen)
 
+Es bieten sich an dieser Stelle 2 große Themen (mit meiner Meinung nach Thesis Relevanz). Je nach Schwerpunkt der
+Schriftlichen Arbeit würde ich den jeweils anderen Teil hinten anstellen.
+
+In beiden Varianten würde ein File-Abstraction-Layer entstehen, der den Datei Zugriff abstrahieren würde und damit
+den Storage der Daten verbirgt. Ebenfalls in beiden Fällen würde ich standardmässig auf GIT setzen, da ich es spannend
+finde diese Technologie mal anders zu verwenden. Durch diese Abstraktion sollte es kein Problem sein später einen
+anderen Storage zu verwenden (bsp.: Dateisystem und Webdav), falls sich herausstellt, dass git ungeeignet für das
+Projekt ist.
+
+Der große Vorteil, den ich an GIT sehe und warum ich daran festhalten will ist:
+
+* Funktionierende komprimierung
+* Automatische Versionierung
+* Volle Kontrolle der Daten, da unabhängig von der Software
+* HTTP-Schnittstelle
+* Erweiterbar und daher gut geeignet um eigene Scripts einzubinden
+
+Nachteile, die allerdings entstehen könnten:
+
+* Große History durch unendliche Versionen
+* Schwierigeres Teilen eines Teils der Daten
+* Verschlüsselung Client seitig, daher keinen Zugriff auf die Daten am Server (wenn aktiviert)
+
+## P2P File-Sharing und Groupware
+
+Ein spannendes Thema wäre eine durchleuchtung von Diaspora und die ummünzung auf Symcloud. Wie in der Einleitung schon
+erläutert, ermöglich Diaspora die vernetzung von Knoten untereinander. Dies wäre auch bei einer File-Sync Platform
+sinnvoll.
+
+Denkt man zum Beispiel an eine Firma mit mehreren Standorten, einige der Daten werden von beiden Standorten genutzt,
+einige jeweils nur von einem. Teile dieser Daten werden aber unter den Nutzern beider Standorte geteilt. Da wäre es
+doch sinnvoll, wenn die Nutzerdaten der Server synchronisiert und damit es ermöglichen jeweils den nächsten Server
+zu verwenden um seine Daten zu verwalten. Ausserdem könnten gewisse Daten, die in beiden Standorten verwendet werden
+synchroniert und damit ermöglichen immer schnell an seine Daten zu gelangen, auch wenn man zu Gast beim anderen
+Standort ist. Dazu könnte dann das LAN verwendet werden.
+
+GIT würde auch hier mit seinem dezentralen System helfen diese Möglichkeiten voll auszuschöpfen. Für die verteilung der
+Nutzerdaten könnte ein sicherer Tunnel aufgebaut werden und die Daten dadurch sicher von A nach B Transportiert werden.
+
+Interresante Themen wäre hier:
+
+* Der sichere Austausch von Daten
+* Die Anmeldung an einem fremden (verbundenen) Server der mein Passwort nicht wissen sollte (oAuth könnte eine Lösung
+  sein)
+* Damit verbunden könnte der Fokus mehr auf die Platform gelegt werden und dort eine Art Sozial Media, Colaboration
+  aufgebaut werden.
+
+Es wäre sicher eine Spannende Sache und damit verbunden eine Herausforderung in der Implementierung. 
+
+## Datenhaltung
+
+GIT als Backup-System. Dazu würde es eine GIT-Implementierung in reinem PHP benötigen, bei dem es möglich den Zugriff
+Storage der Daten in eine Datenbank umzuleiten, die History und damit die Commits zu manipulieren und der Web-Oberfläche
+den Datei-Tree und die Dateien zur verfügung zu stellen. Dazu habe ich mich intensiv mit dem inneren von GIT beschäftigt
+und mich mit den Entwicklern verständigt. Diese Implementierung, wäre sicher auch für die PHP-Community interresant.
+
+Die Arbeit würde sich dann um die GIT-Internals und die Verwendung von GIT bei Dateien die nicht nur Code enthalten.
+Ausserdem könnte evaluiert werden, ob GIT für diesen Zweck überhaupt geeignet ist.
+
+Zusätzliche Themen wären auch die Sicherheit der Daten (Verschlüsselung, Backup, ...) und die Teilbarkeit von
+Repositories also die Dynamische erzeugung von Repositories aus verschiedenen Teilen anderer.
+
+Zum letzten Thema gibt es kaum ansätze, wäre also für eine Masterarbeit geeignet.
 
 
 [^1]: <https://diasporafoundation.org/>
