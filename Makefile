@@ -5,3 +5,7 @@ diagram:
 
 pdf: diagram
 	pandoc --standalone --toc --number-sections --biblio sources.bib *.md -o symcloud-thesis.pdf
+
+open: pdf
+	open ./symcloud-thesis.pdf
+	
