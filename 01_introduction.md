@@ -111,6 +111,10 @@ __Interresant Links:__
 * <http://xanadu.com/>: ???
 * <https://github.com/depot/depot>: PHP-Library for tent
 * <https://github.com/Cacauu/librejo>: -||-
+* <http://florianjacob.de/tentio-new-hope.html>: Blog Post about tent.io
+* <https://github.com/tent/tent.io/wiki/Related-projects>
+* <https://wiki.diasporafoundation.org/Diaspora_powered_by_Tent#Missing_Tent_Features>: Diaspora powered by Tent
+
 [^1]: <https://diasporafoundation.org/>
 [^2]: <https://owncloud.org/>
 [^3]: <http://webodf.org/>
