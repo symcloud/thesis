@@ -109,7 +109,7 @@ __Interresant Links:__
 
 * <https://tent.io/>: protocol for personal data and communications ... Tent is an open protocol for personal evented data vaults and decentralized real-time communication. Tent has two APIs: one lets Tent apps talk to Tent servers, the other lets Tent servers talk to each other. A Tent server can have one or many users, and anyone can run their own Tent server. (<https://wiki.diasporafoundation.org/Diaspora_powered_by_Tent>)
 * <http://xanadu.com/>: ???
-
+* <https://github.com/depot/depot>: PHP-Library for tent
 [^1]: <https://diasporafoundation.org/>
 [^2]: <https://owncloud.org/>
 [^3]: <http://webodf.org/>
