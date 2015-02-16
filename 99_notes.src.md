@@ -1,4 +1,4 @@
-# Mögliche Themen (nur Notizen)
+# Notizen
 
 Es bieten sich an dieser Stelle 2 große Themen (mit meiner Meinung nach Thesis Relevanz). Je nach Schwerpunkt der
 Schriftlichen Arbeit würde ich den jeweils anderen Teil hinten anstellen.
@@ -48,21 +48,6 @@ Interresante Themen wäre hier:
   aufgebaut werden.
 
 Es wäre sicher eine Spannende Sache und damit verbunden eine Herausforderung in der Implementierung.
-
-## Datenhaltung
-
-GIT als Backup-System. Dazu würde es eine GIT-Implementierung in reinem PHP benötigen, bei dem es möglich den Zugriff
-Storage der Daten in eine Datenbank umzuleiten, die History und damit die Commits zu manipulieren und der Web-Oberfläche
-den Datei-Tree und die Dateien zur verfügung zu stellen. Dazu habe ich mich intensiv mit dem inneren von GIT beschäftigt
-und mich mit den Entwicklern verständigt. Diese Implementierung, wäre sicher auch für die PHP-Community interresant.
-
-Die Arbeit würde sich dann um die GIT-Internals und die Verwendung von GIT bei Dateien die nicht nur Code enthalten.
-Ausserdem könnte evaluiert werden, ob GIT für diesen Zweck überhaupt geeignet ist.
-
-Zusätzliche Themen wären auch die Sicherheit der Daten (Verschlüsselung, Backup, ...) und die Teilbarkeit von
-Repositories also die Dynamische erzeugung von Repositories aus verschiedenen Teilen anderer.
-
-Zum letzten Thema gibt es kaum ansätze, wäre also für eine Masterarbeit geeignet.
 
 __Interresant Links:__
 
