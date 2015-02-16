@@ -1,12 +1,16 @@
 # Notizen
 
-Es bieten sich an dieser Stelle 2 große Themen (mit meiner Meinung nach Thesis Relevanz). Je nach Schwerpunkt der
-Schriftlichen Arbeit würde ich den jeweils anderen Teil hinten anstellen.
+Nach der letzten besprechung vom 16.02.2015 wurde beschlossen, dass das Thema "P2P File-Sharing und Groupware" genauer
+spezifiziert und ein Hauptteil der Arbeit umfassen soll. Die Arbeit soll sich mit der Verteilung der Daten, die
+spezifizierung eines Protokolls um Daten auszutauschen und die Sicherheitsaspekte (eine Idee war neben der Privicy
+auch die Ausfallsicherheit).
 
-In beiden Varianten würde ein File-Abstraction-Layer entstehen, der den Datei Zugriff abstrahieren würde und damit
-den Storage der Daten verbirgt. Ebenfalls in beiden Fällen würde ich standardmässig auf GIT setzen, da ich es spannend
+## File-Abstraction-Layer
+
+Es entsteht während des Projektes ein File-Abstraction-Layer, der den Datei zugriff auf Dateien abstrahiert damit
+den Storage der Daten vom System entkoppelt. Der Standard setzt auf GIT, um auf Daten zu verwalten, da ich es spannend
 finde diese Technologie mal anders zu verwenden. Durch diese Abstraktion sollte es kein Problem sein später einen
-anderen Storage zu verwenden (bsp.: Dateisystem und Webdav), falls sich herausstellt, dass git ungeeignet für das
+anderen Storage zu verwenden (bsp.: Dateisystem und Webdav), falls sich herausstellt, dass GIT ungeeignet für das
 Projekt ist.
 
 Der große Vorteil, den ich an GIT sehe und warum ich daran festhalten will ist:
@@ -49,7 +53,7 @@ Interresante Themen wäre hier:
 
 Es wäre sicher eine Spannende Sache und damit verbunden eine Herausforderung in der Implementierung.
 
-__Interresant Links:__
+## Interresant Links
 
 * <https://tent.io/>: protocol for personal data and communications ... Tent is an open protocol for personal evented data vaults and decentralized real-time communication. Tent has two APIs: one lets Tent apps talk to Tent servers, the other lets Tent servers talk to each other. A Tent server can have one or many users, and anyone can run their own Tent server. (<https://wiki.diasporafoundation.org/Diaspora_powered_by_Tent>)
 * <http://xanadu.com/>: ???
