@@ -4,3 +4,6 @@ Gemfile.lock
 # intellij
 *.iml
 /.idea
+
+# html output
+*.html
