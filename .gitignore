@@ -4,6 +4,3 @@ Gemfile.lock
 # intellij
 *.iml
 /.idea
-
-# output
-*.pdf
