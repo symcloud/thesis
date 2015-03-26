@@ -7,7 +7,7 @@ diagram:
 	$(foreach f,$(diagrams), ditaa -E -o $(f);)
 
 pdf:
-	pandoc --standalone --toc --number-sections --biblio sources.bib -o symcloud-thesis.pdf $(mds)
+	pandoc --standalone --toc --number-sections --biblio sources.bib --csl=FHV.csl -o symcloud-thesis.pdf $(mds)
 
 html:
 	pandoc --standalone --toc --number-sections --biblio sources.bib -o symcloud-thesis.html $(mds)
