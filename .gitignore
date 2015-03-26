@@ -7,3 +7,10 @@ Gemfile.lock
 
 # html output
 *.html
+
+# sublime
+*.sublime-project
+*.sublime-workspace
+
+# mac
+.DS_Store
