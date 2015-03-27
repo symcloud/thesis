@@ -4,15 +4,16 @@ In diesem Kapitel werden moderne Anwendungen anhand ihrer Architektur durchläuc
 
 ## \label{verteilte_systeme}Verteilte Systeme
 
-Ein verteiltes System ist laut Andrew Tanenbaum [siehe @tanenbaum2008verteilte, pp. ???]:
+Eine Definition von verteilten Systemen gibt Andrew Tanenbaum in seinem Buch Verteilte Systeme:
 
 	"Ein verteiltes System ist eine Menge voneinander unabhängiger
 	Computer, die dem Benutzer wie ein einzelnes kohärentes
 	System erscheinen"
 
+Diese Definition beinhaltet zwei Aspekte. Der eine Aspekt besagt, dass die einzelnen Maschinen in einem Verteilten System autonom sind. Der zweite bezieht sich auf die Software, die die Systeme miteinander verbinden. Durch die Software glaubt der Benutzer, dass er es mit einem einzigen System zu tun hat [siehe @tanenbaum2003verteilte, p. 18].
+
 Ein nicht mehr ganz neues aber immer noch sehr aktuelles Verteiltes System ist das Netzwerk-Protokoll NFS (Network File Service). 
 
-TODO überprüfen ob dieses zitat echt ist (bibliothek)
 TODO beschreibung eines netzwerk protokolles
 TODO trennung metadaten und inhalt
 
@@ -48,6 +49,6 @@ Für einen produktiven Einsatz wird eine scalierbare Architektur, wie in Abbildu
 
 ## Diaspora
 
-
+TODO kaum infos weitere suchen notwendig
 
 ## Zusammenfassung
