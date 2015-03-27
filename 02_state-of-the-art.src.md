@@ -12,7 +12,7 @@ Ein verteiltes System ist laut Andrew Tanenbaum [siehe @tanenbaum2008verteilte, 
 
 Ein nicht mehr ganz neues aber immer noch sehr aktuelles Verteiltes System ist das Netzwerk-Protokoll NFS (Network File Service). 
 
-TODO überprüfen ob dieses zitat echt ist
+TODO überprüfen ob dieses zitat echt ist (bibliothek)
 TODO beschreibung eines netzwerk protokolles
 TODO trennung metadaten und inhalt
 
@@ -33,6 +33,18 @@ Wie im Kapitel \ref{verteilte_systeme} beschrieben trennt Dropbox intern die Dat
 Der Storage Service ist wiederum von aussen durch einen Application Service abgesichert. Die Authentifizierung erfolgt über das OAuth2 Protokoll [siehe @dropbox2015b]. Diese Authentifizierung wird für alle Services verwendet, also auch für den Metadata Service und der Notification Service.
 
 ## ownCloud
+
+Nach den neuesten Entwicklungen arbeitet ownCloud an einem ähnlichen Feature wie Symcloud. Unter dem Namen "Remote shares" wurde in der Version 7 eine Erweiterung in den Core übernohmen, mit dem es möglich ist sogenannte "Shares" mittels einem Link auch in einer anderen Installation einzubinden. Dies ermöglicht es Dateien auch über die Grenzen des Servers hinweg zu teilen. [siehe @bizblokes2015a]
+
+Die kostenpflichtige Variante von ownCloud geht hier noch einen Schritt weiter. In Abbildung \ref{owncloud_architecture} ist zu sehen, wie ownCloud als eine Art Verbindungsschicht zwischen verschiedenen "On-Site", also Daten die vor Ort bereitstehen, und Daten aus der Cloud dienen soll.  [siehe @owncloudarchitecture2015, p. 1]
+
+![ownCloud Enterprise Architektur Übersicht [Quelle @owncloudarchitecture2015]\label{owncloud_architecture}](images/owncloud_architecture.png)
+
+Um die Integration in ein Unternehmen zu erleichtern bietet es verschiedenste Services an. Unter anderem ist es möglich Benutzerdaten über LDAP oder ActiveDirectory zu verwalten und damit ein doppeltes Verwalten der Benutzer zu vermeiden. [siehe @owncloudarchitecture2015, p. 2]
+
+![Bereitstellungs Szenario von ownCloud[Quelle @owncloudarchitecture2015]\label{owncloud_deployment}](images/owncloud_deployment.png)
+
+Für einen produktiven Einsatz wird eine scalierbare Architektur, wie in Abbildung \ref{owncloud_deployment}, vorgeschlagen. An erster Stelle, steht ein Load-Balancer, die die Last der Anfragen an mindestens zwei Websterver verteilt. Diese Webserver sind mit einem MySQL-Cluster verbunden, in dem die User-Daten, Anwendungsdaten und Metadaten der Dateien gespeichert sind. Dieser Cluster besteht wiederum aus mindestens 2 Datenbank Servern. Dies ermöglicht auch bei stark frequentierten Installationen eine Horizontale Skalierbarkeit. Dadurch ist der Leistung des gesamten Systems kaum grenzen gesetzt. Zusaätzlich sind die Webserver mit dem File-Storage verbunden. Dieser kann wiederum skaliert werden. Dies wird jedoch als optional bezeichnet. [siehe @owncloudarchitecture2015, p. 3-4]
 
 ## Diaspora
 
