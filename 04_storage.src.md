@@ -111,8 +111,21 @@ Riak Cloud Storage
 
 ### Performance
 
+HostedFTP veröffentlichte im Jahre 2009 in einem Perfomance Report ihre Erfahrungen mit der Performance zwischen EC2 (Rechner Instancen) und S3 [siehe @hostedftp2009amazons3]. Über ein Performance Model wurde festgestellt, das die Zeit für den Download einer Datei in zwei Bereiche aufgeteilt werden kann.
 
+Feste Transaktionszeit
 
+:   Eine fixe Zeiteinheit, die für die bereitstellung order erstellung der Datei benötigt wird. Beeinflusst wird diese Zeit kaum, allerdings kann es aufgrund schwankender Auslastung zu Verzögerungen kommen.
+
+Downloadzeit
+
+:   Ist liniar abhängig zu der Dateigröße und kann aufgrund der Bandbreite schwanken.
+
+Ausgehend von diesen Überlegungen kann davon ausgegangen werden, dass die Upload- bzw. Downloadzeit einen linearen Verlauf über die Dateigröße aufweist. Diese These wird von den Daten unterstützt. Aus dem Diagram (Abbildung \ref{performance_s3_upload}) kann die feste Transaktionszeit von ca. 140ms abgelesen werden.
+
+![Upload Analyse zwischen EC2 und S3 [Quelle @hostedftp2009amazons3] \label{performance_s3_upload}](images/performance_s3_upload.png)
+
+Für den Download von Dateien ensteht laut den Daten aus dem Report keine fixe Transaktionszeit. Die Zeit für den Download ist also nur von der Größe der Datei und der Bandbreite anbhängig. 
 
 ## Verteilte Dateisysteme
 
