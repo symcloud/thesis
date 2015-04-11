@@ -97,17 +97,19 @@ Amazon ist ein US-Amerikanisches Unternehmen und steht aus diesem, wie andere Di
 
 Wer bedenken hat seine Daten aus den Händen zu geben kann auf verschiedene kompatible Lösungen zurückgreifen.
 
-## Alternativen zu Amazon S3
+### Alternativen zu Amazon S3
 
 Es gibt einige Amazon S3 kompatible Services die einen ähnlichen Service bieten. Diese sind allerdings meist auch US-Amerikanische Firmen und daher gleich vertrauenswürdig wie Amazon. Wer also auf Nummer sicher gehen will und seine Daten bzw. Rechner-Instanzen ganz bei sich behalten will, kommt um eine Installation von Cluster Lösungen nicht herum.
 
-### Eucalyptus
+Eucalyptus
 
-Eucalyptus ist eine Open-Source-Infrastruktur zur Nutzung von Cloud-Computing auf Rechner Cluster. Der Name ist ein Akronym für "Elastic Utility Computing Architecture for Linking Your Programs To Useful Systems". Die hohe kompatibilität macht diese Software-Lösung zu einer optimalen Alternative zu Amazon-Web-Services [siehe @wikieucalyptus].
+:   Eucalyptus ist eine Open-Source-Infrastruktur zur Nutzung von Cloud-Computing auf Rechner Cluster. Der Name ist ein Akronym für "Elastic Utility Computing Architecture for Linking Your Programs To Useful Systems". Die hohe kompatibilität macht diese Software-Lösung zu einer optimalen Alternative zu Amazon-Web-Services [siehe @wikieucalyptus].
 
+Riak Cloud Storage
 
+:   ???
 
-### Riak Cloud Storage
+### Performance
 
 
 
