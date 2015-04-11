@@ -95,15 +95,20 @@ Die Skalierbarkeit ist aufgrund der, von Amazon, verwalteten Umgebung sehr einfa
 
 Amazon ist ein US-Amerikanisches Unternehmen und steht aus diesem, wie andere Dienste, seit Jahren in der Kritik. Um dieses Problem zu kompensieren, können Systemadministratoren sogenannte "Availability Zones" auswählen und damit steuern wo ihre Daten gespeichert werden. Zum Beispiel werden Daten aus einem Bucket mit der Zone Irland, auch wirklich in Irland gespeichert. Zusätzlich gewährt Amazon die Verschlüsselung der Daten [siehe @wikiaws].
 
-TODO hinweis auf private alternativen
+Wer bedenken hat seine Daten aus den Händen zu geben kann auf verschiedene kompatible Lösungen zurückgreifen.
 
 ## Alternativen zu Amazon S3
+
+Es gibt einige Amazon S3 kompatible Services die einen ähnlichen Service bieten. Diese sind allerdings meist auch US-Amerikanische Firmen und daher gleich vertrauenswürdig wie Amazon. Wer also auf Nummer sicher gehen will und seine Daten bzw. Rechner-Instanzen ganz bei sich behalten will, kommt um eine Installation von Cluster Lösungen nicht herum.
+
+### Eucalyptus
+
+Eucalyptus ist eine Open-Source-Infrastruktur zur Nutzung von Cloud-Computing auf Rechner Cluster. Der Name ist ein Akronym für "Elastic Utility Computing Architecture for Linking Your Programs To Useful Systems". Die hohe kompatibilität macht diese Software-Lösung zu einer optimalen Alternative zu Amazon-Web-Services [siehe @wikieucalyptus].
+
 
 
 ### Riak Cloud Storage
 
-
-### Eucalyptus
 
 
 
