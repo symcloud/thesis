@@ -103,11 +103,11 @@ Es gibt einige Amazon S3 kompatible Services die einen ähnlichen Service bieten
 
 Eucalyptus
 
-:   Eucalyptus ist eine Open-Source-Infrastruktur zur Nutzung von Cloud-Computing auf Rechner Cluster. Der Name ist ein Akronym für "Elastic Utility Computing Architecture for Linking Your Programs To Useful Systems". Die hohe kompatibilität macht diese Software-Lösung zu einer optimalen Alternative zu Amazon-Web-Services [siehe @wikieucalyptus].
+:   ist eine Open-Source-Infrastruktur zur Nutzung von Cloud-Computing auf Rechner Cluster. Der Name ist ein Akronym für "Elastic Utility Computing Architecture for Linking Your Programs To Useful Systems". Die hohe kompatibilität macht diese Software-Lösung zu einer optimalen Alternative zu Amazon-Web-Services [siehe @wikieucalyptus]. 
 
 Riak Cloud Storage
 
-:   ???
+:   ist eine Software, mit der es möglich ist ein verteilter Objekt-Speicherdienst zu betreiben. Es implementiert die Schnittstelle von Amazon S3 und ist damit kompatibel zu der aktuellen Version [siehe @basho2015riakcs]. Es unterstützt die meisten Funktionalitäten, die Amazon bietet. Jedoch gebit es eine Einschränkung bei den Buckets. Diese können Objekte nicht Versionieren. Dies müsste eine zusätzliche Software-Schicht erledigen. Ein Vorteil von Riak-CS ist es, das die Installation im gegensatz zu Eucalyptus sehr einfach und auf nahezu jedem System durchgeführt werden kann.
 
 ### Performance
 
