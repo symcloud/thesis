@@ -14,8 +14,8 @@ Diese Definition beinhaltet zwei Aspekte. Der eine Aspekt besagt, dass die einze
 
 Ein nicht mehr ganz neues aber immer noch sehr aktuelles Verteiltes System ist das Netzwerk-Protokoll NFS (Network File Service). 
 
-TODO beschreibung eines netzwerk protokolles
-TODO trennung metadaten und inhalt
+* __TODO beschreibung eines netzwerk protokolles__
+* __TODO trennung metadaten und inhalt__
 
 ## Dropbox
 
@@ -49,6 +49,8 @@ Für einen produktiven Einsatz wird eine scalierbare Architektur, wie in Abbildu
 
 ## Diaspora
 
-TODO kaum infos weitere suchen notwendig
+__TODO kaum infos weitere suchen notwendig__
 
 ## Zusammenfassung
+
+__TODO zusammenfassung state of the art chapter__

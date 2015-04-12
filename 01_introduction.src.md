@@ -10,7 +10,7 @@ Das Projekt “ownCloud” ist eine Software, die es ermöglicht, Daten in einer
 
 Symcloud ist eine private Cloud-Software, die es ermöglicht über dezentrale Knoten (ähnlich wie Diaspora) Daten über die Grenzen des eigenen Servers hinweg zu teilen. Verbundene Knoten tauschen über sichere Kanäle Daten aus, die dann über einen Client mit dem Endgerät synchronisiert werden können.
 
-TODO genauere Beschreibung
+__TODO genauere Beschreibung__
 
 Die Software baut auf modernen Web-Technologien auf und verwendet als Basis das PHP-Framework Symfony2[^4]. Dieses Framework ist eines der beliebtesten in der Open-Source Community. Es bietet neben der Abstraktion von HTTP-Anfragen auch einen Dependency-Injection-Container und viele weitere Komponenten wie zum Beispiel Routing und Event Dispatcher. Zusätzlich erleichtert es die Entwicklung von großen PHP-Projekten, durch die Möglichkeit den Code in Komponenten, sogenannten Bundles, zu gliedern. Diese können dann mit der Community geteilt werden.
 
@@ -18,9 +18,11 @@ Als Basis für die Plattform verwendet Symcloud das Content-Management-Framework
 
 ## Inspiration
 
-TODO Noch einmal ownCloud - Diaspora und Ted Nelson mit dem Xanadu Projekt
+__TODO Noch einmal ownCloud - Diaspora und Ted Nelson mit dem Xanadu Projekt__
 
 ## Technologie
+
+__TODO überarbeiten phpcr ersetzt durch S3__
 
 Dieses Kapitel beschreibt die verwendeten Technologie etwas genauer. In Abbildung \ref{overview} zeigt die Abhängigkeiten als Schichten Diagramm. Ganz oben ist zum einen die Oberfläche von Symcloud, die in die Sulu Umgebung eingebettet ist. Sulu selbst ist eine "One-Page application", die verschiedene Javascript Komponenten zur Verfügung stellt, um die Anwendung erweitern zu können. Die andere Schnittstelle ganz oben ist der Synchronisierung Client, der es ermöglich Daten über ein Kommandozeilen Programm zu synchronisieren. Beide "Oberflächen" sprechen das Backend über eine gesicherte REST-API an. Diese API wird verwendet um Daten zu empfangen aber auch daten an den Server zu senden. Zum Beispiel sendet der Synchronisierungs Client einen POST-Request an den Server um eine Datei hochzuladen.
 
@@ -32,13 +34,16 @@ Auf der Server-Seite gibt es zum einen die standard API-Schnittstellen von Sulu 
 ### Sulu CMF
 
 
+
 ### Symfony2
 
 
-### PHPCR
-
 
 ### PHP
+
+
+
+### S3
 
 
 ## Anforderungen
