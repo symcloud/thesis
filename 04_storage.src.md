@@ -141,17 +141,23 @@ Ausgehend von diesen Überlegungen kann davon ausgegangen werden, dass die Uploa
 
 Für den Download von Dateien ensteht laut den Daten aus dem Report keine fixe Transaktionszeit. Die Zeit für den Download ist also nur von der Größe der Datei und der Bandbreite abhängig. 
 
-## Verteilte Dateisysteme
+## \label{chapter_distibuted_fs}Verteilte Dateisysteme
 
-* <http://member.wide.ad.jp/~shima/publications/20120924-dfs-performance.pdf>
+Verteilte Dateisysteme unterstützen die gemeinsame Nutzung von Informationen in Form von Dateien. Es bietet zugriff auf Dateien, die auf einem entfernten Server abgelegt sind, wobei eine ähnliche Leistung und Zuverlässigkeit erzielt werden, wie für lokal gespeicherte Daten. Wohldurchdachte Dateisysteme erziehlen oft bessere Ergebnisse in Leistung und Zuverlässigkeit als lokale Systeme. Die entferneten Dateien werden genauso verwendet wie lokale Dateien, da verteilte Dateisysteme die Schnittstelle des Betriebsystems emulieren. Dadurch können die Vorteile von verteilten Systemen in einem Programm genutzt werden ohne dieses Anzupassen. Die Schreibzugriffe auf erfolgen über ganz normale `system-calls` [siehe @coulouris2003verteilte S. 363ff.].
+
+Dies ist auch ein großer Vorteil zu Speicherdiensten wie Amazon S3. Da die Schnittstelle zu den einzelnen Systemen abstrahiert werden, muss die Software nicht agepasst werden, wenn das Dateisystem gewechselt wird.
+
+__TODO Anforderungen an ein verteiltes Dateisystem?__
 
 ### NFS
 
+Network File System wurde von Sun Microsystem entwickelt. Das Grundlegende Prinzip von NFS ist, dass jeder Dateiserver ein standardisierte Dateischnittstelle und Dateien des lokeln Speicher den Benutzern zur verfügung zu stellen. Das bedeutet, dass es keine Rolle spielt welches System dahinter steht. Ursprünglich wurde es für UNIX Systeme entwickelt. Mittlerweile gibt es aber implementierungen für verschiedenste Betriebssysteme [siehe @tanenbaum2003verteilte S. 645ff.].
+
+NFS ist also weniger ein Dateisystem als eine Menge von Protokollen, die in der Kombination mit den Clients ein verteiltes Dateisystem ergeben. Die Protokolle wurden so entwickelt, dass unterschiedliche Implementierungen einfach zusammenarbeiten können. Auf diese Weise können durch NFS eine heterogene Menge von Computern verbunden werden. Dies gilt sowohl für Benutzer- als auch für die Serverseite [siehe @tanenbaum2003verteilte S. 645ff.].
+
+#### Architektur
+
 ### Ceph
-
-### Sheepdog
-
-### GlusterFS
 
 ### XtreemFS
 
@@ -166,6 +172,8 @@ Für den Download von Dateien ensteht laut den Daten aus dem Report keine fixe T
 ## Performance
 
 ## Evaluation
+
+* <http://member.wide.ad.jp/~shima/publications/20120924-dfs-performance.pdf>
 
 [^30]: <http://aws.amazon.com/de/s3/>
 [^31]: <http://docs.mongodb.org/manual/core/gridfs/>
