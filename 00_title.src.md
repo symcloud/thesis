@@ -2,12 +2,6 @@
 %
 % Wachter Johannes
 
-\newpage
-
 \listoffigures
 
-\newpage
-
 \listoftables
-
-\newpage
