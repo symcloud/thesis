@@ -20,34 +20,9 @@ Als Basis für die Plattform verwendet Symcloud das Content-Management-Framework
 
 __TODO Noch einmal ownCloud - Diaspora und Ted Nelson mit dem Xanadu Projekt__
 
-## Technologie
-
-__TODO überarbeiten phpcr ersetzt durch S3__
-
-Dieses Kapitel beschreibt die verwendeten Technologien etwas genauer. Die Abbildung \ref{overview} zeigt die Abhängigkeiten als Schichtendiagramm. Ganz oben ist die Oberfläche von Symcloud, die in die Sulu Umgebung eingebettet ist. Sulu selbst ist eine "One-Page application", die verschiedene Javascript Komponenten zur Verfügung stellt, um die Anwendung erweitern zu können. Die andere Schnittstelle ganz oben ist der Synchronisierungs-Client, der es ermöglicht, Daten über ein Kommandozeilenprogramm zu synchronisieren. Beide "Oberflächen" sprechen das Backend über eine gesicherte REST-API an. Diese API wird verwendet, um Daten zu empfangen aber auch um Daten an den Server zu senden. Zum Beispiel sendet der Synchronisierungs-Client einen POST-Request an den Server, um eine Datei hochzuladen.
-
-![Überblick über die Komponenten\label{overview}](diagrams/overview.png)
-
-Auf der Server-Seite gibt es zum einen die Standard API-Schnittstellen von Sulu und zum anderen die Erweiterung durch Symcloud mit der File-API. Als Persistence-Schicht für die Metadaten, der Dateien in der Symcloud, wird die Abstraktionsschicht PHPCR verwendet. Diese Schnittstelle bietet einen Zugriff auf verschiedenste Content-Repositories an.
-
-
-### Sulu CMF
-
-
-
-### Symfony2
-
-
-
-### PHP
-
-
-
-### S3
-
-
 ## Anforderungen
 
+__TODO anforderungen an das Projekt (auch in bezug auf xanadu)__
 
 
 [^1]: <https://diasporafoundation.org/>

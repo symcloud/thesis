@@ -1,2 +1,0 @@
-# Speicherkonzept für Symcloud
-
