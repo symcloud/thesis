@@ -155,25 +155,90 @@ Network File System wurde von Sun Microsystem entwickelt. Das Grundlegende Prinz
 
 NFS ist also weniger ein Dateisystem als eine Menge von Protokollen, die in der Kombination mit den Clients ein verteiltes Dateisystem ergeben. Die Protokolle wurden so entwickelt, dass unterschiedliche Implementierungen einfach zusammenarbeiten können. Auf diese Weise können durch NFS eine heterogene Menge von Computern verbunden werden. Dies gilt sowohl für Benutzer- als auch für die Serverseite [siehe @tanenbaum2003verteilte S. 645ff.].
 
+__TODO finde informationen zu den einzelnen Punkten__
+
+* http://xtreemfs.org/how_replication_works.php
+* http://xtreemfs.org/xtfs-guide-1.5.1/index.html#tth_sEc2.4
+
 #### Architektur
 
-### Ceph
+#### Kommunikation
+
+#### Synchronisierung
+
+#### Replikation
+
+#### Fehlertoleranz
+
+#### Sicherheit
 
 ### XtreemFS
 
+Als alternative zum Konventionellen NFS bietet XtreemFS eine unkomplizierte und moderne Variante eines verteilten Dateisystems an. Es wurde speziell für die Anwendung in einem Cluster mit dem Betriebssystem XtreemOS entwickelt. Mittlerweile gibt es aber Server und Client Anwendungen für fast alle Linux Distributionen. Ausserdem Client für Windows und MAC.
+
+#### Architektur
+
+#### Kommunikation
+
+#### Replication
+
+#### Sicherheit
+
 ### Speichergeschwindigkeit
+
+__TODO überhaupt notwendig?__
+* <http://member.wide.ad.jp/~shima/publications/20120924-dfs-performance.pdf>
 
 ## Datenbank gestützte Dateiverwaltungen
 
+Einige Datenbanksysteme wie zum Beispiel MongoDB[^31] bieten eine Schnittstelle an um Dateien abzuspeichern. Viele dieser Systeme sind meist nur begrenzt für große Datenmengen geeignet. MongoDB und GridFS sind jedoch genau für diese Anwendungsfälle ausgelegt, daher wird diese Technologie im folgenden Kapitel genauer betrachtet.
+
 ### MongoDB & GridFS
 
-### Crate
+MongoDB bietet von Hause aus die Möglichkeit BSON-Dokumente in der Größe von 16MB zu speichern. Dies ermöglicht die Verwaltung kleinerer Dateien ohne zusätzlichen Layer. Für größere Dateien und zusätzliche Features bietet MongoDB mit GridFS eine Schnittstelle an, mit der es möglich ist größere Dateien und ihre Metadaten zu speichern. Dazu teilt GridFS die Dateien in Chunks einer bestimmten Größe. Standardmässig ist die Größe von Chunks auf 255Byte gesetzt. Die Daten werden in der Kollektion `chunks` und die Metadaten in der Kollektion `files` gespeichert.
+
+Durch die verteilte Architektur von MongoDB werden die Daten automatisch auf allen Systemen synchronisiert. Ausserdem bietet das System die Möglichkeit über indexes schnell zu suchen und Abfragen auf die Metadaten durchzuführen.
+
+__Beispiel:__
+
+```php
+$mongo = new Mongo(); 							// connect to database
+$database = $mongo->selectDB("example");		// select mongo database  
+  
+$gridFS = $database->getGridFS();				// use GridFS class for handling files  
+  
+$name = $_FILES['Filedata']['name']; 		  	// optional - capture the name of the uploaded file  
+$id = $gridFS->storeUpload('Filedata', $name);  // load file into MongoDB  
+```
+
+Bei der verwendung von MongoDB ist es sehr einfach Dateien in GridFS abzulegen. Die fehlenden Funktionen wie zum Beispiel ACL oder Versioninung, machen den Einsatz in Symcloud allerdings schwierig.
 
 ## Performance
 
+__TODO überhaupt notwendig?__
+
 ## Evaluation
 
-* <http://member.wide.ad.jp/~shima/publications/20120924-dfs-performance.pdf>
+Am ende dieses Kapitels, werden die Vor- und Nachteile der jeweiligen Technologien zusammengefasst. Dies ist notwendig um am Ende ein optimales Speicherkonzept für Symcloud zu entwickeln.
+
+Speicherdienste wie Amazon S3
+
+:   sind für einfache Aufgaben bestens geeignet, sie bieten alles an, was für ein schnelles Setup der Applikation benötigt wird. Jedoch haben gerade die Open-Source Alternativen zu S3 wesentliche Mankos, die gerade für das aktuelle Projekt unbedingt notwendig sind. Zum einen ist es bei den Alternativen die fehlenden Funktionalitäten, wie zum Beispiel ACLs oder Versionierung, zum anderen ist auch Amazon S3 wenig flexibel um eigene Erweiterungen zu hinzuzufügen. Jedoch können wesentliche Vorteile bei der Art der Datenhaltung beobachtet werden. 
+
+* Rest-Schnittstelle
+* Versionierung
+* Gruppierung durch Buckets
+* Berechtigungssystem
+
+Verteilte Dateisysteme
+
+:    bieten durch ihre einheitliche Schnittstelle einen optimalen Abstraktionslayer für Datenintensive Anwendungen. Die flexibilität, die diese Systeme verbindet, bietet sich für Anwendungen wie Symcloud gerade zu an. Jedoch sind fehlende Zugriffsrechte und Versionierung ein Problem, dass auf Storage ebene nicht gelöst sind. Aufgrund dessen könnte ein solches verteiltes Dateisystem nicht als Ersatz für eine eigene Implementierung, sondern lediglich als Basis hergenomme werden.
+
+Datenbankgestützte Dateiverwaltung
+
+:   sind für den Einsatz in Anwendungen geeignet, die die darunterliegende Datenbank verwendet. Die nötigen Erweiterungen um Dateien in eine Datenbank zu schreiben, sind aufgrund der Integration sehr einfach umzusetzen. Sie bieten eine gute Schnittstelle um Dateien zu verwalten. Die fehlenden Möglichkeiten von ACL und Versioninerung macht jedoch die verwendung von GridFS sehr schwierig. Für einen perfekten Storage wäre ein chunking der Daten hilfreich, um auch Teile einer Datei effizient zu laden.
+
+Da aufgrund verschiedenster Schwächen keine der Technologien eine adäquate Lösung für die Datenhaltung in Symcloud bietet, wird im nächsten Kapitel versucht ein optimales Speicherkonzept für das aktuelle Projekt zu entwickeln.
 
 [^30]: <http://aws.amazon.com/de/s3/>
 [^31]: <http://docs.mongodb.org/manual/core/gridfs/>

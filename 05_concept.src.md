@@ -32,9 +32,9 @@ Die Sulu-Oberfläche wird über eine Rest-Schnittstellt mit Symcloud Kommunizier
    |							|
    |							|
    v 							v
-+------+					+-----------------+
-| RIAK |					| MySQL oder RIAK |
-+------+					+-----------------+
++--------------------+		+-----------------+
+| RIAK oder XtreemFS |		| MySQL oder RIAK |
++--------------------+		+-----------------+
 ```
 
 ### PHP Stream & Rest API
@@ -69,9 +69,13 @@ Später können hier unstrukturierte Daten wie titel / beschreibung / referenzen
 
 __TODO nur Notizen__
 
-Evtl. Speicherkonzept aufbauend auf einem Blob storage. Dateien werden in z.b. 8MB große blöcke geteilt und anhand ihres hash-wertes in eine Datei geschrieben. Der Hash fungiert hier als eine art ID. Diese Daten könnten dann in einer Objekt-Datenbank wie RIAK gespeichert werden. Ein Zusätzliches Objekt mit einem Array aus Blob-IDs würde dann eine Datei darstellen. Diese bekäme dann die hen hash-wert der Datei als eine ID.
+Evtl. Speicherkonzept aufbauend auf einem Blob storage. Dateien werden in z.b. 8MB große blöcke geteilt und anhand ihres hash-wertes in eine Datei geschrieben. Der Hash fungiert hier als eine art ID. Diese Daten könnten dann in einer Objekt-Datenbank wie RIAK gespeichert werden. Alternativ wäre auch eine Speicherung auf dem Filesystem möglich. Dies könnte durch XtreemFS ebenfalls verteilt aufgebaut sein. Ein Zusätzliches Objekt mit einem Array aus Blob-IDs würde dann eine Datei darstellen. Diese bekäme dann die hen hash-wert der Datei als eine ID.
 
 Diese Schicht übernimmt auch die Versionierung der Dateien. Dies geschiet im zusammenspiel mit dem Metadatenstorage, da die Informationen zu einer Version ebenfalls dort abgelegt werden.
+
+Ein mögliches Datenmodell wäre das von GIT.
+
+![Git Datenmodell [Quelle <http://git-scm.com/book/it/v2/Git-Internals-Git-References>]](images/git-data-model.png)
 
 ## Zusammenfassung
 
