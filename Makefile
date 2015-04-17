@@ -9,7 +9,7 @@ diagram:
 formats: pdf docx html
 
 pdf:
-	pandoc --standalone --toc --number-sections --biblio sources.bib --csl=FHV.csl -V lang=german -V mainlang=german -o symcloud-thesis.pdf $(mds) -f markdown+table_captions+pipe_tables+definition_lists
+	pandoc --template templates/template.latex --standalone --toc --number-sections --biblio sources.bib --csl=FHV.csl -V lang=german -V mainlang=german -o symcloud-thesis.pdf $(mds) -f markdown+table_captions+pipe_tables+definition_lists
 
 html:
 	pandoc --standalone --toc --number-sections --biblio sources.bib -o symcloud-thesis.html $(mds) -f markdown+table_captions+pipe_tables+definition_lists
