@@ -14,3 +14,6 @@ Gemfile.lock
 
 # mac
 .DS_Store
+
+# old files
+diagrams_backup/*

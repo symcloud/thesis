@@ -9,35 +9,7 @@ Ebenfalls denkbar wäre auch eine Authentifizierung mittels Key und Secret, wie 
 
 ## Überblick
 
-```
-			+---------------------------------+                      |
-			|      PHP Stream & rest API      | <--------------------|
-			+---------------------------------+                      |
-    				|						|                        |
-			+-------------------+       +--------------+		     |
-			| StorageController | -+--- | SearchEngine | <-----------|
-			+-------------------+  |    +--------------+		     |    +----------------+
-					|			   |		|   				     |--> | Other Symcloud |
-					|              |    +-----------------------+    |    +----------------+
-					|              +--- | ReplicationController | <--|
-					|                   +-----------------------+	 |
-					|												 |
-			+--------------------+      +--------------+             |
-			| SecurityController | ---- | UserProvider |             |
-			+--------------------+      +--------------+             |
-					|
-		+-----------+---------------+
-		|							|
-+--------------+			+-----------------+
-| FilebStorage |			| MetadataStorage |
-+--------------+       		+-----------------+
-   |							|
-   |							|
-   v 							v
-+--------------------+		+-----------------+
-| RIAK oder XtreemFS |		| MySQL oder RIAK |
-+--------------------+		+-----------------+
-```
+![Architektur für "Symcloud-DistributedStorage"](diagrams/architecture.png)
 
 ### PHP Stream & Rest API
 

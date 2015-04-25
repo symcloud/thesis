@@ -1,4 +1,4 @@
-diagrams = $(shell find ./diagrams -type f -iname "*.txt")
+diagrams = $(shell find ./diagrams -type f -iname "*.dita")
 mds = $(shell ls *.src.md)
 
 all: diagram pdf docx html
