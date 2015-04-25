@@ -9,7 +9,11 @@ Ebenfalls denkbar wäre auch eine Authentifizierung mittels Key und Secret, wie 
 
 ## Überblick
 
-![Architektur für "Symcloud-DistributedStorage"](diagrams/architecture.png)
+![Architektur für "Symcloud-DistributedStorage"\label{architecture}](diagrams/architecture.png)
+
+Die Architektur ist gegliedert in Kern-Komponenten und optionale Komponenten. In der Abbildung \ref{architecture} ist die Kopplung der Komponenten zu erkennen. Die Schichten sind jeweils über ein Interface entkoppelt und ein Adapter entkoppelt den jeweiligen Datenbankzugriff.
+
+Im Rahmen dieser Arbeit entstand eine Beispiel Implementierung mit der verteilten Datenbank Riak für die Speicherung aller Informationen.
 
 ### PHP Stream & Rest API
 
