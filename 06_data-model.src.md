@@ -82,7 +82,7 @@ Eine REFERENCE
 
 ![Beispiel eines Repositories\label{git:data-model-example} [@chacon2015git]](images/git-data-model-example.png)
 
-### ???
+### Anforderungen
 
 Das Datenmodell von GIT erfüllt folgende Anforderungen von Symcloud:
 
@@ -94,8 +94,8 @@ Buckets
 
 :   ??? (referenzen)
 
-???
+Symlinks
 
-:   ???
+:   ??? (referencen)
 
 [^60]: <http://git-scm.com/>
