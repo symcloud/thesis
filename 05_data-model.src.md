@@ -31,7 +31,7 @@ $ find .git/objects -type f
     .git/objects/6c/01d1dec5cf5221e86600baf77f011ed469b8fe
 ```
 
-Die Objekte in GIT sind immutable also nicht veränderbar. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt.
+Die Objekte in GIT sind immutable, also nicht veränderbar. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt.
 
 ### Objekt Typen
 
@@ -88,14 +88,27 @@ Das Datenmodell von GIT erfüllt folgende Anforderungen von Symcloud:
 
 Versionierung
 
-:   ??? (commits)
+:   Durch die Commits können Versionshistorien einfach abgebildet werden und diese effizient durchsucht werden. Will ein Benutzer sehen, wie sein Dateibaum vor ein paar Wochen ausgehen hat, kann das System nach einem geeigneten Commit durchsuchen (anhand der Erstellungszeit) und anstatt des neuesten Commits, diesen Commit für die weiteren Datenbankabfragen verwenden.
 
-Buckets
+Shares (__TODO besserer Name, verwende Begriff aus Kapitel \ref{specification}__)
 
-:   ??? (referenzen)
+:   Mit den Referenzen, können für jeden Benutzer mehrere Namensräume geschaffen werden. Jeder dieser Namensräume erhält einen eigenen Dateibaum und kann von mehreren Benutzern verwendet werden. Damit können Shares einfach abgebildet werden. Jede Referenz kann später auch für Benutzer eigene Berechtigungen erhalten und dadurch eine Art ACL eingerichtet werden.
 
 Symlinks
 
-:   ??? (referencen)
+:   Ebenfalls mit den Referenzen, können sogenannte Symlinks erstellt werden. Diese Symlinks werden im System verwendet, um Shares an einer bestimmten Stelle des Dateibaums eines Benutzers zu platzieren.
+
+### Zusammenfassung
+
+__TODO Zusammenfassung GIT Datenmodel__
+
+Vorteil der immutable (nicht veränderbaren) Datenpakete ist das Caching, das auf jeder Maschine durchgeführt werden kann, ohne ein PURGE zu benötigen, da sich Objekte in der Datenbank nicht ändern sondern nur neue dazu kommen. Dies gilt für alle Objekte in diesem Model außer Referenzen. Diese müsse bei jedem Zugriff aus der Datenbank geladen werden.
+
+## Details (__TODO Bessere Überschrift__)
+
+Jedoch muss es für die Speicherung in einer NoSQL Datenbank leicht angepasst werden.
+
+__TODO konzept des Dateimodels__
+
 
 [^60]: <http://git-scm.com/>

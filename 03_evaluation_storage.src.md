@@ -26,7 +26,7 @@ Versionierung
 
 Performance
 
-:   ???
+:   ist ein wichtiger Aspekt an eine Speicherverwaltung. Sie kann zwar durch Caching-Mechanismen verbessert werden, jedoch ist es ziemlich aufwändig diese Caches immer aktuell zu halten. Daher sollten diese Caches nur für "nicht veränderbare" Daten verwendet werden. Um den Aufwand zu reduzieren, der getrieben werden muss um diese aktuell zu halten.
 
 ### Datenhaltung in Cloud-Infrastrukturen
 
@@ -135,34 +135,44 @@ Das verteilte Dateisystem Network File System wurde von Sun Microsystems entwick
 
 NFS ist also weniger ein Dateisystem als eine Menge von Protokollen, die in der Kombination mit den Clients ein verteiltes Dateisystem ergeben. Die Protokolle wurden so entwickelt, dass unterschiedliche Implementierungen einfach zusammenarbeiten können. Auf diese Weise können durch NFS eine heterogene Menge von Computern verbunden werden. Dabei ist es sowohl für den Benutzer als auch für den Server irrelevant mit welcher Art von System er verbunden ist [@tanenbaum2003verteilte S. 645ff.].
 
-__TODO finde Informationen zu den einzelnen Punkten__
-
-* http://xtreemfs.org/how_replication_works.php
-* http://xtreemfs.org/xtfs-guide-1.5.1/index.html#tth_sEc2.4
-
 ##### Architektur
 
-##### Kommunikation
+##### Exkurs: Fehlertoleranz
 
-##### Synchronisierung
-
-##### Replikation
-
-##### Fehlertoleranz
-
-##### Sicherheit
+__TODO siehe Tannenbaum S. 669ff__
 
 #### XtreemFS
 
 Als Alternative zu konventionellen verteilten Dateisystemen bietet XtreemFS eine unkomplizierte und moderne Variante eines verteilten Dateisystems. Es wurde speziell für die Anwendung in einem Cluster mit dem Betriebssystem XtreemOS entwickelt. Mittlerweile gibt es aber Server- und Client-Anwendungen für fast alle Linux Distributionen. Außerdem Clients für Windows und MAC.
 
+Die Hauptmerkmale von XtreemFS sind:
+
+Distribution
+
+:   Eine XtreemFS Installation enthält eine beliebige Anzahl von Servern, die auf verschiedenen Physikalischen Maschinen betrieben werden können. Diese Server, sind entweder über einen lokalen Cluster oder über das Internet miteinander verbunden. Der Client kann sich mit einem beliebigen Server verbinden und mit ihm Daten austauschen. Es Garantiert konsistente Daten, auch wenn verschiedene Clients mit verschiedenen Server kommunizieren, vorausgesetzt, alle Komponenten sind miteinander verbunden und erreichbar [@xtreemfs2015a, Kapitel 2.3].
+
+Replication
+
+:   __TODO__ Starting with release 1.3, XtreemFS supports the replication of mutable files as well as a replicated Directory Service (DIR) and Metadata Catalog (MRC). All components in XtreemFS can be replicated for redundancy which results in a fully fault-tolerant file system. The replication in XtreemFS works with hot backups, which automatically take over if the primary replica fails.
+
+Striping
+
+:   __TODO__ To ensure acceptable I/O throughput rates when accessing large files, XtreemFS supports striping. A striped file is split into multiple chunks ("stripes"), which are stored on different storage servers. Since different stripes can be accessed in parallel, the whole file can be read or written with the aggregated network and storage bandwidth of multiple servers. XtreemFS currently supports the RAID0 striping pattern, which splits a file up in a set of stripes of a fixed size, and distributes them across a set of storage servers in a round-robin fashion. The size of an individual stripe as well as the number of storage servers used can be configured on a per-file or per-directory basis.
+
+Security
+
+:   __TODO__ To enforce security, XtreemFS offers mechanisms for user authentication and authorization, as well as the possibility to encrypt network traffic.
+Authentication describes the process of verifying a user's or client's identity. By default, authentication in XtreemFS is based on local user names and depends on the trustworthiness of clients and networks. In case a more secure solution is needed, X.509 certificates can be used.
+
 ##### Architektur
 
-##### Kommunikation
+![XtreemFS Architektur [@xtreemfs2015b]\label{xtreemfs_architecture}](images/xtreemfs_architecture.png)
 
-##### Replikation
+* http://xtreemfs.org/xtfs-guide-1.5.1/index.html#tth_sEc2.4
 
-##### Sicherheit
+##### Exkurs: Datei Replikation
+
+* http://xtreemfs.org/how_replication_works.php
 
 #### Speichergeschwindigkeit
 
@@ -172,7 +182,7 @@ __TODO überhaupt notwendig?__
 
 #### Zusammenfassung (??evtl. Evaluierung??)
 
-Im Bezug auf die Anforderungen (siehe Kapitel \ref{specification}) bieten, die analysierten, verteilten Dateisysteme von Haus aus keine Versionierung. Es gab Versuche der Linux-Community, mit Wizbit[^33], ein auf GIT-basierendes Dateisystem zu entwerfen, das Versionierung mitliefern sollte [@arstechnica2008a]. Dieses Projekt wurde allerdings seit ende 2009 nicht mehr weiterentwickelt [@openhub2015a]. Die benötigten Zugriffsberechtigungen werden zwar auf der Systembenutzerebene durch ACL unterstützt. Jedoch müsste dann, die Anwendungen für jeden Anwendungsbenutzer einen Systembenutzer anlegen [@xtreemfs2015a]. Dies wäre zwar auf einer einzelnen Installation machbar, jedoch macht es eine Verteilte Verwendung komplizierter und eine Installation aufwändiger.
+Im Bezug auf die Anforderungen (siehe Kapitel \ref{specification}) bieten, die analysierten, verteilten Dateisysteme von Haus aus keine Versionierung. Es gab Versuche der Linux-Community, mit Wizbit[^33], ein auf GIT-basierendes Dateisystem zu entwerfen, das Versionierung mitliefern sollte [@arstechnica2008a]. Dieses Projekt wurde allerdings seit ende 2009 nicht mehr weiterentwickelt [@openhub2015a]. Die benötigten Zugriffsberechtigungen werden zwar auf der Systembenutzerebene durch ACL unterstützt. Jedoch müsste dann, die Anwendungen für jeden Anwendungsbenutzer einen Systembenutzer anlegen [@xtreemfs2015a, Kapitel 7.2]. Dies wäre zwar auf einer einzelnen Installation machbar, jedoch macht es eine Verteilte Verwendung komplizierter und eine Installation aufwändiger.
 
 ### Datenbank gestützte Dateiverwaltungen
 
