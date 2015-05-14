@@ -65,7 +65,7 @@ Die Speicherlösung bietet eine Versionierung der Objekte an. Diese kann über e
 
 Ist die Versionierung aktiviert, gilt diese für alle Objekte, die dieser enthält. Wird anschließend ein Objekt überschrieben, resultiert dies in einer neuen Version, dabei wird die Version-ID im Metadaten Feld `x-amz-version-id` auf einen neuen Wert gesetzt [@amazon2015c]. Dies veranschaulicht die Abbildung \ref{awz_object_versioning}.
 
-![Versionierungsschema von Amazon S3 [Quelle @amazon2015c] \label{awz_object_versioning}](images/awz_versioning.png)
+![Versionierungsschema von Amazon S3 [@amazon2015c]\label{awz_object_versioning}](images/awz_versioning.png)
 
 #### Skalierbarkeit
 
