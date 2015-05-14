@@ -32,7 +32,7 @@ In der Abbildung \ref{db_archtecture} werden die einzelnen Komponenten in einem 
 
 Der Storage Service ist wiederum von außen durch einen Application Service abgesichert. Die Authentifizierung erfolgt über das OAuth2 Protokoll [@dropbox2015b]. Diese Authentifizierung wird für alle Services verwendet, auch für den Metadata Service und der Notification Service.
 
-TODO Beschreibung zu processing block
+__TODO Beschreibung zu processing block__
 
 ## ownCloud
 

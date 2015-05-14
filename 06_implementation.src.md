@@ -2,6 +2,18 @@
 
 In diesem Kapitel werden die einzelnen Komponenten, die für Symcloud entwickelt wurden, genauer betrachtet.
 
+__TODO Liste von Themen:__
+
+* Distributed Storage:
+  * Dateimodell
+    * Referenzen
+    * Symlinks
+    * Versionierung
+  * Datenbank Abstraktion:
+    * Warum Riak und nicht GridFS, S3 oder XtreemFS?
+    * Beschreibung und Ansätze um einen "Lokalen" Adapter zu implementieren
+  * Sync-Client Abläufe und Implementierung
+
 ## OAuth2
 
 Für die Authentifizierung wurde das Protokoll OAuth in der Version 2 implementiert. Dieses offene Protokoll erlaubt eine standardisierte, sichere API-Autorisierung für Desktop, Web und Mobile-Applikationen. Initiiert wurde das Projekt von Blaine Cook und Chris Messina. [@wikioauth]

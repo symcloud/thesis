@@ -41,12 +41,16 @@ Später können hier unstrukturierte Daten wie Titel / Beschreibung / Referenzen
 
 "Buckets" (evtl. anderer Name) dienen zur Gruppierung. Diese Gruppierungen können gemeinsame Optionen und Benutzerrechte besitzen. Benutzerrechte auf einzelne Objekte ist nicht vorgesehen, da es nicht in den Anforderungen benötigt wird.
 
-### FileStorage
+### FileStorage\label{concept_file_storage}
 
 __TODO nur Notizen__
 Eventuell Speicherkonzept aufbauend auf einem Blob Storage. Dateien werden in z.b. 8MB große Blöcke geteilt und anhand ihres Hash-wertes in eine Datei geschrieben. Der Hash fungiert hier als eine Art ID. Diese Daten könnten dann in einer Objekt-Datenbank wie RIAK gespeichert werden. Alternativ wäre auch eine Speicherung auf dem Filesystem möglich. Dies könnte durch XtreemFS ebenfalls verteilt aufgebaut sein. Ein zusätzliches Objekt mit einem Array aus Blob-IDs würde dann eine Datei darstellen. Diese bekäme dann die den Hash-wert der Datei als seine ID.
 
 Diese Schicht übernimmt auch die Versionierung der Dateien. Dies geschieht im Zusammenspiel mit dem Metadaten-Storage, da die Informationen zu einer Version ebenfalls dort abgelegt werden.
+
+__TODO Beschreibung Chunking! Vorteile, Nachteile, ...__
+
+__TODO warum RIAK und nicht GridFS oder XtreemFS__
 
 Ein mögliches Datenmodell wäre das von GIT.
 

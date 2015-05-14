@@ -24,6 +24,15 @@ __TODO Noch einmal ownCloud - Diaspora und Ted Nelson mit dem Xanadu Projekt__
 
 __TODO Anforderungen an das Projekt (auch in Bezug auf xanadu)__
 
+* Sicherheit
+* Datenschutz
+* Effizienz
+* Verteilbarkeit
+* Zugriffberechtigungen
+* Versionierung
+
+__TODO genauere Ausformulierung__
+
 
 [^1]: <https://diasporafoundation.org/>
 [^2]: <https://owncloud.org/>
