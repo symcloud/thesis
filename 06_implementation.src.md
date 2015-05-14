@@ -14,7 +14,7 @@ __TODO Liste von Themen:__
     * Beschreibung und Ansätze um einen "Lokalen" Adapter zu implementieren
   * Sync-Client Abläufe und Implementierung
 
-## OAuth2
+## OAuth2\label{implementation_oauth}
 
 Für die Authentifizierung wurde das Protokoll OAuth in der Version 2 implementiert. Dieses offene Protokoll erlaubt eine standardisierte, sichere API-Autorisierung für Desktop, Web und Mobile-Applikationen. Initiiert wurde das Projekt von Blaine Cook und Chris Messina. [@wikioauth]
 
@@ -39,6 +39,10 @@ Client
 Authorization server
 
 :   Der Server, der Zugriffs-Tokens, nach der erfolgreichen Authentifizierung des Ressourceneigentümers, bereitstellt.
+
+Scopes
+
+:   TODO
 
 Die Interaktion zwischen "Resource server" und "Authorization server" ist nicht spezifiziert. Der Autorisierungsserver und Ressourcenserver können auf dem selben Server bzw. in der selben Applikation betrieben werden. Eine andere Möglichkeit wäre es, dass die beiden Server auf verschiedenen Server zu betreiben. Ein Autorisierungsserver kann auch Zugriffstoken für mehrere Ressourcenserver bereitstelle. [@hardt2012oauth, Seite 5]
 
