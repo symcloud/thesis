@@ -153,26 +153,47 @@ Distribution
 
 Replication
 
-:   __TODO__ Starting with release 1.3, XtreemFS supports the replication of mutable files as well as a replicated Directory Service (DIR) and Metadata Catalog (MRC). All components in XtreemFS can be replicated for redundancy which results in a fully fault-tolerant file system. The replication in XtreemFS works with hot backups, which automatically take over if the primary replica fails.
+:   Die drei Hauptkomponenten von XtreemFS, Directory Service, Metadata Catalog und die Object Storage Devices (siehe Kapitel \ref{xtreemfs_architecture}), können repliziert redundant verwendet werden, dies führt zu einem Fehlertoleranten System. Die Replikationen zwischen diesen Systemen erfolgt mit einem Hot-Backup (siehe Kapitel \ref{xtreemfs_replication}), welche Automatisch verwendet werden, wenn ein Server ausfällt [@xtreemfs2015a, Kapitel 2.3].
 
 Striping
 
-:   __TODO__ To ensure acceptable I/O throughput rates when accessing large files, XtreemFS supports striping. A striped file is split into multiple chunks ("stripes"), which are stored on different storage servers. Since different stripes can be accessed in parallel, the whole file can be read or written with the aggregated network and storage bandwidth of multiple servers. XtreemFS currently supports the RAID0 striping pattern, which splits a file up in a set of stripes of a fixed size, and distributes them across a set of storage servers in a round-robin fashion. The size of an individual stripe as well as the number of storage servers used can be configured on a per-file or per-directory basis.
+:   XtreemFS splittet Dateien in sogenannte "stripes" (oder "chunks"). Diese chunks werden dann auf verschiedenen Servern gespeichert und können dann parallel von mehreren Servern gelesen werden. Die gesamte Datei kann dann mit der zusammengefassten Netzwerk- und Festplatten-Bandbreite mehrerer Server heruntergeladen werden. Die Größe und Anzahl der Server kann pro Datei bzw. pro Ordner festgelegt werden [@xtreemfs2015a, Kapitel 2.3].
 
 Security
 
-:   __TODO__ To enforce security, XtreemFS offers mechanisms for user authentication and authorization, as well as the possibility to encrypt network traffic.
-Authentication describes the process of verifying a user's or client's identity. By default, authentication in XtreemFS is based on local user names and depends on the trustworthiness of clients and networks. In case a more secure solution is needed, X.509 certificates can be used.
+:   Um die Sicherheit der Dateien zu gewährleisten, unterstützt XtreemFS sowohl Benutzer Authentifizierung als auch Berechtigungen. Der Netzwerkverkehr zwischen den Servern ist Verschlüsselt. Die Standarad Authentifizierung basiert auf lokalen Benutzernamen und ist auf die Vertrauenswürdigkeit der Clients bzw. des Netzwerkes angewiesen. Um mehr Sicherheit zu erreichen unterstützt XtreemFS aber auch eine Authentifizierung mittels X.509 Zertifikaten [^34] [@xtreemfs2015a, Kapitel 2.3].
 
-##### Architektur
+##### Architektur\label{xtreemfs_architecture}
+
+XtreemFS implementiert eine Objekt-Basierte Datei-Systemarchitektur, was bedeutet, dass die Dateien in Objekte mit einer bestimmten Größe aufgeteilt werden und auf verschiedenen Servern gespeichert werden. Die Metadaten werden in separaten Servern gespeichert. Diese Server organisieren die Dateien in eine Menge von sogenannten "volumes". Jedes Volume ist ein eigener Namensraum mit einem eigenen Dateibaum. Die Metadaten speichern zusätzlich eine Liste von chunk-IDs mit den jeweiligen Servern, auf denen dieser Chunk zu finden ist und eine Richtlinie, wie diese Datei aufgeteilt und auf Server verteilt werden soll. Dadurch kann die Größe der Metadaten von Datei zu Datei unterschiedlich sein. [@xtreemfs2015a, Kapitel 2.4]
 
 ![XtreemFS Architektur [@xtreemfs2015b]\label{xtreemfs_architecture}](images/xtreemfs_architecture.png)
 
-* http://xtreemfs.org/xtfs-guide-1.5.1/index.html#tth_sEc2.4
+Eine XtreemFS Installation besteht aus drei Komponenten:
 
-##### Exkurs: Datei Replikation
+DIR - Directory Service
 
-* http://xtreemfs.org/how_replication_works.php
+:   ist das zentrale Register für alle Services. Andere Services bzw. Client verwenden ihn um zum Beispiel alle Object-Storage-Devices zu finden. [@xtreemfs2015a, Kapitel 2.4]
+
+MRC - Metadata and Replica Catalog
+
+:   verwaltet die Metadaten der Datei, wie zum Beispiel Dateiname, Dateigröße oder Bearbeitungsdatum. Zusätzlich Authentifiziert und Autorisiert er Benutzer den Zugriff auf die Dateien bzw. Ordner. [@xtreemfs2015a, Kapitel 2.4]
+
+OSD - Object Storage Device
+
+:   speichert die Objekte ("strip" oder "chunks") der Dateien. Die Clients schreiben und lesen Daten direkt von diesen Servern. [@xtreemfs2015a, Kapitel 2.4]
+
+##### Exkurs: Datei Replikation\label{xtreemfs_replication}
+
+Ein wichtiger Aspekt von verteilten Dateisystemen ist die Replikation von Daten. Sie steigert sowohl die Zuverlässigkeit, als auch Leistung der Lesezugriffe. Das größte Problem dabei ist allerdings die Konsistenz der Repliken zu erhalten. Dabei muss bei jedem schreiben Zugriff ein Update aller Repliken erfolgen, ansonsten ist die Konsistenz nicht mehr gegeben. [@tanenbaum2003verteilte, S. 333ff]
+
+Die Hauptgründe für Replikationen von Daten sind Zuverlässigkeit und Leistung. Wenn Daten repliziert werden ist es unter Umständen möglich, weiterzuarbeiten, wenn eine Replika ausfällt. Der Benutzer lädt sich die Daten dann von einem anderen Server. Zusätzlich dazu können durch Repliken Fehlerhafte Dateien erkannt werden. Wenn eine Datei also zum Beispiel auf drei Servern gespeichert wurde und alle Schreib- bzw. Lesezugriffe auf alle drei Server ausgeführt werden, kann durch den Vergleich der Antworten, erkannt werden ob eine Datei fehlerhaft ist oder nicht. Dazu müssen nur zwei Antworten den selben Inhalt besitzen und es kann davon auszugehen sein, dass es sich um die richtige Datei handelt. [@tanenbaum2003verteilte, S. 333ff]
+
+Der andere wichtige Grund für Replikationen ist die Leistung des Systems. Hier gibt es zwei Aspekte, der eine bezieht sich auf die gesamt Last eines einzigen Servers und der andere auf Geographische Lage. Wenn also ein System nur aus einem Server besteht, ist dieser Server der vollen Last der Zugriffe ausgesetzt. Teilt man diese Last auf, kann die Leistung des Systems gesteigert werden. Zusätzlich können durch Repliken auch der Lesezugriff gesteigert werden indem dieser Zugriff über mehrere Server parallel erfolgt. Auch die Geographische Lage der Daten spielt bei der Leistung des Systems eine Entscheidende Rolle. Wenn Daten in der Nähe des Prozesses gespeichert werden in dem Sie erzeugt bzw. verwendet werden, ist sowohl der schreibende als auch der lesende Zugriff schneller umzusetzen. Diese Leistungssteigerung ist allerdings nicht linear zu den verwendeten Servern. Den es ist einiges an Aufwand zu treiben, diese Repliken synchron zu halten und dadurch die Konsistenz zu wahren. [@tanenbaum2003verteilte, S. 333ff]
+
+__TODO "primary/backup approach with leases" in Tanenbaum S. 386ff__
+
+* Erklärung zur Umsetzung von hier: <http://xtreemfs.org/how_replication_works.php>
 
 #### Speichergeschwindigkeit
 
@@ -250,3 +271,4 @@ __TODO Zusammenfassung komplettes Kapitel__
 [^31]: <http://docs.mongodb.org/manual/core/gridfs/>
 [^32]: <http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html>
 [^33]: <https://www.openhub.net/p/wizbit>
+[^34]: <http://tools.ietf.org/html/rfc5280>
