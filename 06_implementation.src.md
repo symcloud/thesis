@@ -120,7 +120,7 @@ status
 
 sync
 
-:   Startet den Synchronisierungsvorgang. Über das Flag `-m` kann eine Nachricht zu dem am Ende erstellten Commit angefügt werden.
+:   Startet den Synchronisierungsvorgang. Über das Flag `-m` kann eine Nachricht zu dem erstellten Commit angefügt werden.
 
 ### Architektur
 
