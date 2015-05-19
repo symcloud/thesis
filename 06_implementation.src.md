@@ -13,6 +13,10 @@ __TODO Liste von Themen:__
     * Warum Riak und nicht GridFS, S3 oder XtreemFS?
     * Beschreibung und Ansätze um einen "Lokalen" Adapter zu implementieren
   * Sync-Client Abläufe und Implementierung
+  * Verteilte Aspekte
+    * Replikationen
+    * Lock-Mechanismen
+    * Autorisierung
 
 ## OAuth2\label{implementation_oauth}
 
@@ -61,11 +65,72 @@ F) Der "Resource server" validiert den Token, validiert ihn und gibt die Ressour
 
 ### Anwendung
 
-OAuth2 wird verwendet um es externen Applikationen zu ermöglichen auf die Dateien der Benutzer zuzugreifen. Der Sync-Client verwendet diese Authorizierungsmöglichkeit um Dateien des Benutzers zu synchronisieren.
+OAuth2 wird verwendet um es externen Applikationen zu ermöglichen auf die Dateien der Benutzer zuzugreifen. Das Synchronisierungsprogramm Jibe verwendet dieses Protokoll um die Autorisierung zu erhalten, die Dateien des Benutzers zu verwalten.
+
+## Synchronisierungsprogramm: Jibe
+
+Jibe ist das Synchronisierungsprogramm zu einer Symcloud Installation. Es ist momentan ein einfaches PHP-Konsolen Tool, mit dem es möglich ist Daten aus einer Symcloud-Installation mit einem Endgerät zu Synchronisieren.
+
+Das Programm wurde mit Hilfe der Symfony Konsole-Komponente[^60] umgesetzt. Diese Komponente ermöglicht eine schnelle und unkomplizierte Entwicklung solcher Konsolen-Programme.
+
+```bash
+$ php jibe.phar
+       ___                     ___           ___
+      /\  \        ___        /\  \         /\  \
+      \:\  \      /\  \      /::\  \       /::\  \
+  ___ /::\__\     \:\  \    /:/\:\  \     /:/\:\  \
+ /\  /:/\/__/     /::\__\  /::\~\:\__\   /::\~\:\  \
+ \:\/:/  /     __/:/\/__/ /:/\:\ \:|__| /:/\:\ \:\__\
+  \::/  /     /\/:/  /    \:\~\:\/:/  / \:\~\:\ \/__/
+   \/__/      \::/__/      \:\ \::/  /   \:\ \:\__\
+               \:\__\       \:\/:/  /     \:\ \/__/
+                \/__/        \__/__/       \:\__\
+                                            \/__/
+Token-Status: OK
+   run jibe sync to start synchronization
+
+```
+
+Ein Konsolen-Programm besteht aus verschiedenen Kommandos, die über einen Namen aufgerufen werden können. Im diesem Beispiel wurde das Standard-Kommando des Tools aufgerufen. Über den Befehl `php jibe.phar sync` kann der Synchronisierungsvorgang gestartet werden. Alle Abhängigkeiten des Tools werden zusammen in einen PHAR-Container[^61] geschrieben. Dieser ähnelt dem Format eines Java-JAR Archivs. Dieses Format wird in der PHP-Gemeinschaft oft verwendet um Komplexe Applikationen wie zum Beispiel PHPUnit[^62] (ein Test Framework für PHP) auszuliefern.
+
+```bash
+$ php jibe.phar configure
+Server base URL: http://symcloud.lo
+Client-ID: 9_1442hepr9cpw8wg8s0o40s8gc084wo8ogso8wogowookw8k0sg
+Client-Secret: 4xvv8pn29zgoccos0c4g4sokw0ok0sgkgkso04408k0ckosk0c
+Username: admin
+Password:
+```
+
+Fehlende Argumente können vom Benutzer automatisch abgefragt werden. Eine Validierung, von zum Beispiel der URL, können direkt in einem Kommando implementiert werden.
+
+Diese Kommandos stehen dem Benutzer zur Verfügung:
+
+configure
+
+:   Konfiguriert den Zugang zu einer Symcloud Installation. Falls notwendig koordiniert sich das Tool mit der Installation, um andere Informationen zu Repliken oder verbundenen Installationen, zu erhalten.
+
+refresh-token
+
+:   Aktualisiert das Zugang-Token von OAuth2. Dies ist Notwendig, da diese über ein Ablaufzeitpunkt verfügen.
+
+status
+
+:   Gibt den aktuellen Status des Zugangs-Token aus. Wenn kein andere Kommando angegeben wurde, wird dieses aufgerufen.
+
+sync
+
+:   Startet den Synchronisierungsvorgang. Über das Flag `-m` kann eine Nachricht zu dem am Ende erstellten Commit angefügt werden.
+
+### Architektur
 
 
 
+### Abläufe
 
 
+[^60]: <http://symfony.com/doc/current/components/console/introduction.html>
+[^61]: <http://php.net/manual/de/intro.phar.php>
+[^62]: <https://phpunit.de/>
 
 
