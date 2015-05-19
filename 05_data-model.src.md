@@ -9,7 +9,7 @@ Das Datenmodell ist an GIT angelehnt. Details zu diesem Model kann in der Abbild
 
 ## Exkurs: GIT
 
-GIT[^60] ist ein verteilte Versionsverwaltung, das ursprünglich entwickelt wurde, um den Source-Code des Linux Kernels zu verwalten.
+GIT[^50] ist ein verteilte Versionsverwaltung, das ursprünglich entwickelt wurde, um den Source-Code des Linux Kernels zu verwalten.
 
 ![GIT-Logo](images/git-logo.png)
 
@@ -111,4 +111,4 @@ Jedoch muss es für die Speicherung in einer NoSQL Datenbank leicht angepasst we
 __TODO konzept des Dateimodels__
 
 
-[^60]: <http://git-scm.com/>
+[^50]: <http://git-scm.com/>
