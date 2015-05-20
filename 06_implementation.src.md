@@ -203,7 +203,7 @@ Diese drei Informationspakete können sehr einfach ermittelt werden. Einzig und 
 Die Tabelle \ref{table_jibe_flow} gibt Aufschluss über die Erkennung von Kommandos aus diesen Informationen.
 
 +---+------+---------+------+---------+---------------------------------------------+----------+--------+--------------+---------------+----------+
-| # | hash | old v.  | hash | version |                                             | Download | Upload | Delete local | Delete server | Conflict |
+|   | hash | old v.  | hash | version |                                             | Download | Upload | Delete local | Delete server | Conflict |
 +---+------+---------+------+---------+---------------------------------------------+----------+--------+--------------+---------------+----------+
 | 1 | X    | 1       | X    | 1       | Nothing to be done                          |          |        |              |               |          |
 | 2 | X    | 1       | Y    | 2       | Server file changed, download new version   | x        |        |              |               |          |
