@@ -117,7 +117,7 @@ Dies ist auch ein großer Vorteil zu Speicherdiensten wie Amazon S3. Da die Schn
 
 #### Anforderungen\label{specification_distributed_fs}
 
-__TODO Anforderungen an ein verteiltes Dateisystem?__
+__TODO Anforderungen an ein verteiltes Dateisystem? Coulouris S. 369ff__
 
 Unter anderem:
 
