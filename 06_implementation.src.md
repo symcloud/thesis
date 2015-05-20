@@ -52,7 +52,7 @@ Die Interaktion zwischen "Resource server" und "Authorization server" ist nicht 
 
 ### Protokoll Ablauf
 
-![Ablaufdiagramm des OAuth \label{oauth_flow}](diagrams/oauth2-flow.png)
+![Ablaufdiagramm des OAuth \label{oauth_flow}](diagrams/oauth2/flow.png)
 
 Der Ablauf einer Autorisierung [@hardt2012oauth, Seiten 6 ff] mittels Oauth2, der in der Abbildung \ref{oauth_flow} abgebildet ist, enthält folgende Schritte:
 
@@ -69,7 +69,7 @@ OAuth2 wird verwendet um es externen Applikationen zu ermöglichen auf die Datei
 
 ## Synchronisierungsprogramm: Jibe
 
-Jibe ist das Synchronisierungsprogramm zu einer Symcloud Installation. Es ist momentan ein einfaches PHP-Konsolen Tool, mit dem es möglich ist Daten aus einer Symcloud-Installation mit einem Endgerät zu Synchronisieren.
+Jibe ist das Synchronisierungsprogramm zu einer Symcloud Installation. Es ist ein einfaches PHP-Konsolen Tool, mit dem es möglich ist Daten aus einer Symcloud-Installation mit einem Endgerät zu Synchronisieren.
 
 Das Programm wurde mit Hilfe der Symfony Konsole-Komponente[^60] umgesetzt. Diese Komponente ermöglicht eine schnelle und unkomplizierte Entwicklung solcher Konsolen-Programme.
 
@@ -184,7 +184,71 @@ Am Ende des PATCH-Requests[^63] wird ein Commit ausgeführt. Dieser erstellt am 
 
 ### Abläufe
 
+Für einen kompletten Synchronisierungsvorgang werden folgende Informationen benötigt:
 
+Lokale Hashwerte
+
+:   werden aus den aktuellen Dateibeständen generiert.
+
+Zustand der Dateibestände
+
+:   nach der letzten Synchronisierung. Wenn diese Hashwerte mit den aktuellen Hashwerten verglichen werden, kann zuverlässig ermittelt werden, welche Dateien sich geändert haben. Zusätzlich kann die Ausgangsversion der Änderung erfasst werden um Konflikte zu erkennen.
+
+Aktueller Serverzustand
+
+:   enthält die aktuellen Hashwerte und Versionen aller Dateien. Diese werden verwendet, um zu erkennen, dass Dateien auf dem Server verändert haben bzw. gelöscht wurden.
+
+Diese drei Informationspakete können sehr einfach ermittelt werden. Einzig und alleine der Zustand der Dateien muss nach einer Synchronisierung beim Client gespeichert werden, um diese beim nächsten Vorgang wiederzuverwenden.
+
+Die Tabelle \ref{table_jibe_flow} gibt Aufschluss über die Erkennung von Kommandos aus diesen Informationen.
+
++---+------+---------+------+---------+---------------------------------------------+----------+--------+--------------+---------------+----------+
+| # | hash | old v.  | hash | version |                                             | Download | Upload | Delete local | Delete server | Conflict |
++---+------+---------+------+---------+---------------------------------------------+----------+--------+--------------+---------------+----------+
+| 1 | X    | 1       | X    | 1       | Nothing to be done                          |          |        |              |               |          |
+| 2 | X    | 1       | Y    | 2       | Server file changed, download new version   | x        |        |              |               |          |
+| 3 | Y    | 1       | X    | 1       | Client file change, upload new version      |          | x      |              |               |          |
+| 4 | Y    | 1       | Z    | 2       | Client and Server file changed, conflict    |          |        |              |               | x        |
+| 5 | Y    | 1       | Y    | 2       | Server file changed but content is the same |          |        |              |               |          |
+| 6 | X    | -       | -    | -       | New client file, upload it                  |          | x      |              |               |          |
+| 7 | -    | -       | X    | 1       | New server file, download it                | x        |        |              |               |          |
+| 8 | X    | 1       | -    | -       | Server file deleted, remove client version  |          |        | x            |               |          |
+| 9 | -    | 1       | X    | 1       | Client file deleted, remove server version  |          |        |              | x             |          |
++---+------+---------+------+---------+---------------------------------------------+----------+--------+--------------+---------------+----------+
+
+  : Evaluierung der Zustände\label{table_jibe_flow}
+
+__Folge TODOs für diese Tabelle:__
+
+* Lesbarkeit verbessern
+* Alter Dateihash hinzufügen
+* Ändere X/Y und 1/2 zu Allgemein gültigen Werten (n/n+1)
+* Muss aktuell gehalten werden
+
+Beispiel der Auswertungen anhand des Falles Nummer vier:
+
+1. Lokale Datei hat sich geändert: Alter Hashwert unterscheidet sich zu dem aktuellen.
+2. Serverversion ist Größer als lokale Version.
+3. Aktueller und Server-Hashwert stimmen nicht überein.
+
+Das bedeutet, dass sich sowohl die Serverdatei als auch die Lokale Kopie geändert haben. Dadurch entsteht ein Konflikt, der aufgelöst werden muss. Diese Konflikt Auflösung ist nicht Teil der Arbeit, wird allerdings im Kapitel \ref{outlook_conflict} kurz behandelt.
+
+### Anwendung
+
+Um nun Jibe mit einer aktiven Installation zu verbinden, müssen folgende Schritte ausgeführt werden.
+
+__TODO aktuell halten (evtl. in den Anhang?)__
+
+__Server__
+
+* Erstellen eines OAuth2 Clients mit dem Grant-Type "password, refresh_token": `app/console symcloud:oauth2:create-client sync http://www.example.com -g password -g refresh_token`
+
+__Lokaler Rechner__
+
+* In dem Order, der synchronisiert werden soll, folgendes Kommando ausführen: `php jibe.phar configure` und die geforderten Eingaben durchführen.
+* Um eine Synchronisierung durchzuführen reicht es folgendes Kommando auszuführen: `php jibe.phar sync`
+
+__TODO Zusammenfassung zum Client__
 
 [^60]: <http://symfony.com/doc/current/components/console/introduction.html>
 [^61]: <http://php.net/manual/de/intro.phar.php>
