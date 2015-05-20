@@ -79,7 +79,7 @@ Wer bedenken hat, seine Daten aus den Händen zu geben, kann auf verschiedene ko
 
 #### Alternativen zu Amazon S3
 
-Es gibt einige Amazon S3 kompatible Anbieter, die einen ähnlichen Dienst bieten. Diese sind allerdings meist auch US-Amerikanische Firmen und daher an die selben Gesetzen gebunden wie Amazon. Wer daher auf Nummer sicher gehen will und seine Daten bzw. Rechner-Instanzen ganz bei sich behalten will, kommt nicht um eine Installation von Cluster Lösungen herum.
+Es gibt einige Amazon S3 kompatible Anbieter, die einen ähnlichen Dienst bieten. Diese sind allerdings meist auch US-Amerikanische Firmen und daher an die selben Gesetzen gebunden wie Amazon. Wer daher auf Nummer sicher gehen will und seine Daten bzw. Rechner-Instanzen ganz bei sich behalten will, kommt nicht um eine Installation von einer privaten Cloud-Lösungen herum.
 
 Eucalyptus
 
@@ -191,9 +191,23 @@ Die Hauptgründe für Replikationen von Daten sind Zuverlässigkeit und Leistung
 
 Der andere wichtige Grund für Replikationen ist die Leistung des Systems. Hier gibt es zwei Aspekte, der eine bezieht sich auf die gesamt Last eines einzigen Servers und der andere auf Geographische Lage. Wenn also ein System nur aus einem Server besteht, ist dieser Server der vollen Last der Zugriffe ausgesetzt. Teilt man diese Last auf, kann die Leistung des Systems gesteigert werden. Zusätzlich können durch Repliken auch der Lesezugriff gesteigert werden indem dieser Zugriff über mehrere Server parallel erfolgt. Auch die Geographische Lage der Daten spielt bei der Leistung des Systems eine Entscheidende Rolle. Wenn Daten in der Nähe des Prozesses gespeichert werden in dem Sie erzeugt bzw. verwendet werden, ist sowohl der schreibende als auch der lesende Zugriff schneller umzusetzen. Diese Leistungssteigerung ist allerdings nicht linear zu den verwendeten Servern. Den es ist einiges an Aufwand zu treiben, diese Repliken synchron zu halten und dadurch die Konsistenz zu wahren. [@tanenbaum2003verteilte, S. 333ff]
 
-__TODO "primary/backup approach with leases" in Tanenbaum S. 386ff__
+Damit ein Verbund von Servern die Konsistenz ihrer Daten gewährleisten kann, werden Konsistenzprotokolle eingesetzt. In XtreemFS wir ein sogenanntes Primärbasiertes Protokoll eingesetzt [@xtreemfs2015a, Kapitel 6]. In diesen Protokollen, ist jedem Datenelement "x" ein primärer Server zugeordnet, der dafür verantwortlich ist, Schreiboperationen für "x" zu koordinieren. Es gibt zwei Arten dieses Protokoll umzusetzen.
 
-* Erklärung zur Umsetzung von hier: <http://xtreemfs.org/how_replication_works.php>
+__Entferntes-Schreiben__
+
+Es gibt auch hier zwei Arten zur Implementierung des Protokolls. Das eine, ist ein nicht replizierendes Protokoll, bei dem alle Schreib- und Lesezugriffe auf den Primären Server des Objekte ausgeführt werden. Und das andere, ist das sogenannte "Primary-Backup" Protokoll, verfügt über einen festen Primären Server für jedes Objekt. Dieser Server wird bei der Erstellung des Objektes festgelegt und nicht verändert. Zusätzlich wird festgelegt, auf welchen Servern Repliken für dieses Objekt angelegt werden. In XtreemFS werden diese Einstellungen "replication policy" genannt [@xtreemfs2015a, Kapitel 6.1.3]. 
+
+![Primary-Backup-Protokoll: Entferntes-Schreiben[@tanenbaum2003verteilte, S. 385]\label{primary_backup_remote_protocoll}](images/primary-backup-remote-protocoll.png)
+
+Der Prozess, der eine Schreiboperation (siehe \ref{primary_backup_remote_protocoll}) auf das Objekt ausführen will, gibt sie an den Primären Server weiter. Dieser führt die Operation lokal an dem Objekt aus und gibt die Aktualisierungen an die Backup-Server weiter. Jeder dieser Server führt die Operation aus und gibt eine Bestätigung an den Primären Server weiter. Nachdem alle Backups die Aktualisierung durchgeführt haben, gibt auch der Primäre Server eine Bestätigung an den Ausführenden Server weiter. Dieser Server kann nun sicher sein, dass die Aktualisierung auf allen Servern ausgeführt wurde und damit sicher im System gespeichert wurde. Aus der Tatsache, das dieses Protokoll blockierend ist, kann ein gravierendes Leistungsproblem entstehen. Für Programme, die lange Antwortzeiten nicht akzeptieren können, ist es eine Variante, das Protokoll nicht blockierend zu implementieren. Das bedeutet, dass der Primäre Server die Bestätigung direkt nach dem lokalen ausführen der Operation zurückgibt und erst danach die Aktualisierungen an die Backups weitergibt [@xtreemfs2015c]. Aufgrund der Tatsache, dass alle Schreiboperationen auf einem Server ausgeführt werden, können diese einfach gesichert werden und dadurch die Konsistenz gesichert werden. Eventuelle Transaktionen oder Locks müssen nicht im Netzwerk verteilt werden [@tanenbaum2003verteilte, S. 384ff].
+
+__Lokales-Schreiben__
+
+Auch in dieser Implementierung gibt es zwei Möglichkeiten es zu implementieren. Die eine ist ein nicht replizierendes Protokoll, bei dem vor einem Schreibzugriff das Objekt auf den Ausführenden Server verschoben wird und dadurch der Primäre Server des Objekts geändert wird. Nachdem die Schreiboperation ausgeführt wurde, bleibt das Objekt auf diesem Server solange, bis ein anderer Server Schreibend auf das Objekt zugreifen will. Die andere Möglichkeit, ist ein Primäres-Backup Protokoll (siehe Abbildung \ref{primary_backup_local_protocoll}), bei dem der Primäre-Server des Objektes zu dem ausführenden Server migriert wird [@tanenbaum2003verteilte, S. 386ff].
+
+![Primary-Backup-Protokoll: Lokales-Schreiben[@tanenbaum2003verteilte, S. 387]\label{primary_backup_local_protocoll}](images/primary-backup-local-protocoll.png)
+
+Dieses Protokoll ist auch für mobile Computer geeignet, die in einem Offline Modus verwendet werden können. Dazu wird es zum primären Server für die Objekte, die er vermutlich während seiner Offline-Phase bearbeiten wird. Während der Offline-Phase können nun Aktualisierungen lokal ausgeführt werden und die anderen Clients können lesend auf eine Replik zugreifen. Sie bekommen zwar keine Aktualisierungen können aber sonst ohne Einschränkungen weiterarbeiten. Nachdem die Verbindung wiederhergestellt wurde, werden die Aktualisierungen an die Backup-Server weitergegeben, sodass der Datenspeicher wieder in einen Konsistenten Zustand übergehen kann [@tanenbaum2003verteilte, S. 386ff].
 
 #### Speichergeschwindigkeit
 
