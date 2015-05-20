@@ -120,17 +120,73 @@ status
 
 sync
 
-:   Startet den Synchronisierungsvorgang. Über das Flag `-m` kann eine Nachricht zu dem erstellten Commit angefügt werden.
+:   Startet den Synchronisierungsvorgang. Über die Option `-m` kann eine Nachricht zu dem erstellten Commit angefügt werden.
 
 ### Architektur
 
+![Architektur von Jibe\label{jibe_architecture}](diagrams/jibe/architecture.png)
 
+Der Zentrale Bestandteil von Jibe ist eine `CommandQueue` (siehe Abbildung \ref{jibe_architecture}). Sie sammelt alle nötigen Kommandos ein und führt sie dann nacheinander aus. Diese Queue ist nach den "Command Pattern" entworfen. Folgende Befehle können dadurch aufgerufen werden:
+
+Upload
+
+:   Datei auf den Server hochladen
+
+Download
+
+:   Datei wird vom Server heruntergeladen und lokal in die Datei geschrieben.
+
+DeleteServer
+
+:   Datei auf dem Server wird gelöscht.
+
+DeleteLocal
+
+:   Lokale Datei wird gelöscht.
+
+Aus diesen vier Kommandos lässt sich nun ein kompletter Synchronisierungsvorgang abbilden.
+
+### Kommunikation
+
+Aufgrund der Datenstruktur ist es notwendig, nicht nur die Daten hochzuladen oder zu löschen, sondern auch alle zusammengefassten Änderungen in einem Request an den Server zu senden. Daher retourniert jedes Kommando ein zusätzlicher Befehl, die am Ende des Synchronisierungsvorgans gesammelt an den Server gesendet werden. Diese Befehle weisen folgende Struktur auf:
+
+```json
+{
+	"command": "delete",
+	"path": "/test-file.txt"
+}
+```
+
+Dieses Kommando führt auf dem Server dazu, dass die angegebene Datei aus dem Baum des Benutzers entfernt wird.
+
+__Update__
+
+```json
+{
+	"command": "update",
+	"path": "/test-file.txt",
+	"file": "<hashvalue>"
+}
+```
+
+Dieses Kommando führt auf dem Server dazu, dass die angegebene Datei einen neuen Inhalt besitzt. Identifiziert wird der neue Inhalt, durch den Hashwert, der beim Upload im "Response" retourniert wird.
+
+__Commit__
+
+```json
+{
+	"command": "commit",
+	"message": "<message>"
+}
+```
+
+Am Ende des PATCH-Requests[^63] wird ein Commit ausgeführt. Dieser erstellt am Server einen neue Version des Trees. Aufgrund der Tatsache, dass dies in einem einzigen Request ausgeführt wird, kann es in Zukunft über eine Transaktion gesichert werden.
 
 ### Abläufe
+
 
 
 [^60]: <http://symfony.com/doc/current/components/console/introduction.html>
 [^61]: <http://php.net/manual/de/intro.phar.php>
 [^62]: <https://phpunit.de/>
-
-
+[^63]: <http://tools.ietf.org/html/rfc5789#section-2.1>
