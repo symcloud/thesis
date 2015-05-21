@@ -30,7 +30,7 @@ Performance
 
 ## Datenhaltung in Cloud-Infrastrukturen
 
-Wenn man Speicherstrukturen in der Cloud genauer betrachtet, gibt es grundsätzlich drei Möglichkeiten. 
+Es gibt unzählige Möglichkeiten um die Datenhaltung in Cloud-Infrastrukturen umzusetzen. Insbesondere werden in diesem Kapitel drei grundlegende Technologien und Beispiele dafür analysiert.
 
 Objekt-Speicherdienste,
 
@@ -38,11 +38,13 @@ Objekt-Speicherdienste,
 
 Verteilte Dateisysteme
 
-:   ,fungieren als einfache Laufwerke und abstrahieren dadurch den komplexen Ablauf der darunter liegenden Services. Der Zugriff auf diese Dateisysteme erfolgt meist über system-calls wie zum Beispiel `fopen` oder `fclose`. Dies ergibt sich aus der Transparenz Anforderung [@coulouris2003verteilte, S. 369], die im Kapitel \ref{specification_distributed_fs} beschrieben wird.
+:   , fungieren als einfache Laufwerke und abstrahieren dadurch den komplexen Ablauf der darunter liegenden Services. Der Zugriff auf diese Dateisysteme erfolgt meist über system-calls wie zum Beispiel `fopen` oder `fclose`. Dies ergibt sich aus der Transparenz Anforderung [@coulouris2003verteilte, S. 369], die im Kapitel \ref{specification_distributed_fs} beschrieben wird.
 
 Datenbank gestützte Dateisysteme,
 
 :   wie zum Beispiel GridFS[^31] von MondoDB, erweitern Datenbanken, um große Dateien effizient und sicher abzuspeichern. [@gridfs2015a]
+
+Aufgrund der Vielfältigen Möglichkeiten werden zu jedem der drei Technologien ein oder zwei Beispiele als Referenz hergenommen.
 
 ## Amazon Simple Storage Service (S3)
 
@@ -243,13 +245,7 @@ Auch in dieser Implementierung gibt es zwei Möglichkeiten es zu implementieren.
 
 Dieses Protokoll ist auch für mobile Computer geeignet, die in einem Offline Modus verwendet werden können. Dazu wird es zum primären Server für die Objekte, die er vermutlich während seiner Offline-Phase bearbeiten wird. Während der Offline-Phase können nun Aktualisierungen lokal ausgeführt werden und die anderen Clients können lesend auf eine Replik zugreifen. Sie bekommen zwar keine Aktualisierungen können aber sonst ohne Einschränkungen weiterarbeiten. Nachdem die Verbindung wiederhergestellt wurde, werden die Aktualisierungen an die Backup-Server weitergegeben, sodass der Datenspeicher wieder in einen Konsistenten Zustand übergehen kann [@tanenbaum2003verteilte, S. 386ff].
 
-### Speichergeschwindigkeit
-
-__TODO überhaupt notwendig?__
-
-* <http://member.wide.ad.jp/~shima/publications/20120924-dfs-performance.pdf>
-
-### Zusammenfassung (??evtl. Evaluierung??)
+### Zusammenfassung
 
 Im Bezug auf die Anforderungen (siehe Kapitel \ref{specification}) bieten, die analysierten, verteilten Dateisysteme von Haus aus keine Versionierung. Es gab Versuche der Linux-Community, mit Wizbit[^33], ein auf GIT-basierendes Dateisystem zu entwerfen, das Versionierung mitliefern sollte [@arstechnica2008a]. Dieses Projekt wurde allerdings seit ende 2009 nicht mehr weiterentwickelt [@openhub2015a]. Die benötigten Zugriffsberechtigungen werden zwar auf der Systembenutzerebene durch ACL unterstützt. Jedoch müsste dann, die Anwendungen für jeden Anwendungsbenutzer einen Systembenutzer anlegen [@xtreemfs2015a, Kapitel 7.2]. Dies wäre zwar auf einer einzelnen Installation machbar, jedoch macht es eine Verteilte Verwendung komplizierter und eine Installation aufwändiger. Allerdings können gute Erkenntnisse aus der Analyse der Fehlertoleranz in NFS und den Replikationen bzw. der Konsistenzprotokollen von XtreemFS, gezogen werden und in ein Gesamtkonzept miteinbezogen werden.
 
@@ -279,10 +275,6 @@ $id = $gridFS->storeUpload('Filedata', $name);
 ```
 
 Bei der Verwendung von MongoDB ist es sehr einfach, Dateien in GridFS abzulegen. Die fehlenden Funktionen wie zum Beispiel, ACL oder Versionierung, machen den Einsatz in Symcloud allerdings schwierig. Auch der starre Aufbau mit nur einem Dateibaum macht die Anpassung der Datenstruktur nahezu unmöglich. Allerdings ist das Chunking der Dateien auch hier zentraler Bestandteil, daher wäre es möglich MongoFS für einen Teil des Speicher-Konzeptes zu verwenden.
-
-## Performance
-
-__TODO überhaupt notwendig?__
 
 ## Zusammenfassung
 
