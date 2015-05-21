@@ -101,7 +101,7 @@ Feste Transaktionszeit
 
 Downloadzeit
 
-:   ist liniar abhängig zu der Dateigröße und kann aufgrund der Bandbreite schwanken.
+:   ist linear abhängig zu der Dateigröße und kann aufgrund der Bandbreite schwanken.
 
 Ausgehend von diesen Überlegungen kann davon ausgegangen werden, dass die Upload- bzw. Downloadzeit einen linearen Verlauf über die Dateigröße aufweist. Diese These wird von den Daten unterstützt. Aus dem Diagramm (Abbildung \ref{performance_s3_upload}) kann die feste Transaktionszeit von ca. 140ms abgelesen werden.
 
@@ -117,17 +117,49 @@ Dies ist auch ein großer Vorteil zu Speicherdiensten wie Amazon S3. Da die Schn
 
 #### Anforderungen\label{specification_distributed_fs}
 
-__TODO Anforderungen an ein verteiltes Dateisystem? Coulouris S. 369ff__
+Die Anforderungen an Verteilte Dateisysteme lassen sich wie folgt zusammenfassen.
 
-Unter anderem:
+Zugriffstransparenz
 
-* Transparenz
-* Nebenläufigkeit
-* Replikation
-* Fehlertoleranz
-* Konsistenz
-* Sicherheit
-* Effizienz
+:   Client-Programme sollten, egal ob verteilt oder lokal, über die selbe Operationsmenge verfügen können. Es sollte also egal sein ob Daten aus einem verteilten oder lokalem Dateisystem stammen. Dadurch können Programme unverändert weiterverwendet werden, wenn seine Dateien verteilt werden [@coulouris2003verteilte, S. 369ff].
+
+Ortstransparenz
+
+:   Es sollten keine Rolle spielen, wo die Daten physikalisch gespeichert werden [@schuette2015a, S. 5]. Das Programm sieht immer den selben Namensraum, egal wo er ausgeführt wird [@coulouris2003verteilte, S. 369ff].
+
+Nebenläufige Dateiaktualisierungen
+
+:   Dateiänderungen, die von einem Client ausgeführt werden sollten die Operationen anderer Clients, die die selbe Datei verwenden, nicht stören. Um dieses Anforderung zu erreichen, muss ein funktionierende Nebenläufigkeitskontrolle implementiert werden. Die meisten aktuellen Dateisysteme unterstützen freiwillige oder zwingende Sperren auf Datei oder Datensatzebene.
+
+Dateireplikationen
+
+:   Unterstützt ein Dateisystem Dateireplikationen, kann ein Datensatz durch mehrere Kopien des Inhalts an verschiedenen Positionen dargestellt werden. Das bietet zwei Vorteile - Lastverteilung durch mehrere Server und es erhöht die Fehlertoleranz. Wenige Dateisysteme unterstützen vollständige Replikationen, aber die meisten unterstützen ein lokales Caching von Dateien, was eine eingeschränkte Art der Dateireplikation darstellt [@coulouris2003verteilte, S. 369ff].
+
+Fehlertoleranz
+
+:   Da der Dateidienst normalerweise der meist genutzte Dienst in einem Netzwerk ist, ist es unabdingbar, dass er auch dann weiter ausgeführt wird, wenn einzelne Server oder Clients ausfallen. Ein Fehlerfall sollte zumindest nicht zu Inkonsistenzen führen [@schuette2015a, S. 5].
+
+Konsistenz
+
+:   In konventionellen Dateisystemen werden Zugriffe auf Dateien auf eine einzige Kopie der Daten geleitet. Wird nun diese Datei auf mehrere Server verteilt, müssen die Operationen, an alle Server weitergeleitet werden. Die Verzögerung, die dabei auftritt, führt in dieser Zeit zu einem Inkonsistenten Zustand des Systems [@coulouris2003verteilte, S. 369ff].
+
+Sicherheit
+
+:   Fast alle Dateisysteme unterstützen eine Art Zugriffskontrolle auf die Dateien. Dies ist ungleich wichtiger, wenn viele Benutzer gleichzeitig auf Dateien zugreifen. In verteilten Dateisystemen besteht der Bedarf die Anforderungen des Clients auf korrekte Benutzer-IDs umzuleiten, die dem System bekannt sind [@coulouris2003verteilte, S. 369ff].
+
+Effizienz
+
+:   Verteilte Dateisysteme sollten, sowohl in Bezug auf die Funktionalitäten, als auch auf die Leistung, mit konventionellen Dateisystemen vergleichbar sein [@coulouris2003verteilte, S. 369ff].
+
+Andrew Birrell und Roger Needham setzten sich folgende Entwurfsziele für Ihr Universal File System [@birrell1980a]:
+
+	We would wish a simple, low-level, file server in order to
+	share an expensive resource, namely a disk, whilst leaving
+	us free to design the filing system most appropriate to
+	a particular client, but we would wish also to have
+	available a high-level system shared between clients.
+
+Aufgrund der Tatsache, dass Festplatten heutzutage nicht mehr so teuer sind, wie in den 1980ern, ist das erste Ziel nicht mehr von zentraler Bedeutung. Jedoch ist die Vorstellung von einem Dienst, der die Anforderung verschiedenster Clients, mit unterschiedlichen Aufgabenstellungen, erfüllt, ein zentraler Aspekt der Entwicklung von verteilten (Datei-)Systemen [@coulouris2003verteilte, S. 369ff].
 
 #### NFS
 
