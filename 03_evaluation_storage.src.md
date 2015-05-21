@@ -315,7 +315,7 @@ Da aufgrund verschiedenster Schwächen keine der Technologien eine adäquate Lö
 
 ## Zusammenfassung
 
-__TODO Zusammenfassung komplettes Kapitel__
+__TODO Zusammenfassung komplettes Kapitel (fällt weg wenn 3.1 Computing wegfällt)__
 
 [^30]: <http://aws.amazon.com/de/s3/>
 [^31]: <http://docs.mongodb.org/manual/core/gridfs/>
