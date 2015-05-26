@@ -1,8 +1,6 @@
 # Stand der Technik
 
-In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert.
-
-__TODO bessere Einleitung (=__
+In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die Begriffe Verteilte Systeme und Verteilte Dateisysteme definiert. Anschließend werden drei Anwendungen beschrieben, die als Inspiration für das Projekt Symcloud verwendet werden.
 
 ## \label{verteilte_systeme}Verteilte Systeme
 
