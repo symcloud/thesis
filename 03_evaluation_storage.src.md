@@ -177,7 +177,7 @@ Das zugrundeliegende Modell von NFS ist, das eines entfernten Dateidienstes. Dab
 
 Der Client greift über die Schnittstelle des lokalen Betriebssystems auf das Dateisystem zu. Die lokale Dateisystemschnittstelle wird jedoch durch ein Virtuelles Dateisystem ersetzt (VFS), die jetzt als Schnittstelle zu den verschiedenen Dateisystemen darstellt. Das VFS entscheidet anhand der Position im Dateibaum, ob die Operation an das lokale Dateisystem oder an den NFS-Client weitergegeben wird (siehe Abbildung \ref{nfs_architecture}). Der NFS-Client ist eine separate Komponente, die sich um den Zugriff auf entfernte Dateien kümmert. Dabei fungiert der Client als eine Art Stub-Implementierung der Schnittstelle und leitet alle Anfragen an den entfernten Server weiter (RPC). Diese Abläufe werden aufgrund des VFS-Konzeptes vollkommen transparent für den Benutzer durchgeführt [@tanenbaum2003verteilte, S. 647ff].
 
-### XtreemFS
+### XtreemFS \label{chapter_xtreemfs}
 
 Als Alternative zu konventionellen verteilten Dateisystemen bietet XtreemFS eine unkomplizierte und moderne Variante eines verteilten Dateisystems. Es wurde speziell für die Anwendung in einem Cluster mit dem Betriebssystem XtreemOS entwickelt. Mittlerweile gibt es aber Server- und Client-Anwendungen für fast alle Linux Distributionen. Außerdem Clients für Windows und MAC.
 
@@ -193,7 +193,7 @@ Replication
 
 Striping
 
-:   XtreemFS splittet Dateien in sogenannte "stripes" (oder "chunks"). Diese chunks werden dann auf verschiedenen Servern gespeichert und können dann parallel von mehreren Servern gelesen werden. Die gesamte Datei kann dann mit der zusammengefassten Netzwerk- und Festplatten-Bandbreite mehrerer Server heruntergeladen werden. Die Größe und Anzahl der Server kann pro Datei bzw. pro Ordner festgelegt werden [@xtreemfs2015a, Kapitel 2.3].
+:   XtreemFS splittet Dateien in sogenannte "stripes" (oder "chunks" bzw. "blobs"). Diese chunks werden dann auf verschiedenen Servern gespeichert und können dann parallel von mehreren Servern gelesen werden. Die gesamte Datei kann dann mit der zusammengefassten Netzwerk- und Festplatten-Bandbreite mehrerer Server heruntergeladen werden. Die Größe und Anzahl der Server kann pro Datei bzw. pro Ordner festgelegt werden [@xtreemfs2015a, Kapitel 2.3].
 
 Security
 
@@ -217,7 +217,7 @@ MRC - Metadata and Replica Catalog
 
 OSD - Object Storage Device
 
-:   speichert die Objekte ("strip" oder "chunks") der Dateien. Die Clients schreiben und lesen Daten direkt von diesen Servern. [@xtreemfs2015a, Kapitel 2.4]
+:   speichert die Objekte ("strip", "chunks" oder "blobs") der Dateien. Die Clients schreiben und lesen Daten direkt von diesen Servern. [@xtreemfs2015a, Kapitel 2.4]
 
 #### Exkurs: Datei Replikation\label{xtreemfs_replication}
 
@@ -253,7 +253,7 @@ Im Bezug auf die Anforderungen (siehe Kapitel \ref{specification}) bieten, die a
 
 Einige Datenbanksysteme, wie zum Beispiel MongoDB[^31], bieten eine Schnittstelle an, um Dateien abzuspeichern. Viele dieser Systeme sind meist nur begrenzt für große Datenmengen geeignet. MongoDB und GridFS sind jedoch genau für diese Anwendungsfälle ausgelegt, daher wird diese Technologie im folgenden Kapitel genauer betrachtet.
 
-### MongoDB & GridFS
+### MongoDB & GridFS \label{chapter_gridfs}
 
 MongoDB bietet von Haus aus die Möglichkeit, BSON-Dokumente in der Größe von 16MB zu speichern. Dies ermöglicht die Verwaltung kleinerer Dateien ohne zusätzlichen Layer. Für größere Dateien und zusätzliche Features bietet MongoDB mit GridFS eine Schnittstelle an, mit der es möglich ist, größere Dateien und ihre Metadaten zu speichern. Dazu teilt GridFS die Dateien in Chunks einer bestimmten Größe auf. Standardmäßig ist die Größe von Chunks auf 255Byte gesetzt. Die Daten werden in der Kollektion `chunks` und die Metadaten in der Kollektion `files` gespeichert.
 

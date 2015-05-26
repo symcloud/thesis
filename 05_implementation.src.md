@@ -250,6 +250,10 @@ __Lokaler Rechner__
 
 __TODO Zusammenfassung zum Client__
 
+### Verteilte Datenbank\label{distributed_database}
+
+__TODO Evtl. auch ein Klassendiagramm des Distributed Storage__
+
 [^60]: <http://symfony.com/doc/current/components/console/introduction.html>
 [^61]: <http://php.net/manual/de/intro.phar.php>
 [^62]: <https://phpunit.de/>
