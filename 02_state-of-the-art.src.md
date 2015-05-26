@@ -22,7 +22,7 @@ Dropbox-Nutzer können jederzeit von ihrem Desktop aus, über das Internet,  mob
 
 Alle diese Clients stellen Verbindungen mit sicheren Servern her, über die sie Zugriff auf Dateien haben und Dateien für andere Nutzer freigeben können. Wenn Daten auf einem Client geändert werden, werden diese automatisch mit dem Server synchronisiert. Verknüpfte Geräte aktualisieren sich automatisch. Dadurch werden Dateien, die hinzugefügt, verändert oder gelöscht werden, auf allen Clients aktualisiert bzw. gelöscht.
 
-Der Dropbox-Service betreibt verschiedenste Dienste, die sowohl für die Handhabung und Verarbeitung von Metadaten, als auch für die Verwaltung des Blockspeichers verantwortlich sind. [@dropbox2015a]
+Der Dropbox-Service betreibt verschiedenste Dienste, die sowohl für die Handhabung und Verarbeitung von Metadaten, als auch für die Verwaltung des Blockspeichers verantwortlich sind [@dropbox2015a].
 
 ![Blockdiagramm der Dropbox Services [@dropbox2015a]\label{db_archtecture}](images/db_archtecture.png)
 
@@ -48,8 +48,52 @@ Für einen produktiven Einsatz wird eine skalierbare Architektur, wie in Abbildu
 
 ## Diaspora
 
-__TODO kaum Infos gefunden, weitere suche notwendig__
+Diaspora verwendet für die Kommunikation zwischen den Servern (Pods) ein eigenes Protokoll namens "Federation protocol". Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2015b]. In folgenden Situationen wird dieses Protokoll verwendet:
+
+* Um Benutzerinformationen zu finden, die auf anderen Server registriert ist.
+* Erstellte Informationen an Benutzer zu versenden, mit denen Sie geteilt sind.
+
+Diaspora verwendet das Webfinger Protokoll um zwischen den Servern zu kommunizieren. Das Webfinger Protokoll wird verwendet, um Informationen über Benutzer oder anderen Entitäten, welche über eine URI identifiziert werden. Es verwendet den HTTP-Standard als Transport-Layer über eine sichere Verbindung. Als Format für die Antwort wird JSON verwendet [@jones2013webfinger, Kapitel 1].
+
+ __Beispiel [@diaspora2015b]:__
+
+Alice (alice@alice.diaspora.example.com) versucht mit Bob (bob@bob.diaspora.example.com) in Kontakt zu treten. Zuerst führt der Pod von Alice (alice.diaspora.example.com) einen Webfinger lookup auf den Pod von Bob (bob.diaspora.example.com) aus. Dazu führt Alice eine Anfrage auf die URL `https://bob.diaspora.example.com/.well-known/host-meta`[^21] aus und erhält einen Link zum LRDD ("Link-based Resource Descriptor Document"[^20]).
+
+```xml
+<Link rel="lrdd"
+      template="https://bob.diaspora.example.com/?q={uri}"
+      type="application/xrd+xml" />
+```
+
+Unter diesem Link können Entitäten auf dem Server von Bob gesucht werden. Als nächster Schritt führt der Server von Alice einen GET-Request auf den LRDD mit den kompletten Benutzernamen von Bob als Query-String aus. Der Response retourniert folgendes Objekt:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">
+  <Subject>acct:bob@bob.diaspora.example.com</Subject>
+  <Alias>"http://bob.diaspora.example.com/"</Alias>
+  <Link rel="http://microformats.org/profile/hcard" 
+        type="text/html"
+        href="http://bob.diaspora.example.com/hcard/users/((guid))"/>
+  <Link rel="http://joindiaspora.com/seed_location" 
+        type="text/html" href="http://bob.diaspora.example.com/"/>
+  <Link rel="http://joindiaspora.com/guid" type="text/html"
+        href="((guid))"/>
+  <Link rel="http://schemas.google.com/g/2010#updates-from"
+        type="application/atom+xml"
+        href="http://bob.diaspora.example.com/public/bob.atom"/>
+  <Link rel="diaspora-public-key" type="RSA"
+        href="((base64-encoded rsa public key))"/>
+</XRD>
+```
+
+Das Objekt enthält die Links zu weiteren Informationen des Benutzers, welcher im Knoten "Subject" angeführt wird.
+
+Dieses Beispiel zeigt, wie Diaspora auf einfachste weise Daten auf einem sicheren Kanal austauschen kann.
 
 ## Zusammenfassung
 
 __TODO Zusammenfassung state of the art Kapitel__
+
+[^20]: <https://tools.ietf.org/html/rfc6415#section-6.3>
+[^21]: <https://tools.ietf.org/html/rfc6415#section-2>
