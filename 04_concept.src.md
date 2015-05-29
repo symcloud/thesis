@@ -20,7 +20,7 @@ Die Architektur ist gegliedert in Kern-Komponenten und optionale Komponenten. In
 
 __TODO verschieben in die Implementierung__
 
-Im Rahmen dieser Arbeit entstand eine Prototyp Implementierung mit der verteilten Datenbank Riak für die Speicherung aller Informationen. Zusätzlich entstand ein Adapter um die Daten direkt in einen Ordner zu schreiben. Mithilfe diesem, ist Symcloud ohne weitere Abhängigkeiten zu installieren.
+Im Rahmen dieser Arbeit entstand eine Prototyp Implementierung mit der verteilten Datenbank Riak für die Speicherung aller Informationen. Zusätzlich entstand ein Adapter um die Daten direkt in einen lokalen Ordner zu schreiben. Mithilfe diesem, ist Symcloud ohne weitere Abhängigkeiten zu installieren.
 
 ### Datenmodell
 
@@ -141,7 +141,7 @@ Symlinks
 
 :   Die dritte Erweiterung ist die Verbindung zwischen Tree und Referenz. Diese Verbindung verwendet Symcloud um Symlinks (zu Referenzen) in einem Dateibaum zu modellieren und dadurch die Einbettung von Shares (__TODO Name__) in den Dateibaum zu ermöglichen. Diese Verbindung ist unabhängig von dem aktuellen Commit der Referenz und dadurch ist die gemeinsame Verwendung der Dateien zwischen den Benutzern sehr einfach umzusetzen[^40]. 
 
-Policies (__TODO fehlt im Diagram__)
+Policies (__TODO fehlt im Diagramm__)
  
 :   Die Policies wurden verwendet, um Zusätzliche Informationen zu den Benutzerrechten bzw. Replikationen zu einem Objekt zu speichern. Es beinhaltet im Falle der Replikationen zum Beispiel den Primary-Server bzw. eine Liste von Backup-Servern, auf denen das Objekt gespeichert wurde.
 
@@ -149,9 +149,21 @@ Policies (__TODO fehlt im Diagram__)
 
 Die Datenbank ist eine einfache "Hash-Value" Datenbank, der mithilfe des `Replicators` zu einer verteilen Datenbank ausgebaut werden kann. Die Datenbank serialisiert die Objekte und speichert Sie mithilfe des Adapters in einem Speichermedium. Dieses Speichermedium kann mithilfe des Adapters verschiedene Ziele besitzen. Jedes Objekt spezifiziert welche Daten als Metadaten in einer Suchmaschine indiziert werden. Dies ermöglicht eine schnelle suche innerhalb dieser Metadaten, ohne auf das eigentliche Speichermedium zuzugreifen.
 
-__TODO bessere beschreibung zur Datenbank, Replikationen und Zugriffsrechte__
+Symcloud verwendet einen ähnlichen Mechanismus für die Replikationen, wie in Kapitel \ref{xtreemfs_replication} beschrieben wurde. Es implementiert eine einfache Form des Primärbasiertes Protokoll. Dabei wird jedem Objekt der Server als Primary zugewiesen, auf dem es erzeugt wurde. Aus einem Pool an Servern werden die Backup-Server. Dabei gibt es drei Arten diese Backup-Server zu ermitteln.
 
-Nähere Informationen zu der Implementierung dieser Datenbank und des Replikationsmechanismuses werden in Kapitel \ref{distributed_database} gegeben. (__TODO wie schreiben__)
+Full
+
+:   Die Backup-Server werden per Zufallsverfahren ausgewählt. Dabei kann konfiguriert werden, auf wie vielen Servern ein Backup verteilt wird. Dieser Typ wird verwendet um die Blobs gleichmäßig auf die Server zu Verteilen. Dadurch lässt sich die Last auf alle Server verteilen. Dies gilt sowohl für den Speicherplatz, als auch die Netzwerkzugriffe.
+
+Permissions
+
+:   Wen ein Objekt auf Basis der ZUgriffsrechteverteilt wird, werden die Objekte an alle Server verteilt, die mindestens einen Benutzer registriert haben, der Zugriff auf dieses Objekt besitzt. Dabei gibt es keine Maximalanzahl der Backup-Server. Dieses Verfahren, wird verwendet für kleinere Objekte, wie zum Beispiel Dateistrukturen. Dies kann geschehen sofort, beim erstellen geschehen oder die Objekte werden "Lazy" beim ersten Zugriff nachgeladen. Der Vorteil der "Lazy" Technik ist es, dass die Server nicht immer erreichbar sein müssen, allerdings kann es zu Inkonsistenzen kommen, wenn Server nicht nach die neuesten Daten Anfragen, bevor sie Änderungen ausführen. Wichtig ist bei diesem Verfahren, dass Änderungen der Zugriffsrechte Automatisch zu einer Änderung der Referenz führen, damit die Backup-Server diese Änderung mitbekommen.
+
+Stubs
+
+:   Dieser Typ ist eigentlich kein Replikationsmechanismus, aber er ist wesentlicher Bestandteil des Verteilungsprotokolls von Symcloud. Objekte, die mit diesem Typ verteilt werden, werden als sogenannte Stubs an alle bekannten Server verteilt. Was bedeutet, dass das Objekt als eine Art Remote-Objekt. Es besitzt nicht die richtigen Daten und darf nicht gecached werden. Bei jedem Zugriff erfolgt, eine Anfrage an den Primary-Server, der dann die Daten zurückliefert, wenn die Zugriffsrechte gegeben sind. An dieser Stelle lassen sich Lock-Mechanismen einhängen. Da Referenzen immer nur auf dem Primary-Server geändert werden können. Falls es an dieser Stelle, zu einer Konflikt kommt, betrifft es nur den einen Backup-Server und nicht das komplette Netzwerk.
+
+Im Kapitel (__TODO Referenz in das Implementierungskapitel__) werden diese Vorgänge anhand von Ablaufdiagrammen genauer erklärt.
 
 ### Metadatastorage
 
@@ -163,7 +175,7 @@ Dateibaum (Tree)
 
 Versionen (Commit)
 
-: Über die Zusammenhängenden Commits kann der Dateiänderungsverlauf abgebildet werden. Jede Änderungen im Baum bewirkt das erstellen eines Commits. Dabei wird der aktuelle Baum in die Datenbank geschrieben und ein neuer Commit erstellt.
+:   Über die Zusammenhängenden Commits kann der Dateiänderungsverlauf abgebildet werden. Jede Änderungen im Baum bewirkt das erstellen eines Commits. Dabei wird der aktuelle Baum in die Datenbank geschrieben und ein neuer Commit erstellt.
 
 Referenzen
 
