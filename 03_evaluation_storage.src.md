@@ -1,4 +1,4 @@
-# Evaluation bestehender Technologien in Bezug auf Speicherverwaltung
+# Evaluation bestehender Technologien für Speicherverwaltung
 
 Ein wichtiger Aspekt von Cloud-Anwendungen ist die Speicherverwaltung. Es bieten sich verschiedenste Möglichkeiten der Datenhaltung in der Cloud an. Dieses Kapitel beschäftigt sich mit der Evaluierung von verschiedenen Diensten bzw. Lösungen, mit denen Speicher verwaltet und möglichst effizient zur Verfügung gestellt werden kann.
 
