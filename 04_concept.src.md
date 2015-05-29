@@ -161,7 +161,7 @@ Permissions
 
 Stubs
 
-:   Dieser Typ ist eigentlich kein Replikationsmechanismus, aber er ist wesentlicher Bestandteil des Verteilungsprotokolls von Symcloud. Objekte, die mit diesem Typ verteilt werden, werden als sogenannte Stubs an alle bekannten Server verteilt. Was bedeutet, dass das Objekt als eine Art Remote-Objekt. Es besitzt nicht die richtigen Daten und darf nicht gecached werden. Bei jedem Zugriff erfolgt, eine Anfrage an den Primary-Server, der dann die Daten zurückliefert, wenn die Zugriffsrechte gegeben sind. An dieser Stelle lassen sich Lock-Mechanismen einhängen. Da Referenzen immer nur auf dem Primary-Server geändert werden können. Falls es an dieser Stelle, zu einer Konflikt kommt, betrifft es nur den einen Backup-Server und nicht das komplette Netzwerk.
+:   Dieser Typ ist eigentlich kein Replikationsmechanismus, aber er ist wesentlicher Bestandteil des Verteilungsprotokolls von Symcloud. Objekte, die mit diesem Typ verteilt werden, werden als sogenannte Stubs an alle bekannten Server verteilt. Was bedeutet, dass das Objekt als eine Art Remote-Objekt. Es besitzt nicht die richtigen Daten und darf nicht gecached werden. Bei jedem Zugriff erfolgt, eine Anfrage an den Primary-Server, der dann die Daten zurückliefert, wenn die Zugriffsrechte gegeben sind. An dieser Stelle lassen sich Lock-Mechanismen einhängen. Da Referenzen immer nur auf dem Primary-Server geändert werden können. Falls es an dieser Stelle, zu einer Konflikt kommt, betrifft es nur den einen Backup-Server und nicht das komplette Netzwerk. Stubs können wie auch der vorherige Typ automatisch verteilt werden oder "Lazy" bei der ersten Verwendung nachgeladen werden.
 
 Im Kapitel (__TODO Referenz in das Implementierungskapitel__) werden diese Vorgänge anhand von Ablaufdiagrammen genauer erklärt.
 
@@ -181,60 +181,44 @@ Referenzen
 
 :   Um den aktuellen Commit und damit der aktuelle Dateibaum, des Benutzers, nicht zu verlieren, werden Referenzen immer auf den neuesten Commit gesetzt. Dies erfordert das aufbrechen des Konzepts der Immutable Objekte. Dies unterstützt die implementierte Datenbank dadurch, dass diese Objekte auf keinem Server gecached werden und die Backup-Server automatische Updates zu Änderungen erhalten.
 
+Diese Objekte werden im Netzwerk mit unterschiedlichen Typen verteilt. Die Strukturdaten (Tree und Commit) werden als mit dem Typ "Permission" im Netzwerk verteilt. Was bedeutet, jeder Server, der Zugriff auf diesen Dateibaum besitzt, kann das Objekt, in seine Datenbank ablegen. Im Gegensatz dazu, werden Referenzen als Stub-Objekte im Netzwerk verteilt. Diese werden dann bei jedem Zugriff auf diese beim Primary-Server angefragt. Änderungen an einer Referenz, werden ebenfalls auf den Primary-Server weitergeleitet.
+
 ### Filestorage
 
-Der Filestorage verwaltet die abtrakten Dateien im System. Diese Dateien werden als reine Datencontainer angesehen und besitzen daher keinen Namen oder Pfad. Eine Datei besteht nur aus Datenblöcken (Blobs), einer Länge, dem Mimetype und einem Hash für die Identifizierung. Dieser Hash wird im Metadatastorage verwendet, um die Daten zu einer Datei zu finden. Dazu wird der Hash der Datei zu einem TreeNode abgelegt. Diese Trennung von Daten und Metadaten macht es möglich zu erkennen, wenn eine Datei an verschiedenen Stellen des Systems vorkommt und dadurch wiederverwendet werden kann. Dabei spielt es keine Rolle, ob diese Datei von dem selben Benutzer wiederverwendet wird oder von einem anderen. Wen der Hash übereinstimmt, besitzen beide Benutzer die selbe Datei und dürfen dadurch darauf zugreifen.
+Der Filestorage verwaltet die abstrakten Dateien im System. Diese Dateien werden als reine Datencontainer angesehen und besitzen daher keinen Namen oder Pfad. Eine Datei besteht nur aus Datenblöcken (Blobs), einer Länge, dem Mimetype und einem Hash für die Identifizierung. Dieser Hash wird im Metadatastorage verwendet, um die Daten zu einer Datei zu finden. Dazu wird der Hash der Datei zu einem TreeNode abgelegt. Diese Trennung von Daten und Metadaten macht es möglich zu erkennen, wenn eine Datei an verschiedenen Stellen des Systems vorkommt und dadurch wiederverwendet werden kann. Dabei spielt es keine Rolle, ob diese Datei von dem selben Benutzer wiederverwendet wird oder von einem anderen. Wen der Hash übereinstimmt, besitzen beide Benutzer die selbe Datei und dürfen dadurch darauf zugreifen.
 
-### Session
+Im Filestorage gibt es zwei Typen von Objekten, die erstellt werden. Die Blobs, werden aufgrund ihrer Größe nur auf eine begrenzte Anzahl der Server verteilt. Dazu wird der Replikationstyp "Full" verwendet, beidem die Objekte auf eine begrenzte Anzahl von Server zufällig verteilt werden. Dadurch lässt sich der gesamte Speicherplatz des Netzwerkes mit dem hinzufügen neuer Server vergrößern und ist nicht beschränkt auf den Speicherplatz des kleinsten Servers. Blob-Objekte werden dann auf den Remote-Servern in einem Cache gehalten, um das Datenaufkommen zwischen den Servern so minimal wie möglich zu halten. Der Objekt Typ Datei wird mithilfe des Typs "Permissions" im Netzwerk verteilt. Dadurch sind diese Objekte allerdings nicht mehr immutable ... __ERROR__
 
-Als zentraler Zugriff auf die Daten steht für den High-Level Zugriff die Session zur Verfügung. Diese Session ermöglicht den Zugriff auf alle Teile des Systems über eine einfache Schnittstelle. Es ermöglicht mit dem Filestorage mittels Hash zu kommunizieren aber auch die Metadaten mittels Dateipfad zu traversieren. Damit ist dies die Zwischenschicht zwischen Filestorage, Metdatastorage und Rest API.
-
-
-__TODO Ab hier nur Notizen__
-
-
-
-
-### Rest API
-
-Die Rest-API ist die zentrale Schnittstelle um mit Symcloud zu kommunizieren. Die einzelnen Schnittstellen sind für High-Level zugriffe gedacht und verbirgt die Komplexität des Datenmodells und Speicherstruktur. Der Zugriff erfolgt über die Ordnerstruktur des Benutzers. Zusätzlich gibt der Benutzer die Identifikation der Referenz an, welcher er durchsuchen will.
-
-__TODO nur Notizen__
-Eventuell Zugriff über PHP Stream wenn die Library in die Applikation eingebettet ist oder eine Rest-API, falls dies als eigenständige Applikation (long running process) umgesetzt wird. Die REST-API könnte, bis zu einem gewissen grade, kompatibel zu der S3 Schnittstelle sein.
-
-### StorageController
-
-__TODO nur Notizen__
-Zentrale Zugriffsschnittstelle
-
-### SecurityController
-
-__TODO nur Notizen__
-Bearbeitet und überprüft Datei Berechtigungen.
-
-### Metadaten Storage
-
-__TODO nur Notizen__
-Entweder auch auf RIAK oder MySQL je nach dem wo unstrukturierte Daten abgelegt werden. Hier werden die Daten zum File abgelegt. Zum einen die Struktur / ACL / Größe / Name / Replikationen (auf welchen Servern) / ... Strukturelle Zugriffe wie `ls` / `mkdir` / `prop` gehen nur über diese Schnittstelle und die Daten müssen nicht gelesen werden. 
-
-Später können hier unstrukturierte Daten wie Titel / Beschreibung / Referenzen und Includes (aus xanadu) zusätzlich abgelegt werden. 
-
-"Buckets" (evtl. anderer Name) dienen zur Gruppierung. Diese Gruppierungen können gemeinsame Optionen und Benutzerrechte besitzen. Benutzerrechte auf einzelne Objekte ist nicht vorgesehen, da es nicht in den Anforderungen benötigt wird.
-
-### FileStorage\label{concept_file_storage}
-
-__TODO nur Notizen__
-Eventuell Speicherkonzept aufbauend auf einem Blob Storage. Dateien werden in z.b. 8MB große Blöcke geteilt und anhand ihres Hash-wertes in eine Datei geschrieben. Der Hash fungiert hier als eine Art ID. Diese Daten könnten dann in einer Objekt-Datenbank wie RIAK gespeichert werden. Alternativ wäre auch eine Speicherung auf dem Filesystem möglich. Dies könnte durch XtreemFS ebenfalls verteilt aufgebaut sein. Ein zusätzliches Objekt mit einem Array aus Blob-IDs würde dann eine Datei darstellen. Diese bekäme dann die den Hash-wert der Datei als seine ID.
-
-Diese Schicht übernimmt auch die Versionierung der Dateien. Dies geschieht im Zusammenspiel mit dem Metadaten-Storage, da die Informationen zu einer Version ebenfalls dort abgelegt werden.
+__Konzept Änderung weil das Konzept hier nicht mehr funktioniert, wenn die Dateien mit dem Typ "Permission" verteilt werden sollen, sind diese nicht mehr immutable und daher müssten sie auf den Remote-Servern upgedated werden. Dies ist aufwändig. Wen das Array der Blobs in die TreeFile Objekte abgelegt werden, erhöht sich zwar die Größe dieser Dateien, allerdings sind diese Immutable und dadurch benötigt das gesamte System kein Update Prozess.__
 
 __TODO Beschreibung Chunking! Vorteile, Nachteile, ...__
 
-__TODO warum RIAK und nicht GridFS oder XtreemFS__
+### Session
 
-Ein mögliches Datenmodell wäre das von GIT.
+Als zentraler Zugriff auf die Daten fungiert die `Session` als eine Art High-Level-Interface zur Verfügung. Diese Session ermöglicht den Zugriff auf alle Teile des Systems über eine zentrale Schnittstelle. Es ermöglicht mit dem Filestorage (__TODO achtung änderung__) mittels Hash zu kommunizieren aber auch die Metadaten mittels Dateipfad zu traversieren. Damit ist dies die Zwischenschicht zwischen Filestorage, Metdatastorage und Rest API.
 
-![Git Datenmodell [Quelle <http://git-scm.com/book/it/v2/Git-Internals-Git-References>]](images/git-data-model.png)
+### Rest-API
+
+Die Rest-Api ist als Schnittstelle ist als Zentrale Schnittstelle nach außen gedacht. Sie wird verwendet, um Daten für die Oberfläche in Sulu zu laden oder um Dateien mit einem Endgerät zu synchronisieren. Diese Rest-API ist über ein Benutzersystem gesichert. Die Zugriffsrechte können sowohl über Form-Login und Cookies, für Javascript Applikationen, oder über OAuth2 für Externe Applikationen erfolgen. Dies ermöglicht eine einfache Integration in andere Applikationen, wie es zum Beispiel SULU 2 wie in der Prototypen-Implementierung passiert ist. Die OAuth2 Schnittstelle ermöglicht es auch externe Applikationen mit Daten aus Symcloud zu versorgen.
+
+Die Rest-API ist in vier Bereiche aufgeteilt:
+
+Directory
+
+:   Diese Schnittstelle bietet den Zugriff auf die Ordnerstruktur einer Referenz über den vollen Pfad: `/directory/<reference-name>/<directory>`. Bei einem GET-Request auf diese Schnittstelle, wird der angeforderte Ordner als JSON-Objekt zurückgeliefert. Enthalten sind dabei unter anderem der Inhalt des Ordners.
+
+File
+
+:   Unter dem Pfad `/file/<reference-name>/<directory>/<filename>.<extension>` können Dateien heruntergeladen werden oder ihre Informationen abgefragt werden.
+
+
+Reference
+
+:   Die Schnittstelle für die Referenzen erlaubt das Erstellen und Abfragen von Referenzen. Zusätzlich können mittels PATCH-Requests Dateien geändert und gesammelt versioniert werden.
+
+Die genaue Funktion der Rest-API wird im Kapitel (__TODO Referenz zum Kapitel Implementierung__) beschrieben.
+
+__TODO Ab hier nur Notizen__
 
 ## Zusammenfassung
 
