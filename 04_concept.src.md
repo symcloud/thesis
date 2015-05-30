@@ -189,7 +189,7 @@ Für Symcloud bietet File-Chunking zwei große Vorteile:
 
 Wiederverwendung
 
-:  Durch das aufteilen von Dateien in Daten-Blöcke, ist es theoretisch möglich, das mehrere Dateien den selben chunk teilen. Häufiger jedoch geschieht dies, wenn zum Dateien von einer Version zur nächsten nur leicht verändert werden. Nehmen wir an, dass eine große Text-Datei im Storage liegt, die die Größe eines chunks übersteigt, wird an diese Datei weitere Zeichen angehängt, besteht die neue Version aus dem ersten chunk der ersten Version und aus einem neuen. Dadurch konnte sich das Storagesystem den Speicherplatz (eines chunks) sparen. Mithilfe bestimmter Algorithmen könnte die Ersparnis optimiert werden[^40] (siehe Kapitel \ref{outlook_file_chunking}).
+:   Durch das aufteilen von Dateien in Daten-Blöcke, ist es theoretisch möglich, das mehrere Dateien den selben chunk teilen. Häufiger jedoch geschieht dies, wenn zum Dateien von einer Version zur nächsten nur leicht verändert werden. Nehmen wir an, dass eine große Text-Datei im Storage liegt, die die Größe eines chunks übersteigt, wird an diese Datei weitere Zeichen angehängt, besteht die neue Version aus dem ersten chunk der ersten Version und aus einem neuen. Dadurch konnte sich das Storagesystem den Speicherplatz (eines chunks) sparen. Mithilfe bestimmter Algorithmen könnte die Ersparnis optimiert werden[^40] (siehe Kapitel \ref{outlook_file_chunking}).
 
 Streaming
 
