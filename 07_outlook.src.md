@@ -13,3 +13,7 @@ Besseres Verfahren wie Zufall verwenden, dass den freien Speicher als Grundlage 
 Wenn ein Server nicht erreichbar ist, bedeutet das potenziell, dass dieser nicht mehr Konsistent ist. Dieser sollte keine Changes mehr annehmen. Sobald er wider Online ist, muss er bei allen Servern den OPLog abholen und diesen ausführen.
 
 Dieser OPlog beinhaltet alle Operationen die ausgeführt werden. Genauer beschrieben hier: <http://docs.mongodb.org/manual/core/replica-set-oplog/>
+
+## \label{outlook_file_chunking}Datei chunking
+
+Theoretisch ist es möglich, dass Dateien, nach bestimmten Chunks durchsucht werden, die bereits im Storagesystem abgelegt sind. Dazu könnte ein ähnliches Verfahren wie bei rsync verwendet werden (Rolling-Checksum-Algorithm).

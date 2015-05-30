@@ -139,7 +139,7 @@ Symlinks
 
 :   Die dritte Erweiterung ist die Verbindung zwischen Tree und Referenz. Diese Verbindung verwendet Symcloud um Symlinks (zu Referenzen) in einem Dateibaum zu modellieren und dadurch die Einbettung von Shares (__TODO Name__) in den Dateibaum zu ermöglichen[^40]. Diese Verbindung ist unabhängig von dem aktuellen Commit der Referenz und dadurch ist die gemeinsame Verwendung der Dateien zwischen den Benutzern sehr einfach umzusetzen. 
 
-Policies (__TODO fehlt im Diagramm__)
+Policies
  
 :   Die Policies werden verwendet, um Zusätzliche Informationen zu den Benutzerrechten bzw. Replikationen in einem Objekt zu speichern. Es beinhaltet im Falle der Replikationen den Primary-Server bzw. eine Liste von Backup-Servern, auf denen das Objekt gespeichert wurde.
 
@@ -183,17 +183,25 @@ Diese Objekte werden im Netzwerk mit unterschiedlichen Typen verteilt. Die Struk
 
 ## Filestorage
 
-Der Filestorage verwaltet die abstrakten Dateien im System. Diese Dateien werden als reine Datencontainer angesehen und besitzen daher keinen Namen oder Pfad. Eine Datei besteht nur aus Datenblöcken (Blobs), einer Länge, dem Mimetype und einem Hash für die Identifizierung. Dieser Hash wird im Metadatastorage verwendet, um die Daten zu einer Datei zu finden. Dazu wird der Hash der Datei zu einem TreeNode abgelegt. Diese Trennung von Daten und Metadaten macht es möglich zu erkennen, wenn eine Datei an verschiedenen Stellen des Systems vorkommt und dadurch wiederverwendet werden kann. Dabei spielt es keine Rolle, ob diese Datei von dem selben Benutzer wiederverwendet wird oder von einem anderen. Wen der Hash übereinstimmt, besitzen beide Benutzer die selbe Datei und dürfen dadurch darauf zugreifen.
+Der Filestorage verwaltet die abstrakten Dateien im System. Diese Dateien werden als reine Datencontainer angesehen und besitzen daher keinen Namen oder Pfad. Eine Datei besteht nur aus Datenblöcken (Blobs), einer Länge, dem Mimetype und einem Hash für die Identifizierung. Diese abstrakten Dateien werden in den Tree, des Metadatastorage, mit eingebettet und stehen daher nur konkreten Dateien zur Verfügung. Was bedeutet, dass eine Konkrete Datei eine Liste von Blobs besitzt, die die eigentlichen Daten repräsentieren. Diese Trennung von Daten und Metadaten macht es möglich zu erkennen, wenn eine Datei an verschiedenen Stellen des Systems vorkommt und dadurch wiederverwendet werden kann. Theoretisch können auch teile einer Datei in einer anderen Vorkommen. Dies ist aber je nach Größe der Blobs sehr unwahrscheinlich. Da die Blobs keine Zugriffsrechte besitzen, spielt es keine Rolle, ob dieser von dem selben oder von einem anderen Benutzer wiederverwendet wird. Wen der Hash übereinstimmt, besitzen beide Dateien der Benutzer den selben Datenblock und dürfen dadurch darauf zugreifen.
 
-Im Filestorage gibt es zwei Typen von Objekten, die erstellt werden. Die Blobs, werden aufgrund ihrer Größe nur auf eine begrenzte Anzahl der Server verteilt. Dazu wird der Replikationstyp "Full" verwendet, beidem die Objekte auf eine begrenzte Anzahl von Server zufällig verteilt werden. Dadurch lässt sich der gesamte Speicherplatz des Netzwerkes mit dem hinzufügen neuer Server vergrößern und ist nicht beschränkt auf den Speicherplatz des kleinsten Servers. Blob-Objekte werden dann auf den Remote-Servern in einem Cache gehalten, um das Datenaufkommen zwischen den Servern so minimal wie möglich zu halten. Der Objekt Typ Datei wird mithilfe des Typs "Permissions" im Netzwerk verteilt. Dadurch sind diese Objekte allerdings nicht mehr immutable ... __ERROR__
+Für Symcloud bietet File-Chunking zwei große Vorteile:
 
-__Konzept Änderung weil das Konzept hier nicht mehr funktioniert, wenn die Dateien mit dem Typ "Permission" verteilt werden sollen, sind diese nicht mehr immutable und daher müssten sie auf den Remote-Servern upgedated werden. Dies ist aufwändig. Wen das Array der Blobs in die TreeFile Objekte abgelegt werden, erhöht sich zwar die Größe dieser Dateien, allerdings sind diese Immutable und dadurch benötigt das gesamte System kein Update Prozess.__
+Wiederverwendung
 
-__TODO Beschreibung Chunking! Vorteile, Nachteile, ...__
+:  Durch das aufteilen von Dateien in Daten-Blöcke, ist es theoretisch möglich, das mehrere Dateien den selben chunk teilen. Häufiger jedoch geschieht dies, wenn zum Dateien von einer Version zur nächsten nur leicht verändert werden. Nehmen wir an, dass eine große Text-Datei im Storage liegt, die die Größe eines chunks übersteigt, wird an diese Datei weitere Zeichen angehängt, besteht die neue Version aus dem ersten chunk der ersten Version und aus einem neuen. Dadurch konnte sich das Storagesystem den Speicherplatz (eines chunks) sparen. Mithilfe bestimmter Algorithmen könnte die Ersparnis optimiert werden[^40] (siehe Kapitel \ref{outlook_file_chunking}).
+
+Streaming
+
+:   __TODO Streaming__
+
+__TODO Zusammenfassung Chunking__
+
+Im Filestorage werden zwei Arten von Objekten beschrieben. Zum einen sind dies die abstrakten Dateien, die nicht direkt in die Datenbank geschrieben werden, sondern primär der Kommunikation dienen und in den Dateibaum eingebettet werden. Zum anderen sind es die konkreten "chunks" die direkt in die Datenbank geschrieben werden. Um diese optimal zu verteilen, werden diese mit dem Replikationstyp "Full" persistiert. Dabei wird es auf eine festgelegte Anzahl von Servern verteilt. Dadurch lässt sich der gesamte Speicherplatz des Netzwerkes mit dem hinzufügen neuer Server vergrößern und ist nicht beschränkt auf den Speicherplatz des kleinsten Servers. Blob-Objekte werden dann auf den Remote-Servern in einem Cache gehalten, um das Datenaufkommen zwischen den Servern so minimal wie möglich zu halten. Dieser Cache kann diese Objekte unbegrenzt lange speichern, da diese Blöcke unveränderbar und diese nicht gelöscht werden können, da Dateien nicht wirklich gelöscht werden sondern nur aus dem Dateibaum. Alte Versionen der Datei können auch später wiederhergestellt werden, indem die Commit-Historie zurückverfolgt wird.
 
 ## Session
 
-Als zentrale Schnittstelle auf die Daten fungiert die `Session`. Sie ist als eine Art High-Level-Interface konzipiert und ermöglicht den Zugriff auf alle Teile des Systems über eine zentrale Schnittstelle. Zum Beispiel kann über den Hash mit dem Filestorage kommuniziert (__TODO Achtung Änderung an Filestorage__) und die Metadaten mittels Dateipfad abgefragt werden. Damit fungiert es als Zwischenschicht zwischen Filestorage, Metdatastorage und Rest API.
+Als zentrale Schnittstelle auf die Daten fungiert die `Session`. Sie ist als eine Art High-Level-Interface konzipiert und ermöglicht den Zugriff auf alle Teile des Systems über eine zentrale Schnittstelle. Zum Beispiel können Dateien über den Filestorage hochgeladen werden, sowie auch die Metadaten mittels Dateipfad abgefragt werden. Damit fungiert es als Zwischenschicht zwischen Filestorage, Metdatastorage und Rest API.
 
 ## Rest-API
 
