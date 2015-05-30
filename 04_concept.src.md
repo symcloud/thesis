@@ -22,13 +22,13 @@ Im Rahmen dieser Arbeit entstand eine Prototyp Implementierung mit der verteilte
 
 Die Architektur ist gegliedert in Kern-Komponenten und optionale Komponenten. In der Abbildung \ref{architecture} sind die Abhängigkeiten der Komponenten untereinander zu erkennen. Die Schichten sind jeweils über ein Interface entkoppelt, um den Austausch einzelner Komponenten zu vereinfachen. Über den `StorageAdaper` bzw. über den `SearchAdapter`, lassen sich die Speicher der Daten anpassen. Für eine einfache Installation reicht es die Daten direkt auf die Festplatte zu schreiben. Es ist allerdings auch denkbar die Daten in eine Datenbank wie Riak oder MongoDB zu schreiben, um die Sicherheit zu erhöhen.
 
-### Datenmodell
+## Datenmodell
 
 Das Datenmodell wurde speziell für Symcloud entwickelt, um seine Anforderungen zu erfüllen. Es sollte alle Anforderungen an das Projekt erfüllen, um eine optimale und effiziente Datenhaltung zu gewährleisten. Abgeleitet wurde das Model (siehe Abbildung \ref{data_model}) aus dem Model, dass dem Versionskontrollsystem GIT zugrunde liegt. Dieses Model unterstützt viele Anforderungen, welche Symcloud an seine Daten stellt.
 
 ![Datenmodel für "Symcloud-DistributedStorage"\label{data_model}](diagrams/data-model.png)
 
-#### Exkurs: GIT
+### Exkurs: GIT
 
 GIT[^41] ist ein verteilte Versionsverwaltung, das ursprünglich entwickelt wurde, um den Source-Code des Linux Kernels zu verwalten.
 
@@ -54,7 +54,7 @@ $ find .git/objects -type f
 
 Die Objekte in GIT sind immutable, also nicht veränderbar. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht oder in der Datenbank geändert. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt.
 
-##### Objekt Typen {.unnumbered}
+#### Objekt Typen {.unnumbered}
 
 GIT kennt folgende Typen:
 
@@ -103,7 +103,7 @@ REFERENCE
 
 ![Beispiel eines Repositories\label{git:data-model-example} [@chacon2015git]](images/git-data-model-example.png)
 
-##### Anforderungen {.unnumbered}
+#### Anforderungen {.unnumbered}
 
 Das Datenmodell von GIT erfüllt folgende Anforderungen von Symcloud:
 
@@ -119,11 +119,11 @@ Symlinks
 
 :   Ebenfalls mit den Referenzen, können sogenannte Symlinks erstellt werden. Diese Symlinks werden im System verwendet, um Shares an einer bestimmten Stelle des Dateibaums eines Benutzers zu platzieren[^40].
 
-##### Zusammenfassung {.unnumbered}
+#### Zusammenfassung {.unnumbered}
 
 Das Datenmodell von GIT ist aufgrund seiner Flexibilität eine gute Grundlage für ein Verteiltes Dateisystem. Es ist auch in seiner Ursprünglichen Form für die Verteilung ausgelegt. Dies macht es für Symcloud Interessant es als Grundlage für die Weiterentwicklung zu verwenden. Aufgrund der Immutable Objekte können die Operationen Update und Delete komplett vernachlässigt werden. Da Daten nicht aus der Datenbank gelöscht werden. Diese Art von Objekten bringt auch große Vorteile mit sich, wenn es um die Zwischenspeicherung (cachen) von Daten geht. Diese können auf allen Servern gecached werden, da diese nicht mehr verändert werden. Eine Einschränkung hierbei sind die Referenzen, die einen Veränderbaren Inhalt aufweisen. Diese Einschränkung muss bei der Implementierung des Datenmodells berücksichtigt werden, wenn diese Daten Verteilt werden.
 
-#### Symcloud
+### Symcloud
 
 Für Symcloud wurde das Datenmodell von GIT angepasst und erweitert.
 
@@ -143,7 +143,7 @@ Policies (__TODO fehlt im Diagramm__)
  
 :   Die Policies werden verwendet, um Zusätzliche Informationen zu den Benutzerrechten bzw. Replikationen in einem Objekt zu speichern. Es beinhaltet im Falle der Replikationen den Primary-Server bzw. eine Liste von Backup-Servern, auf denen das Objekt gespeichert wurde.
 
-### Datenbank
+## Datenbank
 
 Die Datenbank ist eine einfache "Hash-Value" Datenbank, der mithilfe des `Replicators` zu einer verteilen Datenbank ausgebaut wird. Die Datenbank serialisiert die Objekte und speichert sie mithilfe des Adapters auf einem Speichermedium. Dieses Speichermedium kann mithilfe des Adapters verschiedene Ziele besitzen. Jedes Objekt spezifiziert welche Daten als Metadaten in einer Suchmaschine indiziert werden sollen. Dies ermöglicht eine schnelle suche innerhalb dieser Metadaten, ohne auf das eigentliche Speichermedium zuzugreifen.
 
@@ -163,7 +163,7 @@ Stubs
 
 Im Kapitel (__TODO Referenz in das Implementierungskapitel__) werden diese Vorgänge anhand von Ablaufdiagrammen genauer erklärt.
 
-### Metadatastorage
+## Metadatastorage
 
 Der Metadatastorage verwaltet die Struktur der Daten. Es beinhaltet folgende Punkte:
 
@@ -181,7 +181,7 @@ Referenzen
 
 Diese Objekte werden im Netzwerk mit unterschiedlichen Typen verteilt. Die Strukturdaten (Tree und Commit) werden mit dem Typ "Permission" im Netzwerk verteilt. Was bedeutet, jeder Server, der Zugriff auf diesen Dateibaum besitzt, kann das Objekt, in seine Datenbank ablegen. Im Gegensatz dazu, werden Referenzen als Stub-Objekte im Netzwerk verteilt. Diese werden dann bei jedem Zugriff, auf dessen Primary-Server angefragt. Änderungen an einer Referenz, werden ebenfalls auf den Primary-Server weitergeleitet.
 
-### Filestorage
+## Filestorage
 
 Der Filestorage verwaltet die abstrakten Dateien im System. Diese Dateien werden als reine Datencontainer angesehen und besitzen daher keinen Namen oder Pfad. Eine Datei besteht nur aus Datenblöcken (Blobs), einer Länge, dem Mimetype und einem Hash für die Identifizierung. Dieser Hash wird im Metadatastorage verwendet, um die Daten zu einer Datei zu finden. Dazu wird der Hash der Datei zu einem TreeNode abgelegt. Diese Trennung von Daten und Metadaten macht es möglich zu erkennen, wenn eine Datei an verschiedenen Stellen des Systems vorkommt und dadurch wiederverwendet werden kann. Dabei spielt es keine Rolle, ob diese Datei von dem selben Benutzer wiederverwendet wird oder von einem anderen. Wen der Hash übereinstimmt, besitzen beide Benutzer die selbe Datei und dürfen dadurch darauf zugreifen.
 
@@ -191,13 +191,13 @@ __Konzept Änderung weil das Konzept hier nicht mehr funktioniert, wenn die Date
 
 __TODO Beschreibung Chunking! Vorteile, Nachteile, ...__
 
-### Session
+## Session
 
 Als zentrale Schnittstelle auf die Daten fungiert die `Session`. Sie ist als eine Art High-Level-Interface konzipiert und ermöglicht den Zugriff auf alle Teile des Systems über eine zentrale Schnittstelle. Zum Beispiel kann über den Hash mit dem Filestorage kommuniziert (__TODO Achtung Änderung an Filestorage__) und die Metadaten mittels Dateipfad abgefragt werden. Damit fungiert es als Zwischenschicht zwischen Filestorage, Metdatastorage und Rest API.
 
-### Rest-API
+## Rest-API
 
-Die Rest-Api ist als Zentrale Schnittstelle nach außen gedacht. Sie wird zum Beispiel verwendet, um Daten für die Oberfläche in Sulu zu laden oder Dateien mit einem Endgerät zu synchronisieren. Diese Rest-API ist über ein Benutzersystem gesichert. Die Zugriffsrechte können sowohl über Form-Login und Cookies, für Javascript Applikationen, als auch über OAuth2 für Externe Applikationen überprüft werden. Dies ermöglicht eine einfache Integration in andere Applikationen, wie es zum Beispiel in der Prototypen-Implementierung mit SULU 2 passiert ist. Die OAuth2 Schnittstelle ermöglicht es auch externe Applikationen mit Daten aus Symcloud zu versorgen.
+Die Rest-API ist als Zentrale Schnittstelle nach außen gedacht. Sie wird zum Beispiel verwendet, um Daten für die Oberfläche in Sulu zu laden oder Dateien mit einem Endgerät zu synchronisieren. Diese Rest-API ist über ein Benutzersystem gesichert. Die Zugriffsrechte können sowohl über Form-Login und Cookies, für Javascript Applikationen, als auch über OAuth2 für Externe Applikationen überprüft werden. Dies ermöglicht eine einfache Integration in andere Applikationen, wie es zum Beispiel in der Prototypen-Implementierung mit SULU 2 passiert ist. Die OAuth2 Schnittstelle ermöglicht es auch externe Applikationen mit Daten aus Symcloud zu versorgen.
 
 Die Rest-API ist in vier Bereiche aufgeteilt:
 
