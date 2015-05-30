@@ -18,6 +18,10 @@ __TODO Liste von Themen:__
     * Lock-Mechanismen
     * Autorisierung
 
+__TODO nur Notizen__
+
+Im Rahmen dieser Arbeit entstand eine Prototyp Implementierung mit der verteilten Datenbank Riak für die Speicherung aller Informationen. Zusätzlich entstand ein Adapter um die Daten direkt in einen lokalen Ordner zu schreiben. Mithilfe diesem, ist Symcloud ohne weitere Abhängigkeiten zu installieren.
+
 ## OAuth2\label{implementation_oauth}
 
 Für die Authentifizierung wurde das Protokoll OAuth in der Version 2 implementiert. Dieses offene Protokoll erlaubt eine standardisierte, sichere API-Autorisierung für Desktop, Web und Mobile-Applikationen. Initiiert wurde das Projekt von Blaine Cook und Chris Messina. [@wikioauth]
@@ -253,6 +257,30 @@ __TODO Zusammenfassung zum Client__
 ### Verteilte Datenbank\label{distributed_database}
 
 __TODO Evtl. auch ein Klassendiagramm des Distributed Storage__
+
+## Zusammenfassung
+
+__TODO nur Notizen__
+
+Es kann pro Bucket festgelegt werden, welcher Benutzer Zugriff auf diesen hat bzw. ob er diese durchsuchen darf. Dies bestimmt die Einstellungen des Replikators, der die Daten anhand dieser Einstellungen über die verbundenen Instanzen verteilt.
+
+Beispiel:
+
+* Bucket 1 hat folgende Policies:
+ * SC1 User1 gehört der Bucket
+ * SC2 User2 hat Leserechte
+ * SC3 User3 hat Lese- und Schreibrechte
+
+Der Replikator wird nun folgendermaßen vorgehen.
+
+1. Die Metadaten des Buckets werden auf die Server SC2 und SC3 repliciert.
+2. Die Nutzdaten (aktuellste Version) des Buckets werden auf den Server SC3 repliciert und aktuell gehalten.
+3. Beides wird automatisch bei Änderungen durchgeführt.
+4. Beim lesen der Datei wird SC2 bei SC1 oder SC3 (je nach Verfügbarkeit) die Daten holen und bei sich persistieren. Diese Kopie wird nicht automatisiert von SC3 upgedated, sie wird nur bei Bedarf aktualisiert.
+5. Bei Änderung einer Datei des Buckets auf SC3 werden die Änderungen automatisch auf den Server S1 gespielt.
+
+Die Suchschnittstelle wird bei der Suche nach Dateien für den User2 oder User3 auf das Bucket durchsuchen. Jedoch wird der User3 die Daten in seinem eigenen Server suchen und nicht bei S1 nachfragen. Da S2 nicht immer aktuelle Daten besitzt, setzt er bei der Schnittstelle S1 eine Anfrage ab, um die Suche bei sich zu Vervollständigen.
+
 
 [^60]: <http://symfony.com/doc/current/components/console/introduction.html>
 [^61]: <http://php.net/manual/de/intro.phar.php>
