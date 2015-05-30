@@ -199,7 +199,7 @@ Security
 
 :   Um die Sicherheit der Dateien zu gewährleisten, unterstützt XtreemFS sowohl Benutzer Authentifizierung als auch Berechtigungen. Der Netzwerkverkehr zwischen den Servern ist Verschlüsselt. Die Standarad Authentifizierung basiert auf lokalen Benutzernamen und ist auf die Vertrauenswürdigkeit der Clients bzw. des Netzwerkes angewiesen. Um mehr Sicherheit zu erreichen unterstützt XtreemFS aber auch eine Authentifizierung mittels X.509 Zertifikaten [^34] [@xtreemfs2015a, Kapitel 2.3].
 
-#### Architektur\label{xtreemfs_architecture}
+#### Architektur\label{xtreemfs_architecture} {.unnumbered}
 
 XtreemFS implementiert eine Objekt-Basierte Datei-Systemarchitektur, was bedeutet, dass die Dateien in Objekte mit einer bestimmten Größe aufgeteilt werden und auf verschiedenen Servern gespeichert werden. Die Metadaten werden in separaten Servern gespeichert. Diese Server organisieren die Dateien in eine Menge von sogenannten "volumes". Jedes Volume ist ein eigener Namensraum mit einem eigenen Dateibaum. Die Metadaten speichern zusätzlich eine Liste von chunk-IDs mit den jeweiligen Servern, auf denen dieser Chunk zu finden ist und eine Richtlinie, wie diese Datei aufgeteilt und auf Server verteilt werden soll. Dadurch kann die Größe der Metadaten von Datei zu Datei unterschiedlich sein. [@xtreemfs2015a, Kapitel 2.4]
 
@@ -219,7 +219,7 @@ OSD - Object Storage Device
 
 :   speichert die Objekte ("strip", "chunks" oder "blobs") der Dateien. Die Clients schreiben und lesen Daten direkt von diesen Servern. [@xtreemfs2015a, Kapitel 2.4]
 
-#### Exkurs: Datei Replikation\label{xtreemfs_replication}
+### Exkurs: Datei Replikation\label{xtreemfs_replication}
 
 Ein wichtiger Aspekt von verteilten Dateisystemen ist die Replikation von Daten. Sie steigert sowohl die Zuverlässigkeit, als auch Leistung der Lesezugriffe. Das größte Problem dabei ist allerdings die Konsistenz der Repliken zu erhalten. Dabei muss bei jedem schreiben Zugriff ein Update aller Repliken erfolgen, ansonsten ist die Konsistenz nicht mehr gegeben. [@tanenbaum2003verteilte, S. 333ff]
 
