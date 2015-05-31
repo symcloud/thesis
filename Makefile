@@ -1,10 +1,13 @@
 diagrams = $(shell find ./diagrams -type f -iname "*.dita")
 mds = $(shell ls *.src.md)
 
-all: diagram pdf docx html
+all: diagram class_diagram pdf docx html
 
 diagram:
 	$(foreach f,$(diagrams), ditaa -E -o $(f);)
+
+class_diagram:
+	dot -Tpng -o diagrams/data-model.png diagrams/data-model.dot
 
 formats: pdf docx html
 
