@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="de-DE">
   <info>
-    <title>Fachhochschule Vorarlberg (German)</title>
+    <title>Fachhochschule Vorarlberg [German]</title>
     <title-short>FHV</title-short>
     <id>http://www.zotero.org/styles/fachhochschule-vorarlberg</id>
     <link href="http://www.zotero.org/styles/fachhochschule-vorarlberg" rel="self"/>
@@ -28,7 +28,7 @@
           <if variable="author">
             <names variable="author" delimiter="; ">
               <name name-as-sort-order="all" sort-separator=", " delimiter="; " delimiter-precedes-last="always" form="long" suffix="&#160;"/>
-              <label form="short" prefix=" (" suffix=".)"/>
+              <label form="short" prefix=" [" suffix=".]"/>
               <substitute>
                 <text macro="editor"/>
                 <names variable="translator"/>
@@ -40,7 +40,7 @@
       <else>
         <names variable="author" delimiter="; ">
           <name name-as-sort-order="all" sort-separator=", " delimiter="; " delimiter-precedes-last="always" form="long" suffix="&#160;"/>
-          <label form="short" prefix=" (" suffix=".)"/>
+          <label form="short" prefix=" [" suffix=".]"/>
           <substitute>
             <text macro="editor"/>
             <names variable="translator"/>
@@ -67,7 +67,7 @@
           <if type="chapter">
             <names variable="editor" delimiter="; ">
               <name name-as-sort-order="all" sort-separator=", " delimiter="; " delimiter-precedes-last="never" form="long" suffix=""/>
-              <label form="short" prefix=" (" suffix=".):&#160;"/>
+              <label form="short" prefix=" [" suffix=".]:&#160;"/>
             </names>
           </if>
         </choose>
@@ -75,7 +75,7 @@
       <else>
         <names variable="editor" delimiter="; ">
           <name name-as-sort-order="all" sort-separator=", " delimiter="; " delimiter-precedes-last="never" form="long" suffix=""/>
-          <label form="short" prefix=" (" suffix=".)&#160;"/>
+          <label form="short" prefix=" [" suffix=".]&#160;"/>
         </names>
       </else>
     </choose>
@@ -113,7 +113,7 @@
             <choose>
               <if variable="issued">
                 <date variable="issued">
-                  <date-part name="year" prefix="&#160;(" suffix="):&#160;"/>
+                  <date-part name="year" prefix="&#160;[" suffix="]:&#160;"/>
                 </date>
               </if>
             </choose>
@@ -128,10 +128,10 @@
   <macro name="collection-title">
     <choose>
       <if type="article-journal">
-        <text variable="collection-title" prefix="&#160;(=&#160;" suffix="),&#160;"/>
+        <text variable="collection-title" prefix="&#160;[=&#160;" suffix="],&#160;"/>
       </if>
       <else-if type="book chapter article-newspaper webpage" match="any">
-        <text variable="collection-title" prefix="&#160;(=&#160;" suffix=").&#160;"/>
+        <text variable="collection-title" prefix="&#160;[=&#160;" suffix="].&#160;"/>
       </else-if>
       <else-if type="thesis">
         <text value=""/>
@@ -143,7 +143,7 @@
       <if variable="URL">
         <text value="Online im Internet: "/>
         <text variable="URL"/>
-        <group prefix=" (" delimiter=" " suffix=").">
+        <group prefix=" [" delimiter=" " suffix="].">
           <text value="Zugriff am:"/>
           <date variable="accessed">
             <date-part name="day" form="numeric-leading-zeros" suffix="."/>
@@ -216,7 +216,7 @@
       <if type="article-journal">
         <text variable="volume" prefix="" suffix="&#160;"/>
         <date variable="issued">
-          <date-part name="year" prefix="(" suffix=")"/>
+          <date-part name="year" prefix="[" suffix="]"/>
         </date>
         <text variable="issue" prefix=",&#160;" suffix=""/>
       </if>
@@ -309,7 +309,7 @@
   </macro>
   <!-- Hier beginnt die Formatierung für das Kurzzitat im Text - this is where the citation starts -->
   <citation et-al-min="4" et-al-use-first="1" et-al-subsequent-min="4" et-al-subsequent-use-first="1" disambiguate-add-year-suffix="true" disambiguate-add-names="true" disambiguate-add-givenname="true" collapse="year">
-    <layout prefix="(" suffix=")" delimiter="; ">
+    <layout prefix="[" suffix="]" delimiter="; ">
       <text macro="author-short"/>
       <text macro="year-date"/>
       <text variable="locator" prefix=",&#160;S.&#160;"/>
@@ -327,12 +327,12 @@
         <if type="entry-encyclopedia article-newspaper" match="any">
           <choose>
             <if variable="author">
-              <text macro="year-date" prefix="(" suffix="):&#160;"/>
+              <text macro="year-date" prefix="[" suffix="]:&#160;"/>
             </if>
           </choose>
         </if>
         <else>
-          <text macro="year-date" prefix="(" suffix="):&#160;"/>
+          <text macro="year-date" prefix="[" suffix="]:&#160;"/>
         </else>
       </choose>
       <text macro="title"/>
