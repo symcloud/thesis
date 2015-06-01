@@ -8,6 +8,7 @@ diagram:
 
 class_diagram:
 	dot -Tpng -o diagrams/data-model.png diagrams/data-model.dot
+	dot -Tpng -o diagrams/distributed-storage.png diagrams/distributed-storage.dot
 
 formats: pdf docx html
 

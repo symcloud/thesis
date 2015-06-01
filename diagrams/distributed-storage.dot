@@ -1,0 +1,19 @@
+digraph {
+	Session -> BlobFileManager
+	Session -> TreeManager
+	Session -> CommitManager
+	Session -> ReferenceManager
+
+	BlobFileManager -> BlobManager
+
+	BlobManager -> Database
+	TreeManager -> Database
+	CommitManager -> Database
+	ReferenceManager -> Database
+
+	Database -> StorageAdapter
+	Database -> SearchAdapter
+
+ 	{rank=same; StorageAdapter SearchAdapter}
+ 	{rank=same; BlobManager TreeManager CommitManager ReferenceManager}
+}

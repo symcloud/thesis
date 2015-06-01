@@ -193,7 +193,7 @@ Als zentrale Schnittstelle auf die Daten fungiert die `Session`. Sie ist als ein
 
 Die Rest-API ist als Zentrale Schnittstelle nach außen gedacht. Sie wird zum Beispiel verwendet, um Daten für die Oberfläche in Sulu zu laden oder Dateien mit einem Endgerät zu synchronisieren. Diese Rest-API ist über ein Benutzersystem gesichert. Die Zugriffsrechte können sowohl über Form-Login und Cookies, für Javascript Applikationen, als auch über OAuth2 für Externe Applikationen überprüft werden. Dies ermöglicht eine einfache Integration in andere Applikationen, wie es zum Beispiel in der Prototypen-Implementierung mit SULU 2 passiert ist. Die OAuth2 Schnittstelle ermöglicht es auch externe Applikationen mit Daten aus Symcloud zu versorgen.
 
-Die Rest-API ist in vier Bereiche aufgeteilt:
+Die Rest-API ist in drei Bereiche aufgeteilt:
 
 Directory
 
@@ -206,6 +206,8 @@ File
 Reference
 
 :   Die Schnittstelle für die Referenzen erlaubt das Erstellen und Abfragen von Referenzen. Zusätzlich können mittels PATCH-Requests Dateien geändert und Änderungen gesammelt versioniert werden.
+
+Optional ist die Schnittstelle für die Datenbank-Objekte. Diese Schnittstelle verwendet der Replikator um die Objekte zwischen den Servern zu verteilen. Dabei werden die HTTP-Befehle GET und POST verwendet um Daten anzufragen oder zu erstellen.
 
 Die genaue Funktion der Rest-API wird im Kapitel (__TODO Referenz zum Kapitel Implementierung__) beschrieben.
 

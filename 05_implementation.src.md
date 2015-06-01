@@ -1,6 +1,64 @@
 # Implementierung
 
-In diesem Kapitel werden die einzelnen Komponenten, die für Symcloud entwickelt wurden, genauer betrachtet.
+In diesem Kapitel werden die einzelnen Komponenten, die für Symcloud entwickelt wurden, genauer betrachtet. Es entstand während der Entwicklungsphase ein einfacher Prototyp, mit dem die Funktionsweise des, im vorherigen Kapitel beschriebenen Konzeptes, gezeigt werden konnte.
+
+Dabei sind drei wichtige Komponenten entstanden:
+
+Die Bibliothek (distributed-storage)
+
+:   ist der Kern der Applikation und implementiert große Teile des Konzeptes von Symcloud. Sie baut auf modernen Web-Technologien auf und verwendet einige Komponenten des PHP-Frameworks Symfony2[^64]. Dieses Framework ist eines der beliebtesten Frameworks in der Open-Source Community von PHP.
+
+Die Plattform (symcloud)
+
+:   bietet neben der REST-API auch ein einfaches UI an, mit dem es möglich ist, im Browser sein Dateien zu verwalten. Als Basis verwendet Symcloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices[^66] aus Dornbirn. Diese Plattform bietet ein erweiterbares Admin-UI, eine Benutzerverwaltung und ein Rechtesystem. Diese Features ermöglichen Symcloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegenden Services.
+
+Der Client (jibe)
+
+:   ist ein Konsolen-Tool, mit dem es möglich ist, Dateien aus einem Ordner mit dem Server zu synchronisieren. Es dient als Beispiel für die Verwendung der API mit einer externe Applikation.
+
+Der Source-Code dieser drei Komponenten ist auf der Beiliegenden CD (`/source`) oder auf Github <https://github.com/symcloud> zu finden.
+
+## Distributed-Storage
+
+Distributed-Storage ist der Kern der Anwendung und kann als Bibliothek in eine beliebige PHP-Anwendung integriert werden. Diese Anwendung stellt dann die Authentifizierung und die Rest-API zur Verfügung, um mit den Kern-Komponenten zu kommunizieren.
+
+![Schichten von "Distributed Storage"\label{architecture_ds}](diagrams/distributed-storage.png)
+
+Der interne Aufbau der Bibliothek ist in vier Schichten (siehe Abbildung \ref{architecture_ds}) aufgeteilt.
+
+Session
+
+:   Zentrale Schnittstelle die alle Manager vereint und einen gemeinsamen Zugriffspunkt bildet, um mit dem Storage zu kommunizieren.
+
+Manager
+
+:   Um die Komplexität der jeweiligen Objekte zu abstrahieren, implementieren die Manager die jeweilige Funktionalität um mit diesen Objekten zu kommunizieren. Die Objekte sind dabei reine Daten-Container.
+
+Database
+
+:   Die Datenbank benutzt einfache Mechanismen, um die Objekte zu serialisieren und zu speichern. Dabei können über einen Metadaten festgelegt werden, welche Eigenschaften serialisiert werden bzw. welche Eigenschaften in der Suchmaschine indexiert werden. Beim laden der Daten aus der Datenbank, können mithilfe dieser Metadaten die Objekte wider deserialisiert wrden.
+
+Adapter
+
+:   Die Adapter dienen dazu, das Speichermedium bzw. die Suchmaschine zu abstrahieren. Durch die Implementierung eines Interfaces, kann jede beliebige Speichertechnologie bzw. Suchmaschine verwendet werden.
+
+Die Datenbank ist durch den Einsatz von Events flexibel erweiterbar. Mithilfe dieser Event kann zum Beispiel die Replikator-Komponente folgende Abläufe realisieren.
+
+Verteilung
+
+:   Bei einem "store" Event, verteilt der Replikator das Objekt auf die ermittelten Backup-Server. Um die Einstellungen des Replikators zu persistieren, fügt der Event-Handler eine ReplicatorPolicy an das Model an. Diese Policy wird dann zusätzlich mit Model persistiert.
+
+Nachladen
+
+:   Im Falle eines "fetch" Events, werden fehlende Daten von den bekannten Servern nachgeladen. Dieses Event wird sogar dann geworfen, wenn die Daten in der lokalen Datenbank nicht vorhanden sind. Dies erkennt der Replikator und beginnt alle bekannten Servern anzufragen, ob sie dieses Objekt kennen. Über einen ähnlichen Mechanismus kann der Replikationstyp "stub" realisiert werden. Der einzige unterschied ist, dass die Backupserver den Primary-Server kennen und nicht alle bekannten Server durchsuchen müssen.
+
+### Objekte speichern
+
+
+
+### Objekte laden
+
+
 
 __TODO Liste von Themen:__
 
@@ -17,10 +75,6 @@ __TODO Liste von Themen:__
     * Replikationen
     * Lock-Mechanismen
     * Autorisierung
-
-__TODO nur Notizen__
-
-Im Rahmen dieser Arbeit entstand eine Prototyp Implementierung mit der verteilten Datenbank Riak für die Speicherung aller Informationen. Zusätzlich entstand ein Adapter um die Daten direkt in einen lokalen Ordner zu schreiben. Mithilfe diesem, ist Symcloud ohne weitere Abhängigkeiten zu installieren.
 
 ## OAuth2\label{implementation_oauth}
 
@@ -286,3 +340,6 @@ Die Suchschnittstelle wird bei der Suche nach Dateien für den User2 oder User3 
 [^61]: <http://php.net/manual/de/intro.phar.php>
 [^62]: <https://phpunit.de/>
 [^63]: <http://tools.ietf.org/html/rfc5789#section-2.1>
+[^64]: <http://symfony.com/>
+[^65]: <http://www.sulu.io>
+[^66]: <http://www.massiveart.com/de>

@@ -12,9 +12,6 @@ Symcloud ist eine private Cloud-Software, die es ermöglicht, über dezentrale K
 
 __TODO genauere Beschreibung__
 
-Die Software baut auf modernen Web-Technologien auf und verwendet als Basis das PHP-Framework Symfony2[^4]. Dieses Framework ist eines der beliebtesten in der Open-Source Community. Es bietet neben der Abstraktion von HTTP-Anfragen auch einen Dependency-Injection-Container und viele weitere Komponenten wie zum Beispiel Routing und Event Dispatcher. Zusätzlich erleichtert es die Entwicklung von großen PHP-Projekten durch die Möglichkeit, den Code in Komponenten, sogenannten Bundles, zu gliedern. Diese können mit der Community geteilt werden.
-
-Als Basis für die Plattform verwendet Symcloud das Content-Management-Framework SULU[^5] der Vorarlberger Firma MASSIVE ART WebServices[^6] aus Dornbirn. Es bietet ein erweiterbares Admin-UI, eine Benutzerverwaltung und ein Rechtesystem. Diese Features ermöglichen Symcloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegenden Services. 
 
 ## Inspiration
 
@@ -38,6 +35,3 @@ __TODO genauere Ausformulierung__
 [^1]: <https://diasporafoundation.org/>
 [^2]: <https://owncloud.org/>
 [^3]: <http://webodf.org/>
-[^4]: <http://symfony.com/>
-[^5]: <http://www.sulu.io>
-[^6]: <http://www.massiveart.com/de>
