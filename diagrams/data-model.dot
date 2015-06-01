@@ -13,7 +13,7 @@ digraph hierarchy {
 
 	TreeNode[label = "{TreeNode|+ path : string\l+ name : string\l|}"]
 	Commit[label = "{Commit|+ message : string\l+ committer : User\l+ createdAt : DateTime\l|}"]
-	Blob[label = "{Blob|+ data : string\l+ length : integer\l|}"]
+	Chunk[label = "{Chunk|+ data : string\l+ length : integer\l|}"]
 	Reference[label = "{Reference|+ name : string\l+ user : User\l|}"]
 	TreeFile[label = "{TreeFile|+ metadata : array\l+ version : integer\l+ fileHash : string\l+ size : integer\l+ mimetype : string|}"]
 	Tree[label = "{Tree|}"]
@@ -29,11 +29,11 @@ digraph hierarchy {
 	Policy -> SecurityPolicy
 
  	{rank=same; DistributedModel PolicyCollection Policy}
- 	{rank=same; TreeNode Blob Commit Reference}
+ 	{rank=same; TreeNode Chunk Commit Reference}
 	{rank=same; Tree TreeFile}
 
 	edge[arrowhead="none",arrowtail="none"]
-	DistributedModelEdge -> {TreeNode;Commit;Blob;Reference}
+	DistributedModelEdge -> {TreeNode;Commit;Chunk;Reference}
 	TreeNodeEdge -> {TreeFile;Tree}
 
 	edge[arrowhead="none",arrowtail="none",headlabel="1"]
@@ -44,5 +44,5 @@ digraph hierarchy {
 	edge [arrowhead="none",arrowtail="none",headlabel="0..*"]
 	PolicyCollection -> Policy[label="policies"]
 	Tree -> TreeNode[label="children"]
-	TreeFile -> Blob[label="blobs"]
+	TreeFile -> Chunk[label="chunks"]
 }
