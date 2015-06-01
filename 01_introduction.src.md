@@ -30,6 +30,7 @@ __TODO Anforderungen an das Projekt (auch in Bezug auf xanadu)__
 * Verteilbarkeit
 * Zugriffberechtigungen
 * Versionierung
+* Shares
 
 __TODO genauere Ausformulierung__
 
