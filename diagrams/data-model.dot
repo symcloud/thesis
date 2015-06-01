@@ -1,6 +1,6 @@
 digraph hierarchy {
 	size="5,5"
-	node[shape=record,style=filled,fillcolor=gray95]
+	node[shape=record]
 	edge[dir=back, arrowtail=empty]
 
 	Model[label = "{Model|+ hash|}"]
