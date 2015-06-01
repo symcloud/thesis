@@ -1,14 +1,18 @@
-diagrams = $(shell find ./diagrams -type f -iname "*.dita")
+dots = $(shell find ./diagrams -type f -iname "*.dita")
+seqdiags = $(shell find ./diagrams -type f -iname "*.seqdiag")
 mds = $(shell ls *.src.md)
 
-all: diagram class_diagram pdf docx html
+all: ditaa dot seqdiags pdf docx html
 
-diagram:
-	$(foreach f,$(diagrams), ditaa -E -o $(f);)
+ditaa:
+	$(foreach f,$(dots), ditaa -E -o $(f);)
 
-class_diagram:
+dot:
 	dot -Tpng -o diagrams/data-model.png diagrams/data-model.dot
 	dot -Tpng -o diagrams/distributed-storage.png diagrams/distributed-storage.dot
+
+seqdiags:
+	$(foreach f,$(seqdiags), seqdiag $(f);)
 
 formats: pdf docx html
 

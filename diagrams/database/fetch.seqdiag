@@ -1,0 +1,10 @@
+seqdiag {
+  Manager => Database [label = "fetch", return = "model"]{
+    Database => MetadataManager [label = "loadByClassname", return = "return metadata"];
+    Database => StorageAdapter [label = "contains and fetch", return = "data or null"];
+
+    Database => EventDispatcher [label = "throw 'fetch' event", return = "return event results"];
+
+    Database -> Database [label = "deserialize model"];
+  }
+}
