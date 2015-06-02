@@ -76,16 +76,33 @@ Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiede
 
 __Full__
 
-![Replikator "Lazy"-Nachladen\label{replicator_full}](diagrams/database/replicator-on-store.png)
+![Replikationtyp "Full"\label{replicator_full}](diagrams/database/replicator-on-store.png)
 
-__TODO beschreibung__
+Bei einem "store" Event werden die Backup-Server per Zufall aus der Liste der vorhandenen Server ausgewählt und der aktuelle Server als Primäry-Server markiert. Anhand der Backup-Server Liste werden die Daten an die Server verteilt. Dazu wird der Reihe nach die Daten an die Server versendet und auf die Bestätigung gewartet. Damit wird der Konsistente Zustand der Datenbank verifiziert. Abschließend wird die erstellte Strategie (policy) zu den Daten hinzugefügt, damit sie mit dem Daten persistiert wird und später wider verwendet werden kann. Dieser Prozess wird in der Abbildung \ref{replicator_full} visualisiert.
 
 __Lazy__
 
 ![Replikator "Lazy"-Nachladen\label{replicator_lazy}](diagrams/database/replicator-on-fetch.png)
 
-__TODO beschreibung__
+Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle bekannten Server abgefragt. Dabei gibt es drei Möglich Antworten (siehe Abbildung \ref{replicator_lazy}), auf die der Replikator reagieren kann. Der Status kann anhand des HTTP-Status-Codes erkannt werden.
 
+404
+
+:   Das Objekt ist auf dem angefragten Server nicht bekannt.
+
+302
+
+:   Das Objekt ist bekannt aber nur als Backup-Server markiert. Dieser Server kennt die genaue Adresse des Primary-Server und fügt diese in den Response ein.
+
+403
+
+:   Das Objekt ist bekannt und der angefragte Server als Primary-Server für dieses Objekt markiert. Der Server überprüft die Zugangsberechtigung, diese sind aber nicht gegeben und daher wird der Zugriff verweigert. Der Replicator erkennt daher, dass der Benutzer für die Daten nicht berechtigt ist.
+
+200
+
+:   Wie bei 403 aber der Benutzer ist berechtigt das Objekt zu lesen und der Server gibt direkt die Daten zurück. Diese Daten dürfen dann auch gecached werden. Die Berechtigungen für andere Benutzer, werden direkt mitgeliefert, um später diesen Prozess nicht noch einmal ausführen zu müssen. 
+
+Mithilfe dieses einfachen Mechanismuses kann der Replikator Daten von anderen Servern nachladen, ohne zu wissen, wo sich die Daten befinden. Dieser Prozess bringt allerdings Probleme. Zum Beispiel muss jeder Server angefragt werden, bevor der Replikator endgültig sagen kann, dass das Objekt nicht existiert. Dieser Prozess kann daher bei einem Großen Netzwerk sehr lange dauern. Dieser Fall sollte allerdings aufgrund des Datenmodells nur selten vorkommen, da Daten nicht gelöscht werden und daher keine Deadlinks entstehen können.
 
 
 
