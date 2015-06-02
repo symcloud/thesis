@@ -1,0 +1,5 @@
+seqdiag {
+	EventDispatcher => Replicator [label = "onStore"]{
+
+ 	}
+}

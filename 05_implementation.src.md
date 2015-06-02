@@ -36,7 +36,7 @@ Manager
 
 Database
 
-:   Die Datenbank benutzt einfache Mechanismen, um die Objekte zu serialisieren und zu speichern. Dabei können über einen Metadaten festgelegt werden, welche Eigenschaften serialisiert werden bzw. welche Eigenschaften in der Suchmaschine indexiert werden. Beim laden der Daten aus der Datenbank, können mithilfe dieser Metadaten die Objekte wider deserialisiert wrden.
+:   Die Datenbank benutzt einfache Mechanismen, um die Objekte zu serialisieren und zu speichern. Dabei können über einen Metadaten festgelegt werden, welche Eigenschaften serialisiert werden bzw. welche Eigenschaften in der Suchmaschine indexiert werden. Beim laden der Daten aus der Datenbank, können mithilfe dieser Metadaten die Objekte wider deserialisiert werden.
 
 Adapter
 
@@ -46,7 +46,7 @@ Die Datenbank ist durch den Einsatz von Events flexibel erweiterbar. Mithilfe di
 
 Verteilung
 
-:   Bei einem "store" Event, verteilt der Replikator das Objekt auf die ermittelten Backup-Server. Um die Einstellungen des Replikators zu persistieren, fügt der Event-Handler eine ReplicatorPolicy an das Model an. Diese Policy wird dann zusätzlich mit Model persistiert.
+:   Bei einem "store" Event, verteilt der Replikator das Objekt auf die ermittelten Backup-Server. Um die Einstellungen des Replikators zu persistieren, fügt der Event-Handler eine ReplicatorPolicy an das Model an. Diese Strategie wird dann zusätzlich mit Model persistiert.
 
 Nachladen
 
@@ -54,9 +54,39 @@ Nachladen
 
 ### Objekte speichern
 
+Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) ist die Serialisierung zu Beginn. Hierfür werden die Metadaten des Models anhand seiner Klasse aus dem "MetadataManager" geladen und anhand dieser Informationen serialisiert. Diese Daten werden mithilfe des "EventDispatcher", aus dem Symfony2 Framework, in einem Event zugänglich gemacht. Die Eventhandler haben, die Möglichkeit die Daten zu bearbeiten und Strategien zu dem Model zu erstellen. Abschließend werden die Daten zuerst mithilfe des "StorageAdapter" persistiert und mithilfe des "SearchAdapter" in den Suchmaschinenindex aufgenommen.
+
+![Objekte speichern\label{database_store}](diagrams/database/store.png)
+
+### Objekte abrufen
+
+Wie zu erwarten, ist der Abruf-Prozess von Daten, ein Spiegelbild des Speicher-Prozesses. Zuerst wird versucht mithilfe der Klassenmetadaten die Daten aus dem Storage zu laden. Diese Daten werden mithilfe des "EventDispatcher" den Handler zur Verfügung gestellt. Diese haben dann die Möglichkeit zum Beispiel fehlende Daten nachzuladen oder Änderungen an der Struktur durchzuführen. Diese veränderten Daten werden abschließend für den Deserialisierungs-Prozess herangezogen.
+
+![Objekte abrufen\label{database_fetch}](diagrams/database/fetch.png)
+
+\newpage
+
+Diese beiden Abläufe beschreiben eine lokale Datenbank, die die Möglichkeit bietet über Events die Daten zu verändern oder zu verwenden. Sie ist unabhängig zum Datenmodell von Symcloud und könnte für alle möglichen Objekte verwendet werden. Daher ist Symcloud auch für künftige Anforderungen gerüstet. Geplant ist auch der Release Datenbank herausgelöst aus der Bibliothek um sie anderen Projekten zur Verfügung zu stellen.
+
+### Replikator
+
+Wie schon erwähnt, verwendet der Replikator Events, um die Prozesse des Ladens und Speicherns von Daten zu beeinflussen und damit die Verteilte Aspekte für die Datenbank umzusetzen. Dabei implementiert der Replikator eine einfache Version des Primärbasierten Protokolls. Für diesen Zweck wird der Replikator mit einer Liste von verfügbaren Servern initialisiert. Auf Basis dieser Liste werden die Backup-Server für die Objekte ermittelt.
+
+Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten die Backup-Server für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "Lazy"-Nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typen.
+
+__Full__
+
+![Replikator "Lazy"-Nachladen\label{replicator_full}](diagrams/database/replicator-on-store.png)
+
+__TODO beschreibung__
+
+__Lazy__
+
+![Replikator "Lazy"-Nachladen\label{replicator_lazy}](diagrams/database/replicator-on-fetch.png)
+
+__TODO beschreibung__
 
 
-### Objekte laden
 
 
 

@@ -17,3 +17,7 @@ Dieser OPlog beinhaltet alle Operationen die ausgeführt werden. Genauer beschri
 ## \label{outlook_file_chunking}Datei chunking
 
 Theoretisch ist es möglich, dass Dateien, nach bestimmten Chunks durchsucht werden, die bereits im Storagesystem abgelegt sind. Dazu könnte ein ähnliches Verfahren wie bei rsync verwendet werden (Rolling-Checksum-Algorithm).
+
+## \label{lock_mechanism}Lock-Mechanismen
+
+__TODO kurze Beschreibung und Ansätze__ 
