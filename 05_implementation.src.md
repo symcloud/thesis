@@ -116,7 +116,9 @@ Search
 
 :   Der "SearchAdapter" wird verwendet um die Metadaten zu den Objekten zu indexieren. Dies wird benötigt wenn die Daten durchsucht werden. Jeder Adapter implementiert folgende Befehle: `index`, `search` und `deindex`. Wobei auch hier mit Hash und Context gearbeitet wird. Über den Suchbefehl, können alle oder bestimmte Kontexte durchsucht werden. Als Prototypen Implementierung wurde die Bibliothek Zend-Search-Lucene[^67] verwendet, da diese ohne weitere Abhängigkeiten verwendet werden kann.
 
-Die Adapter sind also Klassen, die die Komplexität des Speichermediums von der restlichen Applikation trennt.
+Bei der Verwendung des Replikators, gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen, mit dem Remote-Server kommunizieren kann. Dabei wird das Interface mit den Befehlen `fetch` und `store` implementiert.
+
+Die Adapter sind also Klassen, die die Komplexität des Speichermediums bzw. der API von der restlichen Applikation trennt.
 
 ### Manager
 
@@ -128,23 +130,27 @@ Die Bibliothek "Distributed-Storage" bietet für eine einfache und effiziente Im
 
 ## Plattform
 
-__TODO Liste von Themen:__
+Die Plattform bzw. die Anwendung in die Bibliothek eingebettet wird, stellt dem Kern die Rest-API und die Authentifizierung zur Verfügung. Zusätzlich beinhaltet sie die Oberfläche um mit den Daten im Browser zu interagieren.
 
-* Distributed Storage:
-  * Dateimodell
-    * Referenzen
-    * Symlinks
-    * Versionierung
-  * Datenbank Abstraktion:
-    * Warum Riak und nicht GridFS, S3 oder XtreemFS?
-    * Beschreibung und Ansätze um einen "Lokalen" Adapter zu implementieren
-  * Sync-Client Abläufe und Implementierung
-  * Verteilte Aspekte
-    * Replikationen
-    * Lock-Mechanismen
-    * Autorisierung
+### Authentifizierung
 
-## OAuth2\label{implementation_oauth}
+Die Authentifizierung und die Benutzerverwaltung stellt die Plattform SULU zur Verfügung. Hierfür wird der "UserProvider" von SULU dem "Distributed-Storage" bekannt gemacht. Allerdings stellt die Plattform nur eine Authentifizierung mittels HTML-Formular (Benutzername und Passwort) oder HTTP-Basic standardmäßig zur Verfügung, um die Verwendung der API auch für Dritt-Entwickler Applikationen zu ermöglichen, wurde das Protokoll OAuth2 in SULU integriert. Eine genauere Beschreibung dieses Protokolls wird im Kapitel \ref{implementation_oauth} gegeben.
+
+Eine Autorisierung zwischen den Servern, ist momentan nicht vorgesehen, es wäre allerdings möglich, über das OAuth2 Protokoll die Applikationen sogar dem richtigen Benutzer zuzuordnen. Dies wurde allerdings in der ersten Implementierungsphase nicht umgesetzt.
+
+### Rest-API
+
+Die Rest-API ist wie schon im Kapitel \ref{chapter_concept_rest_api} in vier verschiedene Schnittstellen aufgeteilt. Dabei werden die SULU internen Komponenten verwendet um die Daten für die Übertragung zu serialisieren und RESTful[^68] aufzubereiten. Aufgrund dessen, dass Symcloud den Replikator verwendet, implementiert die Plattform den "ApiAdapter" um die Schnittstelle zu abstrahieren.
+
+### Benutzeroberfläche
+
+Die Benutzeroberfläche ... __TODO was wurde/wird implementiert__
+
+### Zusammenfassung
+
+Die Plattform ist ein reiner Prototyp, der zeigen soll, ob das konzipierte Konzept funktionieren kann. Es bietet in den Grundzügen, alle Funktionen an, um in einer späteren Implementierungsphase es zu einer vollständigen Plattform heranwachsen zu lassen.
+
+## Exkurs: OAuth2\label{implementation_oauth}
 
 Für die Authentifizierung wurde das Protokoll OAuth in der Version 2 implementiert. Dieses offene Protokoll erlaubt eine standardisierte, sichere API-Autorisierung für Desktop, Web und Mobile-Applikationen. Initiiert wurde das Projekt von Blaine Cook und Chris Messina. [@wikioauth]
 
@@ -156,25 +162,35 @@ In OAuth2 werden folgende vier Rollen definiert:
 
 Resource owner
 
-:   Besitzer einer Ressource, die er für eine Applikation bereitstellen will.
+:   Besitzer einer Ressource, die er für eine Applikation bereitstellen will [@hardt2012oauth, Seite 5].
 
 Resource server
 
-:   Der Server, der die Geschützen Ressourcen verwaltet. Er ist in der Lage Anfragen zu akzeptieren und die geschützten Ressourcen zurückzugeben, wenn ein geeignetes und valides Token bereitgestellt wurde.
+:   Der Server, der die Geschützen Ressourcen verwaltet. Er ist in der Lage Anfragen zu akzeptieren und die geschützten Ressourcen zurückzugeben, wenn ein geeignetes und valides Token bereitgestellt wurde [@hardt2012oauth, Seite 5].
 
 Client
 
-:   Die Applikation stellt Anfragen, im Namen des Ressourceneigentümers, an den sesource server. Sie holt sich vorher die Genehmigung zu diesen geschützten Ressourcen.
+:   Die Applikation stellt Anfragen, im Namen des Ressourceneigentümers, an den sesource server. Sie holt sich vorher die Genehmigung zu diesen geschützten Ressourcen [@hardt2012oauth, Seite 5].
 
 Authorization server
 
-:   Der Server, der Zugriffs-Tokens, nach der erfolgreichen Authentifizierung des Ressourceneigentümers, bereitstellt.
+:   Der Server, der Zugriffs-Tokens, nach der erfolgreichen Authentifizierung des Ressourceneigentümers, bereitstellt [@hardt2012oauth, Seite 5].
+
+Neben diesen Rollen, spezifiziert OAuth2 diese Begriffe:
+
+Access-Token
+
+:   Access-Tokens fungieren Zugangdsdaten zu geschützten Ressourcen. Es besteht aus einem string, der als Autorisierung für einen bestimmten Client ausgestellt wurde. Sie repräsentieren die Bereiche und die Dauer der Zugangsberechtigung, die durch den Benutzer bestätigt wurde [@hardt2012oauth, Seite 9].
+
+Refresh-Token
+
+:   Diese Tokens werden verwendet um neue Access-Tokens zu generieren, wenn der alte abgelaufen ist. Wenn der Autorisierungsserver diese Funktionalität zur Verfügung stellt, liefert er es mit dem Access-Token aus [@hardt2012oauth, Seite 9].
 
 Scopes
 
-:   TODO
+:   Mithilfe von Scopes, lassen sich Access-Token für bestimmte Bereiche der API beschränken. Dies kann sowohl auf Client ebene als auch auf Access-Token Ebene spezifiziert werden [@hardt2012oauth, Seite 22].
 
-Die Interaktion zwischen "Resource server" und "Authorization server" ist nicht spezifiziert. Der Autorisierungsserver und Ressourcenserver können auf dem selben Server bzw. in der selben Applikation betrieben werden. Eine andere Möglichkeit wäre es, dass die beiden Server auf verschiedenen Server zu betreiben. Ein Autorisierungsserver kann auch Zugriffstoken für mehrere Ressourcenserver bereitstelle. [@hardt2012oauth, Seite 5]
+Die Interaktion zwischen "Resource server" und "Authorization server" ist nicht spezifiziert. Der Autorisierungsserver und der Ressourcenserver können auf dem selben Server bzw. in der selben Applikation betrieben werden. Eine andere Möglichkeit wäre es, dass die beiden auf verschiedenen Server zu betreiben. Ein Autorisierungsserver kann auch Tokens für mehrere Ressourcenserver bereitstellen [@hardt2012oauth, Seite 5].
 
 ### Protokoll Ablauf
 
@@ -189,7 +205,7 @@ D) Der "Autorization server" authentifiziert den Client, validiert den "authoriz
 E) Der Client fordert eine geschützte Ressource und autorisiert die Anfrage mit dem Token.
 F) Der "Resource server" validiert den Token, validiert ihn und gibt die Ressource zurück.
 
-### Anwendung
+### Zusammenfassung
 
 OAuth2 wird verwendet um es externen Applikationen zu ermöglichen auf die Dateien der Benutzer zuzugreifen. Das Synchronisierungsprogramm Jibe verwendet dieses Protokoll um die Autorisierung zu erhalten, die Dateien des Benutzers zu verwalten.
 
@@ -344,7 +360,7 @@ Die Tabelle \ref{table_jibe_flow} gibt Aufschluss über die Erkennung von Komman
 
   : Evaluierung der Zustände\label{table_jibe_flow}
 
-__Folge TODOs für diese Tabelle:__
+__Folgende TODOs für diese Tabelle:__
 
 * Lesbarkeit verbessern
 * Alter Dateihash hinzufügen
@@ -359,7 +375,7 @@ Beispiel der Auswertungen anhand des Falles Nummer vier:
 
 Das bedeutet, dass sich sowohl die Serverdatei als auch die Lokale Kopie geändert haben. Dadurch entsteht ein Konflikt, der aufgelöst werden muss. Diese Konflikt Auflösung ist nicht Teil der Arbeit, wird allerdings im Kapitel \ref{outlook_conflict} kurz behandelt.
 
-### Anwendung
+### Installation
 
 Um nun Jibe mit einer aktiven Installation zu verbinden, müssen folgende Schritte ausgeführt werden.
 
@@ -374,11 +390,11 @@ __Lokaler Rechner__
 * In dem Order, der synchronisiert werden soll, folgendes Kommando ausführen: `php jibe.phar configure` und die geforderten Eingaben durchführen.
 * Um eine Synchronisierung durchzuführen reicht es folgendes Kommando auszuführen: `php jibe.phar sync`
 
-__TODO Zusammenfassung zum Client__
+### Zusammenfassung
 
-### Verteilte Datenbank\label{distributed_database}
+Der Synchronisierungsclient ist ein Beispiel dafür, wie die Rest-API von anderen Applikationen verwendet werden kann, um die Daten aus Symcloud zu verwenden. Es wären viele verschiedene Anwendungsfälle denkbar.
 
-__TODO Evtl. auch ein Klassendiagramm des Distributed Storage__
+In diesem Beispiel wurde auch die Komplexität des Synchronisierungsprozesses durchleuchtet und eine Lösung geschaffen, um schnell und effizient einen Ordner mit Symcloud zu synchronisieren.
 
 ## Zusammenfassung
 
@@ -412,3 +428,4 @@ Die Suchschnittstelle wird bei der Suche nach Dateien für den User2 oder User3 
 [^65]: <http://www.sulu.io>
 [^66]: <http://www.massiveart.com/de>
 [^67]: <http://framework.zend.com/manual/1.12/de/zend.search.lucene.html>
+[^68]: <http://restcookbook.com/>
