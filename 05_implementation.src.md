@@ -1,4 +1,4 @@
-# Implementierung
+# \label{chapter_implementation}Implementierung
 
 In diesem Kapitel werden die einzelnen Komponenten, die für Symcloud entwickelt wurden, genauer betrachtet. Es entstand während der Entwicklungsphase ein einfacher Prototyp, mit dem die Funktionsweise des, im vorherigen Kapitel beschriebenen Konzeptes, gezeigt werden konnte.
 
@@ -18,7 +18,7 @@ Der Client (jibe)
 
 Der Source-Code dieser drei Komponenten ist auf der Beiliegenden CD (`/source`) oder auf Github <https://github.com/symcloud> zu finden.
 
-## Distributed-Storage
+## \label{chapter_implementation_distributed_storage}Distributed-Storage
 
 Distributed-Storage ist der Kern der Anwendung und kann als Bibliothek in eine beliebige PHP-Anwendung integriert werden. Diese Anwendung stellt dann die Authentifizierung und die Rest-API zur Verfügung, um mit den Kern-Komponenten zu kommunizieren.
 
