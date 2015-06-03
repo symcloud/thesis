@@ -22,7 +22,7 @@ GIT[^41] ist ein verteilte Versionsverwaltung, das ursprünglich entwickelt wurd
 
 ![GIT-Logo](images/git-logo.png)
 
-Die Software ist im Grunde eine Key-Value Datenbank. Es werden Objekte in Form einer Datei abgespeichert, in dem jeweils der Inhalt des Objekts abgespeichert wird, wobei der Name der Datei den Key des Objektes enthält. Dieser Key wird berechnet indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten. Das Listing \ref{git:calc_hash} zeigt, wie ein SHA in einem Terminal berechnet werden kann.
+Die Software ist im Grunde eine Key-Value Datenbank. Es werden Objekte in Form einer Datei abgespeichert, in dem jeweils der Inhalt des Objekts abgespeichert wird, wobei der Name der Datei den Key des Objektes enthält. Dieser Key wird berechnet indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten [@chacon2009pro, Kapitel 9.2]. Das Listing \ref{git:calc_hash} zeigt, wie ein SHA in einem Terminal berechnet werden kann [@keepers2012git].
 
 ```{caption="Berechnung des SHA eines Objektes\label{git:calc_hash}" .bash}
 $ OBJECT='blob 46\0{"name": "Johannes Wachter", \
@@ -42,7 +42,7 @@ $ find .git/objects -type f
     .git/objects/6c/01d1dec5cf5221e86600baf77f011ed469b8fe
 ```
 
-Die Objekte in GIT sind immutable, also nicht veränderbar. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht oder geändert. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt.
+Die Objekte in GIT sind immutable, also nicht veränderbar. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht oder geändert. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt [@keepers2012git].
 
 #### Objekt Typen {.unnumbered}
 
@@ -50,15 +50,15 @@ GIT kennt folgende Typen:
 
 Ein BLOB
 
-:   repräsentiert eine einzelne Datei in GIT. Der Inhalt der Datei wird in einem Objekt gespeichert. Bei Änderungen ist GIT auch in der Lage Inkrementelle DELTA-Dateien zu speichern. Beim wiederherstellen werden diese DELTAs der Reihe nach aufgelöst. Ein BLOB besitzt für sich gesehen keinen Namen.
+:   repräsentiert eine einzelne Datei in GIT. Der Inhalt der Datei wird in einem Objekt gespeichert. Bei Änderungen ist GIT auch in der Lage Inkrementelle DELTA-Dateien zu speichern. Beim wiederherstellen werden diese DELTAs der Reihe nach aufgelöst. Ein BLOB besitzt für sich gesehen keinen Namen [@chacon2009pro, Kapitel 9.2].
 
 Der TREE
 
-:   beschreibt ein Ordner im Repository. Ein TREE enthält andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. In einem TREE werden auch die Namen zu BLOB und TREE Objekten festgelegt.
+:   beschreibt ein Ordner im Repository. Ein TREE enthält andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. In einem TREE werden auch die Namen zu BLOB und TREE Objekten festgelegt [@chacon2009pro, Kapitel 9.2].
 
 Der COMMIT
 
-:   ist ein Zeitstempel eines einzelnen TREE Objektes. Im folgenden Listing \ref{git:commit_listing} wird der Inhalt eines COMMIT Objektes auf einem Terminal ausgegeben.
+:   ist ein Zeitstempel eines einzelnen TREE Objektes. Im folgenden Listing \ref{git:commit_listing} wird der Inhalt eines COMMIT Objektes auf einem Terminal ausgegeben [@chacon2009pro, Kapitel 9.2].
 
 ```{caption="Inhalt eines COMMIT Objektes\label{git:commit_listing}" .bash .numberLines}
 $ git show -s --pretty=raw 6031a1aa
@@ -82,7 +82,7 @@ Das Objekt enthält folgende Werte:
 | 6 | committer | Ersteller des COMMITs |
 | 8 | comment | Beschreibung des COMMITs |
 
-  : GIT commit Eigenschaften\label{commit_properties}
+  : GIT commit Eigenschaften [@chacon2009pro, Kapitel 9.2]\label{commit_properties}
 
 __Anmerkungen (zu der Tabelle \ref{commit_properties}):__
 
@@ -91,7 +91,7 @@ __Anmerkungen (zu der Tabelle \ref{commit_properties}):__
 
 REFERENCE
 
-:   ist ein Verweis auf einen bestimmte COMMIT Objekt. Diese Referenzen sind die Grundlage for das Branching-Model von GIT.
+:   ist ein Verweis auf einen bestimmte COMMIT Objekt. Diese Referenzen sind die Grundlage for das Branching-Model von GIT [@chacon2015git].
 
 ![Beispiel eines Repositories\label{git_data_model} [@chacon2015git]](images/git-data-model-example.png)
 
@@ -115,7 +115,7 @@ Symlinks
 
 #### Zusammenfassung {.unnumbered}
 
-Das Datenmodell von GIT ist aufgrund seiner Flexibilität eine gute Grundlage für ein Verteiltes Dateisystem. Es ist auch in seiner Ursprünglichen Form für die Verteilung ausgelegt. Dies macht es für Symcloud Interessant es als Grundlage für die Weiterentwicklung zu verwenden. Aufgrund der Immutable Objekte können die Operationen Update und Delete komplett vernachlässigt werden. Da Daten nicht aus der Datenbank gelöscht werden. Diese Art von Objekten bringt auch große Vorteile mit sich, wenn es um die Zwischenspeicherung (cachen) von Daten geht. Diese können auf allen Servern gecached werden, da diese nicht mehr verändert werden. Eine Einschränkung hierbei sind die Referenzen, die einen Veränderbaren Inhalt aufweisen. Diese Einschränkung muss bei der Implementierung des Datenmodells berücksichtigt werden, wenn die Daten Verteilt werden.
+Das Datenmodell von GIT ist aufgrund seiner Flexibilität eine gute Grundlage für ein Verteiltes Dateisystem. Es ist auch in seiner Ursprünglichen Form für die Verteilung ausgelegt [@chacon2009pro, Kapitel 1.1]. Dies macht es für Symcloud Interessant es als Grundlage für die Weiterentwicklung zu verwenden. Aufgrund der Immutable Objekte können die Operationen Update und Delete komplett vernachlässigt werden. Da Daten nicht aus der Datenbank gelöscht werden. Diese Art von Objekten bringt auch große Vorteile mit sich, wenn es um die Zwischenspeicherung (cachen) von Daten geht. Diese können auf allen Servern gecached werden, da diese nicht mehr verändert werden. Eine Einschränkung hierbei sind die Referenzen, die einen Veränderbaren Inhalt aufweisen. Diese Einschränkung muss bei der Implementierung des Datenmodells berücksichtigt werden, wenn die Daten Verteilt werden.
 
 ### Symcloud
 
