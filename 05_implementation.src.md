@@ -128,7 +128,7 @@ Die Manager sind die Schnittstelle, um mit den Einzelnen Schichten des Datenmode
 
 Die Bibliothek "Distributed-Storage" bietet für eine einfache und effiziente Implementierung, des in Kapitel \ref{chapter_concept}, beschriebenen Konzeptes. Es baut auf eine erweiterbare Hash-Orientierte Datenbank auf. Diese Datenbank wird mittels eines Replikator Eventhandlers zu einer verteilten Datenbank. Dabei hat die Datenbank keine Ahnung von dem verwendeten Protokoll. Der konsistente Zustand der Datenbank kann mittels Bestätigungen bei der Erstellung, blockierenden Vorgängen und nicht löschbaren Objekten garantiert werden. Nicht veränderbare Objekte lassen sich dauerhaft und ohne Updates verteilen. Alle anderen Objekte können so markiert werden, dass sie immer beim Primary-Server angefragt werden müssen und nur für die Datensicherheit an Backup-Server verteilt werden.
 
-## Plattform
+## \label{chapter_implementation_platform}Plattform
 
 Die Plattform bzw. die Anwendung in die Bibliothek eingebettet wird, stellt dem Kern die Rest-API und die Authentifizierung zur Verfügung. Zusätzlich beinhaltet sie die Oberfläche um mit den Daten im Browser zu interagieren.
 
