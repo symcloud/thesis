@@ -1,6 +1,6 @@
 # \label{chapter_implementation}Implementierung
 
-In diesem Kapitel werden die einzelnen Komponenten, die für Symcloud entwickelt wurden, genauer betrachtet. Es entstand während der Entwicklungsphase ein einfacher Prototyp, mit dem die Funktionsweise des, im vorherigen Kapitel beschriebenen Konzeptes, gezeigt werden konnte.
+In diesem Kapitel werden die einzelnen Komponenten, die für Symcloud entwickelt wurden, genauer betrachtet. Es entstand während der Entwicklungsphase ein einfacher Prototyp, mit dem die Funktionsweise des im vorherigen Kapitel beschriebenen Konzeptes, gezeigt werden konnte.
 
 Dabei sind drei wichtige Komponenten entstanden:
 
@@ -10,17 +10,17 @@ Bibliothek (distributed-storage)
 
 Plattform (symcloud)
 
-:   Die Plattform bietet neben der REST-API auch ein einfaches UI an, mit dem es möglich ist, im Browser seine Dateien zu verwalten. Als Basis verwendet Symcloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet ein erweiterbares Admin-UI, eine Benutzerverwaltung und ein Rechtesystem. Diese Features ermöglichen Symcloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegenden Services.
+:   Die Plattform bietet neben der REST-API auch ein einfaches UI an, mit dem es möglich ist, im Browser seine Dateien zu verwalten. Als Basis verwendet Symcloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet ein erweiterbares Admin-UI, eine Benutzerverwaltung und ein Rechtesystem an. Diese Features ermöglichen Symcloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegenden Services.
 
 Client (jibe)
 
 :   Der Client ist ein Konsolen-Tool, mit dem es möglich ist, Dateien aus einem Ordner mit dem Server zu synchronisieren. Es dient als Beispiel für die Verwendung der API mit einer externe Applikation.
 
-Der Source-Code dieser drei Komponenten ist auf der Beiliegenden CD (`/source`) oder auf Github <https://github.com/symcloud> zu finden.
+Der Source-Code dieser drei Komponenten ist auf der beiliegenden CD (`/source`) oder auf Github <https://github.com/symcloud> zu finden.
 
 ## \label{chapter_implementation_distributed_storage}Distributed-Storage
 
-Distributed-Storage ist der Kern der Anwendung und kann als Bibliothek in jede beliebige PHP-Anwendung integriert werden. Diese Anwendung stellt dann die Authentifizierung und die Rest-API zur Verfügung, um mit den Kern-Komponenten zu kommunizieren.
+Der Distributed-Storage ist der Kern der Anwendung und kann als Bibliothek in jede beliebige PHP-Anwendung integriert werden. Diese Anwendung stellt die Authentifizierung und die Rest-API zur Verfügung, um mit den Kern-Komponenten zu kommunizieren.
 
 ![Schichten von "Distributed Storage"\label{architecture_ds}](diagrams/distributed-storage.png)
 
@@ -28,11 +28,11 @@ Der interne Aufbau der Bibliothek ist in vier Schichten (siehe Abbildung \ref{ar
 
 Session
 
-:   Zentrale Schnittstelle die alle Manager vereint und einen gemeinsamen Zugriffspunkt bildet, um mit dem Storage zu kommunizieren.
+:   Zentrale Schnittstelle, die alle Manager vereint und einen gemeinsamen Zugriffspunkt bildet, um mit dem Storage zu kommunizieren.
 
 Manager
 
-:   Um die Komplexität der jeweiligen Objekte zu abstrahieren, implementieren die Manager die jeweilige Funktionalität um mit diesen Objekten zu kommunizieren. Die Objekte sind dabei reine Daten-Container.
+:   Um die Komplexität der jeweiligen Objekte zu abstrahieren, implementieren die Manager die jeweilige Funktionalität, um mit diesen Objekten zu kommunizieren. Die Objekte sind dabei reine Daten-Container.
 
 Database
 
@@ -46,39 +46,39 @@ Die Datenbank ist durch den Einsatz von Events flexibel erweiterbar. Mithilfe di
 
 Verteilung
 
-:   Bei einem "store" Event, verteilt der Replikator das Objekt auf die ermittelten Backup-Server. Um die Einstellungen des Replikators zu persistieren fügt der Eventhandler eine "ReplicatorPolicy" an das Model an. Diese "Policy" wird dann zusätzlich mit Model persistiert.
+:   Bei einem "store" Event verteilt der Replikator das Objekt auf die ermittelten Backupserver. Um die Einstellungen des Replikators zu persistieren fügt der Eventhandler eine "ReplicatorPolicy" an das Modell an. Diese "Policy" wird zusätzlich mit dem Modell persistiert.
 
 Nachladen
 
-:   Im Falle eines "fetch" Events, werden fehlende Daten von den bekannten Servern nachgeladen. Dieses Event wird sogar dann geworfen, wenn die Daten im lokalen "StorageAdapter" nicht vorhanden sind. Dies erkennt der Replikator und beginnt alle bekannten Servern anzufragen, ob sie dieses Objekt kennen. Dies gilt für die Replikationstypen "Permission" und "Full". Über einen ähnlichen Mechanismus kann der Replikationstyp "stub" realisiert werden. Der einzige unterschied ist, dass die backup erver den primary Server kennen und nicht alle bekannten Server durchsuchen müssen.
+:   Im Falle eines "fetch" Events, werden fehlende Daten von den bekannten Servern nachgeladen. Dieses Event wird sogar dann geworfen, wenn die Daten im lokalen "StorageAdapter" nicht vorhanden sind. Dies erkennt der Replikator und fragt bei allen bekannten Servern an, ob sie dieses Objekt kennen. Dies gilt für die Replikationstypen "Permission" und "Full". Über einen ähnlichen Mechanismus kann der Replikationstyp "stub" realisiert werden. Der einzige Unterschied ist, dass die Backupserver den primary Server kennen und nicht alle bekannten Server durchsuchen müssen.
 
 ### Objekte speichern
 
-Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) ist die Serialisierung zu Beginn. Hierfür werden die Metadaten des Modells anhand seiner Klasse aus dem "MetadataManager" geladen und anhand dieser Informationen das Objekt serialisiert. Diese Daten werden mithilfe des "EventDispatcher", aus dem Symfony2 Framework, in einem Event zugänglich gemacht. Die Eventhandler haben, die Möglichkeit die Daten zu bearbeiten und "Policies" zu dem Model zu erstellen. Abschließend werden die Daten zuerst mithilfe des "StorageAdapter" persistiert und dann mithilfe des "SearchAdapter" in den Suchmaschinenindex aufgenommen. Um die Daten voneinander zu trennen geben die Metadaten der Klasse einen eindeutigen Kontext zurück. Dieser Kontext wird den Adaptern übergeben um Kollisionen zwischen den Objekten zu verhindern.
+Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) ist die Serialisierung zu Beginn. Hierfür werden die Metadaten des Objekts anhand seiner Klasse aus dem "MetadataManager" geladen und anhand dieser Informationen serialisiert. Diese Daten werden mit dem "EventDispatcher" aus dem Symfony2 Framework in einem Event zugänglich gemacht. Die Eventhandler haben die Möglichkeit die Daten zu bearbeiten und "Policies" zu dem Model zu erstellen. Abschließend werden die Daten zuerst mithilfe des "StorageAdapter" persistiert und durch den "SearchAdapter" in den Suchmaschinenindex aufgenommen. Um verschiedene Objekttypen voneinander zu trennen und eigene Namensräume zu schaffen, geben die Metadaten der Klasse, einen eindeutigen Kontext zurück. Dieser Kontext wird den Adaptern übergeben, um Kollisionen zwischen den Datensätzen zu verhindern.
 
 ![Objekte speichern\label{database_store}](diagrams/database/store.png)
 
 ### Objekte abrufen
 
-Wie zu erwarten, ist der Abruf-Prozess von Daten, ein Spiegelbild des Speicher-Prozesses. Zuerst wird versucht, mithilfe des Kontextes der Klassen-Metadaten, die Daten aus dem Storage zu laden. Diese Daten werden mithilfe des "EventDispatcher" den Eventhandler zur Verfügung gestellt. Diese haben dann die Möglichkeit, zum Beispiel fehlende Daten nachzuladen oder Änderungen an der Struktur durchzuführen. Diese veränderten Daten werden abschließend für den Deserialisierungs-Prozess herangezogen.
+Wie zu erwarten ist der Abruf-Prozess von Daten ein Spiegelbild des Speicherprozesses. Zuerst wird versucht mit dem Kontext des Objektes die Daten aus dem "Storage" zu laden. Diese Daten werden durch den "EventDispatcher" den Eventhandler zur Verfügung gestellt. Diese haben die Möglichkeit, zum Beispiel fehlende Daten nachzuladen, Änderungen an der Struktur der Daten durchzuführen oder den Prozess abzubrechen, wenn keine Rechte vorhanden sind dieses Objekt zu lesen. Diese veränderten Daten werden abschließend für den Deserialisierungsprozess herangezogen.
 
 ![Objekte abrufen\label{database_fetch}](diagrams/database/fetch.png)
 
 \newpage
 
-Diese beiden Abläufe beschreiben eine lokale Datenbank, die die Möglichkeit bietet über Events die Daten zu verändern oder anderweitig zu verwenden. Sie ist unabhängig zum Datenmodell von Symcloud und könnte für alle möglichen Objekte verwendet werden. Daher ist Symcloud auch für künftige Anforderungen gerüstet.
+Diese beiden Abläufe beschreiben eine lokale Datenbank, die die Möglichkeit bietet, über Events die Daten zu verändern oder anderweitig zu verwenden. Sie ist unabhängig zum Datenmodell von Symcloud und könnte für alle möglichen Objekte verwendet werden. Daher ist Symcloud auch für künftige Anforderungen gerüstet.
 
 ### Replikator
 
-Wie schon erwähnt, verwendet der Replikator Events, um die Prozesse des Ladens und Speicherns von Daten zu beeinflussen und damit die verteilte Aspekte für die Datenbank umzusetzen. Dabei implementiert der Replikator eine einfache Version des primärbasierten Protokolls. Für diesen Zweck wird der Replikator mit einer Liste von verfügbaren Servern initialisiert. Auf Basis dieser Liste werden die Backup-Server für jedes Objekte ermittelt.
+Wie schon erwähnt, verwendet der Replikator Events, um die Prozesse des Ladens und Speicherns von Daten zu beeinflussen und damit die verteilte Aspekte für die Datenbank umzusetzen. Dabei implementiert der Replikator eine einfache Version des primärbasierten Protokolls. Für diesen Zweck wird der Replikator mit einer Liste von verfügbaren Servern initialisiert. Auf Basis dieser Liste werden die Backupserver für jedes Objekte ermittelt.
 
-Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten die backup Server für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "Lazy"-Nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typen ("Permission" und "Stub").
+Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten die Backupserver für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "Lazy"-Nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typen ("Permission" und "Stub").
 
 __Full__
 
 ![Replikationtyp "Full"\label{replicator_full}](diagrams/database/replicator-on-store.png)
 
-Bei einem "store" Event werden die backup Server per Zufall aus der Liste der vorhandenen Server ausgewählt und der aktuelle Server als primäry Server markiert. Anhand der Backupserver Liste werden die Daten an die Server verteilt. Dazu wird, der Reihe nach, die Daten an die Server versendet und auf eine Bestätigung gewartet. Damit wird der konsistente Zustand der Datenbank verifiziert. Abschließend wird die erstellte "Policy" zu den Daten hinzugefügt, damit sie mit dem Daten persistiert wird und später wiederverwendet werden kann. Dieser Prozess wird in der Abbildung \ref{replicator_full} visualisiert.
+Bei einem "store" Event werden die Backupserver per Zufall aus der Liste der vorhandenen Server ausgewählt und der aktuelle Server als primäry Server markiert. Anhand der Backupserver-Liste werden die Daten an die Server verteilt. Dazu wird der Reihe nach die Daten an die Server versendet und auf eine Bestätigung gewartet. Falls einer dieser Server nicht erreichbar ist, wird dieser ausgelassen und ein anderer Server als Backup herangezogen. Damit wird der konsistente Zustand der Datenbank verifiziert. Abschließend wird die erstellte "Policy" zu den Daten hinzugefügt, damit sie mit den Daten persistiert wird und später wiederverwendet werden kann. Dieser Prozess wird in der Abbildung \ref{replicator_full} visualisiert.
 
 __Lazy__
 
@@ -92,17 +92,17 @@ Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle be
 
 302
 
-:   Das Objekt ist bekannt, aber der angefragte Server ist nur als backup Server markiert. Dieser Server kennt allerdings die genaue Adresse des primary Servers und leitet auf diesen weiter.
+:   Das Objekt ist bekannt, aber der angefragte Server ist nur als Backupserver markiert. Dieser Server kennt allerdings die genaue Adresse des primary Servers und leitet auf diesen weiter.
 
 403
 
-:   Das Objekt ist bekannt und der angefragte Server als primary Server für dieses Objekt markiert. Der Server überprüft die Zugangsberechtigung, weil diese aber nicht gegeben sind, wird der Zugriff verweigert. Der Replikator erkennt, dass der Benutzer nicht Berechtigt ist die Daten zu lesen und verweigert den Zugriff.
+:   Das Objekt ist bekannt und der angefragte Server als primary Server für dieses Objekt markiert. Der Server überprüft die Zugangsberechtigung, weil diese aber nicht gegeben ist, wird der Zugriff verweigert. Der Replikator erkennt, dass der Benutzer nicht berechtigt ist, die Daten zu lesen und verweigert den Zugriff.
 
 200
 
-:   Wie bei 403, ist der angefragte Server der primary Server des Objektes, aber der Benutzer ist berechtigt das Objekt zu lesen und der Server gibt direkt die Daten zurück. Diese Daten dürfen dann auch gecached werden. Die Berechtigungen für andere Benutzer, werden direkt mitgeliefert, um später diesen Prozess nicht noch einmal ausführen zu müssen. 
+:   Wie bei 403 ist der angefragte Server, der primary Server des Objektes, aber der Benutzer ist berechtigt das Objekt zu lesen und der Server gibt direkt die Daten zurück. Diese Daten dürfen auch gecached werden. Die Berechtigungen für andere Benutzer, werden direkt mitgeliefert, um später diesen Prozess nicht noch einmal ausführen zu müssen. 
 
-Mithilfe dieses einfachen Mechanismuses kann der Replikator Daten von anderen Servern nachladen, ohne zu wissen, wo sich die Daten befinden. Dieser Prozess bringt allerdings Probleme mit sich. Zum Beispiel muss jeder Server angefragt werden, bevor der Replikator endgültig sagen kann, dass das Objekt nicht existiert. Dieser Prozess kann daher bei einem Großen Netzwerk sehr lange dauern. Dieser Fall sollte allerdings aufgrund des Datenmodells nur selten vorkommen, da Daten nicht gelöscht werden und daher keine Deadlinks entstehen können.
+Mithilfe dieses einfachen Mechanismuses kann der Replikator Daten von anderen Servern nachladen, ohne zu wissen, wo sich die Daten befinden. Dieser Prozess bringt allerdings Probleme mit sich. Zum Beispiel muss jeder Server angefragt werden, bevor der Replikator endgültig sagen kann, dass das Objekt nicht existiert. Dieser Prozess kann daher bei einem großen Netzwerk sehr lange dauern. Dieser Fall sollte allerdings aufgrund des Datenmodells nur selten vorkommen, da Daten nicht gelöscht werden und daher keine Deadlinks entstehen können.
 
 ### Adapter
 
@@ -110,37 +110,37 @@ Für die Abstrahierung des Speichermediums verwendet die Datenbank das Adapter-P
 
 Storage
 
-:   Der "StorageAdapter" wird dazu verwendet, um serialisierte Objekte lokal zu speichern oder zu laden. Es implementiert im Grunde ein einfacher Befehlssatz: `store`, `fetch`, `contains` und `delete`. Jeder dieser Befehle erhält, neben anderen Parametern, einen Hash und einen Kontext. Der Hash ist sozusagen der Index des Objektes. Der Kontext wird verwendet um Namensräume für die Hashes zu schaffen. Dies implementiert der Dateisystemadapter, indem er jeden Kontext einen Ordner erstellt und für jeden Hash eine Datei. So kann schnell auf ein einzelnes Objekt zugegriffen werden.
+:   Der "StorageAdapter" wird verwendet, um serialisierte Objekte lokal zu speichern oder zu laden. Es implementiert im Grunde ein einfacher Befehlssatz: `store`, `fetch`, `contains` und `delete`. Jeder dieser Befehle erhält, neben anderen Parametern, einen Hash und einen Kontext. Der Hash ist sozusagen der Index des Objektes. Der Kontext wird verwendet, um Namensräume für die Hashes zu schaffen. Dies implementiert der Dateisystemadapter, indem er jeden Kontext einen Ordner erstellt und für jeden Hash eine Datei. So kann schnell auf ein einzelnes Objekt zugegriffen werden.
 
 Search
 
-:   Der "SearchAdapter" wird verwendet um die Metadaten zu den Objekten zu indexieren. Dies wird benötigt wenn die Daten durchsucht werden. Jeder Adapter implementiert folgende Befehle: `index`, `search` und `deindex`. Wobei auch hier mit Hash und Kontext gearbeitet wird. Über den Suchbefehl, können alle oder bestimmte Kontexte durchsucht werden. Als Prototypen Implementierung wurde die Bibliothek Zend-Search-Lucene[^67] verwendet, da diese ohne weitere Abhängigkeiten verwendet werden kann.
+:   Der "SearchAdapter" wird verwendet, um die Metadaten zu den Objekten zu indexieren. Dies wird benötigt, wenn die Daten durchsucht werden. Jeder "SearchAdapter" implementiert folgende Befehle: `index`, `search` und `deindex`. Wobei auch hier mit Hash und Kontext gearbeitet wird. Über den Suchbefehl, können alle oder bestimmte Kontexte durchsucht werden. Für die Entwicklung des Prototypen wurde die Bibliothek Zend-Search-Lucene[^67] verwendet, da diese ohne weitere Abhängigkeiten verwendet werden kann.
 
-Bei der Verwendung des Replikators, gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen, mit dem Remote-Server kommunizieren kann. Dabei wird das Interface mit den Befehlen `fetch` und `store` implementiert.
+Bei der Verwendung des Replikators gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen mit dem Remoteserver kommunizieren kann. Dabei wird das Interface mit den Befehlen `fetch` und `store` implementiert.
 
-Die Adapter sind also Klassen, die die Komplexität des Speichermediums bzw. der API von der restlichen Applikation trennt.
+Die Adapter sind Klassen, die die Komplexität des Speichermediums bzw. der API von der restlichen Applikation trennen, um dadurch die Bibliothek unabhängig von der Applikation implementieren zu können.
 
 ### Manager
 
-Die Manager sind die Schnittstelle, um mit den einzelnen Schichten des Datenmodells zu kommunizieren. Jeder dieser Manager implementiert ein "Interface" mit dem es möglich ist mit den jeweiligen Models zu interagieren. Im Grunde genommen, sind dies meist Befehle um ein Objekt zu erstellen oder abzufragen. Im falle des "ReferenceManager" oder "TreeManager" bieten sie auch die Möglichkeit Objekte zu bearbeiten. Der ReferenceManager bearbeitet dabei auch wirklich ein Objekt in der Datenbank, indem er es einfach überschreibt. Der "TreeManager" klont das Objekt und erstellt unter einem neuen Hash ein neues Objekt sobald es mit einem Commit zusammen persistiert wird.
+Die Manager sind die Schnittstelle, um mit den einzelnen Schichten des Datenmodells zu kommunizieren. Jeder dieser Manager implementiert ein "Interface" mit dem es möglich ist, mit den jeweiligen Datenobjekten zu interagieren. Grundsätzlich sind dies Befehle, um ein Objekt zu erstellen oder abzufragen. Im Falle des "ReferenceManager" oder "TreeManager" bieten sie auch die Möglichkeit, Objekte zu bearbeiten. Der "ReferenceManager" bearbeitet dabei auch wirklich ein Objekt in der Datenbank, indem er es einfach überschreibt. Diese Operation ist, durch den Replikationstyp "Stub", auch in einem verteilten Netzwerk möglich. Der "TreeManager" klont das Objekt und erstellt unter einem neuen Hash ein neues Objekt, sobald es mit einem Commit zusammen persistiert wird.
 
 ### Zusammenfassung
 
-Die Bibliothek "Distributed-Storage" bietet eine einfache und effiziente Implementierung des, in Kapitel \ref{chapter_concept}, beschriebenen Konzeptes. Es baut auf eine erweiterbare Hash-Orientierte Datenbank auf. Diese Datenbank wird mittels eines Eventhandlers (Replikator) zu einer verteilten Datenbank. Dabei hat die Datenbank keine Ahnung von dem verwendeten Transportlayers. Dieser kann neben HTTP, jeden beliebigen anderen Transportlayer verwenden, wie zum Beispiel UDP. Der konsistente Zustand der Datenbank kann mittels Bestätigungen bei der Erstellung, blockierenden Vorgängen und nicht löschbaren Objekten garantiert werden. Nicht veränderbare Objekte lassen sich dauerhaft und ohne Updates verteilen. Alle anderen Objekte können so markiert werden, dass sie immer bei einem primary Server angefragt werden müssen und nur für die Datensicherheit an die Backup-Server verteilt werden.
+Die Bibliothek "Distributed-Storage" bietet eine einfache und effiziente Implementierung des in Kapitel \ref{chapter_concept} beschriebenen Konzeptes. Es baut auf eine erweiterbare Hash-Value Datenbank auf. Diese Datenbank wird mittels eines Eventhandlers (Replikator) zu einer verteilten Datenbank. Dabei hat die Datenbank keine Ahnung von dem verwendeten Transportlayer oder Protokoll. Dieser kann neben HTTP, jeden beliebigen anderen Transportlayer verwenden. Der konsistente Zustand der Datenbank kann mittels Bestätigungen bei der Erstellung, blockierenden Vorgängen und nicht löschbaren Objekten garantiert werden. Nicht veränderbare Objekte lassen sich dauerhaft und ohne Updates verteilen. Alle anderen Objekte können so markiert werden, dass sie immer bei einem primary Server angefragt werden müssen und nur für die Datensicherheit an die Backupserver verteilt werden.
 
 ## \label{chapter_implementation_platform}Plattform
 
-Die Plattform bzw. die Anwendung in die Bibliothek eingebettet wird, stellt der Bibliothek die Rest-API und die Authentifizierung zur Verfügung. Zusätzlich beinhaltet sie die Oberfläche um mit den Daten in Browser zu interagieren.
+Die Plattform bzw. die Anwendung stellt die Rest-API und die Authentifizierung zur Verfügung. Dies ermöglicht der Bibliothek die Kommunikation mit anderen Servern und Applikationen.  Zusätzlich beinhaltet sie die Oberfläche, um mit den Daten in einem Browser zu interagieren.
 
 ### Authentifizierung
 
-Die Authentifizierung und die Benutzerverwaltung stellt die Plattform SULU zur Verfügung. Hierfür wird der "UserProvider" von SULU dem "Distributed-Storage" bekannt gemacht. Allerdings stellt die Plattform nur eine Authentifizierung mittels HTML-Formular (Benutzername und Passwort) oder HTTP-Basic standardmäßig zur Verfügung, um die Verwendung der API auch für Dritt-Entwickler Applikationen zu ermöglichen, wurde das Protokoll OAuth2 in SULU integriert. Eine genauere Beschreibung dieses Protokolls wird im Kapitel \ref{implementation_oauth} gegeben.
+Die Authentifizierung und die Benutzerverwaltung stellt die Plattform SULU zur Verfügung. Hierfür wird der "UserProvider" von SULU dem "Distributed-Storage" bekannt gemacht. Allerdings stellt die Plattform nur eine Authentifizierung mittels HTML-Formular (Benutzername und Passwort) oder HTTP-Basic standardmäßig zur Verfügung. Um die Verwendung der API auch für Dritt-Entwickler Applikationen zu ermöglichen, wurde das Protokoll OAuth2 in SULU integriert. Eine genauere Beschreibung dieses Protokolls wird im Kapitel \ref{implementation_oauth} gegeben.
 
-Eine Autorisierung zwischen den Servern, ist momentan nicht vorgesehen, es wäre allerdings möglich, über das OAuth2 Protokoll die Requests dem richtigen Benutzer zuzuordnen. Dies wurde allerdings in der ersten Implementierungsphase nicht umgesetzt, wäre aber für eine produktiven Einsatz unerlässlich.
+Eine Autorisierung zwischen den Servern ist momentan nicht vorgesehen. Dies wurde in der ersten Implementierungsphase nicht umgesetzt, wäre aber für eine produktiven Einsatz unerlässlich.
 
 ### Rest-API
 
-Die Rest-API ist wie schon im Kapitel \ref{chapter_concept_rest_api} beschrieben, in vier verschiedene Schnittstellen aufgeteilt. Dabei werden die SULU internen Komponenten verwendet um die Daten für die Übertragung zu serialisieren und RESTful[^68] aufzubereiten. Aufgrund dessen, dass Symcloud den Replikator verwendet, implementiert die Plattform den "ApiAdapter" um die Rest-AIP zu abstrahieren.
+Die Rest-API ist wie schon im Kapitel \ref{chapter_concept_rest_api} beschrieben, in vier verschiedene Schnittstellen aufgeteilt. Dabei werden die SULU internen Komponenten verwendet, um die Daten für die Übertragung zu serialisieren und RESTful[^68] aufzubereiten. Für eine verteilte Installation implementiert die Plattform den "ApiAdapter", um die Rest-API für die Bibliothek, zu abstrahieren.
 
 ### Benutzeroberfläche
 
@@ -148,13 +148,13 @@ Die Benutzeroberfläche ... __TODO was wurde/wird implementiert__
 
 ### Zusammenfassung
 
-Die Plattform ist ein reiner Prototyp, der zeigen soll, ob das konzipierte Konzept funktionieren kann. Es bietet in den Grundzügen, alle Funktionen an, um in einer späteren Implementierungsphase, diesen Prototypen zu einer vollständigen Plattform heranwachsen zu lassen.
+Die Plattform ist ein reiner Prototyp, der zeigen soll, ob das konzipierte Konzept funktionieren kann. Es bietet in den Grundzügen alle Funktionen an, um in einer späteren Implementierungsphase, diesen Prototypen zu einer vollständigen Plattform heranwachsen zu lassen.
 
 ## \label{implementation_oauth}Exkurs: OAuth2
 
 Für die Authentifizierung wurde das Protokoll OAuth in der Version 2 implementiert. Dieses offene Protokoll erlaubt eine standardisierte, sichere API-Autorisierung für Desktop, Web und Mobile-Applikationen. Initiiert wurde das Projekt von Blaine Cook und Chris Messina [@wikioauth].
 
-Der Benutzer kann einer Applikation den Zugriff auf seine Daten autorisieren, die von einer andere Applikation zur Verfügung gestellt wird. Dabei werden nicht alle Details seiner Zugangsdaten preisgegeben. Typischerweise wird die Weitergabe eines Passwortes an Dritte vermieden [@wikioauth].
+Der Benutzer kann einer Applikation den Zugriff auf seine Daten autorisieren, die von einer anderen Applikation zur Verfügung gestellt wird. Dabei werden nicht alle Details seiner Zugangsdaten preisgegeben. Typischerweise wird die Weitergabe eines Passwortes an Dritte vermieden [@wikioauth].
 
 ### Begriffe
 
@@ -166,31 +166,31 @@ Resource owner
 
 Resource server
 
-:   Der Server, der die geschützen Ressourcen verwaltet. Er ist in der Lage Anfragen zu akzeptieren und die geschützten Ressourcen zurückzugeben, wenn ein geeignetes und valides Token bereitgestellt wurde [@hardt2012oauth, Seite 5].
+:   Der Server, der die geschützten Ressourcen verwaltet. Er ist in der Lage Anfragen zu akzeptieren und die geschützten Ressourcen zurückzugeben, wenn ein geeignetes und valides Token bereitgestellt wurde [@hardt2012oauth, Seite 5].
 
 Client
 
-:   Die Applikation stellt Anfragen, im Namen des Ressourceneigentümers, an den "resource server". Sie holt sich vorher die Genehmigung von einem berechtigten Benutzer [@hardt2012oauth, Seite 5].
+:   Die Applikation stellt Anfragen im Namen des Ressourceneigentümers an den "resource server". Sie holt sich vorher die Genehmigung von einem berechtigten Benutzer [@hardt2012oauth, Seite 5].
 
 Authorization server
 
-:   Der Server, der Zugriffs-Tokens, nach der erfolgreichen Authentifizierung des Ressourceneigentümers, bereitstellt [@hardt2012oauth, Seite 5].
+:   Der Server der die Zugriffs-Tokens nach der erfolgreichen Authentifizierung des Ressourceneigentümers, bereitstellt [@hardt2012oauth, Seite 5].
 
-Neben diesen Rollen, spezifiziert OAuth2 diese Begriffe:
+Neben diesen Rollen spezifiziert OAuth2 folgende Begriffe:
 
 Access-Token
 
-:   Access-Tokens fungieren Zugangdsdaten zu geschützten Ressourcen. Es besteht aus einer Zeichenkette, der als Autorisierung für einen bestimmten Client ausgestellt wurde. Sie repräsentieren die "Scopes" und die Dauer der Zugangsberechtigung, die durch den Benutzer bestätigt wurde [@hardt2012oauth, Seite 9].
+:   Die Access-Tokens fungieren Zugangdsdaten zu geschützten Ressourcen. Es besteht aus einer Zeichenkette, der als Autorisierung für einen bestimmten Client ausgestellt wurde. Sie repräsentieren die "Scopes" und die Dauer der Zugangsberechtigung, die durch den Benutzer bestätigt wurde [@hardt2012oauth, Seite 9].
 
 Refresh-Token
 
-:   Diese Tokens werden verwendet um neue Access-Tokens zu generieren, wenn der alte abgelaufen ist. Wenn der Autorisierungsserver diese Funktionalität zur Verfügung stellt, liefert er es mit dem Access-Token aus. DerRefresh-Token, besitzt eine längere Lebensdauer und berechtigt nicht den Zugang zu den anderen API-Schnittstellen [@hardt2012oauth, Seite 9].
+:   Diese Tokens werden verwendet, um neue Access-Tokens zu generieren, wenn das alte Access-Token abgelaufen ist. Wenn der Autorisierungsserver diese Funktionalität zur Verfügung stellt, liefert er es mit dem Access-Token aus. Der Refresh-Token besitzt eine längere Lebensdauer und berechtigt nicht den Zugang zu den anderen API-Schnittstellen [@hardt2012oauth, Seite 9].
 
 Scopes
 
 :   Mithilfe von Scopes, lassen sich Access-Token für bestimmte Bereiche der API beschränken. Dies kann sowohl auf Clientebene als auch auf Access-Token Ebene spezifiziert werden [@hardt2012oauth, Seite 22].
 
-Die Interaktion zwischen "Resource server" und "Authorization server" ist nicht spezifiziert. Der Autorisierungsserver und der Ressourcenserver können auf dem selben Server bzw. in der selben Applikation betrieben werden. Aber auch eine verteilte Infrastruktur wäre mäglich. Dabei würden die beiden auf verschiedenen Servern betrieben werden. Der Autorisierungsserver könnte dabei Tokens für mehrere Ressourcenserver bereitstellen [@hardt2012oauth, Seite 5].
+Die Interaktion zwischen Ressourcenserver und Autorisierungsserver ist nicht spezifiziert. Diese beiden Server können in der selben Applikation betrieben werden, aber auch eine verteilte Infrastruktur wäre möglich. Dabei würden die beiden auf verschiedenen Servern betrieben werden. Der Autorisierungsserver könnte, in einer verteilten Infrastruktur, Tokens für mehrere Ressourcenserver bereitstellen [@hardt2012oauth, Seite 5].
 
 ### Protokoll Ablauf
 
@@ -198,22 +198,22 @@ Die Interaktion zwischen "Resource server" und "Authorization server" ist nicht 
 
 Der Ablauf einer Autorisierung [@hardt2012oauth, Seiten 6 ff] mittels Oauth2, der in der Abbildung \ref{oauth_flow} abgebildet ist, enthält folgende Schritte:
 
-A) Der Client fordert die Genehmigung des "Resource owner". Diese Anfrage kann direkt an den Benutzer gemacht werden (wie in der Abbildung dargestellt) oder vorzugsweise indirekt über den "Authorization server" (wie zum Beispiel bei Facebook).
-B) Der Client erhält einen "authorization grant". Er repräsentiert die Genehmigung des "Resource owner" die geschützten Ressourcen zu verwenden.
-C) Der Client fordert einen Token beim "Autorization server" mit dem "authorization grant" an.
-D) Der "Autorization server" authentifiziert den Client, validiert den "authorization grant" und gibt einen Token zurück.
+A) Der Client fordert die Genehmigung des Ressourcenbesitzers. Diese Anfrage kann direkt an den Benutzer gestellt werden (wie in der Abbildung dargestellt) oder vorzugsweise indirekt über den Autorisierungsserver (wie zum Beispiel bei Facebook).
+B) Der Client erhält einen "authorization grant". Er repräsentiert die Genehmigung des Ressourcenbesitzers, die geschützten Ressourcen zu verwenden.
+C) Der Client fordert einen Token beim Autorisierungsserver mit dem "authorization grant" an.
+D) Der Autorisierungsserver authentifiziert den Client, validiert den "authorization grant" und gibt einen Token zurück.
 E) Der Client fordert eine geschützte Ressource und autorisiert die Anfrage mit dem Token.
-F) Der "Resource server" validiert den Token, validiert ihn und gibt die Ressource zurück.
+F) Der Ressourcenserver validiert den Token und gibt die Ressource zurück.
 
 ### Zusammenfassung
 
-OAuth2 wird verwendet um es externen Applikationen zu ermöglichen auf die Dateien der Benutzer zuzugreifen. Das Synchronisierungsprogramm Jibe verwendet dieses Protokoll, um die Autorisierung zu erhalten, die Dateien des Benutzers zu verwalten.
+OAuth2 wird verwendet, um es externen Applikationen zu ermöglichen, auf die Dateien der Benutzer zuzugreifen. Das Synchronisierungsprogramm Jibe verwendet dieses Protokoll, um die Autorisierung zu erhalten, um die Dateien des Benutzers zu verwalten.
 
 ## Synchronisierungsprogramm: Jibe
 
-Jibe ist das Synchronisierungsprogramm zu einer Symcloud Installation. Es ist ein einfaches PHP-Konsolen Tool, mit dem es möglich ist Daten aus einer Symcloud-Installation mit einem Endgerät zu Synchronisieren.
+Jibe ist das Synchronisierungsprogramm zu einer Symcloud Installation. Es ist ein einfaches PHP-Konsolen Tool, mit dem es möglich ist, Daten aus einer Symcloud-Installation mit einem Endgerät zu synchronisieren.
 
-Das Programm wurde mit Hilfe der Symfony Konsole-Komponente[^60] umgesetzt. Diese Komponente ermöglicht eine schnelle und unkomplizierte Entwicklung solcher Konsolen-Programme.
+Das Programm wurde mithilfe der Symfony Konsole-Komponente[^60] umgesetzt. Diese Komponente ermöglicht eine schnelle und unkomplizierte Entwicklung solcher Konsolen-Programme.
 
 ```bash
 $ php jibe.phar
@@ -233,9 +233,9 @@ Token-Status: OK
 
 ```
 
-Ein Konsolen-Programm besteht aus verschiedenen Kommandos, die über einen Namen aufgerufen werden können. Im diesem Beispiel wurde das Standard-Kommando des Tools aufgerufen. Über den Befehl `php jibe.phar sync` kann der Synchronisierungsvorgang gestartet werden. Alle Abhängigkeiten des Tools werden zusammen in einen PHAR-Container[^61] geschrieben. Dieser ähnelt dem Format eines Java-JAR Archivs. Dieses Format wird in der PHP-Gemeinschaft oft verwendet um Komplexe Applikationen wie zum Beispiel PHPUnit[^62] (ein Test Framework für PHP) auszuliefern.
+Ein Konsolen-Programm besteht aus verschiedenen Kommandos, die über einen Namen aufgerufen werden können. Im diesem Beispiel wurde das Standard-Kommando des Tools aufgerufen. Über den Befehl `php jibe.phar sync` kann der Synchronisierungsvorgang gestartet werden. Alle Abhängigkeiten des Tools werden zusammen in einen PHAR-Container[^61] geschrieben. Dieser ähnelt dem Format eines Java-JAR Archives. Dieses Format wird in der PHP-Gemeinschaft oft verwendet, um komplexe Applikationen, wie zum Beispiel PHPUnit[^62] (ein Test Framework für PHP) auszuliefern.
 
-```bash
+```{caption="Ausführen des "configure" Befehls\label{jibe_configure_listing}" .bash}
 $ php jibe.phar configure
 Server base URL: http://symcloud.lo
 Client-ID: 9_1442hepr9cpw8wg8s0o40s8gc084wo8ogso8wogowookw8k0sg
@@ -244,7 +244,7 @@ Username: admin
 Password:
 ```
 
-Fehlende Argumente, können vom Benutzer automatisch abgefragt werden. Eine Validierung, von zum Beispiel der URL, kann direkt in einem Kommando implementiert werden.
+Im Listing \ref{jibe_configure_listing} ist die Ausführung des Konfigurieren Befehls dargestellt. Argumente können sowohl an den Befehl angehängt werden oder durch den Befehl abgefragt werden. Eine Validierung von zum Beispiel der URL, kann direkt in einem Kommando implementiert werden.
 
 Diese Kommandos stehen dem Benutzer zur Verfügung:
 
@@ -254,11 +254,11 @@ configure
 
 refresh-token
 
-:   Aktualisiert das Zugang-Token von OAuth2. Dies ist Notwendig, da diese über ein Ablaufzeitpunkt verfügen.
+:   Aktualisiert das Access-Token von OAuth2. Dies ist notwendig, da die Access-Tokens über einen Ablaufzeitpunkt verfügen. Ist auch das Refresh-Token abgelaufen, muss der Befehl "configure" erneut ausgeführt werden.
 
 status
 
-:   Gibt den aktuellen Status des Zugangs-Token aus. Wenn kein andere Kommando angegeben wurde, wird dieses aufgerufen.
+:   Gibt den aktuellen Status des Access-Token auf der Konsole aus. Dieses Kommando wird standardmäßig aufgerufen, wenn kein anderes Kommando angegeben wurde.
 
 sync
 
@@ -268,23 +268,23 @@ sync
 
 ![Architektur von Jibe\label{jibe_architecture}](diagrams/jibe/architecture.png)
 
-Der zentrale Bestandteil von Jibe ist eine "CommandQueue" (siehe Abbildung \ref{jibe_architecture}). Sie sammelt alle nötigen Kommandos ein und führt sie dann nacheinander aus. Diese "Queue" ist nach dem "Command-Pattern" entworfen. Folgende Befehle können dadurch aufgerufen werden:
+Der zentrale Bestandteil von Jibe ist eine "CommandQueue" (siehe Abbildung \ref{jibe_architecture}). Sie sammelt alle nötigen Kommandos ein und führt sie nacheinander aus. Diese "Queue" ist nach dem "Command-Pattern" entworfen. Folgende Befehle können dadurch aufgerufen werden:
 
 Upload
 
-:   Datei auf den Server hochladen.
+:   Eine neue Datei auf den Server hochladen.
 
 Download
 
-:   Datei wird vom Server heruntergeladen und lokal in eine bestimmte Datei geschrieben.
+:   Die angegebene Datei wird vom Server heruntergeladen und lokal an gespeichert.
 
 DeleteServer
 
-:   Datei auf dem Server wird gelöscht.
+:   Die Datei wird auf dem Server gelöscht.
 
 DeleteLocal
 
-:   Lokale Datei wird gelöscht.
+:   Die Lokale Datei wird gelöscht.
 
 Aus diesen vier Kommandos lässt sich nun ein kompletter Synchronisierungsvorgang abbilden.
 
@@ -298,7 +298,7 @@ Lokale Hashwerte
 
 Zustand der Dateibestände
 
-:   Der Zustand nach der letzten Synchronisierung. Wenn diese Hashwerte mit den aktuellen Hashwerten verglichen werden, kann zuverlässig ermittelt werden, welche Dateien sich geändert haben. Zusätzlich kann die Ausgangsversion der Änderung erfasst werden um Konflikte zu erkennen.
+:   Der Zustand nach der letzten Synchronisierung. Wenn diese Hashwerte mit den aktuellen Hashwerten verglichen werden, kann zuverlässig ermittelt werden, welche Dateien sich geändert haben. Zusätzlich kann die Ausgangsversion der Änderung erfasst werden, um Konflikte zu erkennen.
 
 Aktueller Serverzustand
 
@@ -336,10 +336,10 @@ __TODOs ende__
 Beispiel der Auswertungen anhand des Falles Nummer vier:
 
 1. Lokale Datei hat sich geändert: Alter Hashwert unterscheidet sich zu dem aktuellen.
-2. Serverversion ist Größer als lokale Version.
+2. Serverversion ist größer als lokale Version.
 3. Aktueller und Server-Hashwert stimmen nicht überein.
 
-Das bedeutet, dass sich sowohl die Serverdatei als auch die Lokale Kopie geändert haben. Dadurch entsteht ein Konflikt, der aufgelöst werden muss. Das auflösen solcher Konflikte ist nicht der Arbeit, er wird allerdings im Kapitel \ref{outlook_conflict} kurz behandelt.
+Das bedeutet, dass sich sowohl die Serverdatei als auch die lokale Kopie geändert haben. Dadurch entsteht ein Konflikt, der aufgelöst werden muss. Das Auflösen solcher Konflikte ist nicht Teil dieser Arbeit, er wird allerdings im Kapitel \ref{outlook_conflict} kurz behandelt.
 
 ### Zusammenfassung
 
