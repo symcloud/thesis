@@ -19,7 +19,7 @@ BaseComponents                                   | OptionalComponents
 |      MetadataStorage      |   FileStorage   |  |
 |                           |                 |  |
 +------+--------+-----------+-----------------+  |
-| Tree | Commit | Reference |   BlobStorage   |  |
+| Tree | Commit | Reference |      Chunk      |  |
 +------+--------+-----------+-----------------+  |
 |                                             |  |
 |                   Database                  +--+---------+-------------------+
