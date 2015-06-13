@@ -12,22 +12,31 @@ Symcloud ist eine private Cloud-Software, die es ermöglicht, über dezentrale K
 
 __TODO genauere Beschreibung__
 
-
 ## Inspiration
 
-__TODO Noch einmal ownCloud - Diaspora und Ted Nelson mit dem Xanadu Projekt__
+__TODO Noch einmal ownCloud (in PHP) - Diaspora (in Ruby) und Ted Nelson mit dem Xanadu Projekt__
 
 ## Anforderungen\label{specification}
 
 __TODO Anforderungen an das Projekt (auch in Bezug auf xanadu)__
 
-* Sicherheit
-* Datenschutz
-* Effizienz
-* Verteilbarkeit
-* Zugriffberechtigungen
-* Versionierung
-* Shares
+* Datensicherheit
+  * Datenschutz
+  * Ausfallsicherheit
+  * Fremdzugriff
+* Funktionen
+  * Versionierung
+  * Zusammenarbeit (Dateien teilen)
+  * Zugriffsberechtigungen
+  * Namensräume
+* Architektur
+  * Verteilte Architektur (um Zusammenarbeit zwischen Servern zu ermöglichen)
+  * Datenverteilung nicht Lastverteilung
+  * Moderne Programmierung
+* Nicht Ziele (aber Anforderungen)
+  * Effizienz
+  * Performance
+  * ???
 
 __TODO genauere Ausformulierung__
 

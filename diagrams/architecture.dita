@@ -5,7 +5,7 @@ BaseComponents                                   | OptionalComponents
 |                  Rest API                   +--+---------+
 |                                             |  |         |
 +-----------+----------+----------+-----------+  |  +------+---------+
-| Directory |   File   |   Blob   | Reference |  |  |    Object      |
+| Directory |   File   |  Chunk   | Reference |  |  |    Object      |
 +-----------+----------+----------+-----------+  |  +----------------+
                                                  |
 ------------- Distributed Storage ------------   |
