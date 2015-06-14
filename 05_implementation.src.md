@@ -1,20 +1,20 @@
 # \label{chapter_implementation}Implementierung
 
-In diesem Kapitel werden die einzelnen Komponenten, die für Symcloud entwickelt wurden, genauer betrachtet. Es entstand während der Entwicklungsphase ein einfacher Prototyp, mit dem die Funktionsweise des im vorherigen Kapitel beschriebenen Konzeptes, gezeigt werden konnte.
+In diesem Kapitel werden die einzelnen Komponenten, die für symCloud entwickelt wurden, genauer betrachtet. Es entstand während der Entwicklungsphase ein einfacher Prototyp, mit dem die Funktionsweise des im vorherigen Kapitel beschriebenen Konzeptes, gezeigt werden konnte.
 
 Dabei sind drei wichtige Komponenten entstanden:
 
 Bibliothek (distributed-storage)
 
-:   Die Bibliothek ist der Kern der Applikation und implementiert große Teile des Konzeptes von Symcloud. Sie baut auf modernen Web-Technologien auf und verwendet einige Komponenten des PHP-Frameworks Symfony2[^64]. Dieses Framework ist eines der beliebtesten Frameworks in der Open-Source Community von PHP.
+:   Die Bibliothek ist der Kern der Applikation und implementiert große Teile des Konzeptes von symCloud. Sie baut auf modernen Web-Technologien auf und verwendet einige Komponenten des PHP-Frameworks Symfony2[^64]. Dieses Framework ist eines der beliebtesten Frameworks in der Open-Source Community von PHP.
 
-Plattform (symcloud)
+Plattform (symCloud)
 
-:   Die Plattform bietet neben der REST-API auch ein einfaches UI an, mit dem es möglich ist, im Browser seine Dateien zu verwalten. Als Basis verwendet Symcloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet ein erweiterbares Admin-UI, eine Benutzerverwaltung und ein Rechtesystem an. Diese Features ermöglichen Symcloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegenden Services.
+:   Die Plattform bietet neben der REST-API auch ein einfaches UI an, mit dem es möglich ist, im Browser seine Dateien zu verwalten. Als Basis verwendet symCloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet ein erweiterbares Admin-UI, eine Benutzerverwaltung und ein Rechtesystem an. Diese Features ermöglichen symCloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegenden Services.
 
-Client (jibe)
+Synchronisierungsprogramm (jibe)
 
-:   Der Client ist ein Konsolen-Tool, mit dem es möglich ist, Dateien aus einem Ordner mit dem Server zu synchronisieren. Es dient als Beispiel für die Verwendung der API mit einer externe Applikation.
+:   Das Synchronisierungsprogramm ist ein Konsolen-Tool, mit dem es möglich ist, Dateien aus einem Ordner mit dem Server zu synchronisieren. Es dient als Beispiel für die Verwendung der API mit einer externe Applikation.
 
 Der Source-Code dieser drei Komponenten ist auf der beiliegenden CD (`/source`) oder auf Github <https://github.com/symcloud> zu finden.
 
@@ -36,7 +36,7 @@ Manager
 
 Database
 
-:   Die Datenbank benutzt einfache Mechanismen, um die Objekte zu serialisieren und zu speichern. Dabei kann über Metadaten festgelegt werden, welche Eigenschaften serialisiert bzw. welche Eigenschaften in der Suchmaschine indexiert werden. Beim laden der Daten aus der Datenbank, können mithilfe dieser Metadaten die Objekte wieder deserialisiert werden.
+:   Die Datenbank benutzt Mechanismen von PHP, um die Objekte zu serialisieren und zu speichern. Dabei kann über Metadaten festgelegt werden, welche Eigenschaften serialisiert bzw. welche Eigenschaften in der Suchmaschine indexiert werden. Beim laden der Daten aus der Datenbank, können mithilfe dieser Metadaten die Objekte wieder deserialisiert werden.
 
 Adapter
 
@@ -60,17 +60,17 @@ Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) is
 
 ### Objekte abrufen
 
-Wie zu erwarten ist der Abruf-Prozess von Daten ein Spiegelbild des Speicherprozesses. Zuerst wird versucht mit dem Kontext des Objektes die Daten aus dem "Storage" zu laden. Diese Daten werden durch den "EventDispatcher" den Eventhandler zur Verfügung gestellt. Diese haben die Möglichkeit, zum Beispiel fehlende Daten nachzuladen, Änderungen an der Struktur der Daten durchzuführen oder den Prozess abzubrechen, wenn keine Rechte vorhanden sind dieses Objekt zu lesen. Diese veränderten Daten werden abschließend für den Deserialisierungsprozess herangezogen.
+Wie zu erwarten ist der Abruf-Prozess (siehe Abbildung \ref{database_fetch}) von Daten ein Spiegelbild des Speicherprozesses. Zuerst wird versucht, mit dem Kontext des Objektes die Daten aus dem "Storage" zu laden. Diese Daten werden durch den "EventDispatcher" dem Eventhandler zur Verfügung gestellt. Diese haben die Möglichkeit, zum Beispiel fehlende Daten nachzuladen, Änderungen an der Struktur der Daten durchzuführen oder den Prozess abzubrechen, wenn keine Rechte vorhanden sind dieses Objekt zu lesen. Diese veränderten Daten werden abschließend für den Deserialisierungsprozess herangezogen.
 
 ![Objekte abrufen\label{database_fetch}](diagrams/database/fetch.png)
 
 \newpage
 
-Diese beiden Abläufe beschreiben eine lokale Datenbank, die die Möglichkeit bietet, über Events die Daten zu verändern oder anderweitig zu verwenden. Sie ist unabhängig zum Datenmodell von Symcloud und könnte für alle möglichen Objekte verwendet werden. Daher ist Symcloud auch für künftige Anforderungen gerüstet.
+Die beiden Abläufe, um Objekte zu speichern und abzurufen, beschreiben eine lokale Datenbank, die die Möglichkeit bietet, über Events die Daten zu verändern oder anderweitig zu verwenden. Sie ist unabhängig vom Datenmodell von symCloud und könnte für alle möglichen Objekte verwendet werden. Daher ist symCloud auch für künftige Anforderungen gerüstet.
 
 ### Replikator
 
-Wie schon erwähnt, verwendet der Replikator Events, um die Prozesse des Ladens und Speicherns von Daten zu beeinflussen und damit die verteilte Aspekte für die Datenbank umzusetzen. Dabei implementiert der Replikator eine einfache Version des primärbasierten Protokolls. Für diesen Zweck wird der Replikator mit einer Liste von verfügbaren Servern initialisiert. Auf Basis dieser Liste werden die Backupserver für jedes Objekte ermittelt.
+Wie schon erwähnt, verwendet der Replikator Events, um die Prozesse des Ladens und Speicherns von Daten zu beeinflussen und damit die verteilten Aspekte für die Datenbank umzusetzen. Dabei implementiert der Replikator eine einfache Version des primärbasierten Protokolls. Für diesen Zweck wird der Replikator mit einer Liste von verfügbaren Servern initialisiert. Auf Basis dieser Liste werden die Backupserver für jedes Objekte ermittelt.
 
 Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten die Backupserver für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "Lazy"-Nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typen ("Permission" und "Stub").
 
@@ -78,7 +78,7 @@ __Full__
 
 ![Replikationtyp "Full"\label{replicator_full}](diagrams/database/replicator-on-store.png)
 
-Bei einem "store" Event werden die Backupserver per Zufall aus der Liste der vorhandenen Server ausgewählt und der aktuelle Server als primäry Server markiert. Anhand der Backupserver-Liste werden die Daten an die Server verteilt. Dazu wird der Reihe nach die Daten an die Server versendet und auf eine Bestätigung gewartet. Falls einer dieser Server nicht erreichbar ist, wird dieser ausgelassen und ein anderer Server als Backup herangezogen. Damit wird der konsistente Zustand der Datenbank verifiziert. Abschließend wird die erstellte "Policy" zu den Daten hinzugefügt, damit sie mit den Daten persistiert wird und später wiederverwendet werden kann. Dieser Prozess wird in der Abbildung \ref{replicator_full} visualisiert.
+Bei einem "store" Event werden die Backupserver per Zufall aus der Liste der vorhandenen Server ausgewählt und der Server, der das Objekt erstellt, als primäry Server markiert. Anhand der Backupserver-Liste werden die Daten an die Server verteilt. Dazu werden der Reihe nach die Daten an die Server versendet und auf eine Bestätigung gewartet. Falls einer dieser Server nicht erreichbar ist, wird dieser ausgelassen und ein anderer Server als Backup herangezogen. Damit wird der konsistente Zustand der Datenbank verifiziert. Abschließend wird die erstellte "Policy" zu den Daten hinzugefügt, damit sie mit den Daten persistiert wird und später wiederverwendet werden kann. Dieser Prozess wird in der Abbildung \ref{replicator_full} visualisiert.
 
 __Lazy__
 
@@ -100,23 +100,25 @@ Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle be
 
 200
 
-:   Wie bei 403 ist der angefragte Server, der primary Server des Objektes, aber der Benutzer ist berechtigt das Objekt zu lesen und der Server gibt direkt die Daten zurück. Diese Daten dürfen auch gecached werden. Die Berechtigungen für andere Benutzer, werden direkt mitgeliefert, um später diesen Prozess nicht noch einmal ausführen zu müssen. 
+:   Wie bei 403 ist der angefragte Server, der primary Server des Objektes, aber der Benutzer ist berechtigt das Objekt zu lesen und der Server gibt direkt die Daten zurück. Diese Daten dürfen auch gecached werden. Die Berechtigungen für andere Benutzer werden direkt mitgeliefert, um später diesen Prozess nicht noch einmal ausführen zu müssen. 
 
 Mithilfe dieses einfachen Mechanismuses kann der Replikator Daten von anderen Servern nachladen, ohne zu wissen, wo sich die Daten befinden. Dieser Prozess bringt allerdings Probleme mit sich. Zum Beispiel muss jeder Server angefragt werden, bevor der Replikator endgültig sagen kann, dass das Objekt nicht existiert. Dieser Prozess kann daher bei einem großen Netzwerk sehr lange dauern. Dieser Fall sollte allerdings aufgrund des Datenmodells nur selten vorkommen, da Daten nicht gelöscht werden und daher keine Deadlinks entstehen können.
 
 ### Adapter
 
-Für die Abstrahierung des Speichermediums verwendet die Datenbank das Adapter-Pattern. Mithilfe dieses Patterns, kann jede Symcloud Installation sein eigenes Speichermedium verwenden. Dabei gibt es zwei Arten von Adaptern:
+Für die Abstrahierung des Speichermediums verwendet die Datenbank das Adapter-Pattern. Mithilfe dieses Patterns, kann jede symCloud-Installation sein eigenes Speichermedium verwenden. Dabei gibt es zwei Arten von Adaptern:
 
 Storage
 
-:   Der "StorageAdapter" wird verwendet, um serialisierte Objekte lokal zu speichern oder zu laden. Es implementiert im Grunde ein einfacher Befehlssatz: `store`, `fetch`, `contains` und `delete`. Jeder dieser Befehle erhält, neben anderen Parametern, einen Hash und einen Kontext. Der Hash ist sozusagen der Index des Objektes. Der Kontext wird verwendet, um Namensräume für die Hashes zu schaffen. Dies implementiert der Dateisystemadapter, indem er jeden Kontext einen Ordner erstellt und für jeden Hash eine Datei. So kann schnell auf ein einzelnes Objekt zugegriffen werden.
+:   Der "StorageAdapter" wird verwendet, um serialisierte Objekte lokal zu speichern oder zu laden. Er implementiert im Grunde einen einfachen Befehlssatz: `store`, `fetch`, `contains` und `delete`. Jeder dieser Befehle erhält, neben anderen Parametern, einen Hash und einen Kontext. Der Hash ist sozusagen der Index des Objektes. Der Kontext wird verwendet, um Namensräume für die Hashes zu schaffen. Dies implementiert der Dateisystemadapter, indem er für jeden Kontext einen Ordner erstellt und für jeden Hash eine Datei. So kann schnell auf ein einzelnes Objekt zugegriffen werden.
+
+__TODO Beispiel__
 
 Search
 
 :   Der "SearchAdapter" wird verwendet, um die Metadaten zu den Objekten zu indexieren. Dies wird benötigt, wenn die Daten durchsucht werden. Jeder "SearchAdapter" implementiert folgende Befehle: `index`, `search` und `deindex`. Wobei auch hier mit Hash und Kontext gearbeitet wird. Über den Suchbefehl, können alle oder bestimmte Kontexte durchsucht werden. Für die Entwicklung des Prototypen wurde die Bibliothek Zend-Search-Lucene[^67] verwendet, da diese ohne weitere Abhängigkeiten verwendet werden kann.
 
-Bei der Verwendung des Replikators gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen mit dem Remoteserver kommunizieren kann. Dabei wird das Interface mit den Befehlen `fetch` und `store` implementiert.
+Bei der Verwendung des Replikators gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen mit dem Remoteserver kommunizieren kann. Dieser Adapter implementiert den Befehlssatz: `fetch` und `store`.
 
 Die Adapter sind Klassen, die die Komplexität des Speichermediums bzw. der API von der restlichen Applikation trennen, um dadurch die Bibliothek unabhängig von der Applikation implementieren zu können.
 
@@ -126,7 +128,7 @@ Die Manager sind die Schnittstelle, um mit den einzelnen Schichten des Datenmode
 
 ### Zusammenfassung
 
-Die Bibliothek "Distributed-Storage" bietet eine einfache und effiziente Implementierung des in Kapitel \ref{chapter_concept} beschriebenen Konzeptes. Es baut auf eine erweiterbare Hash-Value Datenbank auf. Diese Datenbank wird mittels eines Eventhandlers (Replikator) zu einer verteilten Datenbank. Dabei hat die Datenbank keine Ahnung von dem verwendeten Transportlayer oder Protokoll. Dieser kann neben HTTP, jeden beliebigen anderen Transportlayer verwenden. Der konsistente Zustand der Datenbank kann mittels Bestätigungen bei der Erstellung, blockierenden Vorgängen und nicht löschbaren Objekten garantiert werden. Nicht veränderbare Objekte lassen sich dauerhaft und ohne Updates verteilen. Alle anderen Objekte können so markiert werden, dass sie immer bei einem primary Server angefragt werden müssen und nur für die Datensicherheit an die Backupserver verteilt werden.
+Die Bibliothek "Distributed-Storage" bietet eine einfache und effiziente Implementierung des in Kapitel \ref{chapter_concept} beschriebenen Konzeptes. Es baut auf eine erweiterbare Hash-Value Datenbank auf. Diese Datenbank wird mittels eines Eventhandlers (Replikator) zu einer verteilten Datenbank. Dabei ist es für die Datenbank irrelevant, welcher Transportlayer oder welches Protokoll verwendet wird. Dieser kann neben HTTP, jeden beliebigen anderen Transportlayer verwenden. Der konsistente Zustand der Datenbank kann mittels Bestätigungen bei der Erstellung, blockierenden Vorgängen und nicht löschbaren Objekten garantiert werden. Nicht veränderbare Objekte lassen sich dauerhaft und ohne Updates verteilen. Alle anderen Objekte können so markiert werden, dass sie immer bei einem primary Server angefragt werden müssen und nur für die Datensicherheit an die Backupserver verteilt werden.
 
 ## \label{chapter_implementation_platform}Plattform
 
@@ -140,7 +142,7 @@ Eine Autorisierung zwischen den Servern ist momentan nicht vorgesehen. Dies wurd
 
 ### Rest-API
 
-Die Rest-API ist wie schon im Kapitel \ref{chapter_concept_rest_api} beschrieben, in vier verschiedene Schnittstellen aufgeteilt. Dabei werden die SULU internen Komponenten verwendet, um die Daten für die Übertragung zu serialisieren und RESTful[^68] aufzubereiten. Für eine verteilte Installation implementiert die Plattform den "ApiAdapter", um die Rest-API für die Bibliothek, zu abstrahieren.
+Die Rest-API ist, wie schon im Kapitel \ref{chapter_concept_rest_api} beschrieben, in vier verschiedene Schnittstellen aufgeteilt. Dabei werden die SULU-internen Komponenten verwendet, um die Daten für die Übertragung zu serialisieren und RESTful[^68] aufzubereiten. Für eine verteilte Installation implementiert die Plattform den "ApiAdapter", um die Rest-API für die Bibliothek, zu abstrahieren.
 
 ### Benutzeroberfläche
 
@@ -148,94 +150,17 @@ Die Benutzeroberfläche ... __TODO was wurde/wird implementiert__
 
 ### Zusammenfassung
 
-Die Plattform ist ein reiner Prototyp, der zeigen soll, ob das konzipierte Konzept funktionieren kann. Es bietet in den Grundzügen alle Funktionen an, um in einer späteren Implementierungsphase, diesen Prototypen zu einer vollständigen Plattform heranwachsen zu lassen.
-
-## \label{implementation_oauth}Exkurs: OAuth2
-
-Für die Authentifizierung wurde das Protokoll OAuth in der Version 2 implementiert. Dieses offene Protokoll erlaubt eine standardisierte, sichere API-Autorisierung für Desktop, Web und Mobile-Applikationen. Initiiert wurde das Projekt von Blaine Cook und Chris Messina [@wikioauth].
-
-Der Benutzer kann einer Applikation den Zugriff auf seine Daten autorisieren, die von einer anderen Applikation zur Verfügung gestellt wird. Dabei werden nicht alle Details seiner Zugangsdaten preisgegeben. Typischerweise wird die Weitergabe eines Passwortes an Dritte vermieden [@wikioauth].
-
-### Begriffe
-
-In OAuth2 werden folgende vier Rollen definiert:
-
-Resource owner
-
-:   Besitzer einer Ressource, die er für eine Applikation bereitstellen will [@hardt2012oauth, Seite 5].
-
-Resource server
-
-:   Der Server, der die geschützten Ressourcen verwaltet. Er ist in der Lage Anfragen zu akzeptieren und die geschützten Ressourcen zurückzugeben, wenn ein geeignetes und valides Token bereitgestellt wurde [@hardt2012oauth, Seite 5].
-
-Client
-
-:   Die Applikation stellt Anfragen im Namen des Ressourceneigentümers an den "resource server". Sie holt sich vorher die Genehmigung von einem berechtigten Benutzer [@hardt2012oauth, Seite 5].
-
-Authorization server
-
-:   Der Server der die Zugriffs-Tokens nach der erfolgreichen Authentifizierung des Ressourceneigentümers, bereitstellt [@hardt2012oauth, Seite 5].
-
-Neben diesen Rollen spezifiziert OAuth2 folgende Begriffe:
-
-Access-Token
-
-:   Die Access-Tokens fungieren Zugangdsdaten zu geschützten Ressourcen. Es besteht aus einer Zeichenkette, der als Autorisierung für einen bestimmten Client ausgestellt wurde. Sie repräsentieren die "Scopes" und die Dauer der Zugangsberechtigung, die durch den Benutzer bestätigt wurde [@hardt2012oauth, Seite 9].
-
-Refresh-Token
-
-:   Diese Tokens werden verwendet, um neue Access-Tokens zu generieren, wenn das alte Access-Token abgelaufen ist. Wenn der Autorisierungsserver diese Funktionalität zur Verfügung stellt, liefert er es mit dem Access-Token aus. Der Refresh-Token besitzt eine längere Lebensdauer und berechtigt nicht den Zugang zu den anderen API-Schnittstellen [@hardt2012oauth, Seite 9].
-
-Scopes
-
-:   Mithilfe von Scopes, lassen sich Access-Token für bestimmte Bereiche der API beschränken. Dies kann sowohl auf Clientebene als auch auf Access-Token Ebene spezifiziert werden [@hardt2012oauth, Seite 22].
-
-Die Interaktion zwischen Ressourcenserver und Autorisierungsserver ist nicht spezifiziert. Diese beiden Server können in der selben Applikation betrieben werden, aber auch eine verteilte Infrastruktur wäre möglich. Dabei würden die beiden auf verschiedenen Servern betrieben werden. Der Autorisierungsserver könnte, in einer verteilten Infrastruktur, Tokens für mehrere Ressourcenserver bereitstellen [@hardt2012oauth, Seite 5].
-
-### Protokoll Ablauf
-
-![Ablaufdiagramm des OAuth \label{oauth_flow}](diagrams/oauth2/flow.png)
-
-Der Ablauf einer Autorisierung [@hardt2012oauth, Seiten 6 ff] mittels Oauth2, der in der Abbildung \ref{oauth_flow} abgebildet ist, enthält folgende Schritte:
-
-A) Der Client fordert die Genehmigung des Ressourcenbesitzers. Diese Anfrage kann direkt an den Benutzer gestellt werden (wie in der Abbildung dargestellt) oder vorzugsweise indirekt über den Autorisierungsserver (wie zum Beispiel bei Facebook).
-B) Der Client erhält einen "authorization grant". Er repräsentiert die Genehmigung des Ressourcenbesitzers, die geschützten Ressourcen zu verwenden.
-C) Der Client fordert einen Token beim Autorisierungsserver mit dem "authorization grant" an.
-D) Der Autorisierungsserver authentifiziert den Client, validiert den "authorization grant" und gibt einen Token zurück.
-E) Der Client fordert eine geschützte Ressource und autorisiert die Anfrage mit dem Token.
-F) Der Ressourcenserver validiert den Token und gibt die Ressource zurück.
-
-### Zusammenfassung
-
-OAuth2 wird verwendet, um es externen Applikationen zu ermöglichen, auf die Dateien der Benutzer zuzugreifen. Das Synchronisierungsprogramm Jibe verwendet dieses Protokoll, um die Autorisierung zu erhalten, um die Dateien des Benutzers zu verwalten.
+Die Plattform ist ein reiner Prototyp, der zeigen soll, ob das Konzept (aus dem Kapitel \ref{chapter_concept}) funktionieren kann. Es bietet in den Grundzügen alle Funktionen an, um zu einem späteren Zeitpunkt[^40] diesen Prototypen zu einer vollständigen Plattform heranwachsen zu lassen.
 
 ## Synchronisierungsprogramm: Jibe
 
-Jibe ist das Synchronisierungsprogramm zu einer Symcloud Installation. Es ist ein einfaches PHP-Konsolen Tool, mit dem es möglich ist, Daten aus einer Symcloud-Installation mit einem Endgerät zu synchronisieren.
+Jibe ist das Synchronisierungsprogramm zu einer symCloud-Installation. Es ist ein einfaches PHP-Konsolen Tool, mit dem es möglich ist, Daten aus einer symCloud-Installation mit einem Endgerät zu synchronisieren. Das Programm wurde mithilfe der Symfony Konsole-Komponente[^60] umgesetzt. Diese Komponente ermöglicht eine schnelle und unkomplizierte Entwicklung solcher Konsolen-Programme.
 
-Das Programm wurde mithilfe der Symfony Konsole-Komponente[^60] umgesetzt. Diese Komponente ermöglicht eine schnelle und unkomplizierte Entwicklung solcher Konsolen-Programme.
+Ausgeliefert wird das Programm in einem sogenannten PHAR-Container[^61]. Dieser Container enthält alle benötigten Source-Code- und Konfigurationsdateien. Das Format ist vergleichbar mit dem JAVA-Container JAR. PHAR-Container werden in der PHP-Gemeinschaft oft verwendet, um komplexe Applikationen, wie zum Beispiel PHPUnit[^62] (ein Test Framework für PHP) auszuliefern.
 
-```bash
-$ php jibe.phar
-       ___                     ___           ___
-      /\  \        ___        /\  \         /\  \
-      \:\  \      /\  \      /::\  \       /::\  \
-  ___ /::\__\     \:\  \    /:/\:\  \     /:/\:\  \
- /\  /:/\/__/     /::\__\  /::\~\:\__\   /::\~\:\  \
- \:\/:/  /     __/:/\/__/ /:/\:\ \:|__| /:/\:\ \:\__\
-  \::/  /     /\/:/  /    \:\~\:\/:/  / \:\~\:\ \/__/
-   \/__/      \::/__/      \:\ \::/  /   \:\ \:\__\
-               \:\__\       \:\/:/  /     \:\ \/__/
-                \/__/        \__/__/       \:\__\
-                                            \/__/
-Token-Status: OK
-   run jibe sync to start synchronization
+Über den ersten Parameter kann spezifiziert werden, welches Kommando ausgeführt werden soll. Alle weiteren Parameter sind Argumente für das angegebene Kommando. Über den Befehl `php jibe.phar sync` kann der Synchronisierungsvorgang gestartet werden.
 
-```
-
-Ein Konsolen-Programm besteht aus verschiedenen Kommandos, die über einen Namen aufgerufen werden können. Im diesem Beispiel wurde das Standard-Kommando des Tools aufgerufen. Über den Befehl `php jibe.phar sync` kann der Synchronisierungsvorgang gestartet werden. Alle Abhängigkeiten des Tools werden zusammen in einen PHAR-Container[^61] geschrieben. Dieser ähnelt dem Format eines Java-JAR Archives. Dieses Format wird in der PHP-Gemeinschaft oft verwendet, um komplexe Applikationen, wie zum Beispiel PHPUnit[^62] (ein Test Framework für PHP) auszuliefern.
-
-```{caption="Ausführen des "configure" Befehls\label{jibe_configure_listing}" .bash}
+```{caption="Ausführen des 'configure' Befehls\label{jibe_configure_listing}" .bash}
 $ php jibe.phar configure
 Server base URL: http://symcloud.lo
 Client-ID: 9_1442hepr9cpw8wg8s0o40s8gc084wo8ogso8wogowookw8k0sg
@@ -244,13 +169,13 @@ Username: admin
 Password:
 ```
 
-Im Listing \ref{jibe_configure_listing} ist die Ausführung des Konfigurieren Befehls dargestellt. Argumente können sowohl an den Befehl angehängt werden oder durch den Befehl abgefragt werden. Eine Validierung von zum Beispiel der URL, kann direkt in einem Kommando implementiert werden.
+Im Listing \ref{jibe_configure_listing} ist die Ausführung des "Konfigurieren"-Kommandos dargestellt. Argumente können sowohl an den Befehl angehängt werden oder durch den Befehl abgefragt werden. Eine Validierung von zum Beispiel der URL, kann direkt in einem Kommando implementiert werden.
 
 Diese Kommandos stehen dem Benutzer zur Verfügung:
 
 configure
 
-:   Konfiguriert den Zugang zu einer Symcloud Installation. Falls notwendig koordiniert sich das Tool mit der Installation, um andere Informationen zu Repliken oder verbundenen Installationen, zu erhalten.
+:   Konfiguriert den Zugang zu einer symCloud-Installation. Falls notwendig koordiniert sich das Tool mit der Installation, um andere Informationen zu Repliken oder verbundenen Installationen, zu erhalten.
 
 refresh-token
 
@@ -333,7 +258,7 @@ __Folgende TODOs für diese Tabelle:__
 
 __TODOs ende__
 
-Beispiel der Auswertungen anhand des Falles Nummer vier:
+Beispiel der Auswertungen anhand des Falles Nummer vier (aus der Tabelle \ref{table_jibe_flow}):
 
 1. Lokale Datei hat sich geändert: Alter Hashwert unterscheidet sich zu dem aktuellen.
 2. Serverversion ist größer als lokale Version.
@@ -343,9 +268,9 @@ Das bedeutet, dass sich sowohl die Serverdatei als auch die lokale Kopie geände
 
 ### Zusammenfassung
 
-Der Synchronisierungsclient ist ein Beispiel dafür, wie die Rest-API von anderen Applikationen verwendet werden kann, um die Daten aus Symcloud zu verwenden. Es wären viele verschiedene Anwendungsfälle denkbar.
+Der Synchronisierungsclient ist ein Beispiel dafür, wie die Rest-API von anderen Applikationen verwendet werden kann, um die Daten aus symCloud zu verwenden. Es wären viele verschiedene Anwendungsfälle denkbar.
 
-In diesem Beispiel wurde auch die Komplexität des Synchronisierungsprozesses durchleuchtet und eine Lösung geschaffen, um schnell und effizient einen Ordner mit Symcloud zu synchronisieren.
+In diesem Beispiel wurde auch die Komplexität des Synchronisierungsprozesses durchleuchtet und eine Lösung geschaffen, um schnell und effizient einen Ordner mit symCloud zu synchronisieren.
 
 ## Zusammenfassung
 
