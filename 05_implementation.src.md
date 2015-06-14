@@ -233,30 +233,37 @@ Diese drei Informationspakete können sehr einfach ermittelt werden. Einzig und 
 
 Die Tabelle \ref{table_jibe_flow} gibt Aufschluss über die Erkennung von Kommandos aus diesen Informationen.
 
-+---+------+---------+------+---------+---------------------------------------------+----------+--------+--------------+---------------+----------+
-|   | hash | old v.  | hash | version |                                             | Download | Upload | Delete local | Delete server | Conflict |
-+---+------+---------+------+---------+---------------------------------------------+----------+--------+--------------+---------------+----------+
-| 1 | X    | 1       | X    | 1       | Nothing to be done                          |          |        |              |               |          |
-| 2 | X    | 1       | Y    | 2       | Server file changed, download new version   | x        |        |              |               |          |
-| 3 | Y    | 1       | X    | 1       | Client file change, upload new version      |          | x      |              |               |          |
-| 4 | Y    | 1       | Z    | 2       | Client and Server file changed, conflict    |          |        |              |               | x        |
-| 5 | Y    | 1       | Y    | 2       | Server file changed but content is the same |          |        |              |               |          |
-| 6 | X    | -       | -    | -       | New client file, upload it                  |          | x      |              |               |          |
-| 7 | -    | -       | X    | 1       | New server file, download it                | x        |        |              |               |          |
-| 8 | X    | 1       | -    | -       | Server file deleted, remove client version  |          |        | x            |               |          |
-| 9 | -    | 1       | X    | 1       | Client file deleted, remove server version  |          |        |              | x             |          |
-+---+------+---------+------+---------+---------------------------------------------+----------+--------+--------------+---------------+----------+
+\landscapestart
+
+|   | Hash          | Version | Description                                 | Download | Upload | Delete local | Delete server | Conflict |
+|---|---------------|---------|---------------------------------------------|----------|--------|--------------|---------------|----------|
+| 1 | (Z = X) = Y   | n = m   | Nothing to be done                          |          |        |              |               |          |
+| 2 | (Z = X) != Y  | n < m   | Server file changed, download new version   | x        |        |              |               |          |
+| 3 | (Z != X) != Y | n = m   | Client file change, upload new version      |          | x      |              |               |          |
+| 4 | (Z != X) != Y | n < m   | Client and Server file changed, conflict    |          |        |              |               | x        |
+| 5 | (Z = X) = Y   | n < m   | Server file changed but content is the same |          |        |              |               |          |
+| 6 | X             |         | New client file, upload it                  |          | x      |              |               |          |
+| 7 | Y             | m       | New server file, download it                | x        |        |              |               |          |
+| 8 | X             | n       | Server file deleted, remove client version  |          |        | x            |               |          |
+| 9 | Y             | n = m   | Client file deleted, remove server version  |          |        |              | x             |          |
 
   : Evaluierung der Zustände\label{table_jibe_flow}
 
-__Folgende TODOs für diese Tabelle:__
+\landscapeend
 
-* Lesbarkeit verbessern
-* Alter Dateihash hinzufügen
-* Ändere X/Y und 1/2 zu Allgemein gültigen Werten (n/n+1)
-* Muss aktuell gehalten werden
+| Zeichen | Beschreibung |
+|---|---|
+| X | Lokaler Hashwert der Datei |
+| Z | Lokaler Hashwert der Datei |
+|   | bei der letzten Synchronisierung |
+| Y | Remote Hashwert der Datei |
+|   | bei der letzten Synchronisierung |
+| n | Lokale Version der Datei |
+| m | Remote Version der Datei |
 
-__TODOs ende__
+  : Legende zu Tabelle \ref{table_jibe_flow}
+
+Nicht angeführte Werte in der Tabelle, sind zu dem Zeitpunkt nicht verfügbar. Was zum Beispiel bedeutet, dass wenn der Lokale Hash nicht angeführt ist, die Datei nicht vorhaden ist (gelöscht oder noch nicht angelegt).
 
 Beispiel der Auswertungen anhand des Falles Nummer vier (aus der Tabelle \ref{table_jibe_flow}):
 

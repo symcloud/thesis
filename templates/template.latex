@@ -158,6 +158,9 @@ $endfor$
 
 % my changes
 \usepackage[doublespacing]{setspace}
+\usepackage{lscape}
+\newcommand{\landscapestart}{\begin{landscape}}
+\newcommand{\landscapeend}{\end{landscape}}
 
 \begin{document}
 $if(title)$
