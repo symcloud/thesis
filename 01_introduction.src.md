@@ -36,7 +36,7 @@ In der ersten Phase, in der diese Arbeit entsteht, werden Grundlegende Konzepte 
 
 Kurz gesagt, symCloud sollte eine Kombination der beiden Applikationen ownCloud und Diaspora sein. Dabei sollte es die Dateiverwaltungsfunkionen von ownCloud und die Architektur von Diaspora kombinieren, um eine optimale Alternative zu kommerziellen Lösungen, wie Dropbox zu bieten.
 
-## Inspiration
+## \label{chapter_inspiration}Inspiration
 
 Als Inspirationsquelle für eine Architektur dienten neben den schon erwähnten Applikationen auch das Projekt Xanadu[^5]. Dieses Projekt wurde im Jahre 1960 von Ted Nelson gegründet und wurde nie finalisiert. Er arbeitet seit der Gründung an einer Implementierung an verschiedenen Universitäten an der Software [@???]. Ted Nelson prägte den Begriff des Hypertext mit der Veröffentlichung eines wissenschaftlichen Artikels "The Hypertext. Proceedings of the World Documentation Federation" im Jahre 1965. Darin beschrieb er Hypertext als Lösung für die Probleme, die Normales Papier mit sich bringt [@Nelson:2007:BFH:1286240.1286303]. 
 
@@ -52,27 +52,27 @@ Hypertext sollte nicht das Medium sondern die BenutzerInnen in den Vordergrund s
 
 Ursprünglich wurden 17 Thesen in dem Buch "Literary Machines" 1981 veröffentlicht. Sie beschrieben die Grundsätze, auf denen das Projekt Xanadu aufgebaut sind [@nelson1981literary]. Einige davon wurden durch Tim Berners-Lee in der Erfindung des Internets umgesetzt, andere jedoch vernachlässigt [@atwood2009xanadu]. Einige der Thesen, die vernachlässigt wurden, sind interrsante Denkanstöße für ein Projekt wie Symcloud.
 
-__Every Xanadu server can be operated independently or in a network.__
+__1. Every Xanadu server can be operated independently or in a network.__
 
 Xanadu Server können für sich alleine oder in einem Netzwerk interagieren. 
 
-__Every user is uniquely and securely identified.__
+__2. Every user is uniquely and securely identified.__
 
 Jeder Benutzer ist eindeutig und sicher identifizierbar.
 
-__Every user can search, retrieve, create and store documents.__
+__3. Every user can search, retrieve, create and store documents.__
 
 Jeder Benutzer kann Dokumente durchsuchen herunterladen, erstellen und speichern.
 
-__Every document can have secure access controls.__
+__4. Every document can have secure access controls.__
 
 Jede Dokument besitzt Benutzerrechte, die steuern, wer welche Rechte bei diesem Dokument besitzt.
 
-__Every document can be rapidly searched, stored and retrieved without user knowledge of where it is physically stored.__
+__5. Every document can be rapidly searched, stored and retrieved without user knowledge of where it is physically stored.__
 
 Jedes Dokument kann schnell durchsucht, gespeichert und heruntergeladen werden, ohne das der Benutzer weiß wo das Dokument Physikalisch gespeichert ist.
 
-__Every document is automatically stored redundantly to maintain availability even in case of a disaster.__
+__6. Every document is automatically stored redundantly to maintain availability even in case of a disaster.__
 
 Jedes Dokument wird redundant gespeichert, um den Verlust bei unvorhergesehenen Ereignissen zu verhindern.
 
@@ -80,27 +80,85 @@ Diese Thesen werden in den folgenden Anforderungen an ein System wie symCloud zu
 
 ## \label{specification}Anforderungen
 
-__TODO Anforderungen an das Projekt (auch in Bezug auf xanadu)__
+Aufgrund der beschriebenen Projekte, die als Inspiration verwendet wurden, werden in diesem Abschnitt die Anforderungen, an ein System wie symCloud beschrieben. Diese Anforderungen sind unterteilt in:
 
-* Datensicherheit
-  * Datenschutz
-  * Ausfallsicherheit
-  * Fremdzugriff
-* Funktionen
-  * Versionierung
-  * Zusammenarbeit (Dateien teilen)
-  * Zugriffsberechtigungen
-  * Namensräume
-* Architektur
-  * Verteilte Architektur (um Zusammenarbeit zwischen Servern zu ermöglichen)
-  * Datenverteilung nicht Lastverteilung
-  * Moderne Programmierung
-* Nicht Ziele (aber Anforderungen)
-  * Effizienz
-  * Performance
-  * ???
+Datensicherheit
 
-__TODO genauere Ausformulierung__
+:   In diesen Abschnitt der Anforderungen, fallen Gebiete wie Datenschutz und der Schutz vor Fremdzugriff.
+
+Funktionalitäten
+
+:   Ein System wie symCloud sollte einige Funktionen mit sich bringen, um sich gegen andere behaupten zu können.
+
+Architektur
+
+:   Aufgrund der Inspiration durch Diaspora und Xanadu ist die Anforderung an die Architektur geprägt von verteilten Aspekten.
+
+Nicht Ziele
+
+:   Diese Punkte sind wichtige Anforderungen an ein System wie symCloud, sie sind allerdings nicht Teil dieser Arbeit.
+
+### Datensicherheit
+
+Da dieser Begriff durch viele Bedeutungen vorbelastet ist, gilt in den folgenden Kapitel diese Definition [@siepermann2015datensicherheit]:
+
+  In der betrieblichen Datenverarbeitung alle technischen und
+  organisatorischen Maßnahmen zum Schutz von Daten vor
+  Verfälschung, Zerstörung und unzulässiger Weitergabe.
+
+Darunter fallen gemäß der Definition:
+
+Schutz vor Verfälschung
+
+:   Bei dieser Anforderung handelt es sich um die Möglichkeit, dass zum Beispiel im Speichersystem Datenfehler auftreten können. Diese Fehler sollten erkannt und im besten Fall auch wiederhergestellt werden können.
+
+Schutz vor Zerstörung
+
+:   Der Schutz vor Zerstörung sollte gegeben sein. Dabei sollte es möglich sein die Daten eines Servers wiederherzustellen, falls dieser ausfällt.
+
+Schutz vor Fremdzugriff
+
+:   Der Fremdzugriff auf die Daten sollte durch ein Rechte-System geschützt sein. Dies reicht aber in vielen Fällen nicht aus, den die Daten, die zum Beispiel auf einem Server gespeichert werden, können von allen BenutzerInnen des Servers aus dem Speicher ausgelesen, ohne das die Anwendung Einfluss darauf hätte.
+
+Drei der im vorherigen Abschnitt genannten Thesen des Projekt Xanadu bieten Ansätze, wie diese Anforderungen umgesetzt werden können. Durch die Redundanz (These sechs) der Daten kann sowohl der Schutz vor Zerstörung als auch die Verfälschung sichergestellt werden. Wenn das System sich vergewissern will, ob die Daten valide sind, fordert es alle Kopien der Daten an und vergleicht sie. Sind alle Versionen Identisch kann eine Verfälschung ausgeschlossen werden. Die Thesen zwei und vier bieten einen Schutz vor Fremdzugriff indem die BenutzerIn eindeutig identifiziert werden kann und ein Zugriffsberechtigungssystem die Berechtigung überprüft, kann ausgeschlossen werden, dass sich dritte über die Schnittstellen des System Zugriff auf Daten verschaffen, die sie nicht sehen dürften.
+
+### Funktionalitäten
+
+Um ein System wie symCloud Konkurrenzfähig zu vergleichbaren Systemen wie Dropbox oder ownCloud [@owncloud2015a] zu machen sind drei Kernfunktionalitäten unerlässlich:
+
+Versionierung von Dateien
+
+:   Die Versionierung ist ein wesentlicher Bestandteil von vielen Filehosting-Plattformen. Es ermöglicht nicht nur das wiederherstellen von alten Dateiversionen, sondern auch das wiederherstellen von gelöschten Dateien ganz einfach ohne "Papierkorb", wie man ihn von verschiedenen Betriebssystemen kennt.
+
+Zusammenarbeit zwischen BenutzerInnen
+
+:   Um eine Grundlegende Zusammenarbeit zwischen BenutzerInnen zu ermöglichen, ist es unerlässlich die Dateien bzw. Ordner teilen zu können.
+
+Zugriffsberechtigungen vergeben
+
+:   Um die Transparenz des Systems zu steigern, sollten die BenutzerInnen entscheiden können welche Dateien bzw. Ordner von wem und wie verwendet werden darf.
+
+Diese 
+
+### Architektur
+
+Inspiriert von der Architektur von Diaspora sollten verschiedene Installation von symCloud zu einem P2P-Netzwerk verbunden werden können. Dabei liegt der Fokus auf der Datenverteilung und nicht auf einer Lastverteilung. Dadurch können Daten gezielt im Netzwerk verteilt werden. Aufgrund der Datensicherheitsanforderungen sollten die Daten nicht wahllos im Netzwerk verteilt werden sondern Konzepte ausgearbeitet werden, um Daten aufgrund der Zugriffsberechtigungen auf das Netzwerk zu teilen.
+
+Eine Architektur im Stil von Diaspora erfüllt die These eins von Xanadu, indem ein Server sowohl für sich alle als auch in einem Netzwerk mit anderen Installation arbeiten kann.
+
+### Nicht Ziele
+
+Wichtige aber in dieser Arbeit nicht betrachtete Ziele bzw. Anforderungen sind:
+
+Effizienz und Performance
+
+:   Die Effizienz und die Performance eines Systems ist meist nicht einer der wichtigsten Gründe für sein Erfolg, allerdings meist der wichtigste bei einem scheitern eines Projektes.
+
+Verschlüsselung
+
+:   Um die Datensicherheit aus außerhalb des Systems zu gewährleisten, sollten die Daten auf dem Speichermedium und die Übertragung zwischen den einzelnen Stationen verschlüsselt erfolgen. Um den Schutz vor Fremdzugriff auf außerhalb des Systems zu gewährleisten.
+
+Diese Ziele sind, wie schon erwähnt außerhalb des Ziels dieser Arbeit und des Konzeptes, dass während dieser Arbeit entsteht. Sie sind allerdings wichtige Anforderungen an ein produktiv eingesetztes System und sollten daher zumindest eine Erwähnung in dieser Arbeit finden. Sie sind vor allem als Anregung für weiterführende Entwicklungen oder Untersuchungen gedacht.
 
 ## Kapitelübersicht
 
