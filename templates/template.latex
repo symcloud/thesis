@@ -159,6 +159,7 @@ $endfor$
 % my changes
 \usepackage[doublespacing]{setspace}
 \usepackage{lscape}
+\usepackage{eso-pic}
 \newcommand{\landscapestart}{\begin{landscape}}
 \newcommand{\landscapeend}{\end{landscape}}
 
@@ -200,7 +201,53 @@ $endfor$
 \frontmatter
 
 $if(title)$
-\maketitle
+\begin{titlepage}
+
+% basic font size of the titlepage
+\large
+
+\AddToShipoutPicture*{
+  \AtPageUpperLeft{
+    \hspace{\paperwidth}
+    \raisebox{-25mm}{
+      \makebox[-15mm][r]{
+        \includegraphics[width=42mm]{images/FHV_Logo}
+      }
+    }
+  }
+}
+
+\begin{center}
+~
+\vfill\vfill\vfill
+
+$author$
+
+\vfill
+
+{\LARGE\bfseries $title$}
+
+\vfill\vfill\vfill
+
+{\bfseries $shorttitle$}
+
+\vfill\vfill\vfill
+\vfill\vfill\vfill
+\vfill\vfill\vfill
+
+$university$
+
+\vfill
+
+$department$\\
+$supervisor$\\
+
+\vfill
+
+$submissiontown$, $submissionyear$
+
+\end{center}
+\end{titlepage}
 $endif$
 $if(zusammenfassung)$
 \addchap*{Zusammenfassung}
