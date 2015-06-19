@@ -6,9 +6,9 @@ In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Da
 
 Andrew Tanenbaum definiert verteilte Systeme in seinem Buch folgendermaßen:
 
-	"Ein verteiltes System ist eine Menge voneinander unabhängiger
-	Computer, die dem Benutzer wie ein einzelnes kohärentes
-	System erscheinen"
+> "Ein verteiltes System ist eine Menge voneinander unabhängiger
+> Computer, die dem Benutzer wie ein einzelnes kohärentes
+> System erscheinen"
 
 Diese Definition beinhaltet zwei Aspekte. Der eine Aspekt besagt, dass die einzelnen Maschinen in einem verteilten System autonom sind. Der zweite Aspekt bezieht sich auf die Software, die die Systeme miteinander verbinden. Durch die Software glaubt der Benutzer, dass er es mit einem einzigen System zu tun hat [@tanenbaum2003verteilte, p. 18]. 
 
@@ -52,15 +52,15 @@ Alles in allem ist Dropbox als Grundlage für symCloud aufgrund der fehlenden Er
 
 Nach den neuesten Entwicklungen arbeitet ownCloud an einem ähnlichen Feature wie Symcloud. Unter dem Namen "Remote shares" wurde in der Version 7 eine Erweiterung in den Core übernommen, mit dem es möglich sein soll, sogenannte "Shares" mittels einem Link auch in einer anderen Installation einzubinden. Dies ermöglicht es, Dateien auch über die Grenzen des eigenen Servers hinweg zu teilen [@bizblokes2015a].
 
-Die kostenpflichtige Variante von ownCloud geht hier noch einen Schritt weiter. In Abbildung \ref{owncloud_architecture} ist abgebildet, wie ownCloud als eine Art Verbindungsschicht zwischen verschiedenen Lokalen- und Cloud-Speichersystemen dienen soll [@owncloudarchitecture2015, p. 1].
+Die kostenpflichtige Variante von ownCloud geht hier noch einen Schritt weiter. In Abbildung \ref{owncloud_architecture} ist abgebildet, wie ownCloud als eine Art Verbindungsschicht zwischen verschiedenen Lokalen- und Cloud-Speichersystemen dienen soll [@owncloud2015architecture, S. 1].
 
-![ownCloud Enterprise Architektur Übersicht [@owncloudarchitecture2015]\label{owncloud_architecture}](images/owncloud_architecture.png)
+![ownCloud Enterprise Architektur Übersicht [@owncloud2015architecture]\label{owncloud_architecture}](images/owncloud_architecture.png)
 
-Um die Integration in ein Unternehmen zu erleichtern, bietet es verschiedenste Services an. Unter anderem ist es möglich, Benutzerdaten über LDAP oder ActiveDirectory zu verwalten und damit ein doppeltes Verwalten der Benutzer zu vermeiden. [@owncloudarchitecture2015, p. 2]
+Um die Integration in ein Unternehmen zu erleichtern, bietet es verschiedenste Services an. Unter anderem ist es möglich, Benutzerdaten über LDAP oder ActiveDirectory zu verwalten und damit ein doppeltes Verwalten der Benutzer zu vermeiden [@owncloud2015architecture, S. 2].
 
-![Bereitstellungsszenario von ownCloud [@owncloudarchitecture2015]\label{owncloud_deployment}](images/owncloud_deployment.png)
+![Bereitstellungsszenario von ownCloud [@owncloud2015architecture]\label{owncloud_deployment}](images/owncloud_deployment.png)
 
-Für einen produktiven Einsatz wird eine skalierbare Architektur, wie in Abbildung \ref{owncloud_deployment}, vorgeschlagen. An erster Stelle steht ein Load-Balancer, der die Last der Anfragen an mindestens zwei Webserver verteilt. Diese Webserver sind mit einem MySQL-Cluster verbunden, in dem die User-Daten, Anwendungsdaten und Metadaten der Dateien gespeichert sind. Dieser Cluster besteht wiederum aus mindestens zwei redundanten Datenbankservern. Dies ermöglicht auch bei stark frequentierten Installationen eine horizontale Skalierbarkeit. Zusätzlich sind die Webserver mit dem File-Storage verbunden. Auch hier ist es möglich, diesen redundant bzw. skalierbar aufzubauen, um die Effizienz und Sicherheit zu erweitern [@owncloudarchitecture2015, p. 3-4].
+Für einen produktiven Einsatz wird eine skalierbare Architektur, wie in Abbildung \ref{owncloud_deployment}, vorgeschlagen. An erster Stelle steht ein Load-Balancer, der die Last der Anfragen an mindestens zwei Webserver verteilt. Diese Webserver sind mit einem MySQL-Cluster verbunden, in dem die User-Daten, Anwendungsdaten und Metadaten der Dateien gespeichert sind. Dieser Cluster besteht wiederum aus mindestens zwei redundanten Datenbankservern. Dies ermöglicht auch bei stark frequentierten Installationen eine horizontale Skalierbarkeit. Zusätzlich sind die Webserver mit dem File-Storage verbunden. Auch hier ist es möglich, diesen redundant bzw. skalierbar aufzubauen, um die Effizienz und Sicherheit zu erweitern [@owncloud2015architecture, S. 3-4].
 
 Die Nachteile von ownCloud im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
