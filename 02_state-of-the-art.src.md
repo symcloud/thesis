@@ -85,9 +85,9 @@ Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizi
 
  __Beispiel [@diaspora2015b]:__
 
-Alice (alice@alice.diaspora.example.com) versucht mit Bob `bob@bob.diaspora.example.com` in Kontakt zu treten. Zuerst führt der Pod von Alice `alice.diaspora.example.com` einen Webfinger lookup auf den Pod von Bob (bob.diaspora.example.com) aus. Dazu führt Alice eine Anfrage auf die URL `https://bob.diaspora.example.com/.well-known/host-meta`[^21] aus und erhält einen Link zum LRDD ("Link-based Resource Descriptor Document"[^20]).
+Alice (alice@alice.diaspora.example.com) versucht mit Bob `bob@bob.diaspora.example.com` in Kontakt zu treten. Zuerst führt der Pod von Alice `alice.diaspora.example.com` einen Webfinger lookup auf den Pod von Bob (bob.diaspora.example.com) aus. Dazu führt Alice eine Anfrage auf die URL `https://bob.diaspora.example.com/.well-known/host-meta`[^21] (siehe Listing \ref{diaspora_host_meta}) aus und erhält einen Link zum LRDD ("Link-based Resource Descriptor Document"[^20]).
 
-```xml
+```{caption="Host-Meta Inhalt von Bob\label{diaspora_host_meta}" .xml}
 <Link rel="lrdd"
       template="https://bob.diaspora.example.com/?q={uri}"
       type="application/xrd+xml" />
@@ -95,7 +95,7 @@ Alice (alice@alice.diaspora.example.com) versucht mit Bob `bob@bob.diaspora.exam
 
 Unter diesem Link können Objekte auf dem Server von Bob gesucht werden. Als nächster Schritt führt der Server von Alice einen GET-Request auf den LRDD mit den kompletten Benutzernamen von Bob als Query-String aus. Der Response retourniert folgendes Objekt:
 
-```xml
+```{caption="LRDD Inhalt von Bob\label{diaspora_lrdd}" .xml}
 <?xml version="1.0" encoding="UTF-8"?>
 <XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">
   <Subject>acct:bob@bob.diaspora.example.com</Subject>
@@ -125,7 +125,7 @@ GIT[^25] ist eine verteilte Versionsverwaltung, welche ursprünglich entwickelt 
 
 Die Software ist im Grunde eine Key-Value Datenbank. Es werden Objekte in Form einer Datei abgespeichert, in der jeweils der Inhalt des Objekts abgespeichert wird, wobei der Name der Datei den Key des Objektes enthält. Dieser Key wird berechnet, indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten [@chacon2009pro, Kapitel 9.2]. Das Listing \ref{git_calc_hash} zeigt, wie ein SHA in einem Unix-Terminal berechnet werden kann [@keepers2012git].
 
-```{caption="Berechnung des SHA eines Objektes\label{git_calc_hash}" .bash}
+```{caption="Berechnung des SHA eines Objektes\label{git_calc_hash}"}
 $ OBJECT='blob 46\0{"name": "Johannes Wachter", \
   "job": "Web-Developer"}'
 $ echo -e $OBJECT | shasum
@@ -134,7 +134,7 @@ $ echo -e $OBJECT | shasum
 
 Im Listing \ref{git_create_object_blob} wird ein GIT-Objekt vom Typ BLOB erstellt und in den "objects" Ordner geschrieben. 
 
-```{caption="Erzeugung eines GIT-BLOB\label{git_create_object_blob}" .bash}
+```{caption="Erzeugung eines GIT-BLOB\label{git_create_object_blob}"}
 $ git init
 $ OBJECT='blob 46\0{"name": "Johannes Wachter", \
   "job": "Web-Developer"}'
@@ -158,7 +158,7 @@ TREE
 
 :   Der TREE beschreibt einen Ordner im Repository. Ein TREE enthält Referenzen  auf andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. Wie auch der BLOB besitzt ein TREE für sich keinen Namen. Dieser Name wird zu jeder Referenz auf einen TREE oder auf einen BLOB gespeichert (siehe Listing \ref{git_tree_listing}) [@chacon2009pro, Kapitel 9.2].
 
-```{caption="Inhalt eines TREE Objektes\label{git_tree_listing}" .bash .numberLines}
+```{caption="Inhalt eines TREE Objektes\label{git_tree_listing}"}
 $ git cat-file -p 601a62b205bb497d75a231ec00787f5b2d42c5fc
 040000 tree f4f5562f575ac208eac980a0cd1c46d874e37298  images
 040000 tree 61e121cc69e523a68212227f5642fe9b692f5639  diagrams
@@ -171,7 +171,7 @@ COMMIT
 
 :   Der COMMIT enthält einen den ROOT-TREE des Repositories zu einem bestimmten Zeitpunkt.
 
-```{caption="Inhalt eines COMMIT Objektes\label{git_commit_listing}" .bash .numberLines}
+```{caption="Inhalt eines COMMIT Objektes\label{git_commit_listing}"}
 $ git show -s --pretty=raw 6031a1aa
 commit 6031a1aa3ea39bbf92a858f47ba6bc87a76b07e8
 tree 601a62b205bb497d75a231ec00787f5b2d42c5fc
@@ -206,9 +206,9 @@ REFERENCE
 
 ![Beispiel eines Repositories\label{git_data_model} [@chacon2015git]](images/git-data-model-example.png)
 
-In der Abbildung \ref{git_data_model} wird ein kurzes Beispiel für ein Repository visualisiert. Es enthält folgende Ordnerstruktur:
+In der Abbildung \ref{git_data_model} wird ein kurzes Beispiel für ein Repository visualisiert. Die Ordnerstruktur, die dieses Beispiel enthält, ist im Listing \ref{git_data_model_structure}
 
-```
+```{caption="Ordernstruktur zum Repository Beispiel\label{git_data_model_structure}"}
 |-- README
 |-- lib
     |-- inc

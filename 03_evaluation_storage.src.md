@@ -56,9 +56,9 @@ Zusätzlich zu diesen systemdefinierten Metadaten ist es möglich, benutzerdefin
 
 ### Versionierung
 
-Die Speicherlösung bietet eine Versionierung der Objekte an. Diese kann über eine Rest-API, mit folgendem Inhalt, in jedem Bucket aktiviert werden.
+Die Speicherlösung bietet eine Versionierung der Objekte an. Diese kann über eine Rest-API, mit folgendem Inhalt (siehe Listing \ref{s3_versioning_lst}), in jedem Bucket aktiviert werden.
 
-```xml
+```{caption="Aktiviert die Versionierung für ein Objekt\label{s3_versioning_lst}" .xml}
 <VersioningConfiguration
 	xmlns="http://s3.amazonaws.com/doc/2006-03-01/"> 
   <Status>Enabled</Status> 
@@ -263,22 +263,20 @@ Durch die verteilte Architektur von MongoDB werden die Daten automatisch auf all
 
 __Beispiel:__
 
-```php
-$mongo = new Mongo(); 					  // connect to database
-$database = $mongo->selectDB("example");  // select mongo database  
-  
-$gridFS = $database->getGridFS();		  // use GridFS class for
-                                          // handling files  
-  
-$name = $_FILES['Filedata']['name']; 	  // optional - capture
-										  // the name of the 
-										  // uploaded file
+```{caption="GridFS Beispielcode\label{gridfs_example_code}" .PHP}
+$mongo = new Mongo();
+		// connect to database
+$database = $mongo->selectDB('example');
+		// select mongo database
+$gridFS = $database->getGridFS();
+		// use GridFS class for handling files
+$name = $_FILES['Filedata']['name'];
+		// optional - capture the name of the uploaded file
 $id = $gridFS->storeUpload('Filedata', $name);
-										  // load file into
-										  // MongoDB  
+		// load file into MongoDB  
 ```
 
-Bei der Verwendung von MongoDB ist es sehr einfach, Dateien in GridFS abzulegen. Die fehlenden Funktionen wie zum Beispiel, ACL oder Versionierung, machen den Einsatz in Symcloud allerdings schwierig. Auch der starre Aufbau mit nur einem Dateibaum macht die Anpassung der Datenstruktur nahezu unmöglich. Allerdings ist das Chunking der Dateien auch hier zentraler Bestandteil, daher wäre es möglich MongoFS für einen Teil des Speicher-Konzeptes zu verwenden.
+Bei der Verwendung von MongoDB ist es sehr einfach, Dateien in GridFS (siehe Beispielcode in Listing \ref{gridfs_example_code}) abzulegen. Die fehlenden Funktionen wie zum Beispiel, ACL oder Versionierung, machen den Einsatz in Symcloud allerdings schwierig. Auch der starre Aufbau mit nur einem Dateibaum macht die Anpassung der Datenstruktur nahezu unmöglich. Allerdings ist das Chunking der Dateien auch hier zentraler Bestandteil, daher wäre es möglich MongoFS für einen Teil des Speicher-Konzeptes zu verwenden.
 
 ## Zusammenfassung
 

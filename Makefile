@@ -17,7 +17,7 @@ seqdiags:
 formats: pdf docx html
 
 pdf:
-	pandoc --filter pandoc-citeproc --csl csl/FHV.csl --template templates/template.latex --standalone --toc --toc-depth 3 --number-sections --bibliography sources.bib -V lang=german -V mainlang=german -o symcloud-thesis.pdf $(mds) -f markdown+table_captions+pipe_tables+definition_lists+fenced_code_attributes+fenced_code_blocks
+	pandoc --listings --filter pandoc-citeproc --csl csl/FHV.csl --template templates/template.latex --standalone --toc --toc-depth 3 --number-sections --bibliography sources.bib -V lang=german -V mainlang=german -o symcloud-thesis.pdf $(mds) -f markdown+table_captions+pipe_tables+definition_lists+fenced_code_blocks+fenced_code_attributes
 
 html:
 	pandoc --standalone --toc --number-sections --biblio sources.bib -o symcloud-thesis.html $(mds) -f markdown+table_captions+pipe_tables+definition_lists
