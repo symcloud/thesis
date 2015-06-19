@@ -35,13 +35,13 @@
 
   : Objekt Metadaten [@amazon2015b]\label{awz_object_metadata}
 
-## \label{implementation_oauth}Exkurs: OAuth2
+## \label{implementation_oauth}Exkurs: OAuth2 {.unnumbered}
 
 Für die Authentifizierung wurde das Protokoll OAuth in der Version 2 implementiert. Dieses offene Protokoll erlaubt eine standardisierte, sichere API-Autorisierung für Desktop, Web und Mobile-Applikationen. Initiiert wurde das Projekt von Blaine Cook und Chris Messina [@hammer2010oauth].
 
 Der Benutzer kann einer Applikation den Zugriff auf seine Daten autorisieren, die von einer anderen Applikation zur Verfügung gestellt wird. Dabei werden nicht alle Details seiner Zugangsdaten preisgegeben. Typischerweise wird die Weitergabe eines Passwortes an Dritte vermieden [@hammer2010oauth].
 
-### Begriffe
+### Begriffe {.unnumbered}
 
 In OAuth2 werden folgende vier Rollen definiert:
 
@@ -77,7 +77,7 @@ Scopes
 
 Die Interaktion zwischen Ressourcenserver und Autorisierungsserver ist nicht spezifiziert. Diese beiden Server können in der selben Applikation betrieben werden, aber auch eine verteilte Infrastruktur wäre möglich. Dabei würden die beiden auf verschiedenen Servern betrieben werden. Der Autorisierungsserver könnte in einer verteilten Infrastruktur Tokens für mehrere Ressourcenserver bereitstellen [@hardt2012oauth, Seite 5].
 
-### Protokoll Ablauf
+### Protokoll Ablauf {.unnumbered}
 
 ![Ablaufdiagramm des OAuth\label{oauth_flow} [@hardt2012oauth, Seiten 7]](diagrams/oauth2/flow.png)
 
@@ -90,7 +90,7 @@ D) Der Autorisierungsserver authentifiziert den Client, validiert den "authoriza
 E) Der Client fordert eine geschützte Ressource und autorisiert die Anfrage mit dem Token.
 F) Der Ressourcenserver validiert den Token und gibt die Ressource zurück.
 
-### Zusammenfassung
+### Zusammenfassung {.unnumbered}
 
 OAuth2 wird verwendet, um es externen Applikationen zu ermöglichen, auf die Dateien der Benutzer zuzugreifen. Das Synchronisierungsprogramm Jibe verwendet dieses Protokoll, um die Autorisierung zu erhalten, um die Dateien des Benutzers zu verwalten.
 

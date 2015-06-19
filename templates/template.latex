@@ -195,13 +195,20 @@ $endfor$
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
 
 \begin{document}
+
+% roman page numbers and such; only available in scrbook
+\frontmatter
+
 $if(title)$
 \maketitle
 $endif$
+$if(zusammenfassung)$
+\addchap*{Zusammenfassung}
+$zusammenfassung$
+$endif$
 $if(abstract)$
-\begin{abstract}
+\addchap*{Abstract}
 $abstract$
-\end{abstract}
 $endif$
 
 $for(include-before)$
@@ -222,9 +229,13 @@ $endif$
 $if(lof)$
 \listoffigures
 $endif$
-$if(listings)$
+$if(lol)$
 \lstlistoflistings
 $endif$
+
+% marks main part using arabic page numbers and such; only available in scrbook
+\mainmatter
+
 $body$
 
 $if(natbib)$
