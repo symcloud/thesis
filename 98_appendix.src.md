@@ -102,5 +102,3 @@ Dieses Kapitel enthält eine kurze Dokumentation wie Symcloud (inklusive JIBE) i
 ### Lokal {.unnumbered}
 
 ### Verteilt {.unnumbered}
-
-# Literaturverzeichnis {.unnumbered}

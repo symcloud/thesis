@@ -1,8 +1,16 @@
 dots = $(shell find ./diagrams -type f -iname "*.dita")
 seqdiags = $(shell find ./diagrams -type f -iname "*.seqdiag")
 mds = $(shell ls *.src.md)
+pdf_params = --listings --filter pandoc-citeproc --csl csl/fhv.csl --template templates/template.latex --standalone --toc --toc-depth 3 --number-sections --bibliography sources.bib
 
-all: ditaa dot seqdiags pdf docx html
+pdf_vars = -V lang=german -V mainlang=german -V documentclass=scrbook -V classoption=oneside -V biblio-title=Literaturverzeichnis
+lol = -V lol=true 
+lof = -V lof=true
+lot = -V lot=true
+
+format = markdown+table_captions+pipe_tables+definition_lists+fenced_code_blocks+fenced_code_attributes
+
+all: ditaa dot seqdiags pdf pdf_intro
 
 ditaa:
 	$(foreach f,$(dots), ditaa -E -o $(f);)
@@ -14,22 +22,8 @@ dot:
 seqdiags:
 	$(foreach f,$(seqdiags), seqdiag $(f);)
 
-formats: pdf docx html
-
 pdf:
-	pandoc --listings --filter pandoc-citeproc --csl csl/FHV.csl --template templates/template.latex --standalone --toc --toc-depth 3 --number-sections --bibliography sources.bib -V lang=german -V mainlang=german -V lol=true -V lof=true -V lot=true -V documentclass=scrbook -V classoption=oneside -o symcloud-thesis.pdf $(mds) -f markdown+table_captions+pipe_tables+definition_lists+fenced_code_blocks+fenced_code_attributes
+	pandoc $(pdf_params) $(lol) $(lot) $(lof) $(pdf_vars) -o symcloud-thesis.pdf $(mds) -f $(format)
 
-html:
-	pandoc --standalone --toc --number-sections --biblio sources.bib -o symcloud-thesis.html $(mds) -f markdown+table_captions+pipe_tables+definition_lists
-
-docx:
-	pandoc --standalone --toc --number-sections --biblio sources.bib -o symcloud-thesis.docx $(mds) -f markdown+table_captions+pipe_tables+definition_lists
-
-openpdf: pdf
-	open ./symcloud-thesis.pdf
-
-openhtml: html
-	open ./symcloud-thesis.html
-
-opendocx: docx
-	open ./symcloud-thesis.docxs
+pdf_intro:
+	pandoc $(pdf_params) $(lof) $(pdf_vars) -o symcloud-intro.pdf 01_introduction.src.md 99_references.src.md -f $(format)
