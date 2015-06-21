@@ -3,7 +3,7 @@ seqdiag {
 
 	EventDispatcher => Replicator [label = "onStore", return = "data"]{
 		Replicator => Replicator [label = "determine backup server"];
-		Replicator => Replicator [label = "mark current as primary server"];
+		Replicator => Replicator [label = "mark current\nserver as primary"];
 
 		Replicator => "Api Server 2" [label = "store as backup", return = "ACK"];
 		Replicator => "Api Server 3" [label = "store as backup", return = "ACK"];

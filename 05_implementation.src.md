@@ -146,7 +146,7 @@ Die Bibliothek "Distributed-Storage" bietet eine einfache und effiziente Impleme
 
 ## \label{chapter_implementation_platform}Plattform
 
-Die Plattform bzw. die Anwendung stellt die Rest-API und die Authentifizierung zur Verfügung. Dies ermöglicht der Bibliothek die Kommunikation mit anderen Servern und Applikationen.  Zusätzlich beinhaltet sie die Oberfläche, um mit den Daten in einem Browser zu interagieren.
+Die Plattform bzw. die Anwendung stellt die Rest-API und die Authentifizierung zur Verfügung. Dies ermöglicht der Bibliothek die Kommunikation mit anderen Servern und Applikationen. Zusätzlich beinhaltet sie die Oberfläche, um mit den Daten in einem Browser zu interagieren.
 
 ### Authentifizierung
 
@@ -160,7 +160,21 @@ Die Rest-API ist, wie schon im Kapitel \ref{chapter_concept_rest_api} beschriebe
 
 ### Benutzeroberfläche
 
-Die Benutzeroberfläche ... __TODO was wurde/wird implementiert__
+Die Architektur der Benutzeroberfläche von SULU ist als "Single-Page-Application" ausgeführt. In dieser Architektur, die Oberfläche der Website ist aus individuellen Komponenten zusammengesetzt, die unabhängig aktualisiert und ersetzt werden kann [@mesbah2007spi]. Das bedeutet, dass die Oberfläche aus nur einem klassischem Request aufgebaut wird. In diesem ist die Grundstruktur definiert und die Grundlegenden JavaScript Dateien eingebunden. Dieses Scripts laden dann alle anderen JavaScript Dateien nach, die die Oberfläche Stück für Stück zusammensetzt.
+
+![Grundlegender Aufbau des SULU-Admin\label{sulu_basic_ui}](images/screenshots/sulu_basic_ui.png)
+
+In der Abbildung \ref{sulu_basic_ui} ist der Grundlegende Aufbau des Sulu-UI zu erkennen. Im Rechten ist eine Erweiterbare Navigation, die bereits den Symcloud Punkt "Dateien enthält", und in Linken Bereich ist der sogenannte "Content"-Bereich. Dieser Bereich kann von den nachgeladenen Komponenten gefüllt werden. Um das UI einheitlich zu gestalten, bietet SULU vordefinierte Komponenten an, die zum Beispiel eine Liste abstrahieren. Dieser Listen-Komponente wird im Grunde eine URL übergeben, unter welcher die Daten heruntergeladen werden können. Die Liste generiert daraufhin eine Tabelle mit den Daten aus dem Response der angegeben URL (siehe Abbildung \ref{sulu_symcloud_file_list}).
+
+![Dateiliste von symCloud\label{sulu_symcloud_file_list}](images/screenshots/sulu_symcloud_file_list.png)
+
+Über der Liste ist eine Toolbar, über die neue Dateien erstellt werden können. Über die beiden anderen Schaltflächen, lässt sich die Ansicht der Liste (Reihenfolge und Sichtbarkeit der Spalten bzw. Umschalten zwischen Listen- und Vorschaubildansicht) verändern. Um Dateien zu löschen oder zu bearbeiten erscheinen bei neben dem Namen zwei Schaltflächen, wenn die Maus über den Namen bewegt wird (siehe Abbildung \ref{sulu_symcloud_edit_file}).
+
+![Schaltfläche um Datei zu bearbeiten oder löschen\label{sulu_symcloud_edit_file}](images/screenshots/sulu_symcloud_edit_file.png)
+
+Das Formular für neue Dateien ist einfach gestaltet. Es bietet zwei Formularfelder, mit denen der Name und Inhalt der Datei bearbeitet werden kann. Mit dem selben Formular können Dateien auch bearbeitet werden.
+
+![Formular um neue Datei zu erstellen\label{sulu_symcloud_file_list}](images/screenshots/sulu_symcloud_add_form.png)
 
 ### Zusammenfassung
 
@@ -298,7 +312,17 @@ In diesem Beispiel wurde auch die Komplexität des Synchronisierungsprozesses du
 
 ## Zusammenfassung
 
-__TODO Zusammenfassung Kapitel Implementierung__
+Die Prototypen Implementierung umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und der Datenbank, die in der Lage ist die Daten über eine Menge von Servern verteilen, auch eine einfache Plattform, mit der Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren wurde der Client Jibe implementiert. Der über ein einfache REST-API in der Lage ist die Dateien zu synchronisieren.
+
+Vorgesehene aber nicht implementiert wurden die Bereiche:
+
+Zugriffskontrolle
+
+:   ???
+
+Replikationen auf Basis von Benutzerberechtigungen
+
+:   ???
 
 [^60]: <http://symfony.com/doc/current/components/console/introduction.html>
 [^61]: <http://php.net/manual/de/intro.phar.php>
