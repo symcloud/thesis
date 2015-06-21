@@ -294,7 +294,7 @@ Die Tabelle \ref{table_jibe_flow} gibt Aufschluss über die Erkennung von Komman
 
   : Legende zu Tabelle \ref{table_jibe_flow}
 
-Nicht angeführte Werte in der Tabelle, sind zu dem Zeitpunkt nicht verfügbar bzw. nicht benötigt. Was zum Beispiel bedeutet, dass wenn der Lokale Hash nicht angeführt ist, die Datei nicht vorhaden ist (gelöscht oder noch nicht angelegt).
+Nicht angeführte Werte in der Tabelle, sind zu dem Zeitpunkt nicht verfügbar bzw. nicht benötigt. Was zum Beispiel bedeutet, dass wenn der Lokale Hash nicht angeführt ist, die Datei nicht vorhanden ist (gelöscht oder noch nicht angelegt).
 
 Beispiel der Auswertungen anhand des Falles Nummer vier (aus der Tabelle \ref{table_jibe_flow}):
 
@@ -316,13 +316,10 @@ Die Prototypen Implementierung umfasst die wichtigsten Punkte des im vorherigen 
 
 Vorgesehene aber nicht implementiert wurden die Bereiche:
 
-Zugriffskontrolle
+* Zugriffskontrolle
+* Replikationen auf Basis von Benutzerberechtigungen
 
-:   ???
-
-Replikationen auf Basis von Benutzerberechtigungen
-
-:   ???
+Diese Bereiche können als Eventhandler implementiert werden. Alle dafür benötigten Komponenten sind vorhanden. Die Zugriffskontrollliste könnte als Policy zu jedem Objekt gespeichert werden. Auf Basis dieser Policy könnte sowohl der Replikator entscheiden welche Server Zugriff auf das Objekt besitzen, als auch ein Eventhandler entscheiden, ob das Objekt für den Benutzer, der das Objekt angefragt hat, verfügbar ist.
 
 [^60]: <http://symfony.com/doc/current/components/console/introduction.html>
 [^61]: <http://php.net/manual/de/intro.phar.php>
