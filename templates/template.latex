@@ -160,7 +160,7 @@ $endfor$
 \usepackage[doublespacing]{setspace}
 \usepackage{lscape}
 \usepackage{eso-pic}
-\newcommand{\landscapestart}{\begin{landscape}}
+\newcommand{\landscapestart}{\begin{landscape}\setkeys{Gin}{width=\textwidth,height=\textheight,keepaspectratio}}
 \newcommand{\landscapeend}{\end{landscape}}
 
 % listings (source: http://stackoverflow.com/questions/741985/latex-source-code-listing-like-in-professional-books)

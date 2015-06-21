@@ -1,11 +1,13 @@
 seqdiag {
-  Manager -> Database [label = "store"]{
+  edge_length = 150;  // default value is 192
+
+  Manager => Database [label = "store"]{
     Database => MetadataManager [label = "loadByModel", return = "return metadata"];
     Database -> Database [label = "serialize model"];
 
     Database => EventDispatcher [label = "throw 'store' event", return = "return event results"];
 
-    Database -> StorageAdapter [label = "store"];
-    Database -> SearchAdapter [label = "index"];
+    Database => StorageAdapter [label = "store"];
+    Database => SearchAdapter [label = "index"];
   }
 }
