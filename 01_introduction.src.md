@@ -1,4 +1,4 @@
-# Einleitung
+# \label{chapter_introduction}Einleitung
 
 Seit dem Aufkommen von Cloud-Diensten, befinden sich immer mehr AnwenderInnen in einem Konflikt zwischen Datensicherheit und Datenschutz. Cloud-Dienste ermöglichen es, Daten sicher zu speichern und mit seinen Mitmenschen zu teilen. Jedoch gibt es große Bedenken der  BenutzerInnen im Bezug auf den Datenschutz, wenn sie Ihre Daten aus der Hand geben. Diese Problematik veranschaulichen auch verschiedene Studien. Sie beweisen, dass es immer mehr NutzerInnen in die Cloud zieht (siehe Abbildung \ref{dropbox_usage}), dabei aber die Bedenken gegen genau diese Anwendungen, zunehmen (siehe Abbildung \ref{cloud_services_concerns}).
 
@@ -18,7 +18,7 @@ Diese Statistiken zeigen, dass immer mehr Menschen das Bedürfnis verspüren, di
 
 Diaspora
 
-:   Diaspora ist ein dezentrales soziales Netzwerk. Die BenutzerInnen von diesem sozialen Netzwerk sind durch die verteilte Infrastruktur nicht von einem Dienstleister abhängig. Es ermöglicht, seinen Freunden bzw. der Familie, eine private "social-media" Plattform anzubieten und diese nach seinen Wünschen zu gestalten. Das Interessante daran sind die sogenannten Pods (dezentrale Knoten), die sich beliebig untereinander vernetzen lassen. Dies ermöglicht es auch Benutzern, die nicht auf demselben Server registriert sind, miteinander zu kommunizieren. Pods können von jedem installiert und betrieben werden; dabei kann der Betreiber bestimmen, wer in sein Netzwerk eintreten darf und welche Server mit seinem Kontakt aufnehmen dürfen. Die verbundenen Pods tauschen die Daten ohne einen zentralen Knoten aus. Dies garantiert die volle Kontrolle über seine Daten im Netzwerk [@diaspora2015a]. Entwickelt wurde dieses Projekt in der Programmiersprache Ruby.
+:   Diaspora ist ein dezentrales soziales Netzwerk. Die BenutzerInnen von diesem sozialen Netzwerk sind durch die verteilte Infrastruktur nicht von einem Dienstleister abhängig. Es ermöglicht, seinen Freunden bzw. der Familie, eine private "social-media" Plattform anzubieten und diese nach seinen Wünschen zu gestalten. Das Interessante daran sind die sogenannten Pods (dezentrale Knoten), die sich beliebig untereinander vernetzen lassen. Dies ermöglicht es auch Benutzern, die nicht auf demselben Server registriert sind, miteinander zu kommunizieren. Pods können von jedem installiert und betrieben werden; dabei kann der Betreiber bestimmen, wer in sein Netzwerk eintreten darf und welche Server mit seinem Kontakt aufnehmen dürfen. Die verbundenen Pods tauschen die Daten ohne einen zentralen Knoten aus. Dies garantiert die volle Kontrolle über seine Daten im Netzwerk [@diaspora2015about]. Entwickelt wurde dieses Projekt in der Programmiersprache Ruby.
 
 ownCloud
 
@@ -95,6 +95,16 @@ Funktionalitäten
 Architektur
 
 :   Aufgrund der Inspiration durch Diaspora und Xanadu ist die Anforderung an die Architektur von verteilten Aspekten geprägt.
+
+Neben diesen funktionalen Anforderungen gelten allgemeine Anforderungen an die Software wie zum Beispiel:
+
+Stand der Technik
+
+:   Die Entwicklung der Software entspricht dem Stand der Technik. 
+
+Wartbarkeit und Erweiterbarkeit
+
+:   Wartbarkeit bezeichnet den Grad der Effektivität mit der eine Software, durch einen Entwickler angepasst werden kann [@iso25010]. Gleiches gilt für die Erweiterbarkeit.
 
 ### Datensicherheit
 

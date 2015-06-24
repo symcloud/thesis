@@ -27,3 +27,10 @@ Theoretisch ist es möglich, dass Dateien, nach bestimmten Chunks durchsucht wer
 ## \label{lock_mechanism}Lock-Mechanismen
 
 __TODO kurze Beschreibung und Ansätze__ 
+
+## \ref{chapter_outlook_protocolls}Protokolle
+
+Welche Protokolle wären möglich um die Replikation zu vereinheitlichen:
+
+* Webfinger (Kommunikation zwischen diespora und symCloud)
+* PubSubHubbub

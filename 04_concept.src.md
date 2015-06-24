@@ -48,7 +48,7 @@ Policies
 
 ## \label{chapter_concept_database}Datenbank
 
-Die Datenbank ist eine einfache "Hash-Value" Datenbank, die mithilfe eines Replikators zu einer verteilen Datenbank erweitert wird. Die Datenbank serialisiert die Objekte und speichert sie mithilfe eines Adapters auf einem bestimmten Speichermedium. Zusätzlich spezifiziert jeder Objekt-Typ, welche Daten als Metadaten in einer Suchmaschine indiziert werden sollen. Dies ermöglicht eine schnelle Suche innerhalb dieser Metadaten, ohne auf das eigentliche Speichermedium zuzugreifen.
+Die Datenbank ist eine einfache "Hash-Value" Datenbank, die mithilfe eines Replikators zu einer verteilen Datenbank erweitert wird. Dieses Prinzip wird auch von der Versionsverwaltung GIT als Datenspeicher verwendet (siehe Kapitel \ref{chapter_distributed_datamodel}). Die Datenbank serialisiert die Objekte und speichert sie mithilfe eines Adapters auf einem bestimmten Speichermedium. Zusätzlich spezifiziert jeder Objekt-Typ, welche Daten als Metadaten in einer Suchmaschine indiziert werden sollen. Dies ermöglicht eine schnelle Suche innerhalb dieser Metadaten, ohne auf das eigentliche Speichermedium zuzugreifen.
 
 Symcloud verwendet einen ähnlichen Mechanismus für die Replikationen, wie in Kapitel \ref{xtreemfs_replication} beschrieben wurde. Es implementiert eine einfache Form des primärbasierten Protokolls. Dabei wird jedem Objekt der Server als primary zugewiesen, auf dem es erzeugt wurde. Aus einem Pool an Servern werden die Backupserver ermittelt. Dabei gibt es drei Arten diese zu ermitteln.
 

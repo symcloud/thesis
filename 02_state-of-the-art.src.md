@@ -1,6 +1,6 @@
 # \label{chapter_state_of_the_art}Stand der Technik
 
-In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die Begriffe verteilte Systeme und verteilte Dateisysteme definiert. Anschließend werden drei Anwendungen beschrieben, die als Inspiration für das Projekt Symcloud verwendet werden.
+In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die Begriffe verteilte Systeme und verteilte Dateisysteme definiert. Anschließend werden drei Anwendungen beschrieben, die als Inspiration für das Projekt symCloud verwendet werden.
 
 ## \label{verteilte_systeme}Verteilte Systeme
 
@@ -18,7 +18,7 @@ Gerade im Bereich der verteilten Dateisysteme, bietet sich die Möglichkeit, Dat
 
 ## Cloud-Datenhaltung
 
-Es gibt verschiedene Applikationen, die es erlauben, seine Dateien in einer Cloud-Umgebung zu verwalten. Viele dieser Applikationen sind Kommerzielle Produkte, wie Dropbox[^22] oder Google Drive[^23]. Andere jedoch sind frei verfügbar und wie zum Beispiel ownCloud[^24] sogar Open-Source. Zwei dieser Applikationen werden hier etwas genauer betrachtet und soweit es möglich ist die Speicherkonzepte analysiert. 
+Es gibt verschiedene Applikationen, die es erlauben, seine Dateien in einer Cloud-Umgebung zu verwalten. Viele dieser Applikationen sind kommerzielle Produkte, wie Dropbox[^22] oder Google Drive[^23]. Andere jedoch sind frei verfügbar wie zum Beispiel ownCloud[^24], welches sogar Open-Source ist. Zwei dieser Applikationen werden hier etwas genauer betrachtet und soweit es möglich ist die Speicherkonzepte analysiert. 
 
 ### Dropbox
 
@@ -50,7 +50,7 @@ Alles in allem ist Dropbox als Grundlage für symCloud aufgrund der fehlenden Er
 
 ### ownCloud
 
-Nach den neuesten Entwicklungen arbeitet ownCloud an einem ähnlichen Feature wie Symcloud. Unter dem Namen "Remote shares" wurde in der Version 7 eine Erweiterung in den Core übernommen, mit dem es möglich sein soll, sogenannte "Shares" mittels einem Link auch in einer anderen Installation einzubinden. Dies ermöglicht es, Dateien auch über die Grenzen des eigenen Servers hinweg zu teilen [@bizblokes2015a].
+Nach den neuesten Entwicklungen arbeitet ownCloud an einem ähnlichen Feature wie symCloud. Unter dem Namen "Remote shares" wurde in der Version sieben eine Erweiterung in den Core übernommen, mit dem es möglich sein soll, sogenannte "Shares" mittels einem Link auch in einer anderen Installation einzubinden. Dies ermöglicht es, Dateien auch über die Grenzen des eigenen Servers hinweg zu teilen [@bizblokes2015a]. Jedoch ist diese Verteilung nicht in der Architektur verankert und nur über eine Systemerweiterung möglich.
 
 Die kostenpflichtige Variante von ownCloud geht hier noch einen Schritt weiter. In Abbildung \ref{owncloud_architecture} ist abgebildet, wie ownCloud als eine Art Verbindungsschicht zwischen verschiedenen Lokalen- und Cloud-Speichersystemen dienen soll [@owncloud2015architecture, S. 1].
 
@@ -68,24 +68,24 @@ Architektur
 
 :   Die Software ist dafür ausgelegt, um die Anforderungen, auf einem einzigen Server zu erfüllen. Es ermöglicht zwar eine verteilte Architektur, allerdings nur, um die Last auf verschiedene Server zu verteilen. Im Gegensatz dazu versucht symCloud die Daten zwischen verschiedenen Instanzen zu verteilen um die Zusammenarbeit zwischen Benutzern zu ermöglichen, die auf verschiedenen Servern registriert sind.
 
-Moderne Programmierung
+Stand der Technik
 
-:   Aufgrund der Tatsache, dass ownCloud schon im Jahre 2010 und sich die Programmiersprache PHP und die Community rasant weiterentwickelt, ist der Kern von ownCloud in einem überholten Stil programmiert.
+:   Aufgrund der Tatsache, dass ownCloud schon im Jahre 2010 und sich die Programmiersprache PHP und die Community rasant weiterentwickelt, ist der Kern von ownCloud in einem Stil programmiert, der nicht mehr dem heutigen Stand der Technik entspricht.
 
-Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen, erfüllen kann ist das Datenmodell nicht ausgelegt, um die Daten zu verteilen. Ein weiterer großer Nachteil ist die veraltete Codebasis.
+Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen, erfüllen kann ist das Datenmodell nicht dafür ausgelegt, um die Daten zu verteilen. Ein weiterer großer Nachteil ist die veraltete Codebasis.
 
 ## Verteilte Daten - Beispiel Diaspora
 
-Diaspora ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilt. Diese Daten werden mithilfe von Standardisierten Protokollen über einen sicheren Transport-Layer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2015b]. In folgenden Situationen wird dieses Protokoll verwendet:
+Diaspora (genauere Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen. Diese Daten werden mithilfe von Standardisierten Protokollen über einen sicheren Transport-Layer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
 
 * Um Benutzerinformationen zu finden, die auf anderen Servern registriert sind.
 * Erstellte Informationen an Benutzer zu versenden, mit denen sie geteilt wurden.
 
 Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Das Webfinger Protokoll wird verwendet, um Informationen über Benutzer oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige URI. Es verwendet den HTTP-Standard als Transport-Layer über eine sichere Verbindung. Als Format für die Antworten wird JSON verwendet [@jones2013webfinger, Kapitel 1].
 
- __Beispiel [@diaspora2015b]:__
+ __Beispiel [@diaspora2014protocol]:__
 
-Alice (alice@alice.diaspora.example.com) versucht mit Bob `bob@bob.diaspora.example.com` in Kontakt zu treten. Zuerst führt der Pod von Alice `alice.diaspora.example.com` einen Webfinger lookup auf den Pod von Bob (bob.diaspora.example.com) aus. Dazu führt Alice eine Anfrage auf die URL `https://bob.diaspora.example.com/.well-known/host-meta`[^21] (siehe Listing \ref{diaspora_host_meta}) aus und erhält einen Link zum LRDD ("Link-based Resource Descriptor Document"[^20]).
+Alice versucht mit Bob in Kontakt zu treten. Um die nötigen URLs für die weitere Kommunikation zwischen den Servern zu ermöglichen führt der Pod von Alice einen  Webfinger lookup auf den Pod von Bob aus. Der Response einen ähnlichen Inhalt, wie in Listing \ref{diaspora_host_meta} dargestellt ist. Dieser Response wird LRDD ("Link-based Resource Descriptor Document"[^20]) genannt und enthält die URL um Daten von dem Server abzufragen bzw. zu suchen.
 
 ```{caption="Host-Meta Inhalt von Bob\label{diaspora_host_meta}" .xml}
 <Link rel="lrdd"
@@ -93,31 +93,11 @@ Alice (alice@alice.diaspora.example.com) versucht mit Bob `bob@bob.diaspora.exam
       type="application/xrd+xml" />
 ```
 
-Unter diesem Link können Objekte auf dem Server von Bob gesucht werden. Als nächster Schritt führt der Server von Alice einen GET-Request auf den LRDD mit den kompletten Benutzernamen von Bob als Query-String aus. Der Response retourniert folgendes Objekt:
+Um Informationen über den Benutzer Bob zu erhalten, führt der Pod von Alice einen Request auf die angeführte URL mit dem Benutzernamen von Bob aus. Dieser Response enthält alle relevanten Informationen über Bob und weitere Links für nähere Details oder Aktionen, die auf den gesuchten User ausgeführt werden können. Der Response kann bei nicht eindeutigem Suchbegriff auch mehrere Entitäten enthalten.
 
-```{caption="LRDD Inhalt von Bob\label{diaspora_lrdd}" .xml}
-<?xml version="1.0" encoding="UTF-8"?>
-<XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">
-  <Subject>acct:bob@bob.diaspora.example.com</Subject>
-  <Alias>"http://bob.diaspora.example.com/"</Alias>
-  <Link rel="http://microformats.org/profile/hcard" 
-        type="text/html"
-        href="http://bob.diaspora.example.com/hcard/users/((guid))"/>
-  <Link rel="http://joindiaspora.com/seed_location" 
-        type="text/html" href="http://bob.diaspora.example.com/"/>
-  <Link rel="http://joindiaspora.com/guid" type="text/html"
-        href="((guid))"/>
-  <Link rel="http://schemas.google.com/g/2010#updates-from"
-        type="application/atom+xml"
-        href="http://bob.diaspora.example.com/public/bob.atom"/>
-  <Link rel="diaspora-public-key" type="RSA"
-        href="((base64-encoded rsa public key))"/>
-</XRD>
-```
+Über dieses Protokoll lassen sich die Pods von Alice und Bob verbinden. Die Daten die dabei verteilt werden, werden auf jedem Pod in einer Relationalen Datenbank abgelegt [@diaspora2015installation].
 
-Das Objekt enthält die Links zu weiteren, in Diaspora gespeicherten, Informationen des Benutzers, welcher im Knoten "Subject" angeführt wird.
-
-Dieses Beispiel zeigt, wie Diaspora auf einfachste Weise Daten auf einem sicheren Kanal austauschen kann.
+Diaspora ist ein gutes Beispiel, wie Daten in einem Dezentralen Netzwerk verteilt werden können. Da allerdings das gesamte Konzept dafür ausgelegt ist, Benutzer miteinander zu lassen, ist die Erweiterung auf ein Dateimodell sehr schwierig. Jedoch könnte eine Kommunikation zwischen Diaspora und symCloud, durch die Abstraktion der API durch das Webfinger Protokoll, möglich sein (siehe Kapitel \ref{chapter_outlook_protocolls}).
 
 ## \label{chapter_distributed_datamodel}Verteilte Datenmodelle - Beispiel GIT
 
@@ -206,29 +186,47 @@ REFERENCE
 
 ![Beispiel eines Repositories\label{git_data_model} [@chacon2015git]](images/git-data-model-example.png)
 
-In der Abbildung \ref{git_data_model} wird ein kurzes Beispiel für ein Repository visualisiert. Die Ordnerstruktur, die dieses Beispiel enthält, ist im Listing \ref{git_data_model_structure}
+In der Abbildung \ref{git_data_model} wird ein einfaches Beispiel für ein Repository visualisiert. Die Ordnerstruktur die dieses Beispiel enthält, ist im Listing \ref{git_data_model_structure} dargestellt.
 
 ```{caption="Ordernstruktur zum Repository Beispiel\label{git_data_model_structure}"}
-|-- README
-|-- lib
-    |-- inc
-    |   |-- tricks.rb
-    |-- mylib.rb
+|-- README (Datei)
+|-- lib (Ordner)
+    |-- inc (Ordner)
+    |   |-- tricks.rb (Datei)
+    |-- mylib.rb (Datei)
 ```
 
-Wobei `README`, `tricks.rb` und `mylib.rb` Dateien und die beiden anderen `lib` und `lib/inc` Ordner sind. Der COMMIT enthält eine Referenz auf den ROOT-TREE, der wiederum auf den ein TREE-Objekt mit dem Namen `lib`, welcher schlussendlich eine Referenz auf das TREE-Objekt mit dem Namen `inc` enthält. Jeder dieser drei TREE-Objekte enthält jeweils eine Referenz auf einen BLOB mit den jeweiligen Namen der Datei.
+Der COMMIT (98ca9..) enthält eine Referenz auf den ROOT-TREE (0de24..). Dieser TREE enthält weitere Referenzen zu einem TREE-Objekt (10af9..) mit dem Namen `lib` und dem BLOB-Objekt (e8455..) mit dem Namen README. Dies wird bis zum TREE-Objekt (b70f8..) fortgesetzt, welches eine Referenz auf den BLOB (0ad1a..) mit dem Namen tricks.rb enthält. Das Beispiel visualisiert, wie Komplexe Ordnerstrukturen in GIT verwaltet und gespeichert werden können.
 
 Die Nachteile von GIT im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
 Architektur
 
-:   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu Automatisieren. Ein weiteres Problem, dass bei der Verwendung von GIT entstehen würde, ist die fehlende Möglichkeit Zugriffsberechtigungen festzulegen.
+:   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu automatisieren. Ein weiteres Problem, dass bei der Verwendung von GIT entstehen würde, ist die fehlende Möglichkeit Zugriffsberechtigungen festzulegen.
 
-Da die Anwendung GIT für die Verwendung als Datenspeicher, aufgrund der Fehlenden Verteilungsmechanismen, für das Projekt ungeeignet ist, aber das Datenmodell die meisten der Anforderungen erfüllen würde, wird dieses Datenmodell, in Kapitel \ref{chapter_concept_datamodel}, als Grundlage für das Datenmodell von symCloud herangezogen. 
+Da die Anwendung GIT für die Verwendung als Datenspeicher, aufgrund der Fehlenden Verteilungsmechanismen, für das Projekt ungeeignet ist, aber viele der Anforderungen erfüllen würde, wird dieses Datenmodell, in Kapitel \ref{chapter_concept_datamodel}, als Grundlage für symCloud herangezogen. Außerdem wird die Idee der Key-Value Datenbank im Kapitel \ref{chapter_concept_database} bei der Konzeption der Datenbank aufgegriffen.
 
 ## Zusammenfassung
 
 In diesem Kapitel wurden zuerst die Begriffe verteilte Systeme und verteilte Dateisysteme definiert. Diese Begriffe werden in den folgenden Kapiteln in dem hier beschriebenen Kontext verwendet. Anschließend wurden aktuelle Systeme anhand der Kriterien betrachtet, die für symCloud von Interesse sind. Jedes dieser Systeme bietet Ansätze, die bei der Konzeption von symCloud berücksichtigt werden kann.
+
+Dropbox
+
+:   Kommerzielles Produkt mit dem gewünschten Funktionsumfang hinsichtlich der Dateisynchronisierung und Benutzerinteraktion. Allerdings im Bezug auf das Projekt symCloud, aufgrund des nicht verfügbaren Quellcodes, nur als Inspirationsquelle verfügbar.
+
+ownCloud
+
+:   Dieses quelloffene Projekt ist eine gute alternative zu kommerziellen Lösungen wie zum Beispiel Dropbox. Es ist eine der Inspirationsquellen für symCloud, jedoch aufgrund des überholten Programmierstils und der fehlenden verteilten Architektur, nicht als Grundlage für ownCloud verwendbar.
+
+Diaspora
+
+:   Das quelloffene Social-Media Projekt ist ein Pionier in Sachen verteilter Architektur. Das Protokoll, welches von Diaspora eingesetzt wird, dient als Inspiration für die Entwicklung von symCloud.
+
+GIT
+
+:   Aufgrund des Datenmodells von GIT, welches als Grundlage für symCloud dient, ist diese Versionsverwaltung für die verteilte Anwendung optimal ausgerüstet. Es ermöglicht den verbundenen Servern (Clients) eine schnelle und einfache Synchronisation der Daten.
+
+Jedes dieser vier Systeme bieten Ansätze, die für die Entwicklung von symCloud relevant sind. 
 
 [^20]: <https://tools.ietf.org/html/rfc6415#section-6.3>
 [^21]: <https://tools.ietf.org/html/rfc6415#section-2>
