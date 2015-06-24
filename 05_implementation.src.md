@@ -32,7 +32,7 @@ Session
 
 Manager
 
-:   Um die Komplexität der jeweiligen Objekte zu abstrahieren, implementieren die Manager die jeweilige Funktionalität, um mit diesen Objekten zu kommunizieren. Die Objekte sind dabei reine Daten-Container.
+:   Verwalten den Lifecycle der Domain-Objekte. Der jeweilige Manager erstellt und verwaltet die Objekte eines bestimmten Typen (zum Beispiel CommitMananger verwaltet Commit-Objekte). Die Verwender der Manager sind jeweils gegen die Interfaces des Objektes programmiert (siehe Manager Pattern[^69]). Die Instancen des Typen sind reine Daten-Container. Die Manager-Schicht ermöglicht eine spezifische Schnittstelle für jeden Objekt-Typen und eine gezielte Kommunikation mit der Datenbank.
 
 Database
 
@@ -116,7 +116,7 @@ Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle be
 
 \landscapeend
 
-Mithilfe dieses einfachen Mechanismuses kann der Replikator Daten von anderen Servern nachladen, ohne zu wissen, wo sich die Daten befinden. Dieser Prozess bringt allerdings Probleme mit sich. Zum Beispiel muss jeder Server angefragt werden, bevor der Replikator endgültig sagen kann, dass das Objekt nicht existiert. Dieser Prozess kann daher bei einem großen Netzwerk sehr lange dauern. Dieser Fall sollte allerdings aufgrund des Datenmodells nur selten vorkommen, da Daten nicht gelöscht werden und daher keine Deadlinks entstehen können.
+Mithilfe dieses einfachen Mechanismuses kann der Replikator Daten von anderen Servern nachladen, ohne zu wissen, wo sich die Daten befinden. Dieser Prozess bringt allerdings Probleme mit sich. Zum Beispiel muss jeder Server angefragt werden, bevor der Replikator endgültig sagen kann, dass das Objekt nicht existiert. Bei einem sehr großen Netzwerk kann dieser Prozess sehr lange dauern. Aufgrund des Datenmodell sollte dieser Fall allerdings nur selten vorkommen, da Daten nicht gelöscht werden und daher keine Deadlinks entstehen können.
 
 ### Adapter
 
@@ -126,13 +126,19 @@ Storage
 
 :   Der "StorageAdapter" wird verwendet, um serialisierte Objekte lokal zu speichern oder zu laden. Er implementiert im Grunde einen einfachen Befehlssatz: `store`, `fetch`, `contains` und `delete`. Jeder dieser Befehle erhält, neben anderen Parametern, einen Hash und einen Kontext. Der Hash ist sozusagen der Index des Objektes. Der Kontext wird verwendet, um Namensräume für die Hashes zu schaffen. Dies implementiert der Dateisystemadapter, indem er für jeden Kontext einen Ordner erstellt und für jeden Hash eine Datei. So kann schnell auf ein einzelnes Objekt zugegriffen werden.
 
-__TODO Beispiel__
+__Beispiel:__
+ 
+Der Befehl aus Listing \ref{listing_storage_store} erzeugt aus den übergebenen Hash-Key den Pfad `ab/cd/12/34.symcloud.dat`. In dieser Datei werden die serialisierten Daten abgelegt. Bei einer Anfrage der Daten mittels Hash-Key, können die Daten direkt aus der Datei gelesen und retourniert werden. Dieser Mechanismus wird von der Cache-Bibliothek von Doctrine[^70] wiederverwendet.
+
+```{caption="Storage-Adapter store\label{listing_storage_store}" .PHP}
+$storageAdapter->store('abcd1234', array('name' => 'Storage-Example'), 'example');
+```
 
 Search
 
 :   Der "SearchAdapter" wird verwendet, um die Metadaten zu den Objekten zu indexieren. Dies wird benötigt, wenn die Daten durchsucht werden. Jeder "SearchAdapter" implementiert folgende Befehle: `index`, `search` und `deindex`. Wobei auch hier mit Hash und Kontext gearbeitet wird. Über den Suchbefehl, können alle oder bestimmte Kontexte durchsucht werden. Für die Entwicklung des Prototypen wurde die Bibliothek Zend-Search-Lucene[^67] verwendet, da diese ohne weitere Abhängigkeiten verwendet werden kann.
 
-Bei der Verwendung des Replikators gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen mit dem Remoteserver kommunizieren kann. Dieser Adapter implementiert den Befehlssatz: `fetch` und `store`.
+Bei der Verwendung des Replikators gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen mit dem Remoteserver kommunizieren kann. Dieser Adapter implementiert den Befehlssatz: `fetch` und `store`. Diese beiden Methoden werden verwendet, um Remote-Objekte abzufragen oder zu erstellen.
 
 Die Adapter sind Klassen, die die Komplexität des Speichermediums bzw. der API von der restlichen Applikation trennen, um dadurch die Bibliothek unabhängig von der Applikation implementieren zu können.
 
@@ -150,7 +156,7 @@ Die Plattform bzw. die Anwendung stellt die Rest-API und die Authentifizierung z
 
 ### Authentifizierung
 
-Die Authentifizierung und die Benutzerverwaltung stellt die Plattform SULU zur Verfügung. Hierfür wird der "UserProvider" von SULU dem "Distributed-Storage" bekannt gemacht. Allerdings stellt die Plattform nur eine Authentifizierung mittels HTML-Formular (Benutzername und Passwort) oder HTTP-Basic standardmäßig zur Verfügung. Um die Verwendung der API auch für Dritt-Entwickler Applikationen zu ermöglichen, wurde das Protokoll OAuth2 in SULU integriert. Eine genauere Beschreibung dieses Protokolls wird im Kapitel \ref{implementation_oauth} gegeben.
+Die Authentifizierung und die Benutzerverwaltung stellt die Plattform SULU zur Verfügung. Hierfür wird der "UserProvider" von SULU dem "Distributed-Storage" bekannt gemacht. Allerdings stellt die Plattform nur eine Authentifizierung mittels HTML-Formular (Benutzername und Passwort) oder HTTP-Basic standardmäßig zur Verfügung. Um die Verwendung der API auch für Dritt-Entwickler Applikationen zu ermöglichen, wurde das Protokoll OAuth2 in SULU integriert. Eine genauere Beschreibung dieses Protokolls wird im Anhang \ref{implementation_oauth} gegeben.
 
 Eine Autorisierung zwischen den Servern ist momentan nicht vorgesehen. Dies wurde in der ersten Implementierungsphase nicht umgesetzt, wäre aber für eine produktiven Einsatz unerlässlich.
 
@@ -330,3 +336,5 @@ Diese Bereiche können als Eventhandler implementiert werden. Alle dafür benöt
 [^66]: <http://www.massiveart.com/de>
 [^67]: <http://framework.zend.com/manual/1.12/de/zend.search.lucene.html>
 [^68]: <http://restcookbook.com/>
+[^69]: <http://wiki.hsr.ch/APF/TheManagerPattern>
+[^70]: <http://doctrine-orm.readthedocs.org/en/latest/reference/caching.html>
