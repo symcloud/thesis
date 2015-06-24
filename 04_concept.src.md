@@ -58,7 +58,7 @@ Full
 
 Permissions
 
-:   Wenn ein Objekt auf Basis der Zugriffsrechte verteilt wird, wird es auf allen Servern erstellt, die mindestens einen Benutzer registriert haben, der Zugriff auf dieses Objekt besitzt. Dabei gibt es keine Maximalanzahl der Backupserver. Dieses Verfahren wird für kleinere Objekte, die zum Beispiel Datei- bzw. Ordnerstrukturen enthalten, verwendet. Die Verteilung kann sofort ausgeführt werden oder die Objekte werden beim ersten Zugriff jeden Backupservers "Lazy" nachgeladen. Der Vorteil der "Lazy" Technik ist es, dass die Server nicht immer erreichbar sein müssen, allerdings kann es zu Inkonsistenzen kommen, wenn ein Server nicht die neuesten Daten verwendet, bevor er Änderungen durchführt. Wichtig ist bei diesem Verfahren, dass Änderungen der Zugriffsrechte automatisch zu einem neuen Objekt führen, damit die Backupserver diese Änderung mitbekommen. Um die Datensicherheit für diese Objekte zu erhöhen, könnten aus dem Serverpool eine konfigurierbare Anzahl von Backupservern, wie bei dem Full Typen, ausgewählt werden. Allerdings müsste der Pool auf die zugriffsberechtigten Server beschränkt werden. Diese Methode wurde nicht vollständig implementiert, da der Prototyp keine Autorisierung für Objekte vorsieht. Allerdings werden Objekte, die nicht in der Lokalen Datenbank vorhanden sind, nachgeladen.
+:   Wenn ein Objekt auf Basis der Zugriffsrechte verteilt wird, werden alle Servern, die mindestens einen Benutzer registriert haben der Zugriff auf dieses Objekt besitzt, als Backupserver markiert. Dabei gibt es keine Maximalanzahl der Backupserver. Das Bedeutet das Objekte mit diesem Typ, die nur einen Berechtigten besitzen nicht verteilt werden und daher nicht sicher sind vor Verlust oder Zerstörung. Dieses Verfahren wird für kleinere Objekte, die zum Beispiel Datei- bzw. Ordnerstrukturen enthalten, verwendet. Es gibt dabei zwei mögliche Zeitpunkte der Verteilung: sofort oder bei Zugriff. Sofort bedeutet, dass bei der Erstellung, das Objekt an jeden Server versendet wird. Die zweite Möglichkeit nennt man "Lazy loading", da das Objekt erst dann von einem Server angefragt wird, wenn er dieses benötigt. Der Vorteil dieser Technik ist es, dass die Server nicht immer erreichbar sein müssen. Allerdings kann es zu Inkonsistenzen kommen, wenn ein Server nicht die neuesten Daten verwendet, bevor er Änderungen durchführt. Wichtig ist bei diesem Verfahren, dass Änderungen der Zugriffsrechte automatisch zu einem neuen Objekt führen, damit die Backupserver diese Änderung mitbekommen. Um die Datensicherheit für diese Objekte zu erhöhen, könnten aus dem Serverpool eine konfigurierbare Anzahl von Backupservern, wie bei dem Full Replikationstypen, ausgewählt werden. Allerdings müsste der Pool auf die zugriffsberechtigten Server beschränkt werden. Diese Methode wurde nicht vollständig implementiert, da der Prototyp keine Autorisierung für Objekte vorsieht. Allerdings werden Objekte, die nicht in der Lokalen Datenbank vorhanden sind, nachgeladen. Objekte dieses Typen, könnten theoretisch gelöscht werden, wenn alle berechtigten BenutzerInnen gelöscht worden wären. Dies ist allerdings aufgrund der verteilten Architektur schwer umzusetzen und daher im implementierten Prototypen nicht umgesetzt.
 
 Stubs
 
@@ -116,11 +116,14 @@ Directory
 
 File
 
-:   Unter dem Pfad `/file/<reference-name>/<directory>/<filename>.<extension>` können Dateien heruntergeladen werden oder ihre Informationen abgefragt werden.
+:   Unter dem Pfad `/file/<reference-name>/<directory>/<filename>.<extension>` können Dateien heruntergeladen werden oder ihre Informationen abgefragt werden. Über Post-, Put- und Delete-Requests können Dateien erstellt, aktualisiert und gelöscht werden.
 
 Reference
 
-:   Die Schnittstelle für die Referenzen erlaubt das Erstellen und Abfragen von Referenzen. Zusätzlich können mittels PATCH-Requests Dateien, aus dem Namensraum einer bestimmten Referenz, geändert und diese gesammelt versioniert werden.
+:   Die Schnittstelle für die Referenzen erlaubt das Erstellen und Abfragen von Referenzen. Um mehrere Dateien gleichzeitig zu aktualisieren ermöglicht die Referenz-API einen Patch-Request mit einer Liste von Operationen. Diese Operationen werden auf dem Tree des neuesten Commit ausgeführt, ein neuer Commit angelegt und die Referenz aktualisiert.
+
+
+Um gesammelte Änderungen von Dateien über eine Referenz an den Server zu senden, kann mittels PATCH-Request die Dateien aktualisiert, ein neuer Commit erstellt und die Referenz aktualisiert werden. Zusätzlich können mittels PATCH-Requests Dateien, aus dem Namensraum einer bestimmten Referenz, geändert und diese gesammelt versioniert werden.
 
 Objekts
 
