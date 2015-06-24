@@ -155,11 +155,11 @@ Effizienz
 
 Andrew Birrell und Roger Needham setzten sich folgende Entwurfsziele für Ihr Universal File System [@birrell1980a]:
 
-	We would wish a simple, low-level, file server in order to
-	share an expensive resource, namely a disk, whilst leaving
-	us free to design the filing system most appropriate to
-	a particular client, but we would wish also to have
-	available a high-level system shared between clients.
+> We would wish a simple, low-level, file server in order to
+> share an expensive resource, namely a disk, whilst leaving
+> us free to design the filing system most appropriate to
+> a particular client, but we would wish also to have
+> available a high-level system shared between clients.
 
 Aufgrund der Tatsache, dass Festplatten heutzutage nicht mehr so teuer sind, wie in den 1980ern, ist das erste Ziel nicht mehr von zentraler Bedeutung. Jedoch ist die Vorstellung von einem Dienst, der die Anforderung verschiedenster Clients mit unterschiedlichen Aufgabenstellungen erfüllt, ein zentraler Aspekt der Entwicklung von verteilten (Datei-)Systemen [@coulouris2003verteilte, S. 369ff].
 
@@ -249,7 +249,7 @@ Dieses Protokoll ist auch für mobile Computer geeignet, die in einem Offline-Mo
 
 Im Bezug auf die Anforderungen (siehe Kapitel \ref{specification}) bieten die analysierten verteilten Dateisysteme von Haus aus keine Versionierung. Es gab Versuche der Linux-Community, mit Wizbit[^33], ein auf GIT-basierendes Dateisystem zu entwerfen, das Versionierung mitliefern sollte [@arstechnica2008a]. Dieses Projekt wurde allerdings seit Ende 2009 nicht mehr weiterentwickelt [@openhub2015a]. Die benötigten Zugriffsberechtigungen werden zwar auf der Systembenutzerebene durch ACL unterstützt, jedoch müssten dann die Anwendungen für jeden Anwendungsbenutzer einen Systembenutzer anlegen [@xtreemfs2015a, Kapitel 7.2]. Dies wäre zwar auf einer einzelnen Installation machbar, jedoch macht es eine verteilte Anwendung komplizierter und eine Installation aufwändiger. Allerdings können gute Erkenntnisse aus der Analyse der Replikationsmechanismen bzw. der Konsistenzprotokolle von XtreemFS gezogen werden und in ein Gesamtkonzept mit eingebunden werden.
 
-__TODO fehlender Bezug zum Projekt__
+Die hier beschriebenen Protokolle und Konzepte werden im Kapitel \ref{chapter_concept_database} aufgegriffen, um die Daten effizient und sicher zwischen den Servern zu verteilen. Dabei werden wesentliche Konzepte des Lokalen-Schreibens verwendet, um das Protokoll für symCLoud zu definieren. 
 
 ## Datenbankgestützte Dateiverwaltungen
 
