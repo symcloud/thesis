@@ -14,35 +14,11 @@ Die Implementierung des Prototypen wurde in drei Teile unterteilt. Im ersten Tei
 
 Auch wenn der entwickelte Prototyp nicht alle Facetten des Konzepts umsetzt, ist er ein Beweis für die Funktionstüchtigkeit ebendieses. Einige Punkte wurden im Konzept nicht betrachtet. Einer dieser Punkte ist die Performance des Systems, dieser Punkt macht in der aktuellen Implementierung am meisten Probleme. Hier könnten weiterführende Analysen und Verbesserungen gerade in der Verteilung der Replikationen erhebliche Verbesserungen bringen. Dieser und andere Punkte werden in den folgenden Abschnitten etwas genauer betrachtet.
 
-## \label{outlook_distribution}Verteilung von Chunks
+## Performance von Replikationen
 
-Besseres Verfahren als Zufall verwenden, das den freien Speicher als Grundlage für die Auswahl stellt. Eventuell könnte der Primary Server ebenfalls (zumindest für FULL - also Blobs) Aufgrund des freien Speicherplatzes ermittelt werden (falls der erstellende Server schon sehr viele Objekte besitzt oder wenig Speicherplatz besitzt).
-		
-__TODO__
+Die Performance der Replikationen ist stark abhängig von der Performance des Übertragungsmediums. Jedoch implementiert der Prototyp ein Prozess, der den eigentlichen Prozess blockiert und dadurch die Antwortzeit an den Client stark beeinflusst.
 
-* Was wird sonst verwendet?
-* Literaturrecherche
-* Papers
-
-## \label{outlook_conflict}Konfliktbehandlung
-
-Neben der Erkennung von Konflikten, ist auch die sinnvolle Lösung des Konflikts er ernstes Problem. Unterschieden werden drei verschiedene Stufen der Konfliktbehandlung [@bleiholder:techniken]:
-
-Konflikte werden ignoriert
-
-:   Es werden weder Unsicherheiten beseitigt, noch Widersprüche aufgelöst. Als Beispiel hierfür gilt, dass die letzte Änderung übernommen wird, ohne die Änderungen davor zu betrachten.
-
-Konflikte werden vermieden
-
-:   Die Unsicherheiten werden beseitigt, jedoch können die Widersprüche nicht gelöst werden, jedoch durch die geschickte Auswahl von Werten umgangen.
-
-Konflikte werden gelöst
-
-:   Alle Unsicherheiten können beseitigt und die Widersprüche sinnvoll aufgelöst werden.
-
-Um die beiden Versionen zusammenzuführen, können verschiedene Operatoren (wie JOIN, UNION oder MERGE) verwendet werden. Diese Operatoren führen aber nur Objekte sinnvoll zusammen, wenn die Änderungen jeweils andere Eigenschaften betreffen [@bleiholder:techniken].
-
-Den Inhalt einer Datei zusammenzuführen ist ungleich schwieriger. Dabei verwenden Anwendungen wie Dropbox oder ownCloud einen einfachen Mechanismus, bei denen beide Versionen nebeneinander erstellt werden (mit einem Zusatz im Dateinamen) und die Konflikte werden nicht automatisch aufgelöst [@dropbox2015conflicts].
+Genau aus diesem Grund implementiert das verteilte Konfigurationsmanagement ZooKeeper[^90] das Protokoll Zab. Es basiert auf Broadcast Nachrichten, um die Änderungen in einem Netzwerk zu verteilen. Dabei können alle Replikationen abstimmen, ob die Änderung durchführbar ist. Dieses Votum und die Änderungen auf allen Replikationen laufen Parallel ab. Bei Zookeeper kümmert sich ein eigener Prozess um diesen Broadcast, dies vermindert die Antwortzeit an die Clients und den Durchsatz des Systems [@Reed:2008:STO:1529974.1529978].
 
 ## \label{outlook_file_chunking}Rsync Algorithmus
 
@@ -65,3 +41,25 @@ PubSubHubbub
 :   Andere PubSub-Protokolle verlangen von den Clients, dass sie in regelmäßigen Abständen neue Beiträge abfragen. Dies führt zu einer Zeitdifferenz zwischen Erstellen und anzeigen. Außerdem fällt viel Overhead an falls es keine neuen Beiträge gibt. PubSubHubbub integriert daher einen sogenannten Hub zwischen Server und Client. Die Feed-Server pingen bei eine neuen Beitrag die Hubs an, diese holen sich daraufhin den Beitrag und leiten ihn via Push an die Clients weiter. Die Aufgabe, die Nachrichten sicher an die Clients zu versenden, bleibt dem Hub über [@fitzpatrick2014hub]. In symCloud könnte ein solcher Hub das Bindeglied zwischen primary- und Backupserver sein. Dies würde die Performance des Erstellens und Verteilens eines Objektes enorm beschleunigen. Jedoch müssten sich die Hubs darum kümmern, die Änderungen und neuen Objekte sicher an die Backupserver weiterzuleiten.
 
 Neben der Interoperabilität zwischen verschiedenen Applikationen (Webfinger) bietet gerade das Protokoll PubSubHubbub eine enorme Steigerung der Datensicherheit und Performance.
+
+## \label{outlook_conflict}Konfliktbehandlung
+
+Neben der Erkennung von Konflikten, ist auch die sinnvolle Lösung des Konflikts er ernstes Problem. Unterschieden werden drei verschiedene Stufen der Konfliktbehandlung [@bleiholder:techniken]:
+
+Konflikte werden ignoriert
+
+:   Es werden weder Unsicherheiten beseitigt, noch Widersprüche aufgelöst. Als Beispiel hierfür gilt, dass die letzte Änderung übernommen wird, ohne die Änderungen davor zu betrachten.
+
+Konflikte werden vermieden
+
+:   Die Unsicherheiten werden beseitigt, jedoch können die Widersprüche nicht gelöst werden, jedoch durch die geschickte Auswahl von Werten umgangen.
+
+Konflikte werden gelöst
+
+:   Alle Unsicherheiten können beseitigt und die Widersprüche sinnvoll aufgelöst werden.
+
+Um die beiden Versionen zusammenzuführen, können verschiedene Operatoren (wie JOIN, UNION oder MERGE) verwendet werden. Diese Operatoren führen aber nur Objekte sinnvoll zusammen, wenn die Änderungen jeweils andere Eigenschaften betreffen [@bleiholder:techniken].
+
+Den Inhalt einer Datei zusammenzuführen ist ungleich schwieriger. Dabei verwenden Anwendungen wie Dropbox oder ownCloud einen einfachen Mechanismus, bei denen beide Versionen nebeneinander erstellt werden (mit einem Zusatz im Dateinamen) und die Konflikte werden nicht automatisch aufgelöst [@dropbox2015conflicts].
+
+[^90]: <https://zookeeper.apache.org/>
