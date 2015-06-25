@@ -157,7 +157,7 @@ $endfor$
 \fi
 
 % my changes
-\usepackage[doublespacing]{setspace}
+\usepackage[onehalfspacing]{setspace}
 \usepackage{lscape}
 \usepackage{eso-pic}
 \newcommand{\landscapestart}{\begin{landscape}\setkeys{Gin}{width=\textwidth,height=\textheight,keepaspectratio}}
