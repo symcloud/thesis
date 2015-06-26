@@ -4,11 +4,11 @@ Seit dem Aufkommen von Cloud-Diensten, befinden sich immer mehr AnwenderInnen in
 
 ![Anzahl der Dropbox-Nutzer weltweit zwischen Januar 2010 und Mai 2014 (in Millionen) [@statista2014dropbox]\label{dropbox_usage}](images/statista/dropbox-usage.png)
 
-Die Statistik aus der Abbildung \ref{dropbox_usage} zeigt, wie die Nutzerzahlen des kommerziellen Cloud-Dienstes Dropbox[^4], in den Jahren 2010 bis 2014 von anfänglich 4 Millionen auf 300 Millionen im Jahre 2014 angestiegen sind.
+Die Statistik aus der Abbildung \ref{dropbox_usage} zeigt, wie die Nutzerzahlen des kommerziellen Cloud-Dienstes Dropbox[^4], in den Jahren 2010 bis 2014 von anfänglich 4 Millionen auf 300 Millionen NutzerInnen im Jahre 2014 angestiegen sind.
 
 ![Hauptbedenken der Nutzer von Cloud-Diensten in Österreich im Jahr 2012 [@statista2012concerns]\label{cloud_services_concerns}](images/statista/cloud-services-concerns.png)
 
-Im Gegensatz dazu wurde im Jahre 2012 in Österreich erhoben, dass nur etwa 17% der AnwenderInnen diese Dienste ohne Bedenken verwendet. Das meistgenannte Bedenken dieser Studie ist: __Fremdzugriff auf die Daten ohne Information__.
+Im Gegensatz dazu wurde im Jahre 2012 in Österreich erhoben (siehe \ref{cloud_services_concerns}), dass nur etwa 17% der AnwenderInnen diese Dienste ohne Bedenken verwenden. Das meistgenannte Bedenken dieser Studie ist: __Fremdzugriff auf die Daten ohne informiert zu werden__.
 
 Dieses Bedenken ist seit den Abhörskandalen, durch verschiedenste Geheimdienste wie zum Beispiel die NSA, noch verstärkt worden. Dies zeigt eine Umfrage aus dem Jahre 2014, die in Deutschland durchgeführt wurde (Abbildung \ref{cloud_services_concerns_nsa}). Dabei gaben 71% an, dass das Vertrauen zu Cloud-Diensten durch diese Skandale beschädigt worden ist.
 
@@ -18,11 +18,11 @@ Diese Statistiken zeigen, dass immer mehr Menschen das Bedürfnis verspüren, di
 
 Diaspora
 
-:   Diaspora ist ein dezentrales soziales Netzwerk. Die BenutzerInnen von diesem sozialen Netzwerk sind durch die verteilte Infrastruktur nicht von einem Dienstleister abhängig. Es ermöglicht, seinen Freunden bzw. der Familie, eine private "social-media" Plattform anzubieten und diese nach seinen Wünschen zu gestalten. Das Interessante daran sind die sogenannten Pods (dezentrale Knoten), die sich beliebig untereinander vernetzen lassen. Dies ermöglicht es auch Benutzern, die nicht auf demselben Server registriert sind, miteinander zu kommunizieren. Pods können von jedem installiert und betrieben werden; dabei kann der Betreiber bestimmen, wer in sein Netzwerk eintreten darf und welche Server mit seinem Kontakt aufnehmen dürfen. Die verbundenen Pods tauschen die Daten ohne einen zentralen Knoten aus. Dies garantiert die volle Kontrolle über seine Daten im Netzwerk [@diaspora2015about]. Entwickelt wurde dieses Projekt in der Programmiersprache Ruby.
+:   Diaspora ist ein dezentrales soziales Netzwerk. Die BenutzerInnen von diesem sozialen Netzwerk sind durch die verteilte Infrastruktur nicht von einem Dienstleister abhängig. Es ermöglicht, seinen Freunden bzw. der Familie, eine private "social-media" Plattform anzubieten und diese nach seinen Wünschen zu gestalten. Das Interessante daran sind die sogenannten Pods (dezentrale Knoten), die sich beliebig untereinander vernetzen lassen. Dies ermöglicht es auch Benutzern, die nicht auf demselben Server registriert sind, miteinander zu kommunizieren. Pods können von jedem installiert und betrieben werden; dabei kann der Betreiber bestimmen, wer in sein Netzwerk eintreten darf und welche Server mit dem eigenen Kontakt aufnehmen dürfen. Die verbundenen Pods tauschen die Daten ohne einen zentralen Knoten aus. Dies garantiert die volle Kontrolle über seine Daten im Netzwerk [@diaspora2015about]. Entwickelt wurde dieses Projekt in der Programmiersprache Ruby.
 
 ownCloud
 
-:   Das Projekt ownCloud ist eine Software, die es ermöglicht, Dateien in einer privaten Cloud zu verwalten. Mittels Endgeräte-Clients können die Dateien synchronisiert und über die Plattform auch geteilt werden. Insgesamt bietet die Software einen ähnlichen Funktionsumfang gängiger kommerzieller Lösungen an [@owncloud2015features]. Zusätzlich bietet es eine Kollaborationsplattform, mit der zum Beispiel Dokumente über einen online Editor, von mehreren Benutzern gleichzeitig, bearbeitet werden können. Diese Technologie basiert auf der JavaScript Library WebODF[^3]. Implementiert ist dieses Projekt hauptsächlich in den Programmiersprachen PHP und JavaScript.
+:   Das Projekt ownCloud ist eine Software, die es ermöglicht, Dateien in einer privaten Cloud zu verwalten. Mittels Endgeräte-Clients können die Dateien synchronisiert und über die Plattform auch geteilt werden. Insgesamt bietet die Software einen ähnlichen Funktionsumfang gängiger kommerzieller Lösungen [@owncloud2015features]. Zusätzlich bietet es eine Kollaborationsplattform, mit der zum Beispiel Dokumente über einen online Editor, von mehreren Benutzern gleichzeitig, bearbeitet werden können. Implementiert ist dieses Projekt hauptsächlich in den Programmiersprachen PHP und JavaScript.
 
 Beide Software-Pakete ermöglichen es den NutzerInnen, Ihre Daten in einer vertrauenswürdigen Umgebung zu verwalten. Diese Umgebung wird nur ungern verlassen, um seine Daten anderen zur Verfügung zu stellen. Aufgrund dieses Umstandes, ist es für Anwendungen oft sehr schwer, sich für die breite Masse zu etablieren. In dieser Arbeit wird speziell auf die Anforderungen von Anwendungen eingegangen, die es ermöglichen soll, Dateien zu verwalten, zu teilen und in einem definierbaren Netzwerk zu verteilen. Speziell wird der Fall betrachtet, wenn zwei BenutzerInnen die auf verschiedenen Servern registriert sind, Dateien zusammen verwenden wollen. Dabei sollen die Vorgänge, die nötig sind, um die Dateien zwischen den Servern zu übertragen, transparent für die NutzerInnen gehandhabt werden.
 
@@ -30,15 +30,15 @@ Beide Software-Pakete ermöglichen es den NutzerInnen, Ihre Daten in einer vertr
 
 SymCloud ist eine private Cloud-Software, die es ermöglicht, über dezentrale Knoten (ähnlich wie Diaspora) Dateien über die Grenzen des eigenen Servers hinweg zu teilen. Verbundene Knoten tauschen über sichere Kanäle Daten aus, die anschließend über einen Client mit dem Endgerät synchronisiert werden können. Dabei ist es für den Benutzer irrelevant, woher die Daten stammen.
 
-Wobei es bei der Arbeit weniger um die Plattform, als um die Konzepte geht, die es ermöglichen eine solche Plattform umzusetzen. Dabei wird im speziellen die Datenhaltung für solche Systeme betrachtet. Um diese Konzepte, so unabhängig wie möglich von der Plattform zu gestalten, wird die Implementierung dieser Konzepte in einer eigenständigen Library entwickelt. Dieser Umstand ermöglicht eine Weiterverwendung in anderen Plattformen und Anwendungen, die ihren BenutzerInnen ermöglichen wollen, Dateien zu erstellen, verwalten, bearbeiten oder teilen. Damit kann das erstellte Konzept als Grundlage für eine "Spezifikation" von derartigen Prozessen weiterverwendet werden.
+Wobei es bei der Arbeit weniger um die Plattform, als um die Konzepte geht, die es ermöglichen eine solche Plattform umzusetzen. Dabei wird im speziellen die Datenhaltung für solche Systeme betrachtet. Um diese Konzepte, so unabhängig wie möglich von der Plattform zu gestalten, werden diese in einer eigenständigen Bibliothek entwickelt. Dieser Umstand ermöglicht eine Weiterverwendung in anderen Plattformen und Anwendungen, die ihren BenutzerInnen ermöglichen wollen, Dateien zu erstellen, verwalten, bearbeiten oder teilen. Damit kann das erstellte Konzept als Grundlage für eine "Spezifikation" von derartigen Prozessen ausgebaut werden.
 
-In der ersten Phase, in der diese Arbeit entsteht, werden grundlegende Konzepte aufgestellt. Diese beginnen mit der Festlegung eines Datenmodells und der Implementierung einer Datenbank, die diese Daten mit anderen Server teilen kann. Dieses Teilen von Daten soll voll konfigurierbar sein, dies bedeutet, dass die AdministratorInnen die Freiheit haben zu entscheiden, welche Server welche Daten zur Verfügung gestellt bekommen. Dabei gibt es zwei Stufen der Konfiguration, zum einen über eine Liste von vertrauenswürdigen Servern, welche sozusagen eine "Whitelist" darstellt, mit denen die BenutzerInnen kommunizieren dürfen. Die zweite Stufe sind die Rechte auf ein einzelnes Objekt. Diese Rechte regeln zusätzlich welche Benutzer (und damit die Server auf denen die Benutzer registriert sind) das Objekt tatsächlich verwenden dürfen.
+In der ersten Phase, in der diese Arbeit entsteht, werden grundlegende Konzepte aufgestellt. Diese beginnen mit der Festlegung eines Datenmodells und der Implementierung einer Datenbank, die in der Lage ist die Daten mit anderen Servern zu teilen. Dieses Teilen von Daten soll voll konfigurierbar sein, was bedeutet, dass die AdministratorInnen die Freiheit haben zu entscheiden, welche Server welche Daten zur Verfügung gestellt bekommen. Dabei gibt es zwei Stufen der Konfiguration, zum einen über eine Liste von vertrauenswürdigen Servern, welche sozusagen eine "Whitelist" darstellt, mit denen die BenutzerInnen kommunizieren dürfen. Die zweite Stufe sind die Rechte auf ein einzelnes Objekt. Diese Rechte regeln zusätzlich welche Benutzer (und damit die Server auf denen die Benutzer registriert sind) das Objekt tatsächlich verwenden dürfen.
 
-Kurz gesagt, symCloud sollte eine Kombination der beiden Applikationen ownCloud und Diaspora sein. Dabei sollte es die Dateiverwaltungsfunkionen von ownCloud und die Architektur von Diaspora kombinieren, um eine optimale Alternative zu kommerziellen Lösungen, wie Dropbox zu bieten.
+Kurz gesagt, symCloud ist eine Kombination der beiden Applikationen ownCloud und Diaspora. Dabei sollte es die Dateiverwaltungsfunkionen von ownCloud und die Architektur von Diaspora kombinieren, um eine optimale Alternative zu kommerziellen Lösungen, wie Dropbox zu bieten.
 
 ## \label{chapter_inspiration}Inspiration
 
-Als Inspirationsquelle für das Konzept von symCloud dienten neben den schon erwähnten Applikationen auch das Projekt Xanadu[^5]. Dieses Projekt wurde im Jahre 1960 von Ted Nelson gegründet und wurde nie finalisiert. Er arbeitet seit der Gründung an einer Implementierung an der Software [@atwood2009xanadu]. Ted Nelson prägte den Begriff des Hypertext mit der Veröffentlichung eines wissenschaftlichen Artikels "The Hypertext. Proceedings of the World Documentation Federation" im Jahre 1965. Darin beschrieb er Hypertext als Lösung für die Probleme, die normales Papier mit sich bringt [@Nelson:2007:BFH:1286240.1286303].
+Als Inspirationsquelle für das Konzept von symCloud dienten neben den schon erwähnten Applikationen auch das Projekt Xanadu[^5]. Dieses Projekt wurde im Jahre 1960 von Ted Nelson initiiert, allerdings nie finalisiert. Er arbeitet seit der Gründung an einer Implementierung an der Software [@atwood2009xanadu]. Ted Nelson prägte den Begriff des Hypertext mit der Veröffentlichung eines wissenschaftlichen Artikels "The Hypertext. Proceedings of the World Documentation Federation" im Jahre 1965. Darin beschrieb er Hypertext als Lösung für die Probleme, die normales Papier mit sich bringt [@Nelson:2007:BFH:1286240.1286303].
 
 Die darin beschriebenen Probleme sind unter anderem:
 
@@ -48,11 +48,11 @@ Verbindungen
 
 Form
 
-:   Ein Blatt Papier ist begrenzt in seiner Größe und Form. Es zwingt den Text in bestimmte Form, welche später weder verändert noch erweitert werden kann.
+:   Ein Blatt Papier ist begrenzt in seiner Größe und Form. Es zwingt den Text daher in eine bestimmte Form, welche später weder verändert noch erweitert werden kann.
 
 Hypertext sollte nicht das Medium sondern die BenutzerInnen in den Vordergrund stellen. Durch verschiedene Mechanismen sollte Xanadu die Möglichkeit schaffen, dass BenutzerInnen Dokumente verlinken und zusammensetzen können. Jedes Dokument wäre im Netzwerk eindeutig auffindbar und versioniert (also in verschiedenen Versionen abrufbar). Damit ist Xanadu ein nie zu Ende gebrachtes Konzept einer digitalen Bibliothek [@Nelson:2007:BFH:1286240.1286303].
 
-1981 veröffentlichte Ted Nelson in seinem Buch "Literary Machines" 17 Thesen, die die Grundsätze des Projekts Xanadu beschreiben sollten [@nelson1981literary]. Einige davon wurden durch Tim Berners-Lee in der Erfindung des Internets umgesetzt, andere jedoch vernachlässigt [@atwood2009xanadu]. Einige dieser Thesen, die vernachlässigt wurden, sind interessante Denkanstöße für ein Projekt wie symCloud.
+1981 veröffentlichte Ted Nelson in seinem Buch "Literary Machines" 17 Thesen, die die Grundsätze des Projekts Xanadu beschreiben sollten [@nelson1981literary]. Einige davon wurden durch Tim Berners-Lee in der Erfindung des Internets umgesetzt, andere jedoch vernachlässigt [@atwood2009xanadu]. Einige dieser Thesen, die vernachlässigt wurden, sind konkrete Denkanstöße für ein Projekt wie symCloud.
 
 __1. Every Xanadu server can be operated independently or in a network.__
 
@@ -82,7 +82,7 @@ Diese Thesen werden in den folgenden Anforderungen an ein System wie symCloud zu
 
 ## \label{specification}Anforderungen
 
-Aufgrund der beschriebenen Projekte, die als Inspiration verwendet wurden, werden in diesem Abschnitt die Anforderungen an ein System wie symCloud beschrieben. Diese Anforderungen sind unterteilt in:
+Aufgrund der beschriebenen Projekte, die als Inspiration dienen, werden in diesem Abschnitt die Anforderungen an ein System wie symCloud beschrieben. Diese Anforderungen sind unterteilt in:
 
 Datensicherheit
 
@@ -131,7 +131,7 @@ Verlust der Vertraulichkeit
 
 Konkrete Bedrohungen, die eines dieser drei Gefahren auslösen können, sind Katastrophen, technische Defekte oder menschliche Handlungen (ob unbewusst oder bewusst spielt hierbei keine Rolle) [@stahlknecht2013einführung].
 
-Drei der im vorherigen Abschnitt genannten Thesen des Projekts Xanadu bieten Ansätze, wie diese Anforderungen umgesetzt werden können. Durch die Redundanz (These sechs) der Daten kann sowohl der Verlust der Verfügbarkeit oder Integrität in vielen Fällen verhindert werden. Wenn das System sich vergewissern will, ob die Daten valide sind, fordert es alle Kopien der Daten an und vergleicht sie. Sind alle Versionen identisch kann eine Verfälschung ausgeschlossen werden. Nicht mehr verfügbar sind Daten erst dann, wenn alle Kopien der Daten verloren gegangen sind. Die Thesen zwei und vier bieten einen Schutz vor dem Verlust derVertraulichkeit, indem die BenutzerIn eindeutig identifiziert werden kann und ein Zugriffsberechtigungssystem die Berechtigung überprüft. Dadurch kann ausgeschlossen werden, dass sich dritte über die Schnittstellen des Systems, Zugriff auf Daten verschaffen, die sie nicht sehen dürften.
+Drei der im vorherigen Abschnitt genannten Thesen des Projekts Xanadu bieten Ansätze, wie diese Anforderungen umgesetzt werden können. Durch die Redundanz (These sechs) der Daten kann sowohl der Verlust der Verfügbarkeit oder Integrität in vielen Fällen verhindert werden. Wenn das System sich vergewissern will, ob die Daten valide sind, fordert es alle Kopien der Daten an und vergleicht sie. Sind alle Versionen identisch kann eine Verfälschung ausgeschlossen werden. Nicht mehr verfügbar sind Daten erst dann, wenn alle Kopien der Daten verloren gegangen sind, aus diesem Grund können Replikationen helfen die Datensicherheit des Systems zu erhöhen. Die Thesen zwei und vier bieten einen Schutz vor dem Verlust der Vertraulichkeit, indem die BenutzerIn eindeutig identifiziert werden kann und ein Zugriffsberechtigungssystem die Berechtigung überprüft. Dadurch kann ausgeschlossen werden, dass sich dritte über die Schnittstellen des Systems, Zugriff auf Daten verschaffen, die sie nicht sehen dürften.
 
 ### Funktionalitäten
 
@@ -147,7 +147,7 @@ Zusammenarbeit zwischen BenutzerInnen
 
 Zugriffsberechtigungen vergeben
 
-:   Um die Transparenz des Systems zu steigern, sollten die BenutzerInnen entscheiden können, welche Dateien bzw. Ordner von wem und wie verwendet werden können.
+:   Um die Transparenz des Systems zu steigern, sollten die BenutzerInnen entscheiden können, welche Dateien bzw. Ordner von wem bzw. wie verwendet werden können.
 
 Diese drei Anforderungen sind auch Bestandteil des Xanadu Projektes. Durch die Versionierung kann sichergestellt werden, dass Dokumente wenn sie einmal veröffentlicht wurden, immer denselben Inhalt besitzen und über dieselbe URL erreichbar sind. Dies ist speziell für Zitierungen wichtig. Die Zusammenarbeit zwischen den Benutzern und die Zugriffsberechtigungen sind ebenfalls zentrale Bestandteile von Xanadu.
 
@@ -169,13 +169,13 @@ Verschlüsselung
 
 :   Um die Datensicherheit zu gewährleisten, sollten die Daten auf dem Speichermedium und bei der Übertragung zwischen den einzelnen Stationen, verschlüsselt werden. Um den Schutz vor Fremdzugriff auch außerhalb des Systems zu gewährleisten.
 
-Diese Anforderungen sind, wie schon erwähnt, außerhalb des Fokuses dieser Arbeit und des Konzeptes, das während dieser Arbeit entsteht. Sie sind allerdings wichtige Anforderungen an ein produktiv eingesetztes System und sollten daher zumindest eine Erwähnung in dieser Arbeit finden. Sie sind vor allem als Anregung für weiterführende Entwicklungen oder Untersuchungen gedacht.
+Diese Anforderungen sind, wie schon erwähnt, außerhalb des Fokuses dieser Arbeit und des Konzeptes, das in dieser Arbeit beschrieben wird. Sie sind allerdings wichtige Anforderungen an ein produktiv eingesetztes System und sollten daher zumindest eine Erwähnung in dieser Arbeit finden. Sie sind vor allem als Anregung für weiterführende Entwicklungen oder Untersuchungen gedacht.
 
 ## Kapitelübersicht
 
 Im Kapitel \ref{chapter_state_of_the_art} wird ein Überblick über den aktuellen Stand der Technik gegeben. Dabei werden zuerst einige Begriffe für die weitere Arbeit definiert. Danach werden Anwendungen und Technologien durchleuchtet, die die Bereiche Cloud-Datenhaltung, verteilte Daten und verteilte Datenmodelle umfassen.
 
-Anschließend werden in einem Evaluierungskapitel (Kapitel \ref{chapter_evaluation}) Technologien betrachtet, die es ermöglichen, Daten in einer verteilten Architektur zu speichern. Dazu wurden die Bereiche Objekt-Speicherdienste, verteilte Dateisysteme und Datenbank gestützte Dateisysteme mit Beispielen analysiert und auf ihre Tauglichkeit als Basis für ein Speicherkonzept evaluiert.
+Anschließend werden in einem Evaluierungskapitel (Kapitel \ref{chapter_evaluation}) Technologien betrachtet, die es ermöglichen, Daten in einer verteilten Architektur zu speichern. Dazu wurden die Bereiche Objekt-Speicherdienste, verteilte Dateisysteme und Datenbankgestützte Dateisysteme mit Beispielen analysiert und auf ihre Tauglichkeit als Basis für ein Speicherkonzept evaluiert.
 
 Das Kapitel \ref{chapter_concept} befasst sich mit der Konzeption von symCloud. Dabei geht es zentral um das Datenmodell und die Datenbank, die diese Daten speichert und verteilt.
 
@@ -185,6 +185,5 @@ Abschließend (Kapitel \ref{chapter_result_outlook}) werden die Ergebnisse der A
 
 [^1]: <https://diasporafoundation.org/>
 [^2]: <https://owncloud.org/>
-[^3]: <http://webodf.org/>
 [^4]: <https://www.dropbox.com/>
 [^5]: <http://hyperland.com/TBLpage>

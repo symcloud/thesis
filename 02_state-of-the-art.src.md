@@ -1,10 +1,10 @@
 # \label{chapter_state_of_the_art}Stand der Technik
 
-In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die Begriffe verteilte Systeme und verteilte Dateisysteme definiert. Anschließend werden drei Anwendungen beschrieben, die als Inspiration für das Projekt symCloud verwendet werden.
+In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die Begriffe verteilte Systeme und verteilte Dateisysteme definiert. Anschließend werden vier Anwendungen beschrieben, die als Inspiration für das Projekt symCloud verwendet werden.
 
 ## \label{verteilte_systeme}Verteilte Systeme
 
-Andrew Tanenbaum definiert verteilte Systeme in seinem Buch folgendermaßen:
+Andrew Tanenbaum definiert den Begriff der "verteilten Systeme" in seinem Buch folgendermaßen:
 
 > "Ein verteiltes System ist eine Menge voneinander unabhängiger
 > Computer, die dem Benutzer wie ein einzelnes kohärentes
@@ -14,17 +14,17 @@ Diese Definition beinhaltet zwei Aspekte. Der eine Aspekt besagt, dass die einze
 
 Eines der besten Beispiele für verteilte Systeme sind Cloud-Computing Dienste. Diese Dienste bieten verschiedenste Technologien an und umfassen Rechnerleistungen, Speicher, Datenbanken und Netzwerke. Der Anwender kommuniziert hierbei immer nur mit einem System, allerdings verbirgt sich hinter diesen Anfragen ein komplexes System aus vielen Hard- und Softwarekomponenten, welches sehr stark auf Virtualisierung setzt.
 
-Gerade im Bereich der verteilten Dateisysteme, bietet sich die Möglichkeit, Dateien über mehrere Server zu verteilen. Dies ermöglicht eine Verbesserung von Datensicherheit, durch Replikation über verschiedene Server und Steigerung der Effizienz, durch paralleles Lesen der Daten. Diese Dateisysteme trennen meist die Nutzdaten von ihren Metadaten und halten diese, als Daten zu den Daten, in einer effizienten Datenbank gespeichert. Um zum Beispiel Informationen zu einer Datei zu erhalten, wird die Datenbank nach den Informationen durchsucht und direkt an den Benutzer weitergeleitet. Dies ermöglicht schnellere Antwortzeiten, da nicht auf die Nutzdaten zugegriffen werden muss und steigert die Effizienz der Anfragen [@linux2013dateisystem]. Das Kapitel \ref{chapter_distibuted_fs} befasst sich genauer mit verteilten Dateisystemen.
+Gerade im Bereich der verteilten Dateisysteme, bietet sich die Möglichkeit, Dateien über mehrere Server zu verteilen. Dies ermöglicht eine Verbesserung von Datensicherheit, durch Replikation über verschiedene Server und Steigerung der Effizienz, durch paralleles Lesen der Daten. Diese Dateisysteme trennen meist die Nutzdaten von ihren Metadaten und halten diese, als Daten zu den Daten, in einer effizienten Datenbank gespeichert. Um zum Beispiel Informationen zu einer Datei zu erhalten, wird die Datenbank nach den Informationen durchsucht und direkt an den Benutzer weitergeleitet. Dies ermöglicht schnellere Antwortzeiten, da nicht auf die Nutzdaten zugegriffen werden muss und steigert dadurch die Effizienz des Systems [@linux2013dateisystem]. Das Kapitel \ref{chapter_distibuted_fs} befasst sich genauer mit verteilten Dateisystemen.
 
 ## Cloud-Datenhaltung
 
-Es gibt verschiedene Applikationen, die es erlauben, seine Dateien in einer Cloud-Umgebung zu verwalten. Viele dieser Applikationen sind kommerzielle Produkte, wie Dropbox[^22] oder Google Drive[^23]. Andere jedoch sind frei verfügbar wie zum Beispiel ownCloud[^24], welches sogar Open-Source ist. Zwei dieser Applikationen werden hier etwas genauer betrachtet und soweit es möglich ist die Speicherkonzepte analysiert. 
+Es gibt verschiedene Applikationen, die es erlauben, seine Dateien in einer Cloud-Umgebung zu verwalten. Viele dieser Applikationen sind kommerzielle Produkte, wie zum Beispiel Dropbox[^22] oder Google Drive[^23]. Andere jedoch sind frei verfügbar wie zum Beispiel ownCloud[^24], welches sogar einen offenen Quellcode besitzt. Zwei dieser Applikationen werden hier etwas genauer betrachtet und, soweit es möglich ist, die Speicherkonzepte analysiert. 
 
 ### Dropbox
 
-Dropbox-Nutzer können jederzeit von ihrem Desktop aus, über das Internet,  mobile Geräte oder mit Dropbox verbundene Anwendungen auf Dateien und Ordner zugreifen.
+Dropbox-Nutzer können jederzeit von ihrem Desktop aus, über das Internet,  mobile Geräte oder mit Dropbox verbundene Anwendungen auf ihre Dateien und Ordner zugreifen.
 
-Alle diese Clients stellen Verbindungen mit sicheren Servern her, über die sie Zugriff auf Dateien haben und Dateien für andere Nutzer freigeben können. Wenn Daten auf einem Client geändert werden, werden diese automatisch mit dem Server synchronisiert. Verknüpfte Geräte aktualisieren sich automatisch. Dadurch werden Dateien, die hinzugefügt, verändert oder gelöscht werden, auf allen Clients aktualisiert bzw. gelöscht.
+Alle diese Clients stellen Verbindungen mit sicheren Servern her, über die sie Zugriff auf Dateien haben und diese für andere Nutzer freigeben können. Wenn Dateien auf einem Client geändert werden, werden diese automatisch mit dem Server synchronisiert. Verknüpfte Geräte aktualisieren sich automatisch. Dadurch werden Dateien, die hinzugefügt, verändert oder gelöscht werden, auf allen Clients aktualisiert bzw. gelöscht.
 
 Der Dropbox-Service betreibt verschiedenste Dienste, die sowohl für die Handhabung und Verarbeitung von Metadaten, als auch für die Verwaltung des Blockspeichers verantwortlich sind [@dropbox2015a].
 
@@ -46,11 +46,11 @@ Datensicherheit
 
 :  Da Dropbox ausschließlich als "Software as a Service" angeboten wird und nicht auf eigenen Servern installiert werden kann, ist die Datensicherheit im Bezug auf den Schutz vor Fremdzugriff nicht gegeben.
 
-Alles in allem ist Dropbox als Grundlage für symCloud aufgrund der fehlenden Erweiterbarkeit nicht geeignet. Dieser Umstand ist der Tatsache geschuldet, dass der Source-Code nicht frei zugänglich ist und es nicht gestattet wird die Software auf eigenen Servern zu verwenden.
+Alles in allem ist Dropbox als Grundlage für symCloud aufgrund der fehlenden Erweiterbarkeit nicht geeignet. Dieser Umstand ist der Tatsache geschuldet, dass der Source-Code nicht frei zugänglich ist und es nicht gestattet wird die Software auf eigenen Servern zu installieren.
 
 ### ownCloud
 
-Nach den neuesten Entwicklungen arbeitet ownCloud an einem ähnlichen Feature wie symCloud. Unter dem Namen "Remote shares" wurde in der Version sieben eine Erweiterung in den Core übernommen, mit dem es möglich sein soll, sogenannte "Shares" mittels einem Link auch in einer anderen Installation einzubinden. Dies ermöglicht es, Dateien auch über die Grenzen des eigenen Servers hinweg zu teilen [@bizblokes2015a]. Jedoch ist diese Verteilung nicht in der Architektur verankert und nur über eine Systemerweiterung möglich.
+Nach den neuesten Entwicklungen arbeitet ownCloud an einem ähnlichen Feature wie symCloud. Unter dem Namen "Remote shares" wurde in der Version sieben eine Erweiterung in den Core übernommen, mit dem es möglich sein soll, sogenannte "Shares" mittels einem Link auch in einer anderen Installation einzubinden. Dies ermöglicht es, Dateien auch über die Grenzen des eigenen Servers hinweg zu teilen [@bizblokes2014ownCloud]. Jedoch ist diese Verteilung nicht in der Architektur verankert und nur über eine Systemerweiterung möglich.
 
 Die kostenpflichtige Variante von ownCloud geht hier noch einen Schritt weiter. In Abbildung \ref{owncloud_architecture} ist abgebildet, wie ownCloud als eine Art Verbindungsschicht zwischen verschiedenen Lokalen- und Cloud-Speichersystemen dienen soll [@owncloud2015architecture, S. 1].
 
@@ -60,32 +60,32 @@ Um die Integration in ein Unternehmen zu erleichtern, bietet es verschiedenste S
 
 ![Bereitstellungsszenario von ownCloud [@owncloud2015architecture]\label{owncloud_deployment}](images/owncloud_deployment.png)
 
-Für einen produktiven Einsatz wird eine skalierbare Architektur, wie in Abbildung \ref{owncloud_deployment}, vorgeschlagen. An erster Stelle steht ein Load-Balancer, der die Last der Anfragen an mindestens zwei Webserver verteilt. Diese Webserver sind mit einem MySQL-Cluster verbunden, in dem die User-Daten, Anwendungsdaten und Metadaten der Dateien gespeichert sind. Dieser Cluster besteht wiederum aus mindestens zwei redundanten Datenbankservern. Dies ermöglicht auch bei stark frequentierten Installationen eine horizontale Skalierbarkeit. Zusätzlich sind die Webserver mit dem File-Storage verbunden. Auch hier ist es möglich, diesen redundant bzw. skalierbar aufzubauen, um die Effizienz und Sicherheit zu erweitern [@owncloud2015architecture, S. 3-4].
+Für einen produktiven Einsatz wird eine skalierbare Architektur, wie in Abbildung \ref{owncloud_deployment}, vorgeschlagen. An erster Stelle steht ein Load-Balancer, der die Last der Anfragen auf mindestens zwei Webserver verteilt. Diese Webserver sind mit einem MySQL-Cluster verbunden, in dem die User-Daten, Anwendungsdaten und Metadaten der Dateien gespeichert sind. Dieser Cluster besteht wiederum aus mindestens zwei redundanten Datenbankservern. Dies ermöglicht auch bei stark frequentierten Installationen eine horizontale Skalierbarkeit. Zusätzlich sind die Webserver mit dem File-Storage verbunden. Auch hier ist es möglich, diesen redundant bzw. skalierbar aufzubauen, um die Effizienz und Sicherheit zu gewährleisten [@owncloud2015architecture, S. 3-4].
 
 Die Nachteile von ownCloud im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
 Architektur
 
-:   Die Software ist dafür ausgelegt, um die Anforderungen, auf einem einzigen Server zu erfüllen. Es ermöglicht zwar eine verteilte Architektur, allerdings nur, um die Last auf verschiedene Server zu verteilen. Im Gegensatz dazu versucht symCloud die Daten zwischen verschiedenen Instanzen zu verteilen um die Zusammenarbeit zwischen Benutzern zu ermöglichen, die auf verschiedenen Servern registriert sind.
+:   Die Software ist dafür ausgelegt, um die Anforderungen, auf einem einzigen Server zu erfüllen. Es ermöglicht zwar eine verteilte Architektur, allerdings nur, um die Last auf verschiedene Server aufzuteilen. Im Gegensatz dazu versucht symCloud die Daten zwischen verschiedenen Instanzen zu verteilen um die Zusammenarbeit zwischen Benutzern zu ermöglichen, die auf verschiedenen Servern registriert sind.
 
 Stand der Technik
 
-:   Aufgrund der Tatsache, dass ownCloud schon im Jahre 2010 und sich die Programmiersprache PHP und die Community rasant weiterentwickelt, ist der Kern von ownCloud in einem Stil programmiert, der nicht mehr dem heutigen Stand der Technik entspricht.
+:   Aufgrund der Tatsache, dass die Entwicklung von ownCloud schon im Jahre 2010 begann und sich die Programmiersprache PHP bzw. dessen Community rasant weiterentwickelt, ist der Kern von ownCloud in einem Stil programmiert, der nicht mehr dem heutigen Stand der Technik entspricht.
 
-Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen, erfüllen kann ist das Datenmodell nicht dafür ausgelegt, um die Daten zu verteilen. Ein weiterer großer Nachteil ist die veraltete Codebasis.
+Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen, erfüllen kann ist das Datenmodell nicht dafür ausgelegt, um die Daten zu verteilen. Ein weiterer großer Nachteil ist die veraltete Codebasis, die eine Erweiterung erschwert.
 
 ## Verteilte Daten - Beispiel Diaspora
 
-Diaspora (genauere Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen. Diese Daten werden mithilfe von Standardisierten Protokollen über einen sicheren Transport-Layer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
+Diaspora (genauere Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mithilfe von Standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
 
 * Um Benutzerinformationen zu finden, die auf anderen Servern registriert sind.
 * Erstellte Informationen an Benutzer zu versenden, mit denen sie geteilt wurden.
 
-Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Das Webfinger Protokoll wird verwendet, um Informationen über Benutzer oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige URI. Es verwendet den HTTP-Standard als Transport-Layer über eine sichere Verbindung. Als Format für die Antworten wird JSON verwendet [@jones2013webfinger, Kapitel 1].
+Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Das Webfinger Protokoll wird verwendet, um Informationen über Benutzer oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige URI. Es verwendet den HTTPS-Standard als Transportlayer für eine sichere Verbindung. Als Format für die Antworten wird JSON verwendet [@jones2013webfinger, K. 1].
 
  __Beispiel [@diaspora2014protocol]:__
 
-Alice versucht mit Bob in Kontakt zu treten. Um die nötigen URLs für die weitere Kommunikation zwischen den Servern zu ermöglichen führt der Pod von Alice einen  Webfinger lookup auf den Pod von Bob aus. Der Response einen ähnlichen Inhalt, wie in Listing \ref{diaspora_host_meta} dargestellt ist. Dieser Response wird LRDD ("Link-based Resource Descriptor Document"[^20]) genannt und enthält die URL um Daten von dem Server abzufragen bzw. zu suchen.
+Alice versucht mit Bob in Kontakt zu treten. Um die nötigen URLs für die weitere Kommunikation zwischen den Servern zu ermitteln führt der Pod von Alice einen Webfinger lookup auf den Pod von Bob aus. Der Response enthält einen ähnlichen Inhalt, wie in Listing \ref{diaspora_host_meta} dargestellt ist. Dieser Response wird LRDD ("Link-based Resource Descriptor Document"[^20]) genannt und enthält die URL um Daten von dem Server abzufragen.
 
 ```{caption="Host-Meta Inhalt von Bob\label{diaspora_host_meta}" .xml}
 <Link rel="lrdd"
@@ -93,17 +93,17 @@ Alice versucht mit Bob in Kontakt zu treten. Um die nötigen URLs für die weite
       type="application/xrd+xml" />
 ```
 
-Um Informationen über den Benutzer Bob zu erhalten, führt der Pod von Alice einen Request auf die angeführte URL mit dem Benutzernamen von Bob aus. Dieser Response enthält alle relevanten Informationen über Bob und weitere Links für nähere Details oder Aktionen, die auf den gesuchten User ausgeführt werden können. Der Response kann bei nicht eindeutigem Suchbegriff auch mehrere Entitäten enthalten.
+Um Informationen über den Benutzer Bob zu erhalten, führt der Pod von Alice einen Request auf die angeführte URL mit dem Benutzernamen von Bob aus. Dieser Response enthält alle relevanten Informationen über Bob und weitere Links für nähere Details oder Aktionen, die auf den gesuchten BenutzerInnen ausgeführt werden können. Der Response kann bei nicht eindeutigem Suchbegriff auch mehrere Entitäten enthalten.
 
 Über dieses Protokoll lassen sich die Pods von Alice und Bob verbinden. Die Daten die dabei verteilt werden, werden auf jedem Pod in einer Relationalen Datenbank abgelegt [@diaspora2015installation].
 
-Diaspora ist ein gutes Beispiel, wie Daten in einem Dezentralen Netzwerk verteilt werden können. Da allerdings das gesamte Konzept dafür ausgelegt ist, Benutzer miteinander zu lassen, ist die Erweiterung auf ein Dateimodell sehr schwierig. Jedoch könnte eine Kommunikation zwischen Diaspora und symCloud, durch die Abstraktion der API durch das Webfinger Protokoll, möglich sein (siehe Kapitel \ref{chapter_outlook_protocolls}).
+Diaspora ist ein gutes Beispiel, wie Daten in einem Dezentralen Netzwerk verteilt werden können. Da allerdings das gesamte Konzept dafür ausgelegt ist, Benutzer miteinander kommunizieren zu lassen, ist die Erweiterung auf ein Dateimodell sehr schwierig. Jedoch könnte eine Kommunikation zwischen Diaspora und symCloud, durch die Abstraktion der API, durch das Webfinger Protokoll, ermöglicht werden (siehe Kapitel \ref{chapter_outlook_protocolls}).
 
 ## \label{chapter_distributed_datamodel}Verteilte Datenmodelle - Beispiel GIT
 
 GIT[^25] ist eine verteilte Versionsverwaltung, welche ursprünglich entwickelt wurde, um den Source-Code des Linux Kernels zu verwalten.
 
-Die Software ist im Grunde eine Key-Value Datenbank. Es werden Objekte in Form einer Datei abgespeichert, in der jeweils der Inhalt des Objekts abgespeichert wird, wobei der Name der Datei den Key des Objektes enthält. Dieser Key wird berechnet, indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten [@chacon2009pro, Kapitel 9.2]. Das Listing \ref{git_calc_hash} zeigt, wie ein SHA in einem Unix-Terminal berechnet werden kann [@keepers2012git].
+Die Software ist im Grunde eine Key-Value Datenbank. Es werden Objekte in Form einer Datei abgespeichert, in der jeweils der Inhalt des Objekts abgelegt wird, wobei der Name der Datei den Key des Objektes enthält. Dieser Key wird berechnet, indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten [@chacon2009pro, K. 9.2]. Das Listing \ref{git_calc_hash} zeigt, wie ein SHA in einem Unix-Terminal berechnet werden kann [@keepers2012git].
 
 ```{caption="Berechnung des SHA eines Objektes\label{git_calc_hash}"}
 $ OBJECT='blob 46\0{"name": "Johannes Wachter", \
@@ -132,11 +132,11 @@ GIT kennt folgende Typen:
 
 BLOB
 
-:   Ein BLOB repräsentiert eine einzelne Datei in GIT. Der Inhalt der Datei wird in einem Objekt gespeichert. Bei Änderungen ist GIT auch in der Lage, inkrementelle DELTA-Dateien zu speichern. Beim Wiederherstellen werden diese DELTAs der Reihe nach aufgelöst. Ein BLOB besitzt für sich gesehen keinen Namen [@chacon2009pro, Kapitel 9.2].
+:   Ein BLOB repräsentiert eine einzelne Datei in GIT. Der Inhalt der Datei wird in einem Objekt gespeichert. Bei Änderungen ist GIT auch in der Lage, inkrementelle DELTA-Dateien zu speichern. Beim Wiederherstellen werden diese DELTAs der Reihe nach aufgelöst. Ein BLOB besitzt für sich gesehen keinen Namen [@chacon2009pro, K. 9.2].
 
 TREE
 
-:   Der TREE beschreibt einen Ordner im Repository. Ein TREE enthält Referenzen  auf andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. Wie auch der BLOB besitzt ein TREE für sich keinen Namen. Dieser Name wird zu jeder Referenz auf einen TREE oder auf einen BLOB gespeichert (siehe Listing \ref{git_tree_listing}) [@chacon2009pro, Kapitel 9.2].
+:   Der TREE beschreibt einen Ordner im Repository. Ein TREE enthält Referenzen  auf andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. Wie auch der BLOB besitzt ein TREE für sich gesehen keinen Namen. Dieser Name wird zu jeder Referenz auf einen TREE oder auf einen BLOB gespeichert (siehe Listing \ref{git_tree_listing}) [@chacon2009pro, K. 9.2].
 
 ```{caption="Inhalt eines TREE Objektes\label{git_tree_listing}"}
 $ git cat-file -p 601a62b205bb497d75a231ec00787f5b2d42c5fc
@@ -149,7 +149,7 @@ $ git cat-file -p 601a62b205bb497d75a231ec00787f5b2d42c5fc
 
 COMMIT
 
-:   Der COMMIT enthält einen den ROOT-TREE des Repositories zu einem bestimmten Zeitpunkt.
+:   Der COMMIT enthält eine Referenz auf den TREE des Stammverzeichnisses zu einem bestimmten Zeitpunkt.
 
 ```{caption="Inhalt eines COMMIT Objektes\label{git_commit_listing}"}
 $ git show -s --pretty=raw 6031a1aa
@@ -173,7 +173,7 @@ Ein COMMIT Objekt enthält folgende Werte (siehe Listing \ref{git_commit_listing
 | 6 | committer | Ersteller des COMMITs |
 | 8 | comment | Beschreibung des COMMITs |
 
-  : Eigenschaften eines COMMIT [@chacon2009pro, Kapitel 9.2]\label{commit_properties}
+  : Eigenschaften eines COMMIT [@chacon2009pro, K. 9.2]\label{commit_properties}
 
 __Anmerkungen (zu der Tabelle \ref{commit_properties}):__
 
@@ -196,27 +196,27 @@ In der Abbildung \ref{git_data_model} wird ein einfaches Beispiel für ein Repos
     |-- mylib.rb (Datei)
 ```
 
-Der COMMIT (98ca9..) enthält eine Referenz auf den ROOT-TREE (0de24..). Dieser TREE enthält weitere Referenzen zu einem TREE-Objekt (10af9..) mit dem Namen `lib` und dem BLOB-Objekt (e8455..) mit dem Namen README. Dies wird bis zum TREE-Objekt (b70f8..) fortgesetzt, welches eine Referenz auf den BLOB (0ad1a..) mit dem Namen tricks.rb enthält. Das Beispiel visualisiert, wie Komplexe Ordnerstrukturen in GIT verwaltet und gespeichert werden können.
+Der COMMIT (98ca9..) enthält eine Referenz auf den ROOT-TREE (0de24..). Dieser TREE enthält weitere Referenzen zu einem TREE-Objekt (10af9..) mit dem Namen `lib` und dem BLOB-Objekt (e8455..) mit dem Namen README. Diese Struktur wird bis zum TREE-Objekt (b70f8..) fortgesetzt, welches eine Referenz auf den BLOB (0ad1a..) mit dem Namen tricks.rb enthält. Das Beispiel visualisiert, wie Komplexe Ordnerstrukturen in GIT verwaltet und gespeichert werden können.
 
 Die Nachteile von GIT im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
 Architektur
 
-:   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu automatisieren. Ein weiteres Problem, dass bei der Verwendung von GIT entstehen würde, ist die fehlende Möglichkeit Zugriffsberechtigungen festzulegen.
+:   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu automatisieren. Ein weiteres Problem ist die fehlende Möglichkeit Zugriffsberechtigungen festlegen zu können.
 
 Da die Anwendung GIT für die Verwendung als Datenspeicher, aufgrund der Fehlenden Verteilungsmechanismen, für das Projekt ungeeignet ist, aber viele der Anforderungen erfüllen würde, wird dieses Datenmodell, in Kapitel \ref{chapter_concept_datamodel}, als Grundlage für symCloud herangezogen. Außerdem wird die Idee der Key-Value Datenbank im Kapitel \ref{chapter_concept_database} bei der Konzeption der Datenbank aufgegriffen.
 
 ## Zusammenfassung
 
-In diesem Kapitel wurden zuerst die Begriffe verteilte Systeme und verteilte Dateisysteme definiert. Diese Begriffe werden in den folgenden Kapiteln in dem hier beschriebenen Kontext verwendet. Anschließend wurden aktuelle Systeme anhand der Kriterien betrachtet, die für symCloud von Interesse sind. Jedes dieser Systeme bietet Ansätze, die bei der Konzeption von symCloud berücksichtigt werden kann.
+In diesem Kapitel wurden zuerst die Begriffe verteilte Systeme und verteilte Dateisysteme definiert. Diese Begriffe werden in den folgenden Kapiteln in dem hier beschriebenen Kontext verwendet. Anschließend wurden aktuelle Systeme anhand der Kriterien betrachtet, die für symCloud von Interesse sind. Jedes dieser Systeme bietet Ansätze, die bei der Konzeption von symCloud berücksichtigt werden.
 
 Dropbox
 
-:   Kommerzielles Produkt mit dem gewünschten Funktionsumfang hinsichtlich der Dateisynchronisierung und Benutzerinteraktion. Allerdings im Bezug auf das Projekt symCloud, aufgrund des nicht verfügbaren Quellcodes, nur als Inspirationsquelle verfügbar.
+:   Kommerzielles Produkt mit dem gewünschten Funktionsumfang hinsichtlich der Dateisynchronisierung und Benutzerinteraktion. Allerdings im Bezug auf das Projekt symCloud, aufgrund des nicht verfügbaren Quellcodes, nur als Inspirationsquelle anwendbar.
 
 ownCloud
 
-:   Dieses quelloffene Projekt ist eine gute alternative zu kommerziellen Lösungen wie zum Beispiel Dropbox. Es ist eine der Inspirationsquellen für symCloud, jedoch aufgrund des überholten Programmierstils und der fehlenden verteilten Architektur, nicht als Grundlage für ownCloud verwendbar.
+:   Dieses quelloffene Projekt ist eine gute alternative zu kommerziellen Lösungen wie zum Beispiel Dropbox. Es ist eine der Inspirationsquellen für symCloud, jedoch aufgrund des überholten Programmierstils und der fehlenden verteilten Architektur, nicht als Grundlage für symCloud verwendbar.
 
 Diaspora
 

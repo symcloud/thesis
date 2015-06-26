@@ -1,12 +1,12 @@
 digraph {
-	Session -> BlobFileManager
+	Session -> ChunkFileManager
 	Session -> TreeManager
 	Session -> CommitManager
 	Session -> ReferenceManager
 
-	BlobFileManager -> BlobManager
+	ChunkFileManager -> ChunkManager
 
-	BlobManager -> Database
+	ChunkManager -> Database
 	TreeManager -> Database
 	CommitManager -> Database
 	ReferenceManager -> Database
@@ -15,5 +15,5 @@ digraph {
 	Database -> SearchAdapter
 
  	{rank=same; StorageAdapter SearchAdapter}
- 	{rank=same; BlobManager TreeManager CommitManager ReferenceManager}
+ 	{rank=same; ChunkManager TreeManager CommitManager ReferenceManager}
 }

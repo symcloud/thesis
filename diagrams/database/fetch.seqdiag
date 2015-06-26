@@ -7,6 +7,6 @@ seqdiag {
 
     Database => EventDispatcher [label = "throw 'fetch' event", return = "return event results"];
 
-    Database -> Database [label = "deserialize model"];
+    Database -> Database [label = "deserialize\nmodel"];
   }
 }

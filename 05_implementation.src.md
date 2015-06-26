@@ -2,7 +2,7 @@
 
 In diesem Kapitel werden die einzelnen Komponenten, die für symCloud entwickelt wurden, genauer betrachtet. Es entstand während der Entwicklungsphase ein einfacher Prototyp, mit dem die Funktionsweise des im vorherigen Kapitel beschriebenen Konzeptes, gezeigt werden konnte.
 
-Dabei sind drei wichtige Komponenten entstanden:
+Dabei sind drei Komponenten entstanden:
 
 Bibliothek (distributed-storage)
 
@@ -10,17 +10,17 @@ Bibliothek (distributed-storage)
 
 Plattform (symCloud)
 
-:   Die Plattform bietet neben der REST-API auch ein einfaches UI an, mit dem es möglich ist, im Browser seine Dateien zu verwalten. Als Basis verwendet symCloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet ein erweiterbares Admin-UI, eine Benutzerverwaltung und ein Rechtesystem an. Diese Features ermöglichen symCloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegenden Services.
+:   Die Plattform bietet neben der Rest-API auch eine einfache Benutzeroberfläche an, mit dem es möglich ist, im Browser seine Dateien zu verwalten. Als Basis verwendet symCloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet ein erweiterbares Admin Benutzeroberfläche, eine Benutzerverwaltung und ein Rechtesystem. Diese Features ermöglichen symCloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegenden Services.
 
 Synchronisierungsprogramm (jibe)
 
-:   Das Synchronisierungsprogramm ist ein Konsolen-Tool, mit dem es möglich ist, Dateien aus einem Ordner mit dem Server zu synchronisieren. Es dient als Beispiel für die Verwendung der API mit einer externe Applikation.
+:   Das Synchronisierungsprogramm ist ein Konsolen-Tool, mit dem es möglich ist, Dateien aus einem lokalen Ordner mit dem Server zu synchronisieren. Es dient als Beispiel für die Verwendung der API mit einer externe Applikation.
 
 Der Source-Code dieser drei Komponenten ist auf der beiliegenden CD (`/source`) oder auf Github <https://github.com/symcloud> zu finden.
 
 ## \label{chapter_implementation_distributed_storage}Distributed-Storage
 
-Der Distributed-Storage ist der Kern der Anwendung und kann als Bibliothek in jede beliebige PHP-Anwendung integriert werden. Diese Anwendung stellt die Authentifizierung und die Rest-API zur Verfügung, um mit den Kern-Komponenten zu kommunizieren.
+Der Distributed-Storage ist der Kern der Anwendung und kann als Bibliothek in jede beliebige PHP-Anwendung integriert werden. Die Anwendung stellt die Authentifizierung und die Rest-API zur Verfügung, um mit den Kern-Komponenten zu kommunizieren.
 
 ![Schichten von "Distributed Storage"\label{architecture_ds}](diagrams/distributed-storage.png)
 
@@ -32,7 +32,7 @@ Session
 
 Manager
 
-:   Verwalten den Lifecycle der Domain-Objekte. Der jeweilige Manager erstellt und verwaltet die Objekte eines bestimmten Typen (zum Beispiel CommitMananger verwaltet Commit-Objekte). Die Verwender der Manager sind jeweils gegen die Interfaces des Objektes programmiert (siehe Manager Pattern[^69]). Die Instancen des Typen sind reine Daten-Container. Die Manager-Schicht ermöglicht eine spezifische Schnittstelle für jeden Objekt-Typen und eine gezielte Kommunikation mit der Datenbank.
+:   Verwalten den Lifecycle der Domain-Objekte. Der jeweilige Manager erstellt und verwaltet die Objekte eines bestimmten Typen (zum Beispiel `CommitMananger` verwaltet Commit-Objekte). Die Verwender der Manager sind jeweils gegen die Interfaces des Objektes programmiert (siehe Manager Pattern[^69]). Die Instancen des Typs sind reine Daten-Container. Die Manager-Schicht ermöglicht eine spezifische Schnittstelle für jeden Objekt-Typen und eine gezielte Kommunikation mit der Datenbank.
 
 Database
 
@@ -54,7 +54,7 @@ Nachladen
 
 ### Objekte speichern
 
-Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) ist die Serialisierung zu Beginn. Hierfür werden die Metadaten des Objekts anhand seiner Klasse aus dem "MetadataManager" geladen und anhand dieser Informationen serialisiert. Diese Daten werden mit dem "EventDispatcher" aus dem Symfony2 Framework in einem Event zugänglich gemacht. Die Eventhandler haben die Möglichkeit die Daten zu bearbeiten und "Policies" zu dem Model zu erstellen. Abschließend werden die Daten zuerst mithilfe des "StorageAdapter" persistiert und durch den "SearchAdapter" in den Suchmaschinenindex aufgenommen. Um verschiedene Objekttypen voneinander zu trennen und eigene Namensräume zu schaffen, geben die Metadaten der Klasse, einen eindeutigen Kontext zurück. Dieser Kontext wird den Adaptern übergeben, um Kollisionen zwischen den Datensätzen zu verhindern.
+Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) ist die Serialisierung zu Beginn. Hierfür werden die Metadaten des Objekts anhand seiner Klasse aus dem "MetadataManager" geladen und anhand dieser Informationen serialisiert. Diese Daten werden mit dem "EventDispatcher" aus dem Symfony2 Framework in einem Event zugänglich gemacht. Die Eventhandler haben die Möglichkeit die Daten zu bearbeiten und "Policies" zu dem Model zu erstellen. Abschließend werden die Daten zuerst mithilfe des "StorageAdapter" persistiert und durch den "SearchAdapter" in den Suchmaschinenindex aufgenommen. Um verschiedene Objekttypen voneinander zu trennen und eigene Namensräume zu schaffen, definieren die Metadaten der Klasse einen eindeutigen Kontext. Dieser Kontext wird den Adaptern übergeben, um Kollisionen zwischen den Datensätzen zu verhindern.
 
 \landscapestart
 
@@ -66,13 +66,13 @@ Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) is
 
 Wie zu erwarten ist der Abruf-Prozess (siehe Abbildung \ref{database_fetch}) von Daten ein Spiegelbild des Speicherprozesses. Zuerst wird versucht, mit dem Kontext des Objektes die Daten aus dem "Storage" zu laden. Diese Daten werden durch den "EventDispatcher" dem Eventhandler zur Verfügung gestellt. Diese haben die Möglichkeit, zum Beispiel fehlende Daten nachzuladen, Änderungen an der Struktur der Daten durchzuführen oder den Prozess abzubrechen, wenn keine Rechte vorhanden sind dieses Objekt zu lesen. Diese veränderten Daten werden abschließend für den Deserialisierungsprozess herangezogen.
 
+Die beiden Abläufe, um Objekte zu speichern und abzurufen, beschreiben eine lokale Datenbank, die die Möglichkeit bietet, über Events die Daten zu verändern oder anderweitig zu verwenden. Sie ist unabhängig vom Datenmodell von symCloud und könnte für alle möglichen Objekte verwendet werden. Daher ist symCloud auch für künftige Anforderungen gerüstet.
+
 \landscapestart
 
 ![Objekte abrufen\label{database_fetch}](diagrams/database/fetch.png)
 
 \landscapeend
-
-Die beiden Abläufe, um Objekte zu speichern und abzurufen, beschreiben eine lokale Datenbank, die die Möglichkeit bietet, über Events die Daten zu verändern oder anderweitig zu verwenden. Sie ist unabhängig vom Datenmodell von symCloud und könnte für alle möglichen Objekte verwendet werden. Daher ist symCloud auch für künftige Anforderungen gerüstet.
 
 ### Replikator
 
@@ -92,7 +92,7 @@ Bei einem "store" Event werden die Backupserver per Zufall aus der Liste der vor
 
 __Lazy__
 
-Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle bekannten Server abgefragt. Dabei gibt es vier mögliche Antworten (siehe Abbildung \ref{replicator_lazy}), auf die der Replikator reagieren kann. Der Status kann anhand des HTTP-Status-Codes erkannt werden.
+Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle bekannten Server abgefragt. Dabei gibt es vier mögliche Antworten (siehe Abbildung \ref{replicator_lazy}), auf die der Replikator reagieren kann. Der Status kann anhand des HTTP-Response-Codes erkannt werden.
 
 404
 
@@ -104,7 +104,7 @@ Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle be
 
 403
 
-:   Das Objekt ist bekannt und der angefragte Server als primary Server für dieses Objekt markiert. Der Server überprüft die Zugangsberechtigung, weil diese aber nicht gegeben ist, wird der Zugriff verweigert. Der Replikator erkennt, dass der Benutzer nicht berechtigt ist, die Daten zu lesen und verweigert den Zugriff.
+:   Das Objekt ist bekannt und der angefragte Server als primary Server für dieses Objekt markiert. Der Server überprüft die Zugangsberechtigungen, weil diese aber nicht gegeben sind, wird der Zugriff verweigert. Der Replikator erkennt, dass der Benutzer nicht berechtigt ist, die Daten zu lesen und verweigert den Zugriff.
 
 200
 
@@ -144,11 +144,11 @@ Die Adapter sind Klassen, die die Komplexität des Speichermediums bzw. der API 
 
 ### Manager
 
-Die Manager sind die Schnittstelle, um mit den einzelnen Schichten des Datenmodells zu kommunizieren. Jeder dieser Manager implementiert ein "Interface" mit dem es möglich ist, mit den jeweiligen Datenobjekten zu interagieren. Grundsätzlich sind dies Befehle, um ein Objekt zu erstellen oder abzufragen. Im Falle des "ReferenceManager" oder "TreeManager" bieten sie auch die Möglichkeit, Objekte zu bearbeiten. Der "ReferenceManager" bearbeitet dabei auch wirklich ein Objekt in der Datenbank, indem er es einfach überschreibt. Diese Operation ist, durch den Replikationstyp "Stub", auch in einem verteilten Netzwerk möglich. Der "TreeManager" klont das Objekt und erstellt unter einem neuen Hash ein neues Objekt, sobald es mit einem Commit zusammen persistiert wird.
+Die Manager sind die Schnittstelle, um mit den einzelnen Schichten des Datenmodells zu kommunizieren. Jeder dieser Manager implementiert ein Interface mit dem es möglich ist, mit den jeweiligen Datenobjekten zu interagieren. Grundsätzlich sind dies Befehle, um ein Objekt zu erstellen oder abzufragen. Im Falle des `ReferenceManager` oder `TreeManager` bieten sie auch die Möglichkeit, Objekte zu bearbeiten. Der "ReferenceManager" bearbeitet dabei auch wirklich ein Objekt in der Datenbank, indem er es einfach überschreibt. Diese Operation ist, durch den Replikationstyp Stub, auch in einem verteilten Netzwerk möglich. Der `TreeManager` klont das Objekt und erstellt unter einem neuen Hash ein neues Objekt, sobald es mit einem Commit zusammen persistiert wird.
 
 ### Zusammenfassung
 
-Die Bibliothek "Distributed-Storage" bietet eine einfache und effiziente Implementierung des in Kapitel \ref{chapter_concept} beschriebenen Konzeptes. Es baut auf eine erweiterbare Hash-Value Datenbank auf. Diese Datenbank wird mittels eines Eventhandlers (Replikator) zu einer verteilten Datenbank. Dabei ist es für die Datenbank irrelevant, welcher Transportlayer oder welches Protokoll verwendet wird. Dieser kann neben HTTP, jeden beliebigen anderen Transportlayer verwenden. Der konsistente Zustand der Datenbank kann mittels Bestätigungen bei der Erstellung, blockierenden Vorgängen und nicht löschbaren Objekten garantiert werden. Nicht veränderbare Objekte lassen sich dauerhaft und ohne Updates verteilen. Alle anderen Objekte können so markiert werden, dass sie immer bei einem primary Server angefragt werden müssen und nur für die Datensicherheit an die Backupserver verteilt werden.
+Die Bibliothek Distributed-Storage bietet eine einfache und effiziente Implementierung des in Kapitel \ref{chapter_concept} beschriebenen Konzeptes. Es baut auf eine erweiterbare Hash-Value Datenbank auf. Diese Datenbank wird mittels eines Eventhandlers (Replikator) zu einer verteilten Datenbank. Dabei ist es für die Datenbank irrelevant, welcher Transportlayer oder welches Protokoll verwendet wird. Dieser kann neben HTTP, jeden beliebigen anderen Transportlayer verwenden. Der konsistente Zustand der Datenbank kann mittels Bestätigungen bei der Erstellung, blockierenden Vorgängen und nicht löschbaren Objekten garantiert werden. Nicht veränderbare Objekte lassen sich dauerhaft und ohne Updates verteilen. Alle anderen Objekte können so markiert werden, dass sie immer bei einem primary Server angefragt werden müssen und nur für die Datensicherheit an die Backupserver verteilt werden.
 
 ## \label{chapter_implementation_platform}Plattform
 
@@ -166,15 +166,15 @@ Die Rest-API ist, wie schon im Kapitel \ref{chapter_concept_rest_api} beschriebe
 
 ### Benutzeroberfläche
 
-Die Architektur der Benutzeroberfläche von SULU ist als "Single-Page-Application" ausgeführt. In dieser Architektur, die Oberfläche der Website ist aus individuellen Komponenten zusammengesetzt, die unabhängig aktualisiert und ersetzt werden kann [@mesbah2007spi]. Das bedeutet, dass die Oberfläche aus nur einem klassischem Request aufgebaut wird. In diesem ist die Grundstruktur definiert und die Grundlegenden JavaScript Dateien eingebunden. Dieses Scripts laden dann alle anderen JavaScript Dateien nach, die die Oberfläche Stück für Stück zusammensetzt.
+Die Architektur der Benutzeroberfläche von SULU ist als "Single-Page-Application" ausgeführt. In dieser Architektur ist die Oberfläche der Website aus individuellen Komponenten zusammengesetzt, die unabhängig aktualisiert und ersetzt werden können [@mesbah2007spi]. Das bedeutet, dass die Oberfläche aus nur einem klassischem Request aufgebaut wird. In diesem ist die Grundstruktur definiert und die Grundlegenden JavaScript Dateien eingebunden. Diese Scripts laden dann alle anderen JavaScript Dateien nach, die die Oberfläche Stück für Stück zusammensetzen.
 
 ![Grundlegender Aufbau des SULU-Admin\label{sulu_basic_ui}](images/screenshots/sulu_basic_ui.png)
 
-In der Abbildung \ref{sulu_basic_ui} ist der Grundlegende Aufbau des Sulu-UI zu erkennen. Im Rechten ist eine Erweiterbare Navigation, die bereits den Symcloud Punkt "Dateien enthält", und in Linken Bereich ist der sogenannte "Content"-Bereich. Dieser Bereich kann von den nachgeladenen Komponenten gefüllt werden. Um das UI einheitlich zu gestalten, bietet SULU vordefinierte Komponenten an, die zum Beispiel eine Liste abstrahieren. Dieser Listen-Komponente wird im Grunde eine URL übergeben, unter welcher die Daten heruntergeladen werden können. Die Liste generiert daraufhin eine Tabelle mit den Daten aus dem Response der angegeben URL (siehe Abbildung \ref{sulu_symcloud_file_list}).
+In der Abbildung \ref{sulu_basic_ui} ist der Grundlegende Aufbau des Sulu-UI zu erkennen. Im Rechten Bereich ist eine Erweiterbare Navigation, die bereits den symCloud Punkt "Dateien" enthält, und in Linken Bereich ist der sogenannte "Content"-Bereich. Dieser Bereich kann von den nachgeladenen Komponenten gefüllt werden. Um das UI einheitlich zu gestalten, bietet SULU vordefinierte Komponenten an, die zum Beispiel eine Liste abstrahieren. Dieser Listen-Komponente wird im Grunde eine URL übergeben, unter welcher die Daten heruntergeladen werden können. Die Liste generiert daraufhin eine Tabelle mit den Daten aus dem Response der angegeben URL (siehe Abbildung \ref{sulu_symcloud_file_list}).
 
 ![Dateiliste von symCloud\label{sulu_symcloud_file_list}](images/screenshots/sulu_symcloud_file_list.png)
 
-Über der Liste ist eine Toolbar, über die neue Dateien erstellt werden können. Über die beiden anderen Schaltflächen, lässt sich die Ansicht der Liste (Reihenfolge und Sichtbarkeit der Spalten bzw. Umschalten zwischen Listen- und Vorschaubildansicht) verändern. Um Dateien zu löschen oder zu bearbeiten erscheinen bei neben dem Namen zwei Schaltflächen, wenn die Maus über den Namen bewegt wird (siehe Abbildung \ref{sulu_symcloud_edit_file}).
+Über der Liste ist eine Toolbarmit der es möglich ist neue Dateien zu erstellen. Über die beiden anderen Schaltflächen, lassen sich die Reihenfolge und Sichtbarkeit der Spalten umschalten. Um Dateien zu löschen oder zu bearbeiten erscheinen neben dem Namen zwei Schaltflächen, wenn die Maus über den Namen bewegt wird (siehe Abbildung \ref{sulu_symcloud_edit_file}).
 
 ![Schaltfläche um Datei zu bearbeiten oder löschen\label{sulu_symcloud_edit_file}](images/screenshots/sulu_symcloud_edit_file.png)
 
@@ -190,7 +190,7 @@ Die Plattform ist ein reiner Prototyp, der zeigen soll, ob das Konzept (aus dem 
 
 Jibe ist das Synchronisierungsprogramm zu einer symCloud-Installation. Es ist ein einfaches PHP-Konsolen Tool, mit dem es möglich ist, Daten aus einer symCloud-Installation mit einem Endgerät zu synchronisieren. Das Programm wurde mithilfe der Symfony Konsole-Komponente[^60] umgesetzt. Diese Komponente ermöglicht eine schnelle und unkomplizierte Entwicklung solcher Konsolen-Programme.
 
-Ausgeliefert wird das Programm in einem sogenannten PHAR-Container[^61]. Dieser Container enthält alle benötigten Source-Code- und Konfigurationsdateien. Das Format ist vergleichbar mit dem JAVA-Container JAR. PHAR-Container werden in der PHP-Gemeinschaft oft verwendet, um komplexe Applikationen, wie zum Beispiel PHPUnit[^62] (ein Test Framework für PHP) auszuliefern.
+Ausgeliefert wird das Programm in einem sogenannten PHAR-Container[^61]. Dieser Container enthält alle benötigten Source-Code- und Konfigurationsdateien. Das Format ist vergleichbar mit dem JAVA-Container JAR. PHAR-Container werden in der PHP-Community oft verwendet, um komplexe Applikationen, wie zum Beispiel PHPUnit[^62] (ein Test Framework für PHP) auszuliefern.
 
 Über den ersten Parameter kann spezifiziert werden, welches Kommando ausgeführt werden soll. Alle weiteren Parameter sind Argumente für das angegebene Kommando. Über den Befehl `php jibe.phar sync` kann der Synchronisierungsvorgang gestartet werden.
 
@@ -235,7 +235,7 @@ Upload
 
 Download
 
-:   Die angegebene Datei wird vom Server heruntergeladen und lokal an gespeichert.
+:   Die angegebene Datei wird vom Server heruntergeladen und lokal gespeichert.
 
 DeleteServer
 
@@ -300,7 +300,7 @@ Die Tabelle \ref{table_jibe_flow} gibt Aufschluss über die Erkennung von Komman
 
   : Legende zu Tabelle \ref{table_jibe_flow}
 
-Nicht angeführte Werte in der Tabelle, sind zu dem Zeitpunkt nicht verfügbar bzw. nicht benötigt. Was zum Beispiel bedeutet, dass wenn der Lokale Hash nicht angeführt ist, die Datei nicht vorhanden ist (gelöscht oder noch nicht angelegt).
+Nicht angeführte Werte in der Tabelle, sind zu dem Zeitpunkt nicht verfügbar bzw. werden nicht benötigt. Was zum Beispiel bedeutet, dass wenn der Lokale Hash nicht angeführt ist, die Datei nicht vorhanden ist (gelöscht oder noch nicht angelegt).
 
 Beispiel der Auswertungen anhand des Falles Nummer vier (aus der Tabelle \ref{table_jibe_flow}):
 
@@ -308,17 +308,17 @@ Beispiel der Auswertungen anhand des Falles Nummer vier (aus der Tabelle \ref{ta
 2. Serverversion ist größer als lokale Version.
 3. Aktueller und Server-Hashwert stimmen nicht überein.
 
-Das bedeutet, dass sich sowohl die Serverdatei als auch die lokale Kopie geändert haben. Dadurch entsteht ein Konflikt, der aufgelöst werden muss. Das Auflösen solcher Konflikte ist nicht Teil dieser Arbeit, er wird allerdings im Kapitel \ref{outlook_conflict} kurz behandelt.
+Das bedeutet, dass sich sowohl die Serverdatei als auch die lokale Kopie geändert haben. Dadurch entsteht ein Konflikt, der aufgelöst werden muss. Das Auflösen solcher Konflikte ist nicht Teil dieser Arbeit, er wird allerdings in Kapitel \ref{outlook_conflict} kurz behandelt.
 
 ### Zusammenfassung
 
-Der Synchronisierungsclient ist ein Beispiel dafür, wie die Rest-API von anderen Applikationen verwendet werden kann, um die Daten aus symCloud zu verwenden. Es wären viele verschiedene Anwendungsfälle denkbar.
+Der Synchronisierungsclient ist ein Beispiel dafür, wie die Rest-API von anderen Applikationen verwendet werden kann, um die Daten aus symCloud zu verwenden. Es wären viele andere Anwendungsfälle denkbar.
 
 In diesem Beispiel wurde auch die Komplexität des Synchronisierungsprozesses durchleuchtet und eine Lösung geschaffen, um schnell und effizient einen Ordner mit symCloud zu synchronisieren.
 
 ## Zusammenfassung
 
-Die Prototypen Implementierung umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und der Datenbank, die in der Lage ist die Daten über eine Menge von Servern verteilen, auch eine einfache Plattform, mit der Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren wurde der Client Jibe implementiert. Der über ein einfache REST-API in der Lage ist die Dateien zu synchronisieren.
+Die Prototypen Implementierung umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und einer Datenbank, die in der Lage ist die Daten über eine Menge von Servern zu verteilen, auch eine einfache Plattform, mit der Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren wurde der Client Jibe implementiert. Der über ein einfache REST-API in der Lage ist die Dateien zu synchronisieren.
 
 Vorgesehene aber nicht implementiert wurden die Bereiche:
 
