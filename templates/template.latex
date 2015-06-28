@@ -203,60 +203,91 @@ $endfor$
 $if(title)$
 \begin{titlepage}
 
-% basic font size of the titlepage
-\large
-
-\AddToShipoutPicture*{
-  \AtPageUpperLeft{
-    \hspace{\paperwidth}
-    \raisebox{-25mm}{
-      \makebox[-15mm][r]{
-        \includegraphics[width=42mm]{images/FHV_Logo}
+  \AddToShipoutPicture*{
+    \AtPageUpperLeft{
+      \hspace{0.09\paperwidth}
+      \raisebox{-5mm}{
+        \makebox[-15mm][l]{
+          \begin{minipage}[t][50mm][c]{0.7\textwidth}
+            \large{\textbf{$university$}}
+          \end{minipage}
+          \hfill%
+          \begin{minipage}[t][45mm][c]{0.3\textwidth}
+              \includegraphics[width=\textwidth]{images/FHV_Logo}
+          \end{minipage}
+        }
       }
     }
   }
-}
 
-\begin{center}
-~
-\vfill\vfill\vfill
+  \begin{center}
 
-$author$\\
-$matriculation$\\
+    \vspace*{10mm}
 
-\vfill
+    $type$\\
+    Fachhochschul-Studiengang\\
+    $department$
+    
+    \vspace{10mm}
 
-{\LARGE\bfseries $title$}
+    {\LARGE\bfseries $title$}
 
-\vfill\vfill\vfill
+    {\bfseries $shorttitle$}
 
-{\bfseries $shorttitle$}
+    \vspace{10mm}
 
-\vfill\vfill\vfill
-\vfill\vfill\vfill
-\vfill\vfill\vfill
+    ausgeführt von
 
-$university$
+    \vspace{10mm}
 
-\vfill
+    \textbf
+    {
+      $author$\\
+      $matriculation$
+    }
 
-$department$\\
-$supervisor$\\
+    \vspace{10mm}
 
-\vfill
+    zur Erlangung des akademischen Grades\\
 
-$submissiontown$, $submissionyear$
+    $degree$
 
-\end{center}
+    \vspace{10mm}
+
+    $submissiontown$, im $submissionmonth$ $submissionyear$
+
+    \vspace{10mm}
+
+    \textbf{Betreuer: $supervisor$}
+
+  \end{center}
+
 \end{titlepage}
 $endif$
+
+$if(assertion)$
+\chapter*{Eidesstattliche Erklärung}
+\thispagestyle{empty}
+Ich erkläre hiermit an Eides statt, dass ich vorliegende $type$ selbstständig und ohne Benutzung anderer als der angegebenen Hilfsmittel angefertigt habe. Die aus fremden Quellen direkt oder indirekt übernommenen Stellen sind als solche kenntlich gemacht. Die Arbeit wurde bisher weder in gleicher noch in ähnlicher Form einer anderen Prüfungsbehörde vorgelegt und auch noch nicht veröffentlicht.
+
+\vspace*{50mm}
+
+$submissiontown$, am $submissionday$ $submissionmonth$ $submissionyear$\hfill{\hbox{$author$}
+$endif$
+
 $if(zusammenfassung)$
 \addchap*{Zusammenfassung}
+$for(zusammenfassung)$
 $zusammenfassung$
+
+$endfor$
 $endif$
 $if(abstract)$
 \addchap*{Abstract}
+$for(abstract)$
 $abstract$
+
+$endfor$
 $endif$
 
 $for(include-before)$

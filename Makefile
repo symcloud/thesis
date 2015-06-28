@@ -7,6 +7,7 @@ pdf_vars = -V lang=german -V mainlang=german -V documentclass=scrbook -V classop
 lol = -V lol=true 
 lof = -V lof=true
 lot = -V lot=true
+assertion = -V assertion=true
 
 format = markdown+table_captions+pipe_tables+definition_lists+fenced_code_blocks+fenced_code_attributes
 
@@ -23,7 +24,7 @@ seqdiags:
 	$(foreach f,$(seqdiags), seqdiag $(f);)
 
 pdf:
-	pandoc $(pdf_params) $(lol) $(lot) $(lof) $(pdf_vars) -o symcloud-thesis.pdf $(mds) -f $(format)
+	pandoc $(pdf_params) $(lol) $(lot) $(lof) $(assertion) $(pdf_vars) -o symcloud-thesis.pdf $(mds) -f $(format)
 
 pdf_intro:
 	pandoc $(pdf_params) $(lof) $(pdf_vars) -o symcloud-intro.pdf 01_introduction.src.md 99_references.src.md -f $(format)
