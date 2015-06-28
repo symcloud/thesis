@@ -221,7 +221,8 @@ $if(title)$
 ~
 \vfill\vfill\vfill
 
-$author$
+$author$\\
+$matriculation$\\
 
 \vfill
 

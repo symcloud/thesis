@@ -5,10 +5,11 @@ university: "University of Applied Sciences: Vorarlberg"
 department: Department of Computer Science
 supervisor: Prof. (FH) Dipl. Thomas Feilhauer
 submissiontown: Dornbirn
-submissionyear: 2015
-author:  Wachter Johannes 
-abstract:
-  TEST
+submissionyear: Juli 2015
+author: Johannes Wachter, BSc
+matriculation: 1310249016
 zusammenfassung:
+  TEST
+abstract:
   TEST
 ... 
