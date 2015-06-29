@@ -1,6 +1,6 @@
 # \label{chapter_state_of_the_art}Stand der Technik
 
-In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die Begriffe verteilte Systeme und verteilte Dateisysteme definiert. Anschließend werden vier Anwendungen beschrieben, die als Inspiration für das Projekt symCloud verwendet werden.
+In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die beiden Begriffe verteilte Systeme und verteilte Dateisysteme definiert. Anschließend werden vier Anwendungen beschrieben, die als Inspiration für das Projekt symCloud verwendet werden.
 
 ## \label{verteilte_systeme}Verteilte Systeme
 
@@ -10,31 +10,31 @@ Andrew Tanenbaum definiert den Begriff der "verteilten Systeme" in seinem Buch f
 > Computer, die dem Benutzer wie ein einzelnes kohärentes
 > System erscheinen"
 
-Diese Definition beinhaltet zwei Aspekte. Der eine Aspekt besagt, dass die einzelnen Maschinen in einem verteilten System autonom sind. Der zweite Aspekt bezieht sich auf die Software, die die Systeme miteinander verbinden. Durch die Software glaubt der Benutzer, dass er es mit einem einzigen System zu tun hat [@tanenbaum2003verteilte, p. 18]. 
+Diese Definition beinhaltet zwei Aspekte. Der erste Aspekt besagt, dass die einzelnen Maschinen in einem verteilten System autonom sind. Der zweite Aspekt bezieht sich auf die Software, die die Systeme miteinander verbinden. Durch die Software glaubt der Benutzer, dass er es mit einem einzigen System zu tun hat [@tanenbaum2003verteilte, p. 18]. 
 
-Eines der besten Beispiele für verteilte Systeme sind Cloud-Computing Dienste. Diese Dienste bieten verschiedenste Technologien an und umfassen Rechnerleistungen, Speicher, Datenbanken und Netzwerke. Der Anwender kommuniziert hierbei immer nur mit einem System, allerdings verbirgt sich hinter diesen Anfragen ein komplexes System aus vielen Hard- und Softwarekomponenten, welches sehr stark auf Virtualisierung setzt.
+Eines der besten Beispiele für verteilte Systeme sind Cloud-Computing Dienste. Diese Dienste bieten verschiedenste Technologien von umfassen Rechnerleistungen, Speichern, Datenbanken bis hin zu Netzwerken an. Der Anwender kommuniziert hierbei immer nur mit einem System, allerdings verbirgt sich hinter der Oberfläche ein komplexes System aus vielen Hard- und Softwarekomponenten, welches sehr stark auf Virtualisierung setzt.
 
-Gerade im Bereich der verteilten Dateisysteme, bietet sich die Möglichkeit, Dateien über mehrere Server zu verteilen. Dies ermöglicht eine Verbesserung von Datensicherheit, durch Replikation über verschiedene Server und Steigerung der Effizienz, durch paralleles Lesen der Daten. Diese Dateisysteme trennen meist die Nutzdaten von ihren Metadaten und halten diese, als Daten zu den Daten, in einer effizienten Datenbank gespeichert. Um zum Beispiel Informationen zu einer Datei zu erhalten, wird die Datenbank nach den Informationen durchsucht und direkt an den Benutzer weitergeleitet. Dies ermöglicht schnellere Antwortzeiten, da nicht auf die Nutzdaten zugegriffen werden muss und steigert dadurch die Effizienz des Systems [@linux2013dateisystem]. Das Kapitel \ref{chapter_distibuted_fs} befasst sich genauer mit verteilten Dateisystemen.
+Gerade im Bereich der verteilten Dateisysteme, bietet sich die Möglichkeit, Dateien über mehrere Server zu verteilen an. Dies ermöglicht die Verbesserung von Datensicherheit, durch Replikation über verschiedene Server und steigert die Effizienz, durch paralleles Lesen der Daten. Diese Dateisysteme trennen meist die Nutzdaten von ihren Metadaten und halten diese, als Daten zu den Daten, in einer effizienten Datenbank gespeichert. Um Informationen zu einer Datei zu erhalten, wird die Datenbank nach den Informationen durchsucht und direkt an den Benutzer weitergeleitet. Dies ermöglicht schnellere Antwortzeiten, da nicht auf die Nutzdaten zugegriffen werden muss und steigert dadurch die Effizienz des Systems [@linux2013dateisystem]. Das Kapitel \ref{chapter_distibuted_fs} befasst sich genauer mit verteilten Dateisystemen.
 
 ## Cloud-Datenhaltung
 
-Es gibt verschiedene Applikationen, die es erlauben, seine Dateien in einer Cloud-Umgebung zu verwalten. Viele dieser Applikationen sind kommerzielle Produkte, wie zum Beispiel Dropbox[^22] oder Google Drive[^23]. Andere jedoch sind frei verfügbar wie zum Beispiel ownCloud[^24], welches sogar einen offenen Quellcode besitzt. Zwei dieser Applikationen werden hier etwas genauer betrachtet und, soweit es möglich ist, die Speicherkonzepte analysiert. 
+Es gibt verschiedene Applikationen, die es erlauben, seine Dateien in einer Cloud-Umgebung zu verwalten. Viele dieser Applikationen sind kommerzielle Produkte, wie zum Beispiel Dropbox[^22] oder Google Drive[^23]. Andere jedoch sind frei verfügbar wie zum Beispiel ownCloud[^24], welches darüber hinaus sogar einen offenen Quellcode besitzt. Zwei dieser Applikationen sollen hier etwas genauer betrachtet werden und, soweit es möglich ist, die Speicherkonzepte analysiert. 
 
 ### Dropbox
 
 Dropbox-Nutzer können jederzeit von ihrem Desktop aus, über das Internet,  mobile Geräte oder mit Dropbox verbundene Anwendungen auf ihre Dateien und Ordner zugreifen.
 
-Alle diese Clients stellen Verbindungen mit sicheren Servern her, über die sie Zugriff auf Dateien haben und diese für andere Nutzer freigeben können. Wenn Dateien auf einem Client geändert werden, werden diese automatisch mit dem Server synchronisiert. Verknüpfte Geräte aktualisieren sich automatisch. Dadurch werden Dateien, die hinzugefügt, verändert oder gelöscht werden, auf allen Clients aktualisiert bzw. gelöscht.
+Alle diese Clients stellen Verbindungen mit sicheren Servern her, über die sie Zugriff auf Dateien haben und diese für andere Nutzer freigeben können. Wenn Dateien auf einem Client geändert werden, werden diese automatisch mit dem Server synchronisiert. Alle verknüpften Geräte aktualisieren sich automatisch. Dadurch werden Dateien, die hinzugefügt, verändert oder gelöscht werden, auf allen Clients aktualisiert bzw. gelöscht.
 
 Der Dropbox-Service betreibt verschiedenste Dienste, die sowohl für die Handhabung und Verarbeitung von Metadaten, als auch für die Verwaltung des Blockspeichers verantwortlich sind [@dropbox2015a].
 
 ![Blockdiagramm der Dropbox Services [@dropbox2015a]\label{db_archtecture}](images/db_archtecture.png)
 
-In der Abbildung \ref{db_archtecture} werden die einzelnen Komponenten in einem Blockdiagramm dargestellt. Wie im Kapitel \ref{verteilte_systeme} beschrieben, trennt Dropbox intern die Dateien von ihren Metadaten. Der Metadata Service speichert die Metadaten und Informationen zu ihrem Speicherort in einer Datenbank, aber der Inhalt der Daten liegt in einem separaten Storage Service. Dieser Service verteilt die Daten wie ein "Load Balancer" über viele Server.
+In der Abbildung \ref{db_archtecture} werden die einzelnen Komponenten in einem Blockdiagramm dargestellt. Wie im Kapitel \ref{verteilte_systeme} beschrieben, trennt Dropbox intern die Dateien von ihren Metadaten. Der Metadata Service speichert die Metadaten und die Informationen zu ihrem Speicherort in einer Datenbank, der Inhalt der Daten liegt jedoch in einem separaten Storage Service. Dieser Service verteilt die Daten wie ein "Load Balancer" über viele Server.
 
-Der Storage Service ist wiederum von außen durch einen Application Service abgesichert. Die Authentifizierung erfolgt über das OAuth2 Protokoll [@dropbox2015b]. Diese Authentifizierung wird für alle Services verwendet, auch für den Metadata Service, Processing-Servers und den Notification Service.
+Der Storage Service ist wiederum von außen durch einen Application Service abgesichert. Die Authentifizierung erfolgt über das OAuth2 Protokoll [@dropbox2015b]. Diese Authentifizierung wird für alle Services verwendet, auch für den Metadata Service, den Processing-Servers und den Notification Service.
 
-Der Processing- oder Application-Block dient als Zugriffspunkt zu den Daten. Eine Applikation, die auf Daten zugreifen möchte, muss sich an diesen Servern anmelden und bekommt dann Zugriff auf die angefragten Daten. Dies ermöglicht auch Dritthersteller Anwendungen zu entwickeln, die mit Daten aus der Dropbox arbeiten. Für diesen Zweck gibt es im Authentifizierungsprotokoll OAuth2 sogenannte Scopes (siehe Kapitel \ref{implementation_oauth}). Eine weitere Aufgabe, die diese Schicht erledigt, ist die Verschlüsselung der Anwendungsdaten [@dropbox2015a].
+Der Processing- oder Application-Block dient als Zugriffspunkt zu den Daten. Eine Applikation, die auf Daten zugreifen möchte, muss sich an diesen Servern anmelden und bekommt dann Zugriff auf die angefragten Daten. Dies ermöglicht auch Drittherstellern Anwendungen zu entwickeln, die mit Daten aus der Dropbox arbeiten. Für diesen Zweck gibt es im Authentifizierungsprotokoll OAuth2 sogenannte Scopes (siehe Kapitel \ref{implementation_oauth}). Eine weitere Aufgabe, die diese Schicht erledigt, ist die Verschlüsselung der Anwendungsdaten [@dropbox2015a].
 
 Die Nachteile von Dropbox im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
@@ -234,3 +234,4 @@ Jedes dieser vier Systeme bieten Ansätze, die für die Entwicklung von symCloud
 [^23]: <https://www.google.com/intl/de_at/drive>
 [^24]: <https://owncloud.org/>
 [^25]: <http://git-scm.com/>
+
