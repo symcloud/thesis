@@ -50,42 +50,42 @@ Alles in allem ist Dropbox als Grundlage für symCloud aufgrund der fehlenden Er
 
 ### ownCloud
 
-Nach den neuesten Entwicklungen arbeitet ownCloud an einem ähnlichen Feature wie symCloud. Unter dem Namen "Remote shares" wurde in der Version sieben eine Erweiterung in den Core übernommen, mit dem es möglich sein soll, sogenannte "Shares" mittels einem Link auch in einer anderen Installation einzubinden. Dies ermöglicht es, Dateien auch über die Grenzen des eigenen Servers hinweg zu teilen [@bizblokes2014ownCloud]. Jedoch ist diese Verteilung nicht in der Architektur verankert und nur über eine Systemerweiterung möglich.
+Nach den neuesten Entwicklungen arbeitet ownCloud an einem ähnlichen Feature wie symCloud. Unter dem Namen "Remote shares" wurde in der Version sieben eine Erweiterung in den Core übernommen, mit dem es möglich sein sollte, sogenannte "Shares" mittels Link auch in einer anderen Installation einzubinden. Dies ermöglicht es, Dateien auch über die Grenzen des eigenen Servers hinweg zu teilen [@bizblokes2014ownCloud]. Jedoch ist diese Verteilung nicht in der Architektur verankert und nur über eine Systemerweiterung möglich.
 
-Die kostenpflichtige Variante von ownCloud geht hier noch einen Schritt weiter. In Abbildung \ref{owncloud_architecture} ist abgebildet, wie ownCloud als eine Art Verbindungsschicht zwischen verschiedenen Lokalen- und Cloud-Speichersystemen dienen soll [@owncloud2015architecture, S. 1].
+Die kostenpflichtige Variante von ownCloud geht hier noch einen Schritt weiter. In Abbildung \ref{owncloud_architecture} ist dargestellt, wie ownCloud als eine Art Verbindungsschicht zwischen verschiedenen Lokalen- und Cloud-Speichersystemen dienen soll [@owncloud2015architecture, S. 1].
 
 ![ownCloud Enterprise Architektur Übersicht [@owncloud2015architecture]\label{owncloud_architecture}](images/owncloud_architecture.png)
 
-Um die Integration in ein Unternehmen zu erleichtern, bietet es verschiedenste Services an. Unter anderem ist es möglich, Benutzerdaten über LDAP oder ActiveDirectory zu verwalten und damit ein doppeltes Verwalten der Benutzer zu vermeiden [@owncloud2015architecture, S. 2].
+Um die Integration in ein Unternehmen zu erleichtern, bietet ownCloud verschiedenste Dienste an. Unter anderem ist es möglich, Benutzerdaten über LDAP oder ActiveDirectory zu verwalten und damit ein Doppeltes führen der Benutzer zu vermeiden [@owncloud2015architecture, S. 2].
 
 ![Bereitstellungsszenario von ownCloud [@owncloud2015architecture]\label{owncloud_deployment}](images/owncloud_deployment.png)
 
-Für einen produktiven Einsatz wird eine skalierbare Architektur, wie in Abbildung \ref{owncloud_deployment}, vorgeschlagen. An erster Stelle steht ein Load-Balancer, der die Last der Anfragen auf mindestens zwei Webserver verteilt. Diese Webserver sind mit einem MySQL-Cluster verbunden, in dem die User-Daten, Anwendungsdaten und Metadaten der Dateien gespeichert sind. Dieser Cluster besteht wiederum aus mindestens zwei redundanten Datenbankservern. Dies ermöglicht auch bei stark frequentierten Installationen eine horizontale Skalierbarkeit. Zusätzlich sind die Webserver mit dem File-Storage verbunden. Auch hier ist es möglich, diesen redundant bzw. skalierbar aufzubauen, um die Effizienz und Sicherheit zu gewährleisten [@owncloud2015architecture, S. 3-4].
+Für einen produktiven Einsatz wird eine skalierbare Architektur, wie in Abbildung \ref{owncloud_deployment}, vorgeschlagen. An erster Stelle steht ein Load-Balancer, der die Last der Anfragen auf mindestens zwei Webserver verteilt. Diese Webserver sind mit einem MySQL-Cluster verbunden, in dem die User-Daten, Anwendungsdaten und Metadaten der Dateien gespeichert sind. Dieser Cluster besteht wiederum aus mindestens zwei redundanten Datenbankservern. Diese Architektur ermöglicht auch bei stark frequentierten Installationen eine horizontale Skalierbarkeit. Zusätzlich sind die Webserver mit dem File-Storage verbunden. Auch hier ist es möglich, diesen redundant bzw. skalierbar aufzubauen, um die Effizienz und Sicherheit zu gewährleisten [@owncloud2015architecture, S. 3-4].
 
 Die Nachteile von ownCloud im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
 Architektur
 
-:   Die Software ist dafür ausgelegt, um die Anforderungen, auf einem einzigen Server zu erfüllen. Es ermöglicht zwar eine verteilte Architektur, allerdings nur, um die Last auf verschiedene Server aufzuteilen. Im Gegensatz dazu versucht symCloud die Daten zwischen verschiedenen Instanzen zu verteilen um die Zusammenarbeit zwischen Benutzern zu ermöglichen, die auf verschiedenen Servern registriert sind.
+:   Die Software ist dafür ausgelegt die Anforderungen, auf einem einzigen Server zu erfüllen. Es ermöglicht zwar eine verteilte Architektur, allerdings nur, um die Last auf verschiedene Server aufzuteilen. Im Gegensatz dazu versucht symCloud die Daten zwischen verschiedenen Instanzen zu verteilen um die Zusammenarbeit zwischen Benutzern zu ermöglichen, die auf verschiedenen Servern registriert sind.
 
 Stand der Technik
 
-:   Aufgrund der Tatsache, dass die Entwicklung von ownCloud schon im Jahre 2010 begann und sich die Programmiersprache PHP bzw. dessen Community rasant weiterentwickelt, ist der Kern von ownCloud in einem Stil programmiert, der nicht mehr dem heutigen Stand der Technik entspricht.
+:   Aufgrund der Tatsache, dass die Entwicklung von ownCloud schon im Jahre 2010 begann und sich die Programmiersprache PHP bzw. dessen Community rasant weiterentwickelt, ist der Kern von ownCloud in einem Stil programmiert der nicht mehr dem heutigen Stand der Technik entspricht.
 
-Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen, erfüllen kann ist das Datenmodell nicht dafür ausgelegt, um die Daten zu verteilen. Ein weiterer großer Nachteil ist die veraltete Codebasis, die eine Erweiterung erschwert.
+Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen, erfüllen kann ist das Datenmodell nicht dafür ausgelegt, Daten zu verteilen. Ein weiterer großer Nachteil ist die bereits angesprochene veraltete Codebasis, die eine Erweiterung erschwert.
 
 ## Verteilte Daten - Beispiel Diaspora
 
 Diaspora (genauere Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mithilfe von Standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
 
-* Um Benutzerinformationen zu finden, die auf anderen Servern registriert sind.
+* Um Benutzerinformationen zu finden, die auf anderen Servern gespeichert sind.
 * Erstellte Informationen an Benutzer zu versenden, mit denen sie geteilt wurden.
 
-Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Das Webfinger Protokoll wird verwendet, um Informationen über Benutzer oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige URI. Es verwendet den HTTPS-Standard als Transportlayer für eine sichere Verbindung. Als Format für die Antworten wird JSON verwendet [@jones2013webfinger, K. 1].
+Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Dieses Protokoll wird verwendet, um Informationen über Benutzer oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige (TODO; URI oder URL danach schreibst du nur noch von URL) URI. Es verwendet den HTTPS-Standard als Transportlayer für eine sichere Verbindung. Als Format für die Antworten wird JSON verwendet [@jones2013webfinger, K. 1].
 
  __Beispiel [@diaspora2014protocol]:__
 
-Alice versucht mit Bob in Kontakt zu treten. Um die nötigen URLs für die weitere Kommunikation zwischen den Servern zu ermitteln führt der Pod von Alice einen Webfinger lookup auf den Pod von Bob aus. Der Response enthält einen ähnlichen Inhalt, wie in Listing \ref{diaspora_host_meta} dargestellt ist. Dieser Response wird LRDD ("Link-based Resource Descriptor Document"[^20]) genannt und enthält die URL um Daten von dem Server abzufragen.
+Alice versucht mit Bob in Kontakt zu treten. Um die nötigen URLs für die weitere Kommunikation zwischen den Servern zu ermitteln führt der Pod von Alice einen Webfinger lookup auf den Pod von Bob aus. Der Response enthält einen ähnlichen Inhalt, wie in Listing \ref{diaspora_host_meta} dargestellt. Dieser Response wird LRDD ("Link-based Resource Descriptor Document"[^20]) genannt und enthält die URL um die Daten von dem Server abzufragen.
 
 ```{caption="Host-Meta Inhalt von Bob\label{diaspora_host_meta}" .xml}
 <Link rel="lrdd"
@@ -97,13 +97,13 @@ Um Informationen über den Benutzer Bob zu erhalten, führt der Pod von Alice ei
 
 Über dieses Protokoll lassen sich die Pods von Alice und Bob verbinden. Die Daten die dabei verteilt werden, werden auf jedem Pod in einer Relationalen Datenbank abgelegt [@diaspora2015installation].
 
-Diaspora ist ein gutes Beispiel, wie Daten in einem Dezentralen Netzwerk verteilt werden können. Da allerdings das gesamte Konzept dafür ausgelegt ist, Benutzer miteinander kommunizieren zu lassen, ist die Erweiterung auf ein Dateimodell sehr schwierig. Jedoch könnte eine Kommunikation zwischen Diaspora und symCloud, durch die Abstraktion der API, durch das Webfinger Protokoll, ermöglicht werden (siehe Kapitel \ref{chapter_outlook_protocolls}).
+Diaspora ist ein gutes Beispiel, wie Daten in einem Dezentralen Netzwerk verteilt werden können. Da allerdings das gesamte Konzept dafür ausgelegt ist, Benutzer miteinander kommunizieren zu lassen, ist die Erweiterung auf ein Dateimodell sehr schwierig. Jedoch könnte eine Kommunikation zwischen Diaspora und symCloud, durch die Abstraktion der API des Webfinger Protokoll, ermöglicht werden (siehe Kapitel \ref{chapter_outlook_protocolls}).
 
 ## \label{chapter_distributed_datamodel}Verteilte Datenmodelle - Beispiel GIT
 
 GIT[^25] ist eine verteilte Versionsverwaltung, welche ursprünglich entwickelt wurde, um den Source-Code des Linux Kernels zu verwalten.
 
-Die Software ist im Grunde eine Key-Value Datenbank. Es werden Objekte in Form einer Datei abgespeichert, in der jeweils der Inhalt des Objekts abgelegt wird, wobei der Name der Datei den Key des Objektes enthält. Dieser Key wird berechnet, indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten [@chacon2009pro, K. 9.2]. Das Listing \ref{git_calc_hash} zeigt, wie ein SHA in einem Unix-Terminal berechnet werden kann [@keepers2012git].
+Die Software ist im Grunde eine Key-Value Datenbank. Die Objekte werden in Form einer Datei abgespeichert wobei der Name den Key des Objektes enthält. In der Datei wird der jeweilige der Inhalt des Objekts abgelegt. Dieser Key wird ermittelt, indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten [@chacon2009pro, K. 9.2]. Das Listing \ref{git_calc_hash} zeigt, wie ein SHA in einem Unix-Terminal berechnet werden kann [@keepers2012git].
 
 ```{caption="Berechnung des SHA eines Objektes\label{git_calc_hash}"}
 $ OBJECT='blob 46\0{"name": "Johannes Wachter", \
@@ -124,7 +124,7 @@ $ find .git/objects -type f
     .git/objects/6c/01d1dec5cf5221e86600baf77f011ed469b8fe
 ```
 
-Die Objekte in GIT sind immutable, was soviel Bedeutet, dass sie nicht veränderbar sind. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht oder geändert. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt [@keepers2012git].
+Die Objekte in GIT sind immutable, das bedeutet, dass sie nicht veränderbar sind. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht oder geändert. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt [@keepers2012git].
 
 __Objekt Typen__
 
@@ -136,7 +136,7 @@ BLOB
 
 TREE
 
-:   Der TREE beschreibt einen Ordner im Repository. Ein TREE enthält Referenzen  auf andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. Wie auch der BLOB besitzt ein TREE für sich gesehen keinen Namen. Dieser Name wird zu jeder Referenz auf einen TREE oder auf einen BLOB gespeichert (siehe Listing \ref{git_tree_listing}) [@chacon2009pro, K. 9.2].
+:   Der TREE beschreibt einen Ordner im Repository. Ein TREE enthält Referenzen  auf andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. Wie auch der BLOB besitzt ein TREE für sich gesehen keinen Namen. (TODO: da steht kein besitzt keine Name und dann DIESER NAME…) Dieser Name wird zu jeder Referenz auf einen TREE oder auf einen BLOB gespeichert (siehe Listing \ref{git_tree_listing}) [@chacon2009pro, K. 9.2].
 
 ```{caption="Inhalt eines TREE Objektes\label{git_tree_listing}"}
 $ git cat-file -p 601a62b205bb497d75a231ec00787f5b2d42c5fc
@@ -177,8 +177,8 @@ Ein COMMIT Objekt enthält folgende Werte (siehe Listing \ref{git_commit_listing
 
 __Anmerkungen (zu der Tabelle \ref{commit_properties}):__
 
-* Ein COMMIT kann mehrere Vorgänger haben, wenn sie zusammengeführt werden. Zum Beispiel würde dieser Mechanismus bei einem MERGE verwendet werden, um die beiden Vorgänger zu speichern.
-* Autor und Ersteller des COMMITs können sich unterscheiden: Wenn zum Beispiel ein Benutzer einen PATCH erstellt, ist er der Verantwortliche für die Änderungen und damit der Autor. Der Benutzer, der den Patch nun auflöst und den `git commit` Befehl ausführt, ist der Ersteller bzw. der Committer.
+* Ein COMMIT kann mehrere Vorgänger haben, wenn sie zusammengeführt werden. (TODO: Verstehe ich gar nicht)Dieser Mechanismus würde zum Beispiel bei einem MERGE verwendet werden, um die beiden Vorgänger zu speichern.
+* Autor und Ersteller des COMMITs können sich unterscheiden: Wenn zum Beispiel ein Benutzer einen PATCH erstellt, ist dieser der Autor und damit der Verantwortliche für die Änderungen. Der Benutzer, der den Patch nun auflöst und den `git commit` Befehl ausführt, ist der Ersteller bzw. der Committer.
 
 REFERENCE
 
@@ -202,9 +202,14 @@ Die Nachteile von GIT im Bezug auf die im Kapitel \ref{specification} aufgezähl
 
 Architektur
 
-:   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu automatisieren. Ein weiteres Problem ist die fehlende Möglichkeit Zugriffsberechtigungen festlegen zu können.
+:   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu automatisieren. Ein weiteres Problem ist die fehlende Möglichkeit Zugriffsberechtigungen festzulegen.
 
-Da die Anwendung GIT für die Verwendung als Datenspeicher, aufgrund der Fehlenden Verteilungsmechanismen, für das Projekt ungeeignet ist, aber viele der Anforderungen erfüllen würde, wird dieses Datenmodell, in Kapitel \ref{chapter_concept_datamodel}, als Grundlage für symCloud herangezogen. Außerdem wird die Idee der Key-Value Datenbank im Kapitel \ref{chapter_concept_database} bei der Konzeption der Datenbank aufgegriffen.
+Da die Anwendung GIT für die Verwendung als Datenspeicher, aufgrund der Fehlenden Verteilungsmechanismen, für das Projekt ungeeignet ist, jodoch viele der Anforderungen erfüllt, wird dieses Datenmodell als Grundlage für symCloud herangezogen, siehe Kapitel \ref{chapter_concept_datamodel}. Außerdem wird die Idee der Key-Value Datenbank bei der Konzeption der Datenbank im Kapitel \ref{chapter_concept_database} aufgegriffen.
+
+(TODO: Alternativer Absatz
+Aufgrund der Fehlenden Verteilungsmechanismen ist die Anwendung GIT für die Verwendung als Datenspeicher für das Projekt ungeeignet. Da es jedoch viele der Anforderungen erfüllt, wird dieses Datenmodell als Grundlage für symCloud herangezogen, siehe dazu Kapitel \ref{chapter_concept_datamodel}. Außerdem wird die Idee der Key-Value Datenbank bei der Konzeption der Datenbank im Kapitel \ref{chapter_concept_database} aufgegriffen.)
+
+
 
 ## Zusammenfassung
 
@@ -212,7 +217,7 @@ In diesem Kapitel wurden zuerst die Begriffe verteilte Systeme und verteilte Dat
 
 Dropbox
 
-:   Kommerzielles Produkt mit dem gewünschten Funktionsumfang hinsichtlich der Dateisynchronisierung und Benutzerinteraktion. Allerdings im Bezug auf das Projekt symCloud, aufgrund des nicht verfügbaren Quellcodes, nur als Inspirationsquelle anwendbar.
+:   Kommerzielles Produkt mit gewünschtem Funktionsumfang hinsichtlich der Dateisynchronisierung und Benutzerinteraktion. Allerdings im Bezug auf das Projekt symCloud, aufgrund des nicht verfügbaren Quellcodes, nur als Inspirationsquelle verwendbar.
 
 ownCloud
 
@@ -220,11 +225,11 @@ ownCloud
 
 Diaspora
 
-:   Das quelloffene Social-Media Projekt ist ein Pionier in Sachen verteilter Architektur. Das Protokoll, welches von Diaspora eingesetzt wird, dient als Inspiration für die Entwicklung von symCloud.
+:   Das quelloffene Social-Media Projekt ist ein Pionier in Sachen verteilter Architektur. Das Protokoll, welches von Diaspora eingesetzt wird, dient als weitere Inspiration für die Entwicklung von symCloud.
 
 GIT
 
-:   Aufgrund des Datenmodells von GIT, welches als Grundlage für symCloud dient, ist diese Versionsverwaltung für die verteilte Anwendung optimal ausgerüstet. Es ermöglicht den verbundenen Servern (Clients) eine schnelle und einfache Synchronisation der Daten.
+:   Aufgrund des Datenmodells von GIT ist diese Versionsverwaltung für die verteilte Anwendung optimal ausgerüstet. Daher wird es als Grundlage für symCloud dienen. Es ermöglicht den verbundenen Servern (Clients) eine schnelle und einfache Synchronisation der Daten.
 
 Jedes dieser vier Systeme bieten Ansätze, die für die Entwicklung von symCloud relevant sind. 
 
@@ -234,4 +239,3 @@ Jedes dieser vier Systeme bieten Ansätze, die für die Entwicklung von symCloud
 [^23]: <https://www.google.com/intl/de_at/drive>
 [^24]: <https://owncloud.org/>
 [^25]: <http://git-scm.com/>
-
