@@ -1,12 +1,12 @@
 # \label{chapter_state_of_the_art}Stand der Technik
 
-In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die beiden Begriffe verteilte Systeme und verteilte Dateisysteme definiert. Anschließend werden vier Anwendungen beschrieben, die als Inspiration für das Projekt symCloud verwendet werden.
+In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die beiden Begriffe „verteilte Systeme“ und „verteilte Dateisysteme“ definiert. Anschließend werden vier Anwendungen beschrieben, die als Inspiration für das Projekt symCloud verwendet werden.
 
 ## \label{verteilte_systeme}Verteilte Systeme
 
-Andrew Tanenbaum definiert den Begriff der "verteilten Systeme" in seinem Buch folgendermaßen:
+Andrew Tanenbaum definiert den Begriff der „verteilten Systeme" in seinem Buch folgendermaßen:
 
-> "Ein verteiltes System ist eine Menge voneinander unabhängiger
+> „Ein verteiltes System ist eine Menge voneinander unabhängiger
 > Computer, die dem Benutzer wie ein einzelnes kohärentes
 > System erscheinen"
 
@@ -34,7 +34,7 @@ In der Abbildung \ref{db_archtecture} werden die einzelnen Komponenten in einem 
 
 Der Storage Service ist wiederum von außen durch einen Application Service abgesichert. Die Authentifizierung erfolgt über das OAuth2 Protokoll [@dropbox2015b]. Diese Authentifizierung wird für alle Services verwendet, auch für den Metadata Service, den Processing-Servers und den Notification Service.
 
-Der Processing- oder Application-Block dient als Zugriffspunkt zu den Daten. Eine Applikation, die auf Daten zugreifen möchte, muss sich an diesen Servern anmelden und bekommt dann Zugriff auf die angefragten Daten. Dies ermöglicht auch Drittherstellern Anwendungen zu entwickeln, die mit Daten aus der Dropbox arbeiten. Für diesen Zweck gibt es im Authentifizierungsprotokoll OAuth2 sogenannte Scopes (siehe Kapitel \ref{implementation_oauth}). Eine weitere Aufgabe, die diese Schicht erledigt, ist die Verschlüsselung der Anwendungsdaten [@dropbox2015a].
+Der Processing- oder Application-Block dient als Zugriffspunkt zu den Daten. Eine Applikation, die auf Daten zugreifen möchte, muss sich an diesen Servern anmelden und bekommt dann Zugriff auf die angefragten Daten. Dies ermöglicht auch Drittherstellern Anwendungen zu entwickeln, die mit Daten aus der Dropbox arbeiten. Für diesen Zweck gibt es im Authentifizierungsprotokoll OAuth2 sogenannte „Scopes“ (siehe Kapitel \ref{implementation_oauth}). Eine weitere Aufgabe, die diese Schicht erledigt, ist die Verschlüsselung der Anwendungsdaten [@dropbox2015a].
 
 Die Nachteile von Dropbox im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
@@ -56,7 +56,7 @@ Die kostenpflichtige Variante von ownCloud geht hier noch einen Schritt weiter. 
 
 ![ownCloud Enterprise Architektur Übersicht [@owncloud2015architecture]\label{owncloud_architecture}](images/owncloud_architecture.png)
 
-Um die Integration in ein Unternehmen zu erleichtern, bietet ownCloud verschiedenste Dienste an. Unter anderem ist es möglich, Benutzerdaten über LDAP oder ActiveDirectory zu verwalten und damit ein Doppeltes führen der Benutzer zu vermeiden [@owncloud2015architecture, S. 2].
+Um die Integration in ein Unternehmen zu erleichtern, bietet ownCloud verschiedenste Dienste an. Unter Anderem ist es möglich, Benutzerdaten über LDAP oder ActiveDirectory zu verwalten und damit ein Doppeltes führen der Benutzer zu vermeiden [@owncloud2015architecture, S. 2].
 
 ![Bereitstellungsszenario von ownCloud [@owncloud2015architecture]\label{owncloud_deployment}](images/owncloud_deployment.png)
 
@@ -66,20 +66,20 @@ Die Nachteile von ownCloud im Bezug auf die im Kapitel \ref{specification} aufge
 
 Architektur
 
-:   Die Software ist dafür ausgelegt die Anforderungen, auf einem einzigen Server zu erfüllen. Es ermöglicht zwar eine verteilte Architektur, allerdings nur, um die Last auf verschiedene Server aufzuteilen. Im Gegensatz dazu versucht symCloud die Daten zwischen verschiedenen Instanzen zu verteilen um die Zusammenarbeit zwischen Benutzern zu ermöglichen, die auf verschiedenen Servern registriert sind.
+:   Die Software ist dafür ausgelegt die Anforderungen, auf einem einzigen Server zu erfüllen. Es ermöglicht zwar eine verteilte Architektur, allerdings nur um die Last auf verschiedene Server aufzuteilen. Im Gegensatz dazu versucht symCloud die Daten zwischen verschiedenen Instanzen zu verteilen um die Zusammenarbeit zwischen Benutzern zu ermöglichen, die auf verschiedenen Servern registriert sind.
 
 Stand der Technik
 
 :   Aufgrund der Tatsache, dass die Entwicklung von ownCloud schon im Jahre 2010 begann und sich die Programmiersprache PHP bzw. dessen Community rasant weiterentwickelt, ist der Kern von ownCloud in einem Stil programmiert der nicht mehr dem heutigen Stand der Technik entspricht.
 
-Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen, erfüllen kann ist das Datenmodell nicht dafür ausgelegt, Daten zu verteilen. Ein weiterer großer Nachteil ist die bereits angesprochene veraltete Codebasis, die eine Erweiterung erschwert.
+Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen erfüllen kann, ist das Datenmodell nicht dafür ausgelegt die Daten zu verteilen. Ein weiterer großer Nachteil ist die bereits angesprochene veraltete Codebasis, die eine Erweiterung erschwert.
 
 ## Verteilte Daten - Beispiel Diaspora
 
-Diaspora (genauere Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mithilfe von Standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
+Diaspora (genauere Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mit Hilfe von standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
 
-* Um Benutzerinformationen zu finden, die auf anderen Servern gespeichert sind.
-* Erstellte Informationen an Benutzer zu versenden, mit denen sie geteilt wurden.
+* Benutzerinformationen finden, die auf anderen Servern gespeichert sind
+* erstellte Informationen an Benutzer versenden, mit denen sie geteilt wurden.
 
 Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Dieses Protokoll wird verwendet, um Informationen über Benutzer oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige (TODO; URI oder URL danach schreibst du nur noch von URL) URI. Es verwendet den HTTPS-Standard als Transportlayer für eine sichere Verbindung. Als Format für die Antworten wird JSON verwendet [@jones2013webfinger, K. 1].
 
@@ -95,7 +95,7 @@ Alice versucht mit Bob in Kontakt zu treten. Um die nötigen URLs für die weite
 
 Um Informationen über den Benutzer Bob zu erhalten, führt der Pod von Alice einen Request auf die angeführte URL mit dem Benutzernamen von Bob aus. Dieser Response enthält alle relevanten Informationen über Bob und weitere Links für nähere Details oder Aktionen, die auf den gesuchten BenutzerInnen ausgeführt werden können. Der Response kann bei nicht eindeutigem Suchbegriff auch mehrere Entitäten enthalten.
 
-Über dieses Protokoll lassen sich die Pods von Alice und Bob verbinden. Die Daten die dabei verteilt werden, werden auf jedem Pod in einer Relationalen Datenbank abgelegt [@diaspora2015installation].
+Über dieses Protokoll lassen sich die Pods von Alice und Bob verbinden. Die Daten die dabei verteilt werden, werden auf jedem Pod in einer relationalen Datenbank abgelegt [@diaspora2015installation].
 
 Diaspora ist ein gutes Beispiel, wie Daten in einem Dezentralen Netzwerk verteilt werden können. Da allerdings das gesamte Konzept dafür ausgelegt ist, Benutzer miteinander kommunizieren zu lassen, ist die Erweiterung auf ein Dateimodell sehr schwierig. Jedoch könnte eine Kommunikation zwischen Diaspora und symCloud, durch die Abstraktion der API des Webfinger Protokoll, ermöglicht werden (siehe Kapitel \ref{chapter_outlook_protocolls}).
 
@@ -112,7 +112,7 @@ $ echo -e $OBJECT | shasum
 6c01d1dec5cf5221e86600baf77f011ed469b8fe -
 ```
 
-Im Listing \ref{git_create_object_blob} wird ein GIT-Objekt vom Typ BLOB erstellt und in den "objects" Ordner geschrieben. 
+Im Listing \ref{git_create_object_blob} wird ein GIT-Objekt vom Typ BLOB erstellt und in den "Objects" Ordner geschrieben. 
 
 ```{caption="Erzeugung eines GIT-BLOB\label{git_create_object_blob}"}
 $ git init
@@ -124,7 +124,7 @@ $ find .git/objects -type f
     .git/objects/6c/01d1dec5cf5221e86600baf77f011ed469b8fe
 ```
 
-Die Objekte in GIT sind immutable, das bedeutet, dass sie nicht veränderbar sind. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht oder geändert. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt [@keepers2012git].
+Die Objekte in GIT sind “immutable“, das bedeutet, dass sie nicht veränderbar sind. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht oder geändert. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt [@keepers2012git].
 
 __Objekt Typen__
 
@@ -196,7 +196,7 @@ In der Abbildung \ref{git_data_model} wird ein einfaches Beispiel für ein Repos
     |-- mylib.rb (Datei)
 ```
 
-Der COMMIT (98ca9..) enthält eine Referenz auf den ROOT-TREE (0de24..). Dieser TREE enthält weitere Referenzen zu einem TREE-Objekt (10af9..) mit dem Namen `lib` und dem BLOB-Objekt (e8455..) mit dem Namen README. Diese Struktur wird bis zum TREE-Objekt (b70f8..) fortgesetzt, welches eine Referenz auf den BLOB (0ad1a..) mit dem Namen tricks.rb enthält. Das Beispiel visualisiert, wie Komplexe Ordnerstrukturen in GIT verwaltet und gespeichert werden können.
+Der COMMIT (98ca9..) enthält eine Referenz auf den ROOT-TREE (0de24..). Dieser TREE enthält weitere Referenzen zu einem TREE-Objekt (10af9..) mit dem Namen `lib` und dem BLOB-Objekt (e8455..) mit dem Namen README. Diese Struktur wird bis zum TREE-Objekt (b70f8..) fortgesetzt, welches eine Referenz auf den BLOB (0ad1a..) mit dem Namen tricks.rb enthält. Das Beispiel visualisiert, wie komplexe Ordnerstrukturen in GIT verwaltet und gespeichert werden können.
 
 Die Nachteile von GIT im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
@@ -204,7 +204,7 @@ Architektur
 
 :   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu automatisieren. Ein weiteres Problem ist die fehlende Möglichkeit Zugriffsberechtigungen festzulegen.
 
-Da die Anwendung GIT für die Verwendung als Datenspeicher, aufgrund der Fehlenden Verteilungsmechanismen, für das Projekt ungeeignet ist, jodoch viele der Anforderungen erfüllt, wird dieses Datenmodell als Grundlage für symCloud herangezogen, siehe Kapitel \ref{chapter_concept_datamodel}. Außerdem wird die Idee der Key-Value Datenbank bei der Konzeption der Datenbank im Kapitel \ref{chapter_concept_database} aufgegriffen.
+Da die Anwendung GIT für die Verwendung als Datenspeicher, aufgrund der Fehlenden Verteilungsmechanismen, für das Projekt ungeeignet ist jedoch viele der Anforderungen erfüllt, wird dieses Datenmodell als Grundlage für symCloud herangezogen, siehe Kapitel \ref{chapter_concept_datamodel}. Außerdem wird die Idee der Key-Value Datenbank bei der Konzeption der Datenbank im Kapitel \ref{chapter_concept_database} aufgegriffen.
 
 (TODO: Alternativer Absatz
 Aufgrund der Fehlenden Verteilungsmechanismen ist die Anwendung GIT für die Verwendung als Datenspeicher für das Projekt ungeeignet. Da es jedoch viele der Anforderungen erfüllt, wird dieses Datenmodell als Grundlage für symCloud herangezogen, siehe dazu Kapitel \ref{chapter_concept_datamodel}. Außerdem wird die Idee der Key-Value Datenbank bei der Konzeption der Datenbank im Kapitel \ref{chapter_concept_database} aufgegriffen.)
@@ -217,11 +217,11 @@ In diesem Kapitel wurden zuerst die Begriffe verteilte Systeme und verteilte Dat
 
 Dropbox
 
-:   Kommerzielles Produkt mit gewünschtem Funktionsumfang hinsichtlich der Dateisynchronisierung und Benutzerinteraktion. Allerdings im Bezug auf das Projekt symCloud, aufgrund des nicht verfügbaren Quellcodes, nur als Inspirationsquelle verwendbar.
+:   Kommerzielles Produkt mit gewünschtem Funktionsumfang hinsichtlich der Dateisynchronisierung und Benutzerinteraktion. Allerdings in Bezug auf das Projekt symCloud aufgrund des nicht verfügbaren Quellcodes nur als Inspirationsquelle verwendbar.
 
 ownCloud
 
-:   Dieses quelloffene Projekt ist eine gute alternative zu kommerziellen Lösungen wie zum Beispiel Dropbox. Es ist eine der Inspirationsquellen für symCloud, jedoch aufgrund des überholten Programmierstils und der fehlenden verteilten Architektur, nicht als Grundlage für symCloud verwendbar.
+:   Dieses quelloffene Projekt ist eine gute Alternative zu kommerziellen Lösungen wie zum Beispiel Dropbox. Es ist eine der Inspirationsquellen für symCloud, jedoch aufgrund des überholten Programmierstils und der fehlenden verteilten Architektur, ist diese nicht als Grundlage für symCloud verwendbar.
 
 Diaspora
 
@@ -231,7 +231,7 @@ GIT
 
 :   Aufgrund des Datenmodells von GIT ist diese Versionsverwaltung für die verteilte Anwendung optimal ausgerüstet. Daher wird es als Grundlage für symCloud dienen. Es ermöglicht den verbundenen Servern (Clients) eine schnelle und einfache Synchronisation der Daten.
 
-Jedes dieser vier Systeme bieten Ansätze, die für die Entwicklung von symCloud relevant sind. 
+Fazit: Jedes dieser vier Systeme bieten Ansätze, die für die Entwicklung von symCloud relevant sind. 
 
 [^20]: <https://tools.ietf.org/html/rfc6415#section-6.3>
 [^21]: <https://tools.ietf.org/html/rfc6415#section-2>
