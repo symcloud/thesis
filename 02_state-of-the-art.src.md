@@ -4,21 +4,21 @@ In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Da
 
 ## \label{verteilte_systeme}Verteilte Systeme
 
-Andrew Tanenbaum definiert den Begriff der „verteilten Systeme" in seinem Buch folgendermaßen:
+Andrew Tanenbaum definiert den Begriff der "verteilten Systeme" in seinem Buch folgendermaßen:
 
-> „Ein verteiltes System ist eine Menge voneinander unabhängiger
+> "Ein verteiltes System ist eine Menge voneinander unabhängiger
 > Computer, die dem Benutzer wie ein einzelnes kohärentes
 > System erscheinen"
 
 Diese Definition beinhaltet zwei Aspekte. Der erste Aspekt besagt, dass die einzelnen Maschinen in einem verteilten System autonom sind. Der zweite Aspekt bezieht sich auf die Software, die die Systeme miteinander verbinden. Durch die Software glaubt der Benutzer, dass er es mit einem einzigen System zu tun hat [@tanenbaum2003verteilte, p. 18]. 
 
-Eines der besten Beispiele für verteilte Systeme sind Cloud-Computing Dienste. Diese Dienste bieten verschiedenste Technologien von umfassen Rechnerleistungen, Speichern, Datenbanken bis hin zu Netzwerken an. Der Anwender kommuniziert hierbei immer nur mit einem System, allerdings verbirgt sich hinter der Oberfläche ein komplexes System aus vielen Hard- und Softwarekomponenten, welches sehr stark auf Virtualisierung setzt.
+Eines der besten Beispiele für verteilte Systeme sind Cloud-Computing Dienste. Diese Dienste bieten verschiedenste Technologien und umfassen Rechnerleistungen, Datenspeicher, Datenbanken und Netzwerke. Der Anwender kommuniziert hierbei immer nur mit einem System, allerdings verbirgt sich hinter der Oberfläche ein komplexes System aus vielen Hard- und Softwarekomponenten, welches sehr stark auf Virtualisierung setzt.
 
 Gerade im Bereich der verteilten Dateisysteme, bietet sich die Möglichkeit, Dateien über mehrere Server zu verteilen an. Dies ermöglicht die Verbesserung von Datensicherheit, durch Replikation über verschiedene Server und steigert die Effizienz, durch paralleles Lesen der Daten. Diese Dateisysteme trennen meist die Nutzdaten von ihren Metadaten und halten diese, als Daten zu den Daten, in einer effizienten Datenbank gespeichert. Um Informationen zu einer Datei zu erhalten, wird die Datenbank nach den Informationen durchsucht und direkt an den Benutzer weitergeleitet. Dies ermöglicht schnellere Antwortzeiten, da nicht auf die Nutzdaten zugegriffen werden muss und steigert dadurch die Effizienz des Systems [@linux2013dateisystem]. Das Kapitel \ref{chapter_distibuted_fs} befasst sich genauer mit verteilten Dateisystemen.
 
 ## Cloud-Datenhaltung
 
-Es gibt verschiedene Applikationen, die es erlauben, seine Dateien in einer Cloud-Umgebung zu verwalten. Viele dieser Applikationen sind kommerzielle Produkte, wie zum Beispiel Dropbox[^22] oder Google Drive[^23]. Andere jedoch sind frei verfügbar wie zum Beispiel ownCloud[^24], welches darüber hinaus sogar einen offenen Quellcode besitzt. Zwei dieser Applikationen sollen hier etwas genauer betrachtet werden und, soweit es möglich ist, die Speicherkonzepte analysiert. 
+Es gibt verschiedene Applikationen, die es erlauben, seine Dateien in einer Cloud-Umgebung zu verwalten. Viele dieser Applikationen sind kommerzielle Produkte, wie zum Beispiel Dropbox[^22] oder Google Drive[^23]. Andere jedoch sind frei verfügbar wie zum Beispiel ownCloud[^24], welches darüber hinaus sogar einen offenen Quellcode besitzt. Zwei dieser Applikationen sollen hier etwas genauer betrachtet und, soweit es möglich ist, die Speicherkonzepte analysiert werden. 
 
 ### Dropbox
 
@@ -30,11 +30,11 @@ Der Dropbox-Service betreibt verschiedenste Dienste, die sowohl für die Handhab
 
 ![Blockdiagramm der Dropbox Services [@dropbox2015a]\label{db_archtecture}](images/db_archtecture.png)
 
-In der Abbildung \ref{db_archtecture} werden die einzelnen Komponenten in einem Blockdiagramm dargestellt. Wie im Kapitel \ref{verteilte_systeme} beschrieben, trennt Dropbox intern die Dateien von ihren Metadaten. Der Metadata Service speichert die Metadaten und die Informationen zu ihrem Speicherort in einer Datenbank, der Inhalt der Daten liegt jedoch in einem separaten Storage Service. Dieser Service verteilt die Daten wie ein "Load Balancer" über viele Server.
+In der Abbildung \ref{db_archtecture} werden die einzelnen Komponenten in einem Blockdiagramm dargestellt. Wie im Kapitel \ref{verteilte_systeme} beschrieben, trennt Dropbox intern die Dateien von ihren Metadaten. Der Metadata Service speichert die Metadaten und die Informationen zu ihrem Speicherort in einer Datenbank, der Inhalt der Dateien liegt jedoch in einem separaten Storage Service. Dieser Service verteilt die Daten wie ein "Load Balancer" über viele Server.
 
 Der Storage Service ist wiederum von außen durch einen Application Service abgesichert. Die Authentifizierung erfolgt über das OAuth2 Protokoll [@dropbox2015b]. Diese Authentifizierung wird für alle Services verwendet, auch für den Metadata Service, den Processing-Servers und den Notification Service.
 
-Der Processing- oder Application-Block dient als Zugriffspunkt zu den Daten. Eine Applikation, die auf Daten zugreifen möchte, muss sich an diesen Servern anmelden und bekommt dann Zugriff auf die angefragten Daten. Dies ermöglicht auch Drittherstellern Anwendungen zu entwickeln, die mit Daten aus der Dropbox arbeiten. Für diesen Zweck gibt es im Authentifizierungsprotokoll OAuth2 sogenannte „Scopes“ (siehe Kapitel \ref{implementation_oauth}). Eine weitere Aufgabe, die diese Schicht erledigt, ist die Verschlüsselung der Anwendungsdaten [@dropbox2015a].
+Der Processing- oder Application-Block dient als Zugriffspunkt zu den Daten. Eine Applikation, die auf Daten zugreifen möchte, muss sich an diesen Servern anmelden und bekommt dann Zugriff auf die angefragten Daten. Dies ermöglicht auch Drittherstellern Anwendungen zu entwickeln, die mit Daten aus der Dropbox arbeiten. Für diesen Zweck gibt es im Authentifizierungsprotokoll OAuth2 sogenannte "Scopes" (siehe Kapitel \ref{implementation_oauth}). Eine weitere Aufgabe, die diese Schicht erledigt, ist die Verschlüsselung der Anwendungsdaten [@dropbox2015a].
 
 Die Nachteile von Dropbox im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
@@ -78,10 +78,10 @@ Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriff
 
 Diaspora (genauere Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mit Hilfe von standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
 
-* Benutzerinformationen finden, die auf anderen Servern gespeichert sind
-* erstellte Informationen an Benutzer versenden, mit denen sie geteilt wurden.
+* Benutzerinformationen finden, die auf anderen Servern gespeichert sind.
+* Die erstellte Informationen an Benutzer versenden, mit denen sie geteilt wurden.
 
-Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Dieses Protokoll wird verwendet, um Informationen über Benutzer oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige (TODO; URI oder URL danach schreibst du nur noch von URL) URI. Es verwendet den HTTPS-Standard als Transportlayer für eine sichere Verbindung. Als Format für die Antworten wird JSON verwendet [@jones2013webfinger, K. 1].
+Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Dieses Protokoll wird verwendet, um Informationen über Benutzer oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige URL. Es verwendet den HTTPS-Standard als Transportlayer für eine sichere Verbindung. Als Format für die Antworten wird JSON verwendet [@jones2013webfinger, K. 1].
 
  __Beispiel [@diaspora2014protocol]:__
 
@@ -97,13 +97,13 @@ Um Informationen über den Benutzer Bob zu erhalten, führt der Pod von Alice ei
 
 Über dieses Protokoll lassen sich die Pods von Alice und Bob verbinden. Die Daten die dabei verteilt werden, werden auf jedem Pod in einer relationalen Datenbank abgelegt [@diaspora2015installation].
 
-Diaspora ist ein gutes Beispiel, wie Daten in einem Dezentralen Netzwerk verteilt werden können. Da allerdings das gesamte Konzept dafür ausgelegt ist, Benutzer miteinander kommunizieren zu lassen, ist die Erweiterung auf ein Dateimodell sehr schwierig. Jedoch könnte eine Kommunikation zwischen Diaspora und symCloud, durch die Abstraktion der API des Webfinger Protokoll, ermöglicht werden (siehe Kapitel \ref{chapter_outlook_protocolls}).
+Diaspora ist ein gutes Beispiel, wie Daten in einem Dezentralen Netzwerk verteilt werden können. Da allerdings das gesamte Konzept dafür ausgelegt ist, Benutzer miteinander kommunizieren zu lassen, ist die Erweiterung auf ein Dateimodell sehr schwierig. Jedoch könnte eine Kommunikation zwischen Diaspora und symCloud, durch die Abstraktion der API, durch das Webfinger Protokoll, ermöglicht werden (siehe Kapitel \ref{chapter_outlook_protocolls}).
 
 ## \label{chapter_distributed_datamodel}Verteilte Datenmodelle - Beispiel GIT
 
 GIT[^25] ist eine verteilte Versionsverwaltung, welche ursprünglich entwickelt wurde, um den Source-Code des Linux Kernels zu verwalten.
 
-Die Software ist im Grunde eine Key-Value Datenbank. Die Objekte werden in Form einer Datei abgespeichert wobei der Name den Key des Objektes enthält. In der Datei wird der jeweilige der Inhalt des Objekts abgelegt. Dieser Key wird ermittelt, indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten [@chacon2009pro, K. 9.2]. Das Listing \ref{git_calc_hash} zeigt, wie ein SHA in einem Unix-Terminal berechnet werden kann [@keepers2012git].
+Die Software ist im Grunde eine Key-Value Datenbank. Die Objekte werden in Form einer Datei abgespeichert wobei der Name aus dem Key des Objektes besteht. In der Datei wird der jeweilige der Inhalt des Objektes abgelegt. Dieser Key wird ermittelt, indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten [@chacon2009pro, K. 9.2]. Das Listing \ref{git_calc_hash} zeigt, wie ein SHA in einem Unix-Terminal berechnet werden kann [@keepers2012git].
 
 ```{caption="Berechnung des SHA eines Objektes\label{git_calc_hash}"}
 $ OBJECT='blob 46\0{"name": "Johannes Wachter", \
@@ -124,7 +124,7 @@ $ find .git/objects -type f
     .git/objects/6c/01d1dec5cf5221e86600baf77f011ed469b8fe
 ```
 
-Die Objekte in GIT sind “immutable“, das bedeutet, dass sie nicht veränderbar sind. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht oder geändert. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt [@keepers2012git].
+Die Objekte in GIT sind "immutable", das bedeutet, dass sie nicht veränderbar sind. Ein einmal erstelltes Objekt wird nicht mehr aus der Datenbank gelöscht oder geändert. Bei der Änderung eines Objektes wird ein neues Objekt mit einem neuen Key erstellt [@keepers2012git].
 
 __Objekt Typen__
 
@@ -136,7 +136,7 @@ BLOB
 
 TREE
 
-:   Der TREE beschreibt einen Ordner im Repository. Ein TREE enthält Referenzen  auf andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. Wie auch der BLOB besitzt ein TREE für sich gesehen keinen Namen. (TODO: da steht kein besitzt keine Name und dann DIESER NAME…) Dieser Name wird zu jeder Referenz auf einen TREE oder auf einen BLOB gespeichert (siehe Listing \ref{git_tree_listing}) [@chacon2009pro, K. 9.2].
+:   Der TREE beschreibt einen Ordner im Repository. Ein TREE enthält Referenzen  auf andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. Wie auch der BLOB besitzt ein TREE für sich gesehen keinen Namen. Der Name des Objektes wird über die Referenz zu einem TREE oder einem BLOB festgelegt (siehe Listing \ref{git_tree_listing}) [@chacon2009pro, K. 9.2].
 
 ```{caption="Inhalt eines TREE Objektes\label{git_tree_listing}"}
 $ git cat-file -p 601a62b205bb497d75a231ec00787f5b2d42c5fc
@@ -177,7 +177,7 @@ Ein COMMIT Objekt enthält folgende Werte (siehe Listing \ref{git_commit_listing
 
 __Anmerkungen (zu der Tabelle \ref{commit_properties}):__
 
-* Ein COMMIT kann mehrere Vorgänger haben, wenn sie zusammengeführt werden. (TODO: Verstehe ich gar nicht)Dieser Mechanismus würde zum Beispiel bei einem MERGE verwendet werden, um die beiden Vorgänger zu speichern.
+* Ein COMMIT kann mehrere Vorgänger haben. Dieser Mechanismus würde zum Beispiel bei einem MERGE verwendet werden, um die beiden Vorgänger zu speichern, die zusammengeführt wurden.
 * Autor und Ersteller des COMMITs können sich unterscheiden: Wenn zum Beispiel ein Benutzer einen PATCH erstellt, ist dieser der Autor und damit der Verantwortliche für die Änderungen. Der Benutzer, der den Patch nun auflöst und den `git commit` Befehl ausführt, ist der Ersteller bzw. der Committer.
 
 REFERENCE
@@ -204,12 +204,7 @@ Architektur
 
 :   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu automatisieren. Ein weiteres Problem ist die fehlende Möglichkeit Zugriffsberechtigungen festzulegen.
 
-Da die Anwendung GIT für die Verwendung als Datenspeicher, aufgrund der Fehlenden Verteilungsmechanismen, für das Projekt ungeeignet ist jedoch viele der Anforderungen erfüllt, wird dieses Datenmodell als Grundlage für symCloud herangezogen, siehe Kapitel \ref{chapter_concept_datamodel}. Außerdem wird die Idee der Key-Value Datenbank bei der Konzeption der Datenbank im Kapitel \ref{chapter_concept_database} aufgegriffen.
-
-(TODO: Alternativer Absatz
 Aufgrund der Fehlenden Verteilungsmechanismen ist die Anwendung GIT für die Verwendung als Datenspeicher für das Projekt ungeeignet. Da es jedoch viele der Anforderungen erfüllt, wird dieses Datenmodell als Grundlage für symCloud herangezogen, siehe dazu Kapitel \ref{chapter_concept_datamodel}. Außerdem wird die Idee der Key-Value Datenbank bei der Konzeption der Datenbank im Kapitel \ref{chapter_concept_database} aufgegriffen.)
-
-
 
 ## Zusammenfassung
 
@@ -221,7 +216,7 @@ Dropbox
 
 ownCloud
 
-:   Dieses quelloffene Projekt ist eine gute Alternative zu kommerziellen Lösungen wie zum Beispiel Dropbox. Es ist eine der Inspirationsquellen für symCloud, jedoch aufgrund des überholten Programmierstils und der fehlenden verteilten Architektur, ist diese nicht als Grundlage für symCloud verwendbar.
+:   Dieses quelloffene Projekt ist eine gute Alternative zu kommerziellen Lösungen wie zum Beispiel Dropbox. Es ist eine der Inspirationsquellen für symCloud, jedoch aufgrund des überholten Programmierstils und der fehlenden verteilten Architektur, ist es nicht als Grundlage für symCloud verwendbar.
 
 Diaspora
 

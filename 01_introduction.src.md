@@ -10,7 +10,7 @@ Die Statistik aus der Abbildung \ref{dropbox_usage} zeigt, wie die Nutzerzahlen 
 
 Im Gegensatz dazu wurde im Jahre 2012 in Österreich erhoben (siehe \ref{cloud_services_concerns}), dass nur etwa 17% der AnwenderInnen diese Dienste ohne Bedenken verwenden. Das in dieser Studie am häufigsten genannte Bedenken ist: __Fremdzugriff auf die Daten, ohne informiert zu werden__.
 
-Dieses Bedenken ist seit den Abhörskandalen durch verschiedenste Geheimdienste, wie zum Beispiel die NSA, noch verstärkt worden. Dies zeigt eine Umfrage aus dem Jahre 2014, die in Deutschland durchgeführt wurde (Abbildung \ref{cloud_services_concerns_nsa})deutlich. Dabei gaben 71% an, dass das Vertrauen zu Cloud-Diensten durch diese Skandale beschädigt worden ist.
+Dieses Bedenken ist seit den Abhörskandalen durch verschiedenste Geheimdienste, wie zum Beispiel die NSA, noch verstärkt worden. Dies zeigt eine Umfrage aus dem Jahre 2014, die in Deutschland durchgeführt wurde (Abbildung \ref{cloud_services_concerns_nsa}) deutlich. Dabei gaben 71% an, dass das Vertrauen zu Cloud-Diensten durch diese Skandale beschädigt worden ist.
 
 ![Zustimmung zu der Aussage: "Der NSA-Skandal hat das Vertrauen in Cloud-Dienste beschädigt." [@statista2014nsa]\label{cloud_services_concerns_nsa}](images/statista/cloud-services-concerns-nsa.png)
 
@@ -24,13 +24,13 @@ ownCloud
 
 :   Das Projekt ownCloud ist eine Software, die es ermöglicht, Dateien in einer privaten Cloud zu verwalten. Mittels Endgeräte-Clients können die Dateien synchronisiert und über die Plattform auch geteilt werden. Insgesamt bietet die Software einen ähnlichen Funktionsumfang wie gängige kommerzielle Lösungen an [@owncloud2015features]. Zusätzlich bietet es eine Kollaborationsplattform, mit der zum Beispiel Dokumente über einen Online Editor, von mehreren Benutzern gleichzeitig, bearbeitet werden können. Implementiert ist dieses Projekt hauptsächlich in den Programmiersprachen PHP und JavaScript.
 
-Beide Software-Pakete ermöglichen es den NutzerInnen, Ihre Daten in einer vertrauenswürdigen Umgebung zu verwalten. Diese Umgebung wird nur ungern verlassen, um seine Daten anderen zur Verfügung zu stellen. (TODO das verstehe ich nicht, im nächsten satz meinst du jetzt andere Programme die ownCloud und diaspora oder?) Aufgrund dieses Umstandes, ist es für Anwendungen oft sehr schwer, sich für die breite Masse zu etablieren. In dieser Arbeit wird speziell auf die Anforderungen von Anwendungen eingegangen, die es ermöglichen sollen, Dateien zu verwalten, zu teilen und in einem definierbaren Netzwerk zu verteilen. Speziell wird der Fall betrachtet, wenn zwei BenutzerInnen die auf verschiedenen Servern registriert sind, Dateien zusammen verwenden wollen. Dabei sollen die Vorgänge, die nötig sind, um die Dateien zwischen den Servern zu übertragen, transparent für die NutzerInnen gehandhabt werden.
+Beide Software-Pakete ermöglichen es den NutzerInnen, Ihre Daten in einer vertrauenswürdigen Umgebung zu verwalten. Diese Umgebung wird nur ungern verlassen, um seine Daten anderen zur Verfügung zu stellen. Aufgrund dieses Umstandes, ist es für Anwendungen (wie Diaspora, ownCloud oder ähnliche Applikationen) oft sehr schwer, sich für die breite Masse zu etablieren. In dieser Arbeit wird speziell auf die Anforderungen von Anwendungen eingegangen, die es ermöglichen sollen, Dateien zu verwalten, mit anderen zu teiln und in einem definierbaren Netzwerk zu verteilen. Speziell wird der Fall betrachtet, wenn zwei BenutzerInnen die auf verschiedenen Servern registriert sind, Dateien zusammen verwenden wollen. Dabei sollen die Vorgänge, die nötig sind, um die Dateien zwischen den Servern zu übertragen, transparent für die NutzerInnen gehandhabt werden.
 
 ## Projektbeschreibung
 
 SymCloud ist eine private Cloud-Software, die es ermöglicht, über dezentrale Knoten (ähnlich wie Diaspora) Dateien über die Grenzen des eigenen Servers hinweg zu teilen. Verbundene Knoten tauschen über sichere Kanäle Daten aus, die anschließend über einen Client mit dem Endgerät synchronisiert werden können. Dabei ist es für den Benutzer irrelevant, woher die Daten stammen.
 
-Bei dieser Arbeit geht es weniger um die Plattform, als um die Konzepte, die es ermöglichen eine solche Plattform umzusetzen. Dabei wird im speziellen die Datenhaltung für solche Systeme betrachtet. Um diese Konzepte so unabhängig wie möglich von der Plattform zu gestalten, werden diese in einer eigenständigen Bibliothek entwickelt. Dieser Umstand ermöglicht eine Weiterverwendung in anderen Plattformen und Anwendungen, die ihren BenutzerInnen ermöglichen wollen, Dateien zu erstellen, zu verwalten,zu bearbeiten oder zu teilen. Damit kann das erstellte Konzept als Grundlage für eine "Spezifikation" von derartigen Prozessen ausgebaut werden.
+Bei dieser Arbeit geht es weniger um die Plattform, als um die Konzepte, die es ermöglichen eine solche Plattform umzusetzen. Dabei wird im speziellen die Datenhaltung für solche Systeme betrachtet. Um diese Konzepte so unabhängig wie möglich von der Plattform zu gestalten, werden diese in einer eigenständigen Bibliothek entwickelt. Dieser Umstand ermöglicht eine Weiterverwendung in anderen Plattformen und Anwendungen, die ihren BenutzerInnen ermöglichen wollen, Dateien zu erstellen, zu verwalten, zu bearbeiten oder zu teilen. Damit kann das erstellte Konzept als Grundlage für eine "Spezifikation" von derartigen Prozessen ausgebaut werden.
 
 In der ersten Phase, in der diese Arbeit entsteht, werden grundlegende Konzepte aufgestellt. Diese beginnen mit der Festlegung eines Datenmodells und der Implementierung einer Datenbank, die in der Lage ist die Daten mit anderen Servern zu teilen. Dieses Teilen von Daten soll voll konfigurierbar sein, was bedeutet, dass die AdministratorInnen die Freiheit haben zu entscheiden, welche Server welche Daten zur Verfügung gestellt bekommen. Dabei gibt es zwei Stufen der Konfiguration, zum einen über eine Liste von vertrauenswürdigen Servern, welche sozusagen eine "Whitelist" darstellt, mit denen die BenutzerInnen kommunizieren dürfen. Die zweite Stufe sind die Rechte auf ein einzelnes Objekt. Diese Rechte regeln zusätzlich welche Benutzer (und damit die Server auf denen die Benutzer registriert sind) das Objekt tatsächlich verwenden dürfen.
 
@@ -44,7 +44,7 @@ Die darin beschriebenen Probleme sind unter Anderem:
 
 Verbindungen
 
-:   Text besteht oft aus einer Menge von anderen Texten wie zum Beispiel Zitaten oder Querverweise. Diese Verbindungen lassen sich mithilfe von normalem Papier nur schwer abbilden bzw. visualisieren.
+:   Text besteht oft aus einer Menge von anderen Texten wie zum Beispiel Zitaten oder Querverweisen. Diese Verbindungen lassen sich mithilfe von normalem Papier nur schwer abbilden bzw. visualisieren.
 
 Form
 
@@ -72,7 +72,7 @@ Jedes Dokument besitzt eine Zugriffskontrollliste. In dieser Liste wird angefüh
 
 __5. Every document can be rapidly searched, stored and retrieved without user knowledge of where it is physically stored.__
 
-Jedes Dokument kann schnell durchsucht, gespeichert und heruntergeladen werden, ohne dass der Benutzer weiß, wo das Dokument physisch gespeichert ist.
+Jedes Dokument kann schnell durchsucht, gespeichert und heruntergeladen werden, ohne dass der Benutzer weiß, wo das Dokument physikalisch gespeichert ist.
 
 __6. Every document is automatically stored redundantly to maintain availability even in case of a disaster.__
 
@@ -86,7 +86,7 @@ Aufgrund der beschriebenen Projekte, die als Inspiration dienen, werden in diese
 
 Datensicherheit
 
-:   In diesen Abschnitt der Anforderungen, fallen Gebiete wie Datenschutz und der Schutz vor Fremdzugriff.
+:   In diesem Abschnitt der Anforderungen, fallen Gebiete wie Datenschutz und der Schutz vor Fremdzugriff.
 
 Funktionalitäten
 
@@ -99,7 +99,7 @@ Architektur
 Neben diesen funktionalen Anforderungen gelten allgemeine Anforderungen an die Software wie zum Beispiel:
 
 Stand der Technik
-,
+
 :   Die Entwicklung der Software entspricht dem Stand der Technik. 
 
 Wartbarkeit und Erweiterbarkeit
@@ -153,7 +153,7 @@ Diese drei Anforderungen sind auch Bestandteil des Xanadu Projektes. Durch die V
 
 ### Architektur
 
-Inspiriert von der Architektur von Diaspora sollte es möglich sein, verschiedene Installationen von symCloud zu einem Netzwerk zusammenschließen zu können. Dabei liegt der Fokus auf der Datenverteilung und nicht auf einer Lastverteilung. Dadurch können Daten gezielt im Netzwerk verteilt werden. Aufgrund der Datensicherheitsanforderungen sollten die Daten nicht wahllos im Netzwerk verteilt, sondern Konzepte ausgearbeitet werden, um Daten aufgrund der Zugriffsberechtigungen auf das Netzwerk zu teilen.
+Inspiriert von der Architektur von Diaspora sollte es möglich sein, verschiedene Installationen von symCloud zu einem Netzwerk zusammenschließen zu können. Dabei liegt der Fokus auf der Datenverteilung und nicht auf einer Lastverteilung. Dadurch können Daten gezielt im Netzwerk verteilt werden. Aufgrund der Datensicherheitsanforderungen sollten die Daten nicht wahllos im Netzwerk verteilt, sondern Konzepte ausgearbeitet werden, um Daten aufgrund der Zugriffsberechtigungen auf das Netzwerk zu verteilen.
 
 Eine Architektur, wie die von Diaspora, erfüllt die These eins von Xanadu, indem ein Server sowohl für sich alleine arbeiten, als auch in einem Netzwerk mit anderen Servern interagieren kann.
 
@@ -175,7 +175,7 @@ Diese Anforderungen sind, wie schon erwähnt, außerhalb des Fokuses dieser Arbe
 
 Im Kapitel \ref{chapter_state_of_the_art} wird ein Überblick über den aktuellen Stand der Technik gegeben. Dabei werden zuerst einige Begriffe für die weitere Arbeit definiert. Danach werden Anwendungen und Technologien durchleuchtet, die die Bereiche Cloud-Datenhaltung, verteilte Daten und verteilte Datenmodelle umfassen.
 
-Anschließend werden in einem Evaluierungskapitel (Kapitel \ref{chapter_evaluation}) Technologien betrachtet, die es ermöglichen, Daten in einer verteilten Architektur zu speichern. Dazu wurden die Bereiche „Objekt-Speicherdienste“, „Verteilte Dateisysteme“ und „Datenbankgestützte Dateisysteme“ mit Hilfe von Beispielen analysiert und auf ihre Tauglichkeit als Basis für ein Speicherkonzept evaluiert.
+Anschließend werden in einem Evaluierungskapitel (Kapitel \ref{chapter_evaluation}) Technologien betrachtet, die es ermöglichen, Daten in einer verteilten Architektur zu speichern. Dazu wurden die Bereiche "Objekt-Speicherdienste", "verteilte Dateisysteme" und "Datenbankgestützte Dateisysteme" mit Hilfe von Beispielen analysiert und auf ihre Tauglichkeit als Basis für ein Speicherkonzept evaluiert.
 
 Das Kapitel \ref{chapter_concept} befasst sich mit der Konzeption von symCloud. Dabei geht es zentral um das Datenmodell und die Datenbank, die diese Daten speichert und verteilt.
 
