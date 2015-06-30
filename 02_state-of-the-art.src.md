@@ -1,6 +1,6 @@
 # \label{chapter_state_of_the_art}Stand der Technik
 
-In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die beiden Begriffe „verteilte Systeme“ und „verteilte Dateisysteme“ definiert. Anschließend werden vier Anwendungen beschrieben, die als Inspiration für das Projekt symCloud verwendet werden.
+In diesem Kapitel werden moderne Anwendungen und ihre Architektur analysiert. Dazu werden zunächst die beiden Begriffe "verteilte Systeme" und "verteilte Dateisysteme" definiert. Anschließend werden vier Anwendungen beschrieben, die als Inspiration für das Projekt symCloud verwendet werden.
 
 ## \label{verteilte_systeme}Verteilte Systeme
 
