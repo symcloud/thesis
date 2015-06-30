@@ -14,7 +14,7 @@ Skalierbarkeit
 
 Datenschutz
 
-:   Der Datenschutz ist ein wichtiger Punkt beim Betreiben der eigenen Cloud-Anwendung. Meist gibt es eine kommerzielle Konkurrenz, die mit günstigen Preisen die Anwender anlockt, um dann ihre Daten zu verwenden. Damit Systemadministratoren nicht auf einen Provider angewiesen sind, sollte die Möglichkeit Daten privat auf dem eigenen Server zu speichern, gegeben sein.
+:   Der Datenschutz ist ein wichtiger Punkt beim Betreiben der eigenen Cloud-Anwendung. Meist gibt es eine kommerzielle Konkurrenz, die mit günstigen Preisen die Anwender anlockt, um dann ihre Daten zu verwenden. Damit Systemadministratoren nicht auf einen Provider angewiesen sind, sollte die Möglichkeit bestehen, Daten privat auf dem eigenen Server zu speichern.
 
 Flexibilität
 
@@ -26,11 +26,11 @@ Versionierung
 
 Performance
 
-:   Die Performance ist ein wichtiger Aspekt einer Speicherverwaltung. Sie kann zwar durch Caching-Mechanismen verbessert werden, jedoch ist es ziemlich aufwändig diese Caches immer aktuell zu halten. Daher sollten diese Caches nur für "nicht veränderbare" Daten verwendet werden, um den Aufwand der Aktualisierung zu reduzieren.
+:   Die Performance ist ein wichtiger Aspekt einer Speicherverwaltung. Sie kann zwar durch Caching-Mechanismen verbessert werden, jedoch ist es ziemlich aufwändig diese Caches immer aktuell zu halten. Daher sollten diese Caches nur für "nicht veränderbare" Daten verwendet werden, um den Aufwand für eine Aktualisierung zu reduzieren.
 
 ## Datenhaltung in Cloud-Infrastrukturen
 
-Es gibt unzählige Möglichkeiten  die Datenhaltung in Cloud-Infrastrukturen umzusetzen. In diesem Kapitel werden drei grundlegende Technologien und Beispiele analysiert.
+Es gibt unzählige Möglichkeiten  die Datenhaltung in Cloud-Infrastrukturen umzusetzen. In diesem Kapitel werden drei grundlegende Technologien mit Hilfe von Beispielen analysiert.
 
 Objekt-Speicherdienste
 
@@ -48,9 +48,9 @@ Aufgrund der vielfältigen Anwendungsmöglichkeiten werden zu jedem der drei Tec
 
 ## Amazon Simple Storage Service (S3)
 
-Amazon Simple Storage Service bietet Entwicklern einen sicheren, beständigen und sehr gut skalierbaren Objektspeicher. Es dient der einfachen und sicheren Speicherung großer Datenmengen [@amazon2015a]. Daten werden in sogenannte „Buckets“ gegliedert. Jeder Bucket kann unbegrenzt Objekte enthalten. Die Gesamtgröße der Objekte ist jedoch auf 5TB beschränkt. Sie können nicht verschachtelt werden, allerdings können sie Ordner enthalten, um die Objekte zu gliedern.
+Amazon Simple Storage Service bietet Entwicklern einen sicheren, beständigen und sehr gut skalierbaren Objektspeicher. Es dient der einfachen und sicheren Speicherung großer Datenmengen [@amazon2015a]. Daten werden in sogenannte "Buckets" gegliedert. Jeder Bucket kann unbegrenzt Objekte enthalten. Die Gesamtgröße der Objekte ist jedoch auf 5TB beschränkt. Sie können nicht verschachtelt werden, allerdings können sie Ordner enthalten, um die Objekte zu gliedern.
 
-Die Kernfunktionalität des Services besteht darin, Daten in sogenannten Objekten zu speichern. Diese Objekte können bis zu 5GB groß werden. Zusätzlich wird zu jedem Objekt ca. 2KB Metadaten abgelegt. Bei der Erstellung eines Objektes werden automatisch vom System Metadaten erstellt. Einige dieser Metadaten können vom Benutzer überschrieben werden, wie zum Beispiel `x-amz-storage-class`, andere werden vom System automatisch gesetzt, wie zum Beispiel `Content-Length`. Diese systemspezifischen Metadaten werden beim Speichern auch automatisch aktualisiert [@amazon2015b]. Für eine vollständige Liste dieser Metadaten siehe Anhang \ref{appendix_s3_metadata}.
+Die Kernfunktionalität des Services besteht darin, Daten in sogenannten Objekten zu speichern. Diese Objekte können bis zu 5GB groß werden. Zusätzlich wird zu jedem Objekt ca. 2KB Metadaten abgelegt. Bei der Erstellung eines Objektes werden automatisch vom System Metadaten erstellt. Einige dieser Metadaten können vom Benutzer überschrieben werden, wie zum Beispiel `x-amz-storage-class`, andere werden vom System automatisch gesetzt, wie zum Beispiel `Content-Length`. Diese systemspezifischen Metadaten werden beim Speichervorgang auch automatisch aktualisiert [@amazon2015b]. Für eine vollständige Liste dieser Metadaten siehe Anhang \ref{appendix_s3_metadata}.
 
 Zusätzlich zu diesen systemdefinierten Metadaten ist es möglich, benutzerdefinierte Metadaten abzulegen. Das Format dieser Metadaten entspricht einer Key-Value Liste. Diese Liste ist auf 2KB limitiert.
 
@@ -81,15 +81,15 @@ Wer trotzdem Bedenken hat, seine Daten aus den Händen zu geben, kann auf versch
 
 ### Alternativen zu Amazon S3
 
-Es gibt einige Amazon S3 kompatible Anbieter, die einen ähnlichen Dienst anbieten. Diese sind allerdings meist auch US-Amerikanische Firmen und daher an dieselben Gesetze wie Amazon gebunden. Wer daher auf Nummer sicher gehen will und seine Daten bzw. Rechner-Instanzen ganz bei sich behalten will, kommt nicht um eine Installation einer privaten Cloud-Lösunge herum.
+Es gibt einige Amazon S3 kompatible Anbieter, die einen ähnlichen Dienst anbieten. Diese sind allerdings meist auch US-Amerikanische Firmen und daher an dieselben Gesetze wie Amazon gebunden. Wer daher auf Nummer sicher gehen will und seine Daten bzw. Rechner-Instanzen ganz bei sich behalten will, kommt nicht um die Installation einer privaten Cloud-Lösung herum.
 
 Eucalyptus
 
-:   ist eine Open-Source-Infrastruktur zur Nutzung von Cloud-Computing auf einem Rechner Cluster. Der Name ist ein Akronym für "Elastic Utility Computing Architecture for Linking Your Programs To Useful Systems". Die hohe Kompatibilität macht diese Software-Lösung zu einer optimalen Alternative zu Amazon-Web-Services. Es bietet neben Objektspeicher auch andere AWS kompatible Dienste an, wie zum Beispiel EC2 (Rechnerleistung) oder EBS (Blockspeicher) [@hp1015a]. Dieser S3 kompatible Dienst bietet allerdings keine Versionierung.
+:   Eucalyptus ist eine Open-Source-Infrastruktur zur Nutzung von Cloud-Computing auf einem Rechner Cluster. Der Name ist ein Akronym für "Elastic Utility Computing Architecture for Linking Your Programs To Useful Systems". Die hohe Kompatibilität macht diese Software-Lösung zu einer optimalen Alternative zu Amazon-Web-Services. Es bietet neben Objektspeicher auch andere AWS kompatible Dienste an, wie zum Beispiel EC2 (Rechnerleistung) oder EBS (Blockspeicher) [@hp1015a]. Dieser S3 kompatible Dienst bietet allerdings keine Versionierung.
 
 Riak Cloud Storage
 
-:   ist eine Software, mit der es möglich ist einen verteilten Objekt-Speicherdienst zu betreiben. Diese implementiert die Schnittstelle von Amazon S3 und ist damit kompatibel zu der aktuellen Version [@basho2015riakcs]. Riak Cloud Storage unterstützt die meisten Funktionalitäten die Amazon bietet. Die Installation von Riak-CS ist im Gegensatz zu Eucalyptus sehr einfach und kann daher auf nahezu jedem System durchgeführt werden.
+:   Riak Cloud Storage ist eine Software, mit der es möglich ist einen verteilten Objekt-Speicherdienst zu betreiben. Diese implementiert die Schnittstelle von Amazon S3 und ist damit kompatibel zu der aktuellen Version [@basho2015riakcs]. Riak Cloud Storage unterstützt die meisten Funktionalitäten die Amazon bietet. Die Installation von Riak-CS ist im Gegensatz zu Eucalyptus sehr einfach und kann daher auf nahezu jedem System durchgeführt werden.
 
 Beide vorgestellten Dienste bieten momentan keine Möglichkeit Objekte zu versionieren. Außerdem ist das Vergeben von Berechtigungen nicht so einfach möglich wie bei Amazon S3. Diese Aufgabe muss von der Applikation, die diese Dienste verwendet, übernommen werden.
 
@@ -99,24 +99,23 @@ HostedFTP veröffentlichte im Jahre 2009 in einem Report ihre Erfahrungen mit de
 
 Feste Transaktionszeit
 
-:   ist eine fixe Zeitspanne, die für die Bereitstellung bzw. Erstellung der Datei benötigt wird. Die Dateigröße beeinflusst diese Zeit kaum, allerdings kann es aufgrund schwankender Auslastung zu Verzögerungen kommen.
+:   Die feste Transaktionszeit ist eine fixe Zeitspanne, die für die Bereitstellung bzw. Erstellung der Datei benötigt wird. Die Dateigröße beeinflusst diese Zeit kaum, allerdings kann es aufgrund schwankender Auslastung zu Verzögerungen kommen.
 
 Downloadzeit
 
-:   ist linear abhängig zu der Dateigröße und kann aufgrund der Bandbreite schwanken.
+:   Die Downloadzeit ist linear abhängig zu der Dateigröße und kann aufgrund der Bandbreite schwanken.
 
 Ausgehend von diesen Überlegungen kann davon ausgegangen werden, dass die Upload- bzw. Downloadzeit einen linearen Verlauf proportional zur Dateigröße aufweist. Diese These wird von den Daten unterstützt. Aus dem Diagramm (Abbildung \ref{performance_s3_upload}) kann die feste Transaktionszeit von ca. 140ms abgelesen werden.
 
 ![Upload Analyse zwischen EC2 und S3 [@hostedftp2009amazons3] \label{performance_s3_upload}](images/performance_s3_upload.png)
 
-Für den Download von Dateien entsteht laut den Daten aus dem Report keine fixe Transaktionszeit. Die Zeit für den Download ist also nur von der Größe der Datei und der Bandbreite abhängig. 
-(TODO: oben steht für den up und download gibt es eine Transaktionszeit, unten steht für den download nicht)
+Für den Download von Dateien entsteht laut den Daten aus dem Report keine fixe Transaktionszeit. Die Zeit für den Download ist also nur von der Größe der Datei und der Bandbreite abhängig.
 
 ## \label{chapter_distibuted_fs}Verteilte Dateisysteme
 
 Verteilte Dateisysteme unterstützen die gemeinsame Nutzung von Informationen in Form von Dateien. Sie bieten Zugriff auf Dateien, die auf einem entfernten Server abgelegt sind, wobei eine ähnliche Leistung und Zuverlässigkeit erzielt wird, wie für lokal gespeicherte Daten. Wohldurchdachte verteilte Dateisysteme erzielen oft bessere Ergebnisse in Leistung und Zuverlässigkeit als lokale Systeme. Die entfernten Dateien werden genauso verwendet wie lokale Dateien, da verteilte Dateisysteme die Schnittstelle des Betriebssystems emulieren. Dadurch können die Vorteile von verteilten Systemen in einem Programm genutzt werden, ohne dieses anpassen zu müssen. Die Schreibzugriffe bzw. Lesezugriffe erfolgen über ganz normale `system-calls` [@coulouris2003verteilte S. 363ff.].
 
-Dies ist ein großer Vorteil TODO: im Vergleich zu Speicherdiensten wie Amazon S3. Da die Schnittstelle zu den einzelnen Systemen abstrahiert wird, muss die Software nicht angepasst werden, wenn das Dateisystem gewechselt wird.
+Diese Abstraktion ist ein großer Vorteil der verteilten Dateisysteme im Vergleich zu Speicherdiensten wie Amazon S3. Da die Schnittstelle zu den einzelnen Systemen abstrahiert wird, muss die Software nicht angepasst werden, wenn das Dateisystem gewechselt wird.
 
 ### Anforderungen\label{specification_distributed_fs}
 
@@ -124,7 +123,7 @@ Die Anforderungen an verteilte Dateisysteme lassen sich wie folgt zusammenfassen
 
 Zugriffstransparenz
 
-:   Client-Programme sollten, egal ob lokal oder verteilt, über dieselbe Operationsmenge verfügen. Es sollte unabhängig sein ob Daten aus einem verteilten oder lokalen Dateisystem stammen. Dadurch können Programme unverändert weiterverwendet werden, obwohl dessen Dateien verteilt werden [@coulouris2003verteilte, S. 369ff].
+:   Client-Programme sollten, egal ob lokal oder verteilt, über dieselbe Operationsmenge verfügen. Es sollte irrelevant sein ob Daten aus einem verteilten oder lokalen Dateisystem stammen. Dadurch können Programme unverändert weiterverwendet werden, obwohl dessen Dateien verteilt werden [@coulouris2003verteilte, S. 369ff].
 
 Ortstransparenz
 
@@ -132,11 +131,11 @@ Ortstransparenz
 
 Nebenläufige Dateiaktualisierungen
 
-:   Dateiänderungen, die von einem Client ausgeführt werden, sollten die Operationen anderer Clients, die dieselbe Datei verwenden, nicht stören. Um diese Anforderung zu erfüllen muss eine funktionierende Nebenläufigkeitskontrolle implementiert werden. Die meisten aktuellen Dateisysteme unterstützen freiwillige oder zwingende Sperren auf Datei oder Datensatzebene.
+:   Dateiänderungen die von einem Client ausgeführt werden, sollten die Operationen anderer Clients, die dieselbe Datei verwenden, nicht stören. Um diese Anforderung zu erfüllen muss eine funktionierende Nebenläufigkeitskontrolle implementiert werden. Die meisten aktuellen Dateisysteme unterstützen freiwillige oder zwingende Sperren auf Datei oder Datensatzebene.
 
 Dateireplikationen
 
-:   Unterstützt ein Dateisystem Dateireplikationen, kann ein Datensatz durch mehrere Kopien des Inhalts an verschiedenen Positionen dargestellt werden. Das bietet zwei Vorteile: Lastverteilung durch mehrere Server und Erhöhung der Fehlertoleranz. Nur wenige Dateisysteme unterstützen vollständige Replikationen, die meisten unterstützen ein lokales Caching von Dateien, welches eine eingeschränkte Art der Dateireplikation darstellt [@coulouris2003verteilte, S. 369ff].
+:   Unterstützt ein Dateisystem Dateireplikationen, kann ein Datensatz durch mehrere Kopien des Inhalts an verschiedenen Positionen dargestellt werden. Das bietet zwei Vorteile: Lastverteilung durch mehrere Server und Erhöhung der Fehlertoleranz. Nur wenige Dateisysteme unterstützen vollständige Replikationen, die meisten unterstützen jedoch ein lokales Caching von Dateien, welches eine eingeschränkte Art der Dateireplikation darstellt [@coulouris2003verteilte, S. 369ff].
 
 Fehlertoleranz
 
@@ -156,11 +155,11 @@ Effizienz
 
 Andrew Birrell und Roger Needham setzten sich folgende Entwurfsziele für Ihr Universal File System [@birrell1980a]:
 
-> “We would wish a simple, low-level, file server in order to
+> "We would wish a simple, low-level, file server in order to
 > share an expensive resource, namely a disk, whilst leaving
 > us free to design the filing system most appropriate to
 > a particular client, but we would wish also to have
-> available a high-level system shared between clients.”
+> available a high-level system shared between clients."
 
 Aufgrund der Tatsache, dass Festplatten heutzutage nicht mehr so teuer wie in den 1980ern sind, ist das erste Ziel nicht mehr von zentraler Bedeutung. Die Vorstellung von einem Dienst, der die Anforderung verschiedenster Clients mit unterschiedlichen Aufgabenstellungen erfüllt, ist ein zentraler Aspekt der Entwicklung von verteilten (Datei-) Systemen [@coulouris2003verteilte, S. 369ff].
 
@@ -186,11 +185,11 @@ Die Hauptmerkmale von XtreemFS sind:
 
 Distribution
 
-:   Eine XtreemFS Installation enthält eine beliebige Anzahl an Servern, die auf verschiedenen (TODO: physikalischen stimmt nicht, lass das wort einfach weg) physikalischen Maschinen betrieben werden können. Diese Server, sind entweder über einen lokalen Cluster oder über das Internet miteinander verbunden. Der Client kann sich mit einem beliebigen Server verbinden und mit ihm Daten austauschen. Es garantiert konsistente Daten, auch wenn verschiedene Clients mit verschiedenen Servern kommunizieren. Vorausgesetzt ist, dass alle Komponenten miteinander verbunden und erreichbar sind [@xtreemfs2015a, K. 2.3].
+:   Eine XtreemFS Installation enthält eine beliebige Anzahl an Servern, die auf verschiedenen Maschinen betrieben werden können. Diese Server, sind entweder über einen lokalen Cluster oder über das Internet miteinander verbunden. Der Client kann sich mit einem beliebigen Server verbinden und mit ihm Daten austauschen. Es garantiert konsistente Daten, auch wenn verschiedene Clients mit verschiedenen Servern kommunizieren. Vorausgesetzt ist, dass alle Komponenten miteinander verbunden und erreichbar sind [@xtreemfs2015a, K. 2.3].
 
 Replikation
 
-:   Die drei Hauptkomponenten von XtreemFS, Directory Service, Metadata-Catalog und die Object-Storage-Devices (siehe Abbildung \ref{xtreemfs_architecture}) können redundant verwendet werden, dies führt zu einem fehlertoleranten System. Die Replikationen zwischen diesen Systemen erfolgen mit einem Hot-Backup (siehe Kapitel \ref{xtreemfs_replication}), welches automatisch verwendet wird, wenn ein Server ausfällt [@xtreemfs2015a, K. 2.3].
+:   Die drei Hauptkomponenten von XtreemFS, Directory Service, Metadata-Catalog und die Object-Storage-Devices (siehe Abbildung \ref{xtreemfs_architecture}) können redundant verwendet werden, dies führt zu einem fehlertoleranten System. Die Replikationen zwischen diesen Systemen erfolgen mit einem Hot-Backup (siehe Kapitel \ref{xtreemfs_replication}). Dieses Backup springt automatisch ein, wenn ein anderer Server ausfällt [@xtreemfs2015a, K. 2.3].
 
 Striping
 
@@ -212,7 +211,7 @@ DIR
 
 MRC
 
-:   Der "Metadata- and Replica-Catalog" verwaltet die Metadaten der Datei, wie zum Beispiel Dateiname, Dateigröße oder Bearbeitungsdatum. Zu jeder Datei kann außerdem spezifiziert werden, auf welchen "Object-Storage-Devices" der Chunks abgelegt wurden. Zusätzlich authentifiziert und autorisiert er dem Benutzer den Zugriff auf die Dateien bzw. Ordner [@xtreemfs2015a, K. 2.4].
+:   Der "Metadata- and Replica-Catalog" verwaltet die Metadaten der Datei, wie zum Beispiel Dateiname, Dateigröße oder Bearbeitungsdatum. Zu jeder Datei kann außerdem spezifiziert werden, auf welchen "Object-Storage-Devices" die Chunks abgelegt wurden. Zusätzlich authentifiziert und autorisiert er dem Benutzer den Zugriff auf die Dateien bzw. Ordner [@xtreemfs2015a, K. 2.4].
 
 OSD
 
@@ -226,21 +225,21 @@ Ein wichtiger Aspekt von verteilten Dateisystemen ist die Replikation von Daten.
 
 Die Hauptgründe für Replikationen von Daten sind Zuverlässigkeit und Leistung [@Gray:1996:DRS:233269.233330]. Wenn Daten repliziert werden ist es unter Umständen möglich weiterzuarbeiten, wenn eine Replik ausfällt. Der Benutzer lädt sich die Daten von einem anderen Server herunter. Zusätzlich können durch Repliken fehlerhafte Dateien erkannt werden. Wenn eine Datei zum Beispiel auf drei Servern gespeichert wurde und auf allen drei Server Schreib- bzw. Lesezugriffe ausgeführt werden, kann durch den Vergleich der Antworten, erkannt werden ob eine Datei fehlerhaft ist. Dazu müssen nur zwei Antworten denselben Inhalt besitzen und es kann davon ausgegangen werden, dass es sich um die richtige Datei handelt [@tanenbaum2003verteilte, S. 333ff].
 
-Der andere wichtige Grund für Replikationen ist die Leistung des Systems. Hier gibt es zwei Aspekte: Netzwerklast und die geographische Lage. Wenn ein System nur aus einem Server besteht, ist dieser Server der vollen Last der Zugriffe ausgesetzt. Teilt man diese Last auf, kann die Leistung des Systems gesteigert werden. Zusätzlich kann durch Repliken auch die Geschwindigkeit der Lesezugriffe gesteigert werden, indem dieser Zugriff über mehrere Server parallel erfolgt. Auch die geographische Lage der Daten spielt bei der Leistung des Systems eine entscheidende Rolle. Wenn Daten in der Nähe des Prozesses gespeichert werden, in dem sie erzeugt bzw. verwendet werden, ist sowohl der schreibende als auch der lesende Zugriff schneller möglich. Diese Leistungssteigerung ist allerdings nicht linear zu den verwendeten Servern. Es ist Einiges an Aufwand zu betreiben, um diese Repliken synchron zu halten und dadurch die Konsistenz zu wahren [@tanenbaum2003verteilte, S. 333ff].
+Der andere wichtige Grund für Replikationen ist die Leistung des Systems. Hier gibt es zwei Aspekte: Netzwerklast und die geographische Lage. Wenn ein System nur aus einem Server besteht, ist dieser Server der vollen Last der Zugriffe ausgesetzt. Teilt man diese Last auf, kann die Leistung des Systems gesteigert werden. Zusätzlich kann durch Repliken auch die Geschwindigkeit der Lesezugriffe gesteigert werden, indem dieser Zugriff über mehrere Server parallel erfolgt. Auch die geographische Lage der Daten spielt bei der Leistung des Systems eine entscheidende Rolle. Wenn Daten in der Nähe des Prozesses gespeichert werden, in dem sie erzeugt bzw. verwendet werden, ist sowohl der schreibende als auch der lesende Zugriff schneller möglich. Diese Leistungssteigerung ist allerdings nicht linear zu den verwendeten Servern. Es ist einiges an Aufwand zu betreiben, um diese Repliken synchron zu halten und dadurch die Konsistenz zu wahren [@tanenbaum2003verteilte, S. 333ff].
 
 Damit ein Verbund von Servern die Konsistenz ihrer Daten gewährleisten kann, werden Konsistenzprotokolle eingesetzt. In XtreemFS wird ein sogenanntes primärbasiertes Protokoll eingesetzt [@xtreemfs2015a, K. 6]. In diesen Protokollen ist jedem Datenelement "x" ein primärer Server zugeordnet, der dafür verantwortlich ist Schreiboperationen für "x" zu koordinieren. Es gibt zwei Arten dieses Protokoll umzusetzen: Entferntes- und Lokales-Schreiben.
 
 __Entferntes-Schreiben__
 
-Es gibt zwei Arten zur Implementierung dieses Protokolls. Das erste ist ein nicht replizierendes Protokoll, bei dem alle Schreib- bzw. Lesezugriffe auf den primären Server des Objektes ausgeführt werden. Das zweite ist das sogenannte "Primary-Backup" Protokoll, welches über einen festen primären Server für jedes Objekt verfügt. Dieser Server wird bei der Erstellung des Objektes festgelegt und nicht verändert. Zusätzlich wird festgelegt auf welchen Servern Repliken für dieses Objekt angelegt werden. In XtreemFS werden diese Einstellungen "replication policy" genannt [@xtreemfs2015a, K. 6.1.3]. 
+Es gibt zwei Arten zur Implementierung dieses Protokolls. Das eine ist ein nicht replizierendes Protokoll, bei dem alle Schreib- bzw. Lesezugriffe auf den primären Server des Objektes ausgeführt werden. Das andere ist das sogenannte "Primary-Backup" Protokoll, welches über einen festen primären Server für jedes Objekt verfügt. Dieser Server wird bei der Erstellung des Objektes festgelegt und nicht verändert. Zusätzlich wird festgelegt, auf welchen Servern Repliken für dieses Objekt angelegt werden. In XtreemFS werden diese Einstellungen "replication policy" genannt [@xtreemfs2015a, K. 6.1.3]. 
 
 ![Primary-Backup-Protokoll: Entferntes-Schreiben [@tanenbaum2003verteilte, S. 385]\label{primary_backup_remote_protocoll}](images/primary-backup-remote-protocoll.png)
 
-Der Prozess, der eine Schreiboperation (siehe Abbildung \ref{primary_backup_remote_protocoll}) auf das Objekt ausführen will, gibt sie an den primären Server weiter. Dieser führt die Operation lokal an dem Objekt aus und gibt die Aktualisierungen an die Backup-Server weiter. Jeder dieser Server führt die Operation aus und gibt eine Bestätigung an den primären Server zurück. Nachdem alle Backups die Aktualisierung durchgeführt haben, sendet auch der primäre Server eine Bestätigung an den ausführenden Server. Dieser Server kann nun sicher sein, dass die Aktualisierung auf allen Servern ausgeführt wurde und damit sicher im System gespeichert wurde. Durch diesen blockierenden Prozess, kann ein gravierendes Leistungsproblem entstehen. Für Programme, die lange Antwortzeiten nicht akzeptieren können, ist es eine Variante, das Protokoll nicht blockierend zu implementieren. Das bedeutet, dass der primäre Server die Bestätigung direkt nach dem lokalen Ausführen der Operation zurückgibt und erst danach die Aktualisierungen an die Backups weiter gibt [@xtreemfs2015c]. Aufgrund der Tatsache, dass alle Schreiboperationen auf einem Server ausgeführt werden, können diese einfach abgesichert und dadurch die Konsistenz gewahrt werden. Eventuelle Transaktionen oder Locks müssen nicht im Netzwerk verteilt werden [@tanenbaum2003verteilte, S. 384ff].
+Der Prozess, der eine Schreiboperation (siehe Abbildung \ref{primary_backup_remote_protocoll}) auf das Objekt ausführen will, gibt sie an den primären Server weiter. Dieser führt die Operation lokal an dem Objekt aus und gibt die Aktualisierungen an die Backup-Server weiter. Jeder dieser Server führt die Operation aus und gibt eine Bestätigung an den primären Server zurück. Nachdem alle Backups die Aktualisierung durchgeführt haben, sendet auch der primäre Server eine Bestätigung an den ausführenden Server. Dieser Server kann nun sicher sein, dass die Aktualisierung auf allen Servern ausgeführt und damit sicher im System gespeichert wurde. Durch diesen blockierenden Prozess, kann ein gravierendes Leistungsproblem entstehen. Für Programme, die lange Antwortzeiten nicht akzeptieren können, ist es eine Variante, das Protokoll nicht blockierend zu implementieren. Das bedeutet, dass der primäre Server die Bestätigung direkt nach dem lokalen Ausführen der Operation zurückgibt und erst danach die Aktualisierungen an die Backups weiter gibt [@xtreemfs2015c]. Aufgrund der Tatsache, dass alle Schreiboperationen auf einem Server ausgeführt werden, können diese einfach abgesichert und dadurch die Konsistenz gewahrt werden. Eventuelle Transaktionen oder Locks müssen nicht im Netzwerk verteilt werden [@tanenbaum2003verteilte, S. 384ff].
 
 __Lokales-Schreiben__
 
-Auch dieses Protokoll kann in zwei verschiedenen Arten implementiert werden. Die erste Variante ist ein nicht replizierendes Protokoll, bei dem das Objekt vor einem Schreibzugriff auf den ausführenden Server verschoben und dadurch der primäre Server des Objekts geändert wird. Nachdem die Schreiboperation ausgeführt wurde, bleibt das Objekt solange auf diesem Server bis ein anderer Server schreibend auf das Objekt zugreifen will. Die andere Möglichkeit ist ein "Primäres-Backup Protokoll" (siehe Abbildung \ref{primary_backup_local_protocoll}), bei dem der primäre Server des Objektes auf den ausführenden Server migriert wird [@tanenbaum2003verteilte, S. 386ff].
+Auch dieses Protokoll kann in zwei verschiedenen Arten implementiert werden. Die erste Variante ist ein nicht replizierendes Protokoll, bei dem das Objekt vor einem Schreibzugriff auf den ausführenden Server verschoben und dadurch der primäre Server des Objekts geändert wird. Nachdem die Schreiboperation ausgeführt wurde, bleibt das Objekt solange auf diesem Server bis ein anderer Server schreibend auf das Objekt zugreifen will. Die andere Variante ist ein "Primäres-Backup Protokoll" (siehe Abbildung \ref{primary_backup_local_protocoll}), bei dem der primäre Server des Objektes auf den ausführenden Server migriert wird [@tanenbaum2003verteilte, S. 386ff].
 
 ![Primary-Backup-Protokoll: Lokales-Schreiben [@tanenbaum2003verteilte, S. 387]\label{primary_backup_local_protocoll}](images/primary-backup-local-protocoll.png)
 
@@ -250,17 +249,17 @@ Dieses Protokoll ist auch für mobile Computer geeignet, die in einem Offline-Mo
 
 Im Bezug auf die Anforderungen (siehe Kapitel \ref{specification}) bieten die analysierten verteilten Dateisysteme von Haus aus keine Versionierung. Es gab Versuche der Linux-Community, mit Wizbit[^33], ein auf GIT-basierendes Dateisystem zu entwerfen, dass die Versionierung mitliefern sollte [@arstechnica2008a]. An diesem Projekt wurde allerdings seit Ende 2009 nicht mehr weiterentwickelt [@openhub2015a].
 
-Die benötigten Zugriffsberechtigungen werden zwar auf der Systembenutzerebene durch ACL unterstützt, jedoch müssten die Anwendungen für jeden Benutzer einen Systembenutzer anlegen [@xtreemfs2015a, K. 7.2]. Dies wäre zwar mit einer einzelnen Installation machbar, jedoch macht es eine verteilte Anwendung komplizierter und eine Installation aufwändiger. Allerdings können gute Erkenntnisse aus der Analyse der Replikationsmechanismen bzw. der Konsistenzprotokolle von XtreemFS gezogen und in ein Gesamtkonzept mit eingebunden werden.
+Die benötigten Zugriffsberechtigungen werden zwar auf der Systembenutzerebene durch ACL unterstützt, jedoch müsste die Anwendung für alle BenutzerInnen eine SystembenutzerIn anlegen [@xtreemfs2015a, K. 7.2]. Dies wäre zwar mit einer einzelnen Installation machbar, jedoch macht es eine verteilte Anwendung komplizierter und eine Installation aufwändiger. Allerdings können gute Erkenntnisse aus der Analyse der Replikationsmechanismen bzw. der Konsistenzprotokolle von XtreemFS gezogen und in ein Gesamtkonzept mit eingebunden werden.
 
 Die hier beschriebenen Protokolle und Konzepte werden im Kapitel \ref{chapter_concept_database} aufgegriffen, um die Daten effizient und sicher zwischen den Servern zu verteilen. Dabei werden wesentliche Konzepte des Lokalen-Schreibens verwendet, um das Protokoll für symCLoud zu definieren. 
 
 ## Datenbankgestützte Dateiverwaltungen
 
-Einige Datenbanksysteme, wie zum Beispiel MongoDB[^31], bieten eine Schnittstelle um Dateien abzuspeichern an. Viele dieser Systeme sind meist nur begrenzt für große Datenmengen geeignet. MongoDB und GridFS sind jedoch genau für diese Anwendungsfälle ausgelegt, daher soll diese Technologie im folgenden Abschnitt genauer betrachtet werden.
+Einige Datenbanksysteme, wie zum Beispiel MongoDB[^31], bieten eine Schnittstelle um Dateien abzuspeichern. Viele dieser Systeme sind meist nur begrenzt für große Datenmengen geeignet. MongoDB und GridFS sind jedoch genau für diese Anwendungsfälle ausgelegt, daher soll diese Technologie im folgenden Abschnitt genauer betrachtet werden.
 
 ### MongoDB & GridFS \label{chapter_gridfs}
 
-MongoDB bietet die Möglichkeit, BSON-Dokumente in der Größe von bis zu 16MB zu speichern. Dies ermöglicht die Verwaltung kleinerer Dateien ohne zusätzliche Layer. Für größere Dateien und zusätzliche Features bietet MongoDB mit GridFS eine Schnittstelle an, mit der es möglich ist größere Dateien und ihre Metadaten zu speichern. Dazu teilt GridFS die Dateien in Chunks einer bestimmten Größe auf. Standardmäßig ist die Größe von Chunks auf 255Byte gesetzt. Die Daten werden in der Kollektion `chunks` und die Metadaten in der Kollektion `files` gespeichert. Durch die verteilte Architektur von MongoDB werden die Daten automatisch auf allen Systemen synchronisiert. Außerdem bietet das System die Möglichkeit, über Indexe schnell zu suchen und Abfragen auf die Metadaten durchzuführen [@gridfs2015a].
+MongoDB bietet die Möglichkeit BSON-Dokumente in der Größe von bis zu 16MB zu speichern. Dies ermöglicht die Verwaltung kleinerer Dateien ohne zusätzliche Layer. Für größere Dateien und zusätzliche Features bietet MongoDB mit GridFS eine Schnittstelle, mit der es möglich ist größere Dateien und die dazugehörigen Metadaten zu speichern. Dazu teilt GridFS die Dateien in Chunks einer bestimmten Größe auf. Standardmäßig ist die Größe von Chunks auf 255Byte gesetzt. Die Daten werden in der Kollektion `chunks` und die Metadaten in der Kollektion `files` gespeichert. Durch die verteilte Architektur von MongoDB werden die Daten automatisch auf allen Systemen synchronisiert. Zusätzlich bietet das System die Möglichkeit über Indexe schnell zu suchen und Abfragen auf die Metadaten durchzuführen [@gridfs2015a].
 
 __Beispiel:__
 
@@ -285,7 +284,7 @@ Am Ende dieses Abschnittes, werden die Vor- und Nachteile der jeweiligen Technol
 
 Amazon S3
 
-:   Speicherdienste, wie Amazon S3 sind für einfache Aufgaben bestens geeignet. Sie bieten alles an, was für ein schnelles Setup der Applikation benötigt wird. Jedoch haben gerade Open-Source Alternativen wesentliche Mankos, die gerade für das Projekt unbedingt notwendig sind. (TODO: Häää Monkos kann doch keiner gebrauchen besser: unbedingt zu vermeiden sind.) Zum einen sind es bei den Alternativen die fehlenden Funktionalitäten, wie zum Beispiel ACLs oder Versionierung, zum anderen ist auch Amazon S3 wenig flexibel, um eigene Erweiterungen hinzuzufügen. Jedoch können wesentliche Vorteile bei der Art der Datenhaltung beobachtet werden. (TODO: Bei welchem System sind diese Vorteile) Wie zum Beispiel:
+:   Speicherdienste, wie Amazon S3 sind für einfache Aufgaben bestens geeignet. Sie bieten alles an, was für ein schnelles Setup der Applikation benötigt wird. Jedoch haben gerade die Open-Source Alternativen wesentliche Mankos in Bereichen, die für das Projekt unbedingt notwendig sind. Zum einen sind es bei den Alternativen die fehlenden Funktionalitäten, wie zum Beispiel ACLs oder Versionierung, zum anderen ist auch Amazon S3 wenig flexibel, um eigene Erweiterungen hinzuzufügen. Jedoch können wesentliche Vorteile bei den Objekt-Speicherdiensten beobachtet werden. Wie zum Beispiel:
 
 * Rest-Schnittstelle
 * Versionierung
@@ -300,7 +299,7 @@ Verteilte Dateisysteme
 
 Datenbankgestützte Dateiverwaltung
 
-:   Systeme wie zum Beispiel GridFS sind für den Einsatz in Anwendungen geeignet, die eine darunterliegende Datenbank verwenden. Die nötigen Erweiterungen, um Dateien in eine Datenbank zu schreiben, sind aufgrund der Integration sehr einfach umzusetzen. Sie bieten eine gute Schnittstelle, um Dateien zu verwalten. Die fehlenden Möglichkeiten von ACL und Versionierung macht jedoch die Verwendung von GridFS sehr aufwändig. Aufgrund des Aufbaues von GridFS gibt es in der Datenbank einen Dateibaum, indem alle Benutzer ihre Dateien ablegen. Die Anwendung müsste selbst dafür sorgen, dass jeder Benutzer nur seine Dateien sehen bzw. bearbeiten kann. Allerdings kann, gerade aus GridFS, mit dem Chunking von Dateien (siehe Kapitel \ref{chapter_concept_file_storage}) ein sehr gutes Konzept für eine effiziente Dateihaltung entnommen werden.
+:   Systeme wie zum Beispiel GridFS sind für den Einsatz in Anwendungen geeignet, die die darunterliegende Datenbank verwenden. Die nötigen Erweiterungen, um Dateien in eine Datenbank zu schreiben, sind aufgrund der Integration sehr einfach umzusetzen. Sie bieten eine gute Schnittstelle, um Dateien zu verwalten. Die fehlenden Möglichkeiten von ACL und Versionierung macht jedoch die Verwendung von GridFS sehr aufwändig. Aufgrund des Aufbaues von GridFS gibt es in der Datenbank einen Dateibaum, indem alle Benutzer ihre Dateien ablegen. Die Anwendung müsste selbst dafür sorgen, dass jeder Benutzer nur seine Dateien sehen bzw. bearbeiten kann. Allerdings kann, gerade aus GridFS, mit dem Chunking von Dateien (siehe Kapitel \ref{chapter_concept_file_storage}) ein sehr gutes Konzept für eine effiziente Dateihaltung entnommen werden.
 
 Da aufgrund verschiedenster Schwächen keine der Technologien eine umfassende Lösung für die Datenhaltung in symCloud bietet, wird im nächsten Kapitel versucht ein optimales Speicherkonzept für das Projekt zu entwickeln.
 
