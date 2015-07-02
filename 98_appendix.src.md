@@ -185,7 +185,7 @@ symcloud_storage:
 
 ### Zusammenfassung
 
-Dieses Kapitel beschreibt den Installationsprozess von symCloud. Es zeigt, dass die Installation ohne großen Abhängigkeiten und zeitlicher Aufwand erledigt werden kann. Die Konfiguration in einer verteilten Umgebung ist ebenfalls über wenige Schritte möglich.
+Dieses Kapitel beschreibt den Installationsprozess von symCloud. Es zeigt, dass die Installation ohne großen Abhängigkeiten und zeitlicher Aufwand erledigt werden kann. Auch die Konfiguration in einer verteilten Umgebung ist mit nur einem Schritt möglich.
 
 [^990]: <http://docs.sulu.io/en/latest/book/getting-started/vhost.html>
 [^991]: <http://docs.sulu.io/en/latest/book/getting-started/setup.html#webspaces>
