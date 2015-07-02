@@ -96,8 +96,96 @@ OAuth2 wird verwendet, um es externen Applikationen zu ermöglichen, auf die Dat
 
 # Installation
 
-Dieses Kapitel enthält eine kurze Dokumentation wie Symcloud (inklusive JIBE) installiert und deployed werden kann. Es umfasst eine einfache Methode auf einem System und ein verteiltes Setup.
+Dieses Kapitel enthält eine kurze Anleitung wie Symcloud (inklusive JIBE) installiert und konfiguriert werden kann. Es umfasst eine einfache Methode auf einem System und ein verteiltes Setup mit zwei verbundenen Installationen.
+
+## Systemanforderungen
+
+Folgende Anforderungen werden an des Server und die Endgeräte gestellt, auf denen symCloud verwendet wird:
+
+* Betriebssystem: Mac OSX oder Linux
+* Webserver: apache oder nginx[^990] mit aktiviertem "URL rewriting"
+* PHP: 5.5 oder höher
+* Datenbank: MySQL oder PostgreSQL
+* Tools: git, composer
+
+Diese Anforderungen werden in weiterer Folge an das System gestellt. Die Installation dieser Komponenten werden in diesem Kapitel nicht beschrieben.
 
 ## Lokal
 
+Um eine nicht verteilte Installation von symCloud durchzuführen, müssen folgende Schritte ausgeführt werden:
+
+```
+git clone git@github.com:symcloud/symcloud-standard.git
+cd symcloud-standard
+git checkout 0.1
+cp app/admin/config/admin/symcloud.yml.dist app/admin/config/admin/symcloud.yml
+composer install
+```
+
+Dieses Script lädt die nötigen Quellcode herunter und installiert die Abhängigkeiten. Anschließend werden grundlegende Konfigurationen abgefragt. Um die Konfiguration abzuschließen, muss die Datei `app/admin/config/admin/symcloud.yml` und `app/Resources/webspaces/symcloud.io.xml` angepasst werden[^991]. Im speziellen sind es die URLs im unteren Bereich, auf denen das System ausgeführt wird. Um die Installation abzuschließen werden je nach System folgende Scripts ausgeführt, um die richtigen Rechte zu setzen.
+
+Verwende folgendes Script um die Rechte auf Linux zu setzen:
+
+```
+rm -rf app/cache/*
+rm -rf app/logs/*
+mkdir app/data
+sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs uploads/media web/uploads/media app/data
+sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs uploads/media web/uploads/media app/data
+```
+
+Für Mac OSX folgendes Script:
+
+```
+rm -rf app/cache/*
+rm -rf app/logs/*
+mkdir app/data
+APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`
+sudo chmod +a "$APACHEUSER allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs uploads/media web/uploads/media app/data
+sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs uploads/media web/uploads/media app/data
+```
+
+Anschließend werden über folgendes Kommando die Datenbank initialisiert, ein Administrator BenutzerIn eingerichtet und der Speicher für den Administrator vorbereitet.
+
+```
+app/console sulu:build dev
+app/console symcloud:storage:init admin
+```
+
+Die Ausgabe des letzten Befehls sollte notiert werden, da dies für die Einrichtung des Synchronisierunsclient gebraucht wird. Abschließend kann sich der Administrator über `http://symcloud.lo/admin` einloggen (Benutzername: "admin", Passwort: "admin") und das System benutzen.
+
+### Jibe
+
+Für den Client müssen folgende Schritte auf dem Server ausgeführt werden:
+
+```
+app/console symcloud:oauth2:create-client jibe www.example.com
+```
+
+An die Endgeräte werden die selben Anforderungen wie an den Server gestellt. Der PHAR Container kann unter der URL <???> heruntergeladen werden. Die Ausgabe der Kommandos aus Listing \ref{install_oauth_client} und \ref{install_init_admin_storage} werden benötigt, um den Client zu Konfigurieren.
+
+```
+php jibe.phar configure
+php jibe.phar sync
+```
+
+Das zweite Kommando startet direkt eine Synchronisierung des aktuellen Ordners.
+
 ## Verteilt
+
+Um eine verteilte Installation durchzuführen, werden die Schritte auf den vorangegangen Kapitel auf zwei verschiedenen Servern durchgeführt (oder der selbe Server mit verschiedenen VHosts). Um die Installationen zu verbinden wird in der Konfigurationsdatei `app/admin/config/admin/symcloud.yml` die verbunden Server abgelegt.
+
+```
+symcloud_storage:
+    servers:
+        primary: {host: symcloud.lo}
+        backups:
+            - {host: your-1.symcloud.lo}
+```
+
+### Zusammenfassung
+
+Dieses Kapitel beschreibt den Installationsprozess von symCloud. Es zeigt, dass die Installation ohne großen Abhängigkeiten und zeitlicher Aufwand erledigt werden kann. Auch die Konfiguration in einer verteilten Umgebung ist mit nur einem Schritt möglich.
+
+[^990]: <http://docs.sulu.io/en/latest/book/getting-started/vhost.html>
+[^991]: <http://docs.sulu.io/en/latest/book/getting-started/setup.html#webspaces>
