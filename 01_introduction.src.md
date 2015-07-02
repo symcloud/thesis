@@ -157,7 +157,7 @@ Inspiriert von der Architektur von Diaspora sollte es möglich sein, verschieden
 
 Eine Architektur, wie die von Diaspora, erfüllt die These eins von Xanadu, indem ein Server sowohl für sich alleine arbeiten, als auch in einem Netzwerk mit anderen Servern interagieren kann.
 
-### Weiterführende Anforderungen
+### \label{chapter_specification_further_topics}Weiterführende Anforderungen
 
 Wichtige, aber in dieser Arbeit nicht betrachtete Anforderungen, sind:
 
