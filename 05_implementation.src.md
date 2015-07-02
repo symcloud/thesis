@@ -10,7 +10,7 @@ Bibliothek (distributed-storage)
 
 Plattform (symCloud)
 
-:   Die Plattform bietet neben der Rest-API auch eine einfache Benutzeroberfläche an, mit der es möglich ist, im Browser seine Dateien zu verwalten. Als Basis verwendet symCloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet eine erweiterbare Admin Benutzeroberfläche, eine Benutzerverwaltung und ein Rechtesystem. Diese Features ermöglichen symCloud eine schnelle Entwicklung der Oberfläche und deren zugrunde liegende Services.
+:   Die Plattform bietet neben der Rest-API auch eine einfache Benutzungsschnittstelle an, mit der es möglich ist im Browser seine Dateien zu verwalten. Als Basis verwendet symCloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet eine erweiterbare Admin Benutzungsschnittstelle, eine Userverwaltung und ein Rechtesystem. Diese Features ermöglichen symCloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegende Dienste.
 
 Synchronisierungsprogramm (jibe)
 
@@ -32,7 +32,7 @@ Session
 
 Manager
 
-:   Verwalten den Lifecycle der Domain-Objekte. Der jeweilige Manager erstellt und verwaltet die Objekte eines bestimmten Typs (zum Beispiel `CommitMananger` verwaltet Commit-Objekte). Die Verwender der Manager sind jeweils gegen die Interfaces des Objektes programmiert (siehe Manager Pattern[^69]). Die Instanzen des Typs sind reine Daten-Container. Die Manager-Schicht ermöglicht eine spezifische Schnittstelle für jeden Objekt-Typen und eine gezielte Kommunikation mit der Datenbank.
+:   Verwalten den Lifecycle der Domain-Objekte. Der jeweilige Manager erstellt und verwaltet die Objekte eines bestimmten Typs (zum Beispiel `CommitMananger` verwaltet Commit-Objekte). Die Verwender der Manager sind jeweils gegen die Interfaces des Objektes programmiert (siehe Manager Pattern[^69]). Die Instanzen des Typs sind reine Daten-Container. Die Manager-Schicht ermöglicht eine spezifische Schnittstelle für jeden Objekt-Typs und eine gezielte Kommunikation mit der Datenbank.
 
 Database
 
@@ -42,7 +42,7 @@ Adapter
 
 :   Die Adapter dienen dazu, das Speichermedium bzw. die Suchmaschine zu abstrahieren. Durch die Implementierung eines Interfaces, kann jede beliebige Speichertechnologie bzw. Suchmaschine verwendet werden.
 
-Die Datenbank ist durch den Einsatz von Events flexibel erweiterbar. Mit Hilfe dieser Events kann zum Beispiel die Replikator-Komponente folgende Abläufe realisieren.
+Die Datenbank ist durch den Einsatz von Events flexibel erweiterbar. Mit Hilfe dieses Events kann zum Beispiel die Replikator-Komponente folgende Abläufe realisieren.
 
 Verteilung
 
@@ -50,11 +50,11 @@ Verteilung
 
 Nachladen
 
-:   Im Falle eines "fetch" Events, werden fehlende Daten von den bekannten Servern nachgeladen. Dieser Event wird sogar dann geworfen, wenn die Daten im lokalen "StorageAdapter" nicht vorhanden sind. Dies erkennt der Replikator und fragt bei allen bekannten Servern an, ob sie dieses Objekt kennen. Dies gilt für die Replikationstypen "Permission" und "Full". Über einen ähnlichen Mechanismus kann der Replikationstyp "stub" realisiert werden. Der einzige Unterschied ist, dass die Backupserver den primary Server kennen und nicht alle bekannten Server durchsuchen müssen.
+:   Im Falle eines "fetch" Events, werden fehlende Daten von den bekannten Servern nachgeladen. Dieses Event wird sogar dann geworfen, wenn die Daten im lokalen "StorageAdapter" nicht vorhanden sind. Dies erkennt der Replikator und fragt bei allen bekannten Servern an, ob sie dieses Objekt kennen. Dies gilt für die Replikationstyps "Permission" und "Full". Über einen ähnlichen Mechanismus kann der Replikationstyp "stub" realisiert werden. Der einzige Unterschied ist, dass die Backupserver den primary Server kennen und nicht alle bekannten Server durchsuchen müssen.
 
 ### Objekte speichern
 
-Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) ist die Serialisierung zu Beginn. Hierfür werden die Metadaten des Objekts anhand seiner Klasse aus dem "MetadataManager" geladen und anhand dieser Informationen serialisiert. Diese Daten werden mit dem "EventDispatcher" aus dem Symfony2 Framework in einem Event zugänglich gemacht. Die Eventhandler haben die Möglichkeit die Daten zu bearbeiten und "Policies" zu dem Modell zu erstellen. Abschließend werden die Daten zuerst mithilfe des "StorageAdapter" persistiert und durch den "SearchAdapter" in den Suchmaschinenindex aufgenommen. Um verschiedene Objekttypen voneinander zu trennen und eigene Namensräume zu schaffen, definieren die Metadaten der Klasse einen eindeutigen Kontext. Dieser Kontext wird den Adaptern übergeben, um Kollisionen zwischen den Datensätzen zu verhindern.
+Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) ist die Serialisierung zu Beginn. Hierfür werden die Metadaten des Objekts anhand seiner Klasse aus dem "MetadataManager" geladen und anhand dieser Informationen serialisiert. Diese Daten werden mit dem "EventDispatcher" aus dem Symfony2 Framework in einem Event zugänglich gemacht. Die Eventhandler haben die Möglichkeit die Daten zu bearbeiten und "Policies" zu dem Modell zu erstellen. Abschließend werden die Daten zuerst mithilfe des "StorageAdapter" persistiert und durch den "SearchAdapter" in den Suchmaschinenindex aufgenommen. Um verschiedene Objekttyps voneinander zu trennen und eigene Namensräume zu schaffen, definieren die Metadaten der Klasse einen eindeutigen Kontext. Dieser Kontext wird den Adaptern übergeben, um Kollisionen zwischen den Datensätzen zu verhindern.
 
 \landscapestart
 
@@ -64,7 +64,7 @@ Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) is
 
 ### Objekte abrufen
 
-Wie zu erwarten war ist der Abruf-Prozess (siehe Abbildung \ref{database_fetch}) von Daten ein Spiegelbild des Speicherprozesses. Zuerst wird versucht, mit dem Kontext des Objektes die Daten aus dem "Storage" zu laden. Diese Daten werden durch den "EventDispatcher" dem Eventhandler zur Verfügung gestellt. Diese haben die Möglichkeit, zum Beispiel fehlende Daten nachzuladen, Änderungen an der Struktur der Daten durchzuführen oder den Prozess abzubrechen, wenn keine Rechte vorhanden sind dieses Objekt zu lesen. Diese veränderten Daten werden abschließend für den Deserialisierungsprozess herangezogen.
+Wie zu erwarten war, ist der Abruf-Prozess (siehe Abbildung \ref{database_fetch}) von Daten ein Spiegelbild des Speicherprozesses. Zuerst wird versucht, mit dem Kontext des Objektes die Daten aus dem "Storage" zu laden. Diese Daten werden durch den "EventDispatcher" dem Eventhandler zur Verfügung gestellt. Diese haben die Möglichkeit, zum Beispiel fehlende Daten nachzuladen, Änderungen an der Struktur der Daten durchzuführen oder den Prozess abzubrechen, wenn keine Rechte vorhanden sind dieses Objekt zu lesen. Diese veränderten Daten werden abschließend für den Deserialisierungsprozess herangezogen.
 
 Die beiden Abläufe, um Objekte zu speichern und abzurufen, beschreiben eine lokale Datenbank, die die Möglichkeit bietet, über Events die Daten zu verändern oder anderweitig zu verwenden. Sie ist unabhängig vom Datenmodell von symCloud und könnte für alle möglichen Objekte verwendet werden. Daher ist symCloud auch für künftige Anforderungen gerüstet.
 
@@ -78,7 +78,7 @@ Die beiden Abläufe, um Objekte zu speichern und abzurufen, beschreiben eine lok
 
 Wie schon erwähnt, verwendet der Replikator Events, um die Prozesse des Ladens und Speicherns von Daten zu beeinflussen und damit die verteilten Aspekte für die Datenbank umzusetzen. Dabei implementiert der Replikator eine einfache Version des primärbasierten Protokolls. Für diesen Zweck wird der Replikator mit einer Liste von verfügbaren Servern initialisiert. Auf Basis dieser Liste werden die Backupserver für jedes Objekte ermittelt.
 
-Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten die Backupserver für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "Lazy"-Nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typen ("Permission" und "Stub").
+Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten die Backupserver für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "Lazy"-Nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typs ("Permission" und "Stub").
 
 __Full__
 
@@ -108,7 +108,7 @@ Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle be
 
 200
 
-:   Wie bei 403 ist der angefragte Server, der primary Server des Objektes. Allerdings ist der Benutzer berechtigt das Objekt zu lesen und der Server gibt direkt die Daten zurück. Diese Daten dürfen auch gecached werden. Die Berechtigungen für andere Benutzer werden direkt mitgeliefert, um später diesen Prozess nicht noch einmal ausführen zu müssen. 
+:   Wie bei 403 ist der angefragte Server, der primary Server des Objektes. Allerdings ist die BenutzerIn berechtigt das Objekt zu lesen und der Server gibt direkt die Daten zurück. Diese Daten dürfen auch gecached werden. Die Berechtigungen für andere Benutzer werden direkt mitgeliefert, um später diesen Prozess nicht noch einmal ausführen zu müssen.
 
 \landscapestart
 
@@ -136,7 +136,7 @@ $storageAdapter->store('abcd1234', array('name' => 'Storage-Example'), 'example'
 
 Search
 
-:   Der "SearchAdapter" wird verwendet, um die Metadaten zu den Objekten zu indexieren. Dies wird benötigt, wenn die Daten durchsucht werden. Jeder "SearchAdapter" implementiert folgende Befehle: `index`, `search` und `deindex`. Wobei auch hier mit Hash und Kontext gearbeitet wird. Über den Suchbefehl, können alle oder bestimmte Kontexte durchsucht werden. Für die Entwicklung des Prototypen wurde die Bibliothek Zend-Search-Lucene[^67] verwendet, da diese ohne weitere Abhängigkeiten verwendet werden kann.
+:   Der "SearchAdapter" wird verwendet, um die Metadaten zu den Objekten zu indexieren. Dies wird benötigt, wenn die Daten durchsucht werden. Jeder "SearchAdapter" implementiert folgende Befehle: `index`, `search` und `deindex`. Wobei auch hier mit Hash und Kontext gearbeitet wird. Über den Suchbefehl, können alle oder bestimmte Kontexte durchsucht werden. Für die Entwicklung des Prototyps wurde die Bibliothek Zend-Search-Lucene[^67] verwendet, da diese ohne weitere Abhängigkeiten verwendet werden kann.
 
 Bei der Verwendung des Replikators gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen mit dem Remoteserver kommunizieren kann. Dieser Adapter implementiert den Befehlssatz: `fetch` und `store`. Diese beiden Methoden werden verwendet, um Remote-Objekte abzufragen oder zu erstellen.
 
@@ -146,7 +146,7 @@ Die Adapter sind Klassen, die die Komplexität des Speichermediums bzw. der API 
 
 Die Manager sind die Schnittstelle, um mit den einzelnen Schichten des Datenmodells zu kommunizieren. Jeder dieser Manager implementiert ein Interface mit dem es möglich ist, mit den jeweiligen Datenobjekten zu interagieren. Grundsätzlich sind dies Befehle, um ein Objekt zu erstellen oder abzufragen. Im Falle des `ReferenceManager` oder `TreeManager` bietet sie auch die Möglichkeit, Objekte zu bearbeiten. Der "ReferenceManager" bearbeitet dabei auch wirklich ein Objekt in der Datenbank, indem er es einfach überschreibt. Diese Operation ist, durch den Replikationstyp Stub, auch in einem verteilten Netzwerk möglich. Der `TreeManager` klont das Objekt und erstellt unter einem neuen Hash ein neues Objekt, sobald es mit einem Commit zusammen persistiert wird.
 
-### Zusammenfassung
+### Kurzfassung
 
 Die Bibliothek Distributed-Storage bietet eine einfache und effiziente Implementierung des in Kapitel \ref{chapter_concept} beschriebenen Konzeptes. Es baut auf eine erweiterbare Hash-Value Datenbank auf. Diese Datenbank wird mittels eines Eventhandlers (Replikator) zu einer verteilten Datenbank. Dabei ist es für die Datenbank irrelevant, welcher Transportlayer oder welches Protokoll verwendet wird. Dieser kann neben HTTP, jeden beliebigen anderen Transportlayer verwenden. Der konsistente Zustand der Datenbank kann mittels Bestätigungen bei der Erstellung, blockierenden Vorgängen und nicht löschbaren Objekten garantiert werden. Nicht veränderbare Objekte lassen sich dauerhaft und ohne Updates verteilen. Alle anderen Objekte können so markiert werden, dass sie immer bei einem primary Server angefragt werden müssen und nur für die Datensicherheit an die Backupserver verteilt werden.
 
@@ -164,9 +164,9 @@ Eine Autorisierung zwischen den Servern ist momentan nicht vorgesehen. Dies wurd
 
 Die Rest-API ist, wie schon im Kapitel \ref{chapter_concept_rest_api} beschrieben, in vier verschiedene Schnittstellen aufgeteilt. Dabei werden die SULU-internen Komponenten verwendet, um die Daten für die Übertragung zu serialisieren und RESTful[^68] aufzubereiten. Für eine verteilte Installation implementiert die Plattform den "ApiAdapter", um die Rest-API für die Bibliothek zu abstrahieren.
 
-### Benutzeroberfläche
+### Benutzungsschnittstelle
 
-Die Architektur der Benutzeroberfläche von SULU ist als "Single-Page-Application" ausgeführt. In dieser Architektur ist die Oberfläche der Website aus individuellen Komponenten zusammengesetzt, die unabhängig aktualisiert und ersetzt werden können [@mesbah2007spi]. Das bedeutet, dass die Oberfläche aus nur einem klassischen Request aufgebaut wird. In diesem ist die Grundstruktur definiert und die grundlegenden JavaScript Dateien eingebunden. Diese Scripts laden dann alle anderen JavaScript Dateien nach, die die Oberfläche Stück für Stück zusammensetzen.
+Die Architektur der Benutzungsschnittstelle von SULU ist als "Single-Page-Application" ausgeführt. In dieser Architektur ist die Oberfläche der Website aus individuellen Komponenten zusammengesetzt, die unabhängig aktualisiert und ersetzt werden können [@mesbah2007spi]. Das bedeutet, dass die Oberfläche aus nur einem klassischen Request aufgebaut wird. In diesem ist die Grundstruktur definiert und die grundlegenden JavaScript Dateien eingebunden. Diese Scripts laden dann alle anderen JavaScript Dateien nach, die die Oberfläche Stück für Stück zusammensetzen.
 
 ![Grundlegender Aufbau des SULU-Admin\label{sulu_basic_ui}](images/screenshots/sulu_basic_ui.png)
 
@@ -182,9 +182,9 @@ Das Formular für neue Dateien ist einfach gestaltet. Es bietet zwei Formularfel
 
 ![Formular um eine neue Datei zu erstellen\label{sulu_symcloud_file_list}](images/screenshots/sulu_symcloud_add_form.png)
 
-### Zusammenfassung
+### Kurzfassung
 
-Die Plattform ist ein reiner Prototyp der zeigen soll, ob das Konzept (aus dem Kapitel \ref{chapter_concept}) funktionieren kann. Es bietet in den Grundzügen alle Funktionen an, um zu einem späteren Zeitpunkt[^40] diesen Prototypen zu einer vollständigen Plattform heranwachsen zu lassen.
+Die Plattform ist ein reiner Prototyp der zeigen soll, ob das Konzept (aus dem Kapitel \ref{chapter_concept}) funktionieren kann. Es bietet in den Grundzügen alle Funktionen an, um zu einem späteren Zeitpunkt[^40] diesen Prototyps zu einer vollständigen Plattform heranwachsen zu lassen.
 
 ## Synchronisierungsprogramm: Jibe
 
@@ -257,7 +257,7 @@ Lokale Hashwerte
 
 Zustand der Dateibestände
 
-:   Der Zustand nach der letzten Synchronisierung. Wenn diese Hashwerte mit den aktuellen Hashwerten verglichen werden, kann man zuverlässig ermitteln, welche Dateien sich geändert haben. Zusätzlich kann die Ausgangsversion der Änderung erfasst werden, um Konflikte zu erkennen.
+:   Der Zustand nach der letzten Synchronisierung. Wenn diese Hashwerte mit den aktuellen Hashwerten verglichen werden, kann zuverlässig ermittelT werden, welche Dateien sich geändert haben. Zusätzlich kann die Ausgangsversion der Änderung erfasst werden, um Konflikte zu erkennen.
 
 Aktueller Serverzustand
 
@@ -308,17 +308,17 @@ Beispiel der Auswertungen anhand des Falles Nummer vier (aus der Tabelle \ref{ta
 2. Serverversion ist größer als lokale Version.
 3. Aktueller und Server-Hashwert stimmen nicht überein.
 
-Das bedeutet, dass sich sowohl die Serverdatei als auch die lokale Kopie geändert haben. Dadurch entsteht ein Konflikt, der aufgelöst werden muss. Das Auflösen solcher Konflikte ist nicht Teil dieser Arbeit er wird allerdings in Kapitel \ref{outlook_conflict} kurz behandelt.
+Das bedeutet, dass sich sowohl die Serverdatei als auch die lokale Kopie geändert haben. Dadurch entsteht ein Konflikt, der aufgelöst werden muss. Das Auflösen solcher Konflikte ist nicht Teil dieser Arbeit, er wird allerdings in Kapitel \ref{outlook_conflict} kurz behandelt.
 
-### Zusammenfassung
+### Kurzfassung
 
 Der Synchronisierungsclient ist ein Beispiel dafür, wie die Rest-API von anderen Applikationen verwendet werden kann, um die Daten aus symCloud zu verwenden. Es wären viele andere Anwendungsfälle denkbar.
 
 In diesem Beispiel wurde auch die Komplexität des Synchronisierungsprozesses durchleuchtet und eine Lösung geschaffen, um schnell und effizient einen Ordner mit symCloud zu synchronisieren.
 
-## Zusammenfassung (TODO: zweimal zusammenfassung)
+## Zusammenfassung
 
-Die Prototypenimplementierung umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und einer Datenbank, die in der Lage ist die Daten über eine Menge von Servern zu verteilen, auch eine einfache Plattform, mit der man Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren wurde der Client Jibe implementiert, der über ein einfaches REST-API in der Lage ist, die Dateien zu synchronisieren.
+Die Prototypenimplementierung umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und einer Datenbank, die in der Lage ist die Daten über eine Menge von Servern zu verteilen, auch eine einfache Plattform, mit der man Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren wurde der Client Jibe implementiert, der über ein einfache REST-API in der Lage ist, die Dateien zu synchronisieren.
 
 Vorgesehene aber nicht implementiert wurden die Bereiche:
 
