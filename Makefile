@@ -11,7 +11,7 @@ assertion = -V assertion=true
 
 format = markdown+table_captions+pipe_tables+definition_lists+fenced_code_blocks+fenced_code_attributes
 
-all: ditaa dot seqdiags pdf pdf_intro
+all: ditaa dot seqdiags pdf
 
 ditaa:
 	$(foreach f,$(dots), ditaa -E -o $(f);)
@@ -25,6 +25,3 @@ seqdiags:
 
 pdf:
 	pandoc $(pdf_params) $(lol) $(lot) $(lof) $(assertion) $(pdf_vars) -o symcloud-thesis.pdf $(mds) -f $(format)
-
-pdf_intro:
-	pandoc $(pdf_params) $(lof) $(pdf_vars) -o symcloud-intro.pdf 01_introduction.src.md 99_references.src.md -f $(format)

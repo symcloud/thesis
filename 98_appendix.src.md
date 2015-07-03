@@ -39,7 +39,7 @@
 
 Für die Authentifizierung wurde das Protokoll OAuth in der Version 2 implementiert. Dieses offene Protokoll erlaubt eine standardisierte, sichere API-Autorisierung für Desktop, Web und Mobile-Applikationen. Initiiert wurde das Projekt von Blaine Cook und Chris Messina [@hammer2010oauth].
 
-Der Benutzer kann einer Applikation den Zugriff auf seine Daten autorisieren, die von einer anderen Applikation zur Verfügung gestellt wird. Dabei werden nicht alle Details seiner Zugangsdaten preisgegeben. Typischerweise wird die Weitergabe eines Passwortes an Dritte vermieden [@hammer2010oauth].
+Die BenutzerIn kann einer Applikation den Zugriff auf seine Daten autorisieren, die von einer anderen Applikation zur Verfügung gestellt wird. Dabei werden nicht alle Details seiner Zugangsdaten preisgegeben. Typischerweise wird die Weitergabe eines Passwortes an Dritte vermieden [@hammer2010oauth].
 
 ## Begriffe
 
@@ -47,7 +47,7 @@ In OAuth2 werden folgende vier Rollen definiert:
 
 Resource owner
 
-:   Besitzer einer Ressource, die er für eine Applikation bereitstellen will [@hardt2012oauth, Seite 5].
+:   BesitzerIn einer Ressource, die er für eine Applikation bereitstellen will [@hardt2012oauth, Seite 5].
 
 Resource server
 
@@ -55,7 +55,7 @@ Resource server
 
 Client
 
-:   Die Applikation stellt Anfragen im Namen des Ressourceneigentümers an den "resource server". Sie holt sich vorher die Genehmigung von einem berechtigten Benutzer [@hardt2012oauth, Seite 5].
+:   Die Applikation stellt Anfragen im Namen des Ressourceneigentümers an den "resource server". Sie holt sich vorher die Genehmigung von einer berechtigten BenutzerIn [@hardt2012oauth, Seite 5].
 
 Authorization server
 
@@ -65,7 +65,7 @@ Neben diesen Rollen spezifiziert OAuth2 folgende Begriffe:
 
 Access-Token
 
-:   Die Access-Tokens fungieren als Zugangsdaten zu geschützten Ressourcen. Es besteht aus einer Zeichenkette, die als Autorisierung für einen bestimmten Client ausgestellt wurde. Sie repräsentieren die "Scopes" und die Dauer der Zugangsberechtigung, die durch den Benutzer bestätigt wurde [@hardt2012oauth, Seite 9].
+:   Die Access-Tokens fungieren als Zugangsdaten zu geschützten Ressourcen. Es besteht aus einer Zeichenkette, die als Autorisierung für einen bestimmten Client ausgestellt wurde. Sie repräsentieren die "Scopes" und die Dauer der Zugangsberechtigung, die durch die BenutzerIn bestätigt wurde [@hardt2012oauth, Seite 9].
 
 Refresh-Token
 
@@ -81,9 +81,9 @@ Die Interaktion zwischen Ressourcenserver und Autorisierungsserver ist nicht spe
 
 ![Ablaufdiagramm des OAuth\label{oauth_flow} [@hardt2012oauth, Seite 7]](diagrams/oauth2/flow.png)
 
-Der Ablauf einer Autorisierung [@hardt2012oauth, Seiten 7 ff] mittels Oauth2, der in der Abbildung \ref{oauth_flow} abgebildet ist, enthält folgende Schritte:
+Der Ablauf einer Autorisierung [@hardt2012oauth, Seiten 7ff] mittels Oauth2, der in der Abbildung \ref{oauth_flow} abgebildet ist, enthält folgende Schritte:
 
-A) Der Client fordert die Genehmigung des Ressourcenbesitzers. Diese Anfrage kann direkt an den Benutzer gestellt werden (wie in der Abbildung dargestellt) oder vorzugsweise indirekt über den Autorisierungsserver (wie zum Beispiel bei Facebook).
+A) Der Client fordert die Genehmigung des Ressourcenbesitzers. Diese Anfrage kann direkt an die BenutzerIn gestellt werden (wie in der Abbildung dargestellt) oder vorzugsweise indirekt über den Autorisierungsserver (wie zum Beispiel bei Facebook).
 B) Der Client erhält einen "authorization grant". Er repräsentiert die Genehmigung des Ressourcenbesitzers, die geschützten Ressourcen zu verwenden.
 C) Der Client fordert einen Token beim Autorisierungsserver mit dem "authorization grant" an.
 D) Der Autorisierungsserver authentifiziert den Client, validiert den "authorization grant" und gibt einen Token zurück.
@@ -92,15 +92,15 @@ F) Der Ressourcenserver validiert den Token und gibt die Ressource zurück.
 
 ## Zusammenfassung
 
-OAuth2 wird verwendet, um es externen Applikationen zu ermöglichen, auf die Dateien der Benutzer zuzugreifen. Das Synchronisierungsprogramm Jibe verwendet dieses Protokoll, um die Autorisierung zu erhalten, um die Dateien des Benutzers zu verwalten.
+OAuth2 wird verwendet, um es externen Applikationen zu ermöglichen, auf die Dateien der BenutzerIn zuzugreifen. Das Synchronisierungsprogramm Jibe verwendet dieses Protokoll, um die Autorisierung zu erhalten, die Dateien der BenutzerInnen zu verwalten.
 
 # Installation
 
-Dieses Kapitel enthält eine kurze Anleitung wie Symcloud (inklusive JIBE) installiert und konfiguriert werden kann. Es umfasst eine einfache Methode auf einem System und ein verteiltes Setup mit zwei verbundenen Installationen.
+Dieses Kapitel enthält eine kurze Anleitung wie symCloud (inklusive JIBE) installiert und konfiguriert werden kann. Es umfasst eine einfache Methode auf einem System und ein verteiltes Setup mit beliebig vielen verbundenen Installationen.
 
 ## Systemanforderungen
 
-Folgende Anforderungen werden an des Server und die Endgeräte gestellt, auf denen symCloud verwendet wird:
+Folgende Anforderungen werden an den Server und die Endgeräte gestellt, auf denen symCloud verwendet wird:
 
 * Betriebssystem: Mac OSX oder Linux
 * Webserver: apache oder nginx[^990] mit aktiviertem "URL rewriting"
@@ -112,9 +112,9 @@ Diese Anforderungen werden in weiterer Folge an das System gestellt. Die Install
 
 ## Lokal
 
-Um eine nicht verteilte Installation von symCloud durchzuführen, müssen folgende Schritte ausgeführt werden:
+Um eine nicht verteilte Installation von symCloud durchzuführen, müssen folgende Schritte (siehe Listing \ref{install_symcloud_clone}) ausgeführt werden:
 
-```
+{caption="Herunterladen und Installieren von symCloud\label{install_symcloud_clone}"}
 git clone git@github.com:symcloud/symcloud-standard.git
 cd symcloud-standard
 git checkout 0.1
@@ -124,9 +124,9 @@ composer install
 
 Dieses Script lädt die nötigen Quellcode herunter und installiert die Abhängigkeiten. Anschließend werden grundlegende Konfigurationen abgefragt. Um die Konfiguration abzuschließen, muss die Datei `app/admin/config/admin/symcloud.yml` und `app/Resources/webspaces/symcloud.io.xml` angepasst werden[^991]. Im speziellen sind es die URLs im unteren Bereich, auf denen das System ausgeführt wird. Um die Installation abzuschließen werden je nach System folgende Scripts ausgeführt, um die richtigen Rechte zu setzen.
 
-Verwende folgendes Script um die Rechte auf Linux zu setzen:
+Verwende folgendes Script um die Rechte auf Linux (siehe Listing \ref{install_symcloud_rights_linux}) zu setzen:
 
-```
+```{caption="Berechtigungen setzen in Linux\label{install_symcloud_rights_linux}"}
 rm -rf app/cache/*
 rm -rf app/logs/*
 mkdir app/data
@@ -134,9 +134,9 @@ sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs uploads/m
 sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs uploads/media web/uploads/media app/data
 ```
 
-Für Mac OSX folgendes Script:
+Für Mac OSX (siehe Listing \ref{install_symcloud_rights_mac}) folgendes Script:
 
-```
+```{caption="Berechtigungen setzen in Mac OSX\label{install_symcloud_rights_mac}"}
 rm -rf app/cache/*
 rm -rf app/logs/*
 mkdir app/data
@@ -145,26 +145,26 @@ sudo chmod +a "$APACHEUSER allow delete,write,append,file_inherit,directory_inhe
 sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs uploads/media web/uploads/media app/data
 ```
 
-Anschließend werden über folgendes Kommando die Datenbank initialisiert, ein Administrator BenutzerIn eingerichtet und der Speicher für den Administrator vorbereitet.
+Anschließend werden über folgendes Kommando (siehe Listing \ref{install_symcloud_sulu}) die Datenbank initialisiert, eine Administrator BenutzerIn eingerichtet und der Speicher für die AdministratorIn vorbereitet.
 
-```
+```{caption="SULU und symCloud konfigurieren\label{install_symcloud_sulu}"}
 app/console sulu:build dev
 app/console symcloud:storage:init admin
 ```
 
-Die Ausgabe des letzten Befehls sollte notiert werden, da dies für die Einrichtung des Synchronisierunsclient gebraucht wird. Abschließend kann sich der Administrator über `http://symcloud.lo/admin` einloggen (Benutzername: "admin", Passwort: "admin") und das System benutzen.
+Die Ausgabe des letzten Befehls sollte notiert werden, da dies für die Einrichtung des Synchronisierunsclient gebraucht wird. Abschließend kann sich die AdministratorIn über `http://symcloud.lo/admin` einloggen (Benutzername: "admin", Passwort: "admin") und das System benutzen.
 
 ### Jibe
 
-Für den Client müssen folgende Schritte auf dem Server ausgeführt werden:
+Für den Client muss zuerst folgender Schritte (siehe \ref{install_symcloud_auth2}) auf dem Server ausgeführt werden:
 
-```
+```{caption="OAuth2 Client erstellen\label{install_symcloud_auth2}"}
 app/console symcloud:oauth2:create-client jibe www.example.com
 ```
 
-An die Endgeräte werden die selben Anforderungen wie an den Server gestellt. Der PHAR Container kann unter der URL <???> heruntergeladen werden. Die Ausgabe der Kommandos aus Listing \ref{install_oauth_client} und \ref{install_init_admin_storage} werden benötigt, um den Client zu Konfigurieren.
+An die Endgeräte werden die selben Anforderungen wie an den Server gestellt. Der PHAR Container kann unter der URL <???> heruntergeladen werden. Die Ausgabe der Kommandos aus Listing \ref{install_symcloud_auth2} und \ref{install_symcloud_sulu} werden benötigt, um den Client zu Konfigurieren (siehe \ref{install_symcloud_jibe}).
 
-```
+```{caption="Jibe konfigurieren und starten\label{install_symcloud_jibe}"}
 php jibe.phar configure
 php jibe.phar sync
 ```
@@ -173,19 +173,22 @@ Das zweite Kommando startet direkt eine Synchronisierung des aktuellen Ordners.
 
 ## Verteilt
 
-Um eine verteilte Installation durchzuführen, werden die Schritte auf den vorangegangen Kapitel auf zwei verschiedenen Servern durchgeführt (oder der selbe Server mit verschiedenen VHosts). Um die Installationen zu verbinden wird in der Konfigurationsdatei `app/admin/config/admin/symcloud.yml` die verbunden Server abgelegt.
+Um eine verteilte Installation durchzuführen, werden die Schritte auf den vorangegangen Abschnitt auf mindestens zwei verschiedenen Servern durchgeführt (oder der selbe Server mit verschiedenen VHosts). Um die Installationen zu verbinden wird in der Konfigurationsdatei `app/admin/config/admin/symcloud.yml` die verbunden Server abgelegt.
 
-```
+```{caption="Verteilung in symCloud konfigurieren\label{install_symcloud_distribution}"}
 symcloud_storage:
     servers:
         primary: {host: symcloud.lo}
         backups:
             - {host: your-1.symcloud.lo}
+            - {host: your-2.symcloud.lo}
 ```
+
+Im Listing \ref{install_symcloud_distribution} werden die verbundenen Server angegeben. Wobei für den primary Server die URL des aktuellen Servers und unter den Backups eine Liste von weiteren Servern angegeben werden.
 
 ### Zusammenfassung
 
-Dieses Kapitel beschreibt den Installationsprozess von symCloud. Es zeigt, dass die Installation ohne großen Abhängigkeiten und zeitlicher Aufwand erledigt werden kann. Auch die Konfiguration in einer verteilten Umgebung ist mit nur einem Schritt möglich.
+Dieses Kapitel beschreibt den Installationsprozess von symCloud. Es zeigt, dass die Installation ohne große Abhängigkeiten und zeitlicher Aufwand erledigt werden kann. Auch die Konfiguration in einer verteilten Umgebung ist mit nur wenigen Schritten möglich.
 
 [^990]: <http://docs.sulu.io/en/latest/book/getting-started/vhost.html>
 [^991]: <http://docs.sulu.io/en/latest/book/getting-started/setup.html#webspaces>

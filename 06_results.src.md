@@ -13,7 +13,7 @@ In der Konzeptionsphase wurde aus den Vorteilen der analysierten Anwendungen, Te
 
 Die Implementierung des Prototypen wurde in drei Abschnitte untergliedert. Im ersten Teil wurde eine Bibliothek entwickelt, die das Datenmodell, die Datenbank und eine Zugriffsschicht implementiert. Diese Bibliothek ist unabhängig von der restlichen Anwendung und kann in alle PHP-Applikationen eingebunden werden, die mit dem Netzwerk von symCloud kommunizieren wollen. Der zweite Teil umfasst die Plattform, die als funktionierender Prototyp in die bestehende Plattform SULU eingebunden wurde. Neben der Rest-API bietet die Plattform auch eine einfache Benutzungsoberfläche, mit dem Änderungen an den Dateien möglich sind. Über die Authentifizierungsschicht können SULU-BenutzerInnen Dateien in symCloud ablegen und verwalten. Der dritte Teil ist als Beispiel für eine Dritt-Hersteller Applikation konzipiert. Dabei handelt es sich um eine Synchronisierungssoftware, die es ermöglicht Dateien von einem Rechner mit symCloud zu synchronisieren.
 
-Auch wenn der entwickelte Prototyp nicht alle Facetten des Konzepts umsetzt, ist er ein Beweis für die Funktionstüchtigkeit dieses Konzepts. Einige Punkte wurden im Konzept (siehe \ref{chapter_specification_further_topics}) nicht betrachtet. Einer dieser Punkte ist die Performance des Systems, welcher in der aktuellen Implementierung die größten Herausforderungen darstellt. Hier könnten weiterführende Analysen und Entwicklungen gerade in der Verteilung der Replikationen erhebliche Fortschritte bringen. Zum Abschluss dieser Arbeit soll noch ein kurzer Ausblick gegeben werden.
+Auch wenn der entwickelte Prototyp nicht alle Facetten des Konzepts umsetzt, ist er ein Beweis für die Funktionstüchtigkeit dieses Konzepts. Einige Punkte wurden im Konzept (siehe \ref{chapter_specification_further_topics}) allerdings nicht betrachtet. Einer dieser Punkte ist die Performance des Systems, welcher in der aktuellen Implementierung die größten Herausforderungen darstellt. Hier könnten weiterführende Analysen und Entwicklungen gerade in der Verteilung der Replikationen erhebliche Fortschritte bringen. Zum Abschluss dieser Arbeit soll noch ein kurzer Ausblick gegeben werden.
 
 ## Performance von Replikationen
 
@@ -23,11 +23,11 @@ Um genau diese Verzögerungen zu vermeiden implementiert das verteilte Konfigura
 
 ## \label{outlook_file_chunking}Rsync Algorithmus
 
-Algorithmen wie Rsync sind darauf ausgelegt, die Effizienz der gespeicherten Chunks zu erhöhen. Wenn zwei Dateien auf verschiedenen, jedoch über ein Netzwerk verbundenen Rechner synchronisiert werden sollen, ermittelt der Rsync Algorithmus jene Teile der Datei die auf beiden Rechner identisch sind. Diese Teile müssen sich nicht an derselben Stelle in den Dateien befinden. Bei diesem Algorithmus erstellt einer der beiden Rechner eine sogenannte Signatur Datei. Dies geschieht, indem die Datei in Blöcke einer bestimmten Länge unterteilt werden. Von diesen Blöcken werden die Prüfsummen ermittelt. Diese Summen werden in eine Signatur Datei geschrieben und an den zweiten Rechner gesendet. Dieser unterteilt nun seine Datei ebenfalls in Blöcke derselben Größe. Allerdings nicht nur der Reihe nach sondern von jeder beliebigen Stelle der Datei aus, um möglichst viele Treffer zu erzielen. Als Ergebnis sendet der zweite Rechner eine Liste von Operationen an seinen Partner. Mithilfe dieser kann der erste Rechner die Datei "nachbauen". Dieser Algorithmus erhöht nicht nur die Übertragungsgeschwindigkeit von Dateiänderungen, sondern auch die Speichernutzung von Version zu Version. Es müssen nur die Änderungen gespeichert werden, selbst dann wenn Änderungen in der Mitte der Datei durchgeführt wurden [@TR-CS-96-05].
+Algorithmen wie Rsync sind darauf ausgelegt, die Effizienz der Daten Datenhaltung und Übertragung zu erhöhen. Wenn zwei Dateien auf verschiedenen, jedoch über ein Netzwerk verbundenen Rechner synchronisiert werden sollen, ermittelt der Rsync Algorithmus jene Teile der Datei die auf beiden Rechner identisch sind. Diese Teile müssen sich nicht an derselben Stelle in den Dateien befinden. Bei diesem Algorithmus erstellt einer der beiden Rechner eine sogenannte Signatur. Dies geschieht, indem die Datei in Blöcke einer bestimmten Länge unterteilt werden. Von diesen Blöcken werden die Prüfsummen ermittelt. Diese Summen werden in eine Datei geschrieben und an den zweiten Rechner gesendet. Dieser unterteilt nun seine Datei ebenfalls in Blöcke derselben Größe. Allerdings nicht nur der Reihe nach sondern von jeder beliebigen Stelle der Datei aus, um möglichst viele Treffer zu erzielen. Als Ergebnis sendet der zweite Rechner eine Liste von Operationen an seinen Partner. Mithilfe dieser kann der erste Rechner die Datei "nachbauen". Dieser Algorithmus erhöht nicht nur die Übertragungsgeschwindigkeit von Dateiänderungen, sondern auch die Speichernutzung von Version zu Version. Es müssen nur die Änderungen gespeichert werden, selbst dann wenn Änderungen in der Mitte der Datei durchgeführt wurden [@TR-CS-96-05].
 
 ## \label{lock_mechanism}Lock-Mechanismen
 
-Es gibt diverse Lock-Mechanismen, die auf einem Server optimal funktionieren. Allerdings ist es sehr viel schwerer diese Mechanismen über ein Netzwerk zu verteilen. Das Team von XtreemFS entwickelte den sogenannten "Flease"-Algorithmus. Dieser Algorithmus ist ein dezentraler und fehlertolerante Koordination von "lease" also Objekt-Locks in verteilten Systemen. Der Algorithmus arbeitet ohne zentrale Schnittstelle und gewährleistet einen exklusiven Zugriff auf eine Ressource in einem skalierbaren Umfeld [@kolbeck2010flease].
+Es gibt diverse Lock-Mechanismen, die auf einem Server optimal funktionieren. Allerdings ist es ungleich schwerer diese Mechanismen über ein Netzwerk zu verteilen. Das Team von XtreemFS entwickelte den sogenannten "Flease"-Algorithmus. Dieser Algorithmus ist ein dezentraler und fehlertolerante Koordination von "lease" also Objekt-Locks in verteilten Systemen. Der Algorithmus arbeitet ohne zentrale Schnittstelle und gewährleistet einen exklusiven Zugriff auf eine Ressource in einem skalierbaren Umfeld [@kolbeck2010flease].
 
 ## \label{chapter_outlook_protocolls}Protokolle
 
@@ -53,11 +53,11 @@ Konflikte werden ignoriert
 
 Konflikte werden vermieden
 
-:   Die Unsicherheiten werden beseitigt, Widersprüche können nicht gelöst werden, jedoch durch die geschickte Auswahl von Werten umgangen werden.
+:   Die Unsicherheiten werden beseitigt, Widersprüche können nicht gelöst werden, jedoch durch die geschickte Auswahl von Werten umgangen werden. Konflikte werden Teilweise zusammengeführt, wenn die Daten es zulassen.
 
 Konflikte werden gelöst
 
-:   Alle Unsicherheiten können beseitigt und die Widersprüche sinnvoll aufgelöst werden.
+:   Alle Unsicherheiten können beseitigt und die Widersprüche sinnvoll aufgelöst werden. Die Daten werden vollständig zusammengeführt.
 
 Um die beiden Versionen zusammenzuführen, können verschiedene Operatoren (wie JOIN, UNION oder MERGE) verwendet werden. Diese Operatoren führen aber nur Objekte sinnvoll zusammen, wenn die Änderungen jeweils andere Eigenschaften betreffen [@bleiholder:techniken].
 

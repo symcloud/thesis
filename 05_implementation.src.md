@@ -32,7 +32,7 @@ Session
 
 Manager
 
-:   Verwalten den Lifecycle der Domain-Objekte. Der jeweilige Manager erstellt und verwaltet die Objekte eines bestimmten Typs (zum Beispiel `CommitMananger` verwaltet Commit-Objekte). Die Verwender der Manager sind jeweils gegen die Interfaces des Objektes programmiert (siehe Manager Pattern[^69]). Die Instanzen des Typs sind reine Daten-Container. Die Manager-Schicht ermöglicht eine spezifische Schnittstelle für jeden Objekt-Typs und eine gezielte Kommunikation mit der Datenbank.
+:   Verwalten den Lifecycle der Domain-Objekte. Der jeweilige Manager erstellt und verwaltet die Objekte eines bestimmten Typs (zum Beispiel `CommitMananger` verwaltet Commit-Objekte). Die Verwender der Manager sind jeweils gegen die Interfaces der Objekte programmiert (siehe Manager Pattern[^69]). Die Instanzen des Typs sind reine Daten-Container. Die Manager-Schicht ermöglicht eine spezifische Schnittstelle für jeden Objekt-Typ und eine gezielte Kommunikation mit der Datenbank.
 
 Database
 
@@ -42,7 +42,7 @@ Adapter
 
 :   Die Adapter dienen dazu, das Speichermedium bzw. die Suchmaschine zu abstrahieren. Durch die Implementierung eines Interfaces, kann jede beliebige Speichertechnologie bzw. Suchmaschine verwendet werden.
 
-Die Datenbank ist durch den Einsatz von Events flexibel erweiterbar. Mit Hilfe dieses Events kann zum Beispiel die Replikator-Komponente folgende Abläufe realisieren.
+Die Datenbank ist durch den Einsatz von Events flexibel erweiterbar. Mit Hilfe dieser Events kann zum Beispiel die Replikator-Komponente folgende Abläufe realisieren.
 
 Verteilung
 
@@ -54,7 +54,7 @@ Nachladen
 
 ### Objekte speichern
 
-Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) ist die Serialisierung zu Beginn. Hierfür werden die Metadaten des Objekts anhand seiner Klasse aus dem "MetadataManager" geladen und anhand dieser Informationen serialisiert. Diese Daten werden mit dem "EventDispatcher" aus dem Symfony2 Framework in einem Event zugänglich gemacht. Die Eventhandler haben die Möglichkeit die Daten zu bearbeiten und "Policies" zu dem Modell zu erstellen. Abschließend werden die Daten zuerst mithilfe des "StorageAdapter" persistiert und durch den "SearchAdapter" in den Suchmaschinenindex aufgenommen. Um verschiedene Objekttyps voneinander zu trennen und eigene Namensräume zu schaffen, definieren die Metadaten der Klasse einen eindeutigen Kontext. Dieser Kontext wird den Adaptern übergeben, um Kollisionen zwischen den Datensätzen zu verhindern.
+Der Mittelpunkt des Speicher-Prozesses (siehe Abbildung \ref{database_store}) ist die Serialisierung zu Beginn. Hierfür werden die Metadaten des Objekts anhand seiner Klasse aus dem "MetadataManager" geladen und anhand dieser Informationen serialisiert. Diese Daten werden mit dem "EventDispatcher" aus dem Symfony2 Framework in einem Event zugänglich gemacht. Die Eventhandler haben die Möglichkeit die Daten zu bearbeiten und "Policies" zu dem Modell zu erstellen. Abschließend werden die Daten zuerst mithilfe des "StorageAdapter" persistiert und durch den "SearchAdapter" in den Suchmaschinenindex aufgenommen. Um verschiedene Objekttypen voneinander zu trennen und eigene Namensräume zu schaffen, definieren die Metadaten der Klasse einen eindeutigen Kontext. Dieser Kontext wird den Adaptern übergeben, um Kollisionen zwischen den Datensätzen zu verhindern.
 
 \landscapestart
 
@@ -82,7 +82,7 @@ Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiede
 
 __Full__
 
-Bei einem "store" Event werden die Backupserver per Zufall aus der Liste der vorhandenen Server ausgewählt und der Server, der das Objekt erstellt, als primäry Server markiert. Anhand der Backupserver-Liste werden die Daten an die Server verteilt. Dazu werden der Reihe nach die Daten an die Server versendet und auf eine Bestätigung gewartet. Falls einer dieser Server nicht erreichbar ist, wird dieser ausgelassen und ein anderer Server als Backup herangezogen. Damit wird der konsistente Zustand der Datenbank verifiziert. Abschließend wird die erstellte "Policy" zu den Daten hinzugefügt, damit sie mit den Daten persistiert wird und später wiederverwendet werden kann. Dieser Prozess wird in der Abbildung \ref{replicator_full} visualisiert.
+Bei einem "store" Event werden die Backupserver per Zufall aus der Liste der vorhandenen Server ausgewählt und der Server, der das Objekt erstellt, als primary Server markiert. Anhand der Backupserver-Liste werden die Daten an die Server verteilt. Dazu werden der Reihe nach die Daten an die Server versendet und auf eine Bestätigung gewartet. Falls einer dieser Server nicht erreichbar ist, wird dieser ausgelassen und ein anderer Server als Backup herangezogen. Damit wird der konsistente Zustand der Datenbank verifiziert. Abschließend wird die erstellte "Policy" zu den Daten hinzugefügt, damit sie mit ihnen persistiert werden und später wiederverwendet werden können. Dieser Prozess wird in der Abbildung \ref{replicator_full} visualisiert.
 
 \landscapestart
 
@@ -136,15 +136,15 @@ $storageAdapter->store('abcd1234', array('name' => 'Storage-Example'), 'example'
 
 Search
 
-:   Der "SearchAdapter" wird verwendet, um die Metadaten zu den Objekten zu indexieren. Dies wird benötigt, wenn die Daten durchsucht werden. Jeder "SearchAdapter" implementiert folgende Befehle: `index`, `search` und `deindex`. Wobei auch hier mit Hash und Kontext gearbeitet wird. Über den Suchbefehl, können alle oder bestimmte Kontexte durchsucht werden. Für die Entwicklung des Prototyps wurde die Bibliothek Zend-Search-Lucene[^67] verwendet, da diese ohne weitere Abhängigkeiten verwendet werden kann.
+:   Der "SearchAdapter" wird verwendet, um die Metadaten zu den Objekten zu indexieren. Dies wird benötigt, wenn die Daten durchsucht werden. Jeder "SearchAdapter" implementiert folgende Befehle: `search`, `index` und `deindex`. Wobei auch hier mit Hash und Kontext gearbeitet wird. Über den Suchbefehl, können alle oder bestimmte Kontexte durchsucht werden. Für die Entwicklung des Prototyps wurde die Bibliothek Zend-Search-Lucene[^67] verwendet, da diese ohne weitere Abhängigkeiten verwendet werden kann.
 
-Bei der Verwendung des Replikators gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen mit dem Remoteserver kommunizieren kann. Dieser Adapter implementiert den Befehlssatz: `fetch` und `store`. Diese beiden Methoden werden verwendet, um Remote-Objekte abzufragen oder zu erstellen.
+Bei der Verwendung des Replikators gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen mit dem Remoteserver kommunizieren kann. Dieser ApiAdapter implementiert den Befehlssatz: `fetch` und `store`. Diese beiden Methoden werden verwendet, um Remote-Objekte abzufragen oder zu erstellen.
 
 Die Adapter sind Klassen, die die Komplexität des Speichermediums bzw. der API von der restlichen Applikation trennen, um dadurch die Bibliothek unabhängig von der Applikation implementieren zu können.
 
 ### Manager
 
-Die Manager sind die Schnittstelle, um mit den einzelnen Schichten des Datenmodells zu kommunizieren. Jeder dieser Manager implementiert ein Interface mit dem es möglich ist, mit den jeweiligen Datenobjekten zu interagieren. Grundsätzlich sind dies Befehle, um ein Objekt zu erstellen oder abzufragen. Im Falle des `ReferenceManager` oder `TreeManager` bietet sie auch die Möglichkeit, Objekte zu bearbeiten. Der "ReferenceManager" bearbeitet dabei auch wirklich ein Objekt in der Datenbank, indem er es einfach überschreibt. Diese Operation ist, durch den Replikationstyp Stub, auch in einem verteilten Netzwerk möglich. Der `TreeManager` klont das Objekt und erstellt unter einem neuen Hash ein neues Objekt, sobald es mit einem Commit zusammen persistiert wird.
+Die Manager sind die Schnittstelle, um mit den einzelnen Schichten des Datenmodells zu kommunizieren. Jeder dieser Manager implementiert ein Interface mit dem es möglich ist, mit den jeweiligen Datenobjekten zu interagieren. Grundsätzlich sind dies Befehle, um ein Objekt zu erstellen oder abzufragen. Im Falle des "ReferenceManager" oder "TreeManager" bietet sie auch die Möglichkeit, Objekte zu bearbeiten. Der "ReferenceManager" bearbeitet dabei auch wirklich ein Objekt in der Datenbank, indem er es einfach überschreibt. Diese Operation ist, durch den Replikationstyp Stub, auch in einem verteilten Netzwerk möglich. Der TreeManager klont das Objekt und erstellt unter einem neuen Hash ein neues Objekt, sobald es mit einem Commit zusammen persistiert wird.
 
 ### Kurzfassung
 
@@ -170,7 +170,7 @@ Die Architektur der Benutzungsschnittstelle von SULU ist als "Single-Page-Applic
 
 ![Grundlegender Aufbau des SULU-Admin\label{sulu_basic_ui}](images/screenshots/sulu_basic_ui.png)
 
-In der Abbildung \ref{sulu_basic_ui} ist der Grundlegende Aufbau des Sulu-UI zu erkennen. Im rechten Bereich ist eine erweiterbare Navigation, die bereits den symCloud Punkt "Dateien" enthält, links ist der sogenannte "Content"-Bereich. Dieser Bereich kann von den nachgeladenen Komponenten gefüllt werden. Um das UI einheitlich zu gestalten, bietet SULU vordefinierte Komponenten an, die zum Beispiel eine Liste abstrahieren. Dieser Listen-Komponente wird im Grunde eine URL übergeben, unter welcher die Daten heruntergeladen werden können. Die Liste generiert daraufhin eine Tabelle mit den Daten aus dem Response der angegeben URL (siehe Abbildung \ref{sulu_symcloud_file_list}).
+In der Abbildung \ref{sulu_basic_ui} ist der Grundlegende Aufbau des Sulu-UI zu erkennen. Im rechten Bereich ist eine erweiterbare Navigation, die bereits den symCloud Punkt "Dateien" enthält, links ist der sogenannte "Content"-Bereich. Dieser Bereich kann von den nachgeladenen Komponenten gefüllt werden. Um das UI einheitlich zu gestalten, bietet SULU vordefinierte Komponenten an, die zum Beispiel eine Liste abstrahieren. Dieser Listen-Komponente wird im Grunde eine URL übergeben, unter welcher die Daten heruntergeladen werden können. Die Liste generiert daraufhin eine Tabelle mit den Daten aus dem Response der angegebenen URL (siehe Abbildung \ref{sulu_symcloud_file_list}).
 
 ![Dateiliste von symCloud\label{sulu_symcloud_file_list}](images/screenshots/sulu_symcloud_file_list.png)
 
@@ -178,13 +178,13 @@ In der Abbildung \ref{sulu_basic_ui} ist der Grundlegende Aufbau des Sulu-UI zu 
 
 ![Schaltfläche um Datei zu bearbeiten oder löschen\label{sulu_symcloud_edit_file}](images/screenshots/sulu_symcloud_edit_file.png)
 
-Das Formular für neue Dateien ist einfach gestaltet. Es bietet zwei Formularfelder, mit denen der Name und Inhalt der Datei bearbeitet werden kann. Mit demselben Formular können Dateien auch bearbeitet werden.
+Das Formular für neue Dateien ist einfach gestaltet (siehe Abbildung \ref{sulu_symcloud_add_form}). Es bietet zwei Formularfelder, mit denen der Name und Inhalt der Datei bearbeitet werden kann. Mit demselben Formular können Dateien auch bearbeitet werden.
 
-![Formular um eine neue Datei zu erstellen\label{sulu_symcloud_file_list}](images/screenshots/sulu_symcloud_add_form.png)
+![Formular um eine neue Datei zu erstellen\label{sulu_symcloud_add_form}](images/screenshots/sulu_symcloud_add_form.png)
 
 ### Kurzfassung
 
-Die Plattform ist ein reiner Prototyp der zeigen soll, ob das Konzept (aus dem Kapitel \ref{chapter_concept}) funktionieren kann. Es bietet in den Grundzügen alle Funktionen an, um zu einem späteren Zeitpunkt[^40] diesen Prototyps zu einer vollständigen Plattform heranwachsen zu lassen.
+Die Plattform ist ein reiner Prototyp der zeigen soll, ob das Konzept (aus dem Kapitel \ref{chapter_concept}) funktionieren kann. Es bietet in den Grundzügen alle Funktionen an, um zu einem späteren Zeitpunkt[^40] diesen Prototyp zu einer vollständigen Plattform heranwachsen zu lassen.
 
 ## Synchronisierungsprogramm: Jibe
 
@@ -257,7 +257,7 @@ Lokale Hashwerte
 
 Zustand der Dateibestände
 
-:   Der Zustand nach der letzten Synchronisierung. Wenn diese Hashwerte mit den aktuellen Hashwerten verglichen werden, kann zuverlässig ermittelT werden, welche Dateien sich geändert haben. Zusätzlich kann die Ausgangsversion der Änderung erfasst werden, um Konflikte zu erkennen.
+:   Der Zustand nach der letzten Synchronisierung. Wenn diese Hashwerte mit den aktuellen Hashwerten verglichen werden, kann zuverlässig ermittelt werden, welche Dateien sich geändert haben. Zusätzlich kann die Ausgangsversion der Änderung erfasst werden, um Konflikte zu erkennen.
 
 Aktueller Serverzustand
 
@@ -318,7 +318,7 @@ In diesem Beispiel wurde auch die Komplexität des Synchronisierungsprozesses du
 
 ## Zusammenfassung
 
-Die Prototypenimplementierung umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und einer Datenbank, die in der Lage ist die Daten über eine Menge von Servern zu verteilen, auch eine einfache Plattform, mit der man Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren wurde der Client Jibe implementiert, der über ein einfache REST-API in der Lage ist, die Dateien zu synchronisieren.
+Die Prototypenimplementierung umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und einer Datenbank, die in der Lage ist die Daten über eine Menge von Servern zu verteilen, auch eine einfache Plattform, mit der man Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren wurde der Client Jibe implementiert, der über ein einfache Rest-API in der Lage ist, die Dateien zu synchronisieren.
 
 Vorgesehene aber nicht implementiert wurden die Bereiche:
 
