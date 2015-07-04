@@ -114,7 +114,7 @@ Diese Anforderungen werden in weiterer Folge an das System gestellt. Die Install
 
 Um eine nicht verteilte Installation von symCloud durchzuführen, müssen folgende Schritte (siehe Listing \ref{install_symcloud_clone}) ausgeführt werden:
 
-{caption="Herunterladen und Installieren von symCloud\label{install_symcloud_clone}"}
+```{caption="Herunterladen und Installieren von symCloud\label{install_symcloud_clone}"}
 git clone git@github.com:symcloud/symcloud-standard.git
 cd symcloud-standard
 git checkout 0.1
