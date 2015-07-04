@@ -186,7 +186,7 @@ symcloud_storage:
 
 Im Listing \ref{install_symcloud_distribution} werden die verbundenen Server angegeben. Wobei für den primary Server die URL des aktuellen Servers und unter den Backups eine Liste von weiteren Servern angegeben werden.
 
-### Zusammenfassung
+## Zusammenfassung
 
 Dieses Kapitel beschreibt den Installationsprozess von symCloud. Es zeigt, dass die Installation ohne große Abhängigkeiten und zeitlicher Aufwand erledigt werden kann. Auch die Konfiguration in einer verteilten Umgebung ist mit nur wenigen Schritten möglich.
 
