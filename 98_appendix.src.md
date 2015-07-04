@@ -114,15 +114,21 @@ Diese Anforderungen werden in weiterer Folge an das System gestellt. Die Install
 
 Um eine nicht verteilte Installation von symCloud durchzuführen, müssen folgende Schritte (siehe Listing \ref{install_symcloud_clone}) ausgeführt werden:
 
-```{caption="Herunterladen und Installieren von symCloud\label{install_symcloud_clone}"}
+```{caption="Herunterladen von symCloud\label{install_symcloud_clone}"}
 git clone git@github.com:symcloud/symcloud-standard.git
 cd symcloud-standard
 git checkout 0.1
-cp app/admin/config/admin/symcloud.yml.dist app/admin/config/admin/symcloud.yml
+cp app/config/admin/symcloud.yml.dist app/config/admin/symcloud.yml
+cp app/Resources/pages/overview.xml.dist app/Resources/pages/overview.xml
+```
+
+Die Konfiguration der Installation erfolgen über die Dateien `app/admin/config/admin/symcloud.yml` und `app/Resources/webspaces/symcloud.io.xml`[^991]. Diese beiden Dateien enthalten die Informationen über die URLs und die verbundenen Installationen.
+
+```{caption="Installieren von symCloud\label{install_symcloud_composer_install}"}
 composer install
 ```
 
-Dieses Script lädt die nötigen Quellcode herunter und installiert die Abhängigkeiten. Anschließend werden grundlegende Konfigurationen abgefragt. Um die Konfiguration abzuschließen, muss die Datei `app/admin/config/admin/symcloud.yml` und `app/Resources/webspaces/symcloud.io.xml` angepasst werden[^991]. Im speziellen sind es die URLs im unteren Bereich, auf denen das System ausgeführt wird. Um die Installation abzuschließen werden je nach System folgende Scripts ausgeführt, um die richtigen Rechte zu setzen.
+Diese beiden Scripts (Listing \ref{install_symcloud_clone} und \ref{install_symcloud_composer_install}) laden die nötigen Quellcode herunter und installiert die Abhängigkeiten. Um die Installation abzuschließen werden je nach System folgende Scripts ausgeführt, um die richtigen Rechte zu setzen.
 
 Verwende folgendes Script um die Rechte auf Linux (siehe Listing \ref{install_symcloud_rights_linux}) zu setzen:
 
@@ -130,6 +136,7 @@ Verwende folgendes Script um die Rechte auf Linux (siehe Listing \ref{install_sy
 rm -rf app/cache/*
 rm -rf app/logs/*
 mkdir app/data
+mkdir app/data/symcloud
 sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs uploads/media web/uploads/media app/data
 sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs uploads/media web/uploads/media app/data
 ```
@@ -140,6 +147,7 @@ Für Mac OSX (siehe Listing \ref{install_symcloud_rights_mac}) folgendes Script:
 rm -rf app/cache/*
 rm -rf app/logs/*
 mkdir app/data
+mkdir app/data/symcloud
 APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`
 sudo chmod +a "$APACHEUSER allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs uploads/media web/uploads/media app/data
 sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs uploads/media web/uploads/media app/data
@@ -148,13 +156,14 @@ sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit
 Anschließend werden über folgendes Kommando (siehe Listing \ref{install_symcloud_sulu}) die Datenbank initialisiert, eine Administrator BenutzerIn eingerichtet und der Speicher für die AdministratorIn vorbereitet.
 
 ```{caption="SULU und symCloud konfigurieren\label{install_symcloud_sulu}"}
+app/console doctrine:database:create
 app/console sulu:build dev
 app/console symcloud:storage:init admin
 ```
 
 Die Ausgabe des letzten Befehls sollte notiert werden, da dies für die Einrichtung des Synchronisierunsclient gebraucht wird. Abschließend kann sich die AdministratorIn über `http://symcloud.lo/admin` einloggen (Benutzername: "admin", Passwort: "admin") und das System benutzen.
 
-### Jibe
+## Jibe
 
 Für den Client muss zuerst folgender Schritte (siehe \ref{install_symcloud_auth2}) auf dem Server ausgeführt werden:
 
@@ -178,7 +187,7 @@ Um eine verteilte Installation durchzuführen, werden die Schritte auf den voran
 ```{caption="Verteilung in symCloud konfigurieren\label{install_symcloud_distribution}"}
 symcloud_storage:
     servers:
-        primary: {host: symcloud.lo}
+        primary: {host: my.symcloud.lo}
         backups:
             - {host: your-1.symcloud.lo}
             - {host: your-2.symcloud.lo}
