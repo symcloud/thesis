@@ -4,8 +4,7 @@ Ziel dieser Arbeit war es, ein Konzept für eine verteilte Speicherverwaltung au
 
 Im ersten Teil der Arbeit wurde, neben der Motivation und der Projektbeschreibung, eine Liste der Anforderungen an das Konzept und das Projekt aufgestellt. Diese Anforderungen umfassten die Punkte Datensicherheit, Funktionalitäten und Architektur. Auf diese Anforderungen wurden in den darauf folgenden Kapiteln eingegangen und Lösungsansätze erarbeitet. Das vorliegende Konzept erfüllt alle Anforderungen und ist durch seine Flexibilität auf andere Plattformen portierbar.
 
-
-Verschiede Applikationen wurden auf die Erfüllbarkeit der Anforderung untersucht. Dabei wurden die Themen "verteilte Systeme", "Cloud-Datenhaltung", "verteilte Daten" und "verteilte Datenmodelle" jeweils anhand von Beispielen analysiert.
+Verschiedene Applikationen wurden auf die Erfüllbarkeit der Anforderung untersucht. Dabei wurden die Themen "verteilte Systeme", "Cloud-Datenhaltung", "verteilte Daten" und "verteilte Datenmodelle" jeweils anhand von Beispielen analysiert.
 
 Um eine solide Grundlage für das Konzept zu erarbeiten, wurden im Evaluierungskapitel verschiedene Möglichkeiten der Datenhaltung in verteilten Systemen analysiert und auf die Tauglichkeit als Basis für das Konzept überprüft. Es wurde keine passende Technologie gefunden, jedoch konnten diverse Aspekte der evaluierten Technologien im Konzept verwendet und umgesetzt werden. Ein Beispiel dafür ist die Dateireplikation aus XtreemFS und das dort verwendete primärbasierte Protokoll. Eine vereinfachte Version dieses Protokolls wurde im Konzept eingebaut und später im Prototyp umgesetzt.
 

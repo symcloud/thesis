@@ -9,7 +9,7 @@ lof = -V lof=true
 lot = -V lot=true
 assertion = -V assertion=true
 
-format = markdown+table_captions+pipe_tables+definition_lists+fenced_code_blocks+fenced_code_attributes
+format = markdown+table_captions+pipe_tables+definition_lists+fenced_code_blocks+fenced_code_attributes+backtick_code_blocks
 
 all: ditaa dot seqdiags pdf
 

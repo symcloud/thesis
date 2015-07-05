@@ -1,3 +1,8 @@
+---
+nocite: |
+  @lightcubesolutions2010gridfs
+...
+
 # \label{chapter_evaluation}Evaluation bestehender Technologien für Speicherverwaltung
 
 Ein wichtiger Aspekt von Cloud-Anwendungen ist die Speicherverwaltung. Es bieten sich verschiedenste Möglichkeiten der Datenhaltung in der Cloud an. Dieses Kapitel beschäftigt sich mit der Evaluierung von verschiedenen Diensten bzw. Lösungen, mit denen Speicher verwaltet und möglichst effizient zur Verfügung gestellt werden kann.
@@ -58,7 +63,7 @@ Zusätzlich zu diesen systemdefinierten Metadaten ist es möglich, benutzerdefin
 
 Die Speicherlösung bietet eine Versionierung der Objekte an. Diese kann über eine Rest-API, mit folgendem Inhalt (siehe Listing \ref{s3_versioning_lst}), in jedem Bucket aktiviert werden.
 
-```{caption="Aktiviert die Versionierung für ein Objekt \label{s3_versioning_lst} [@amazon2015c]]" .xml}
+```{caption="\label{s3_versioning_lst}Aktiviert die Versionierung für ein Objekt {[}Amazon-Web-Services 2015c{]}" .xml}
 <VersioningConfiguration
 	xmlns="http://s3.amazonaws.com/doc/2006-03-01/"> 
   <Status>Enabled</Status> 
@@ -263,7 +268,7 @@ MongoDB bietet die Möglichkeit BSON-Dokumente in der Größe von bis zu 16MB zu
 
 __Beispiel:__
 
-```{caption="GridFS Beispielcode \label{gridfs_example_code} [@lightcubesolutions2010gridfs]" .php}
+```{caption="\label{gridfs_example_code}GridFS Beispielcode {[}Lightcubesolutions 2010{]}" .php}
 $mongo = new Mongo();
 		// connect to database
 $database = $mongo->selectDB('example');
