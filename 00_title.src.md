@@ -1,5 +1,5 @@
 --- 
-title: Evaluierung und Entwicklung eines verteilten Speicherkonzeptes als Grundlage für eine Filehosting- und Collaboration Plattform
+title: Evaluierung und Entwicklung eines verteilten Speicherkonzeptes als Grundlage für eine Filehosting- und Kollaborationsplattform
 shorttitle: symCloud
 type: Masterarbeit
 university: Vorarlberg University of Applied Sciences
