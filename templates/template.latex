@@ -1,4 +1,10 @@
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
+
+\let\tmp\oddsidemargin
+\let\oddsidemargin\evensidemargin
+\let\evensidemargin\tmp
+\reversemarginpar
+
 $if(fontfamily)$
 \usepackage{$fontfamily$}
 $else$
@@ -222,23 +228,21 @@ $if(title)$
 
   \begin{center}
 
-    \vspace*{10mm}
+    \vspace*{15mm}
 
     $type$\\
     Fachhochschul-Studiengang\\
     $department$
     
-    \vspace{10mm}
+    \vspace{15mm}
 
     {\LARGE\bfseries $title$}
 
-    {\bfseries $shorttitle$}
-
-    \vspace{10mm}
+    \vspace{15mm}
 
     ausgeführt von
 
-    \vspace{10mm}
+    \vspace{15mm}
 
     \textbf
     {
@@ -246,17 +250,17 @@ $if(title)$
       $matriculation$
     }
 
-    \vspace{10mm}
+    \vspace{15mm}
 
     zur Erlangung des akademischen Grades\\
 
     $degree$
 
-    \vspace{10mm}
+    \vspace{15mm}
 
     $submissiontown$, im $submissionmonth$ $submissionyear$
 
-    \vspace{10mm}
+    \vspace{15mm}
 
     \textbf{Betreuer: $supervisor$}
 

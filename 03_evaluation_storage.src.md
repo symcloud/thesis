@@ -43,7 +43,7 @@ Objekt-Speicherdienste
 
 Verteilte Dateisysteme
 
-:   Diese Dateisysteme fungieren als einfache Laufwerke und abstrahieren dadurch den komplexen Ablauf der darunter liegenden Services. Der Zugriff auf diese Dateisysteme erfolgt meist über system-calls wie zum Beispiel `fopen` oder `fclose`. Dies ergibt sich aus der Transparenz Anforderung [@coulouris2003verteilte, S. 369], die im Kapitel \ref{specification_distributed_fs} beschrieben werden.
+:   Diese Dateisysteme fungieren als einfache Laufwerke und abstrahieren dadurch den komplexen Ablauf der darunter liegenden Services. Der Zugriff auf diese Dateisysteme erfolgt meist über system-calls wie zum Beispiel `fopen` oder `fclose`. Dies ergibt sich aus der Transparenz-Anforderung [@coulouris2003verteilte, S. 369], die im Kapitel \ref{specification_distributed_fs} beschrieben werden.
 
 Datenbank gestützte Dateisysteme
 
@@ -80,7 +80,7 @@ Die Skalierbarkeit ist aufgrund der von Amazon verwalteten Umgebung sehr einfach
 
 ### Datenschutz
 
-Amazon ist ein US-amerikanisches Unternehmen und ist daher an die Weisungen der Amerikanischen Geheimdienste gebunden. Aus diesem Grund wird es in den letzten Jahren oft kritisiert. Laut einem Bericht der ITWorld beteuerte Terry Wise[^36], dass jede gerichtliche Anordnung zur Einsicht in die Daten mit dem Kunden abgesprochen wird [@amazon2015e]. Dies gilt aber vermutlich nicht für Anfragen der NSA, da sich diese in der Regel auf die Anti-Terror Gesetze berufen. Diese verpflichten den Anbieter zur absoluten Schweigepflicht. Um dieses Problem zu umgehen, können Systemadministratoren sogenannte "Availability Zones" auswählen und damit steuern, wo die Daten gespeichert werden. Zum Beispiel werden Daten in einem Bucket mit der Zone Irland, auch wirklich in Irland gespeichert. Zusätzlich ermöglicht Amazon die Verschlüsselung der Daten [@t3n2015a].
+Amazon ist ein US-amerikanisches Unternehmen und ist daher an die Weisungen der Amerikanischen Geheimdienste gebunden. Aus diesem Grund wird es in den letzten Jahren oft kritisiert. Laut einem Bericht der ITWorld beteuerte Terry Wise[^36], dass jede gerichtliche Anordnung zur Einsicht in die Daten mit dem Kunden abgesprochen wird [@amazon2015e]. Dies gilt aber vermutlich nicht für Anfragen der NSA, da sich diese in der Regel auf die Anti-Terror Gesetze berufen. Diese verpflichten den Anbieter zur absoluten Schweigepflicht. Um dieses Problem zu umgehen können Systemadministratoren sogenannte "Availability Zones" auswählen und damit steuern, wo die Daten gespeichert werden. Zum Beispiel werden Daten in einem Bucket mit der Zone Irland auch wirklich in Irland gespeichert. Zusätzlich ermöglicht Amazon die Verschlüsselung der Daten [@t3n2015a].
 
 Wer trotzdem Bedenken hat, seine Daten aus den Händen zu geben, kann auf verschiedene kompatible Lösungen zurückgreifen.
 
@@ -264,7 +264,7 @@ Einige Datenbanksysteme, wie zum Beispiel MongoDB[^31], bieten eine Schnittstell
 
 ### MongoDB & GridFS \label{chapter_gridfs}
 
-MongoDB bietet die Möglichkeit BSON-Dokumente in der Größe von bis zu 16MB zu speichern. Dies ermöglicht die Verwaltung kleinerer Dateien ohne zusätzliche Layer. Für größere Dateien und zusätzliche Features bietet MongoDB mit GridFS eine Schnittstelle, mit der es möglich ist größere Dateien und die dazugehörigen Metadaten zu speichern. Dazu teilt GridFS die Dateien in Chunks einer bestimmten Größe auf. Standardmäßig ist die Größe von Chunks auf 255Byte gesetzt. Die Daten werden in der Kollektion `chunks` und die Metadaten in der Kollektion `files` gespeichert. Durch die verteilte Architektur von MongoDB werden die Daten automatisch auf allen Systemen synchronisiert. Zusätzlich bietet das System die Möglichkeit über Indexe schnell zu suchen und Abfragen auf die Metadaten durchzuführen [@gridfs2015a].
+MongoDB bietet die Möglichkeit BSON-Dokumente in der Größe von bis zu 16MB zu speichern. Dies ermöglicht die Verwaltung kleinerer Dateien ohne zusätzliche Layer. Für größere Dateien und zusätzliche Features bietet MongoDB mit GridFS eine Schnittstelle, mit der es möglich ist größere Dateien und die dazugehörigen Metadaten zu speichern. Dazu teilt GridFS die Dateien in Chunks einer bestimmten Größe auf. Standardmäßig ist die Größe von Chunks auf 255Byte gesetzt. Die Daten werden in der Kollektion `chunks` und die Metadaten in der Kollektion `files` gespeichert. Durch die verteilte Architektur von MongoDB werden die Daten automatisch auf allen Systemen synchronisiert. Zusätzlich bietet das System die Möglichkeit, über Indexe schnell zu suchen und Abfragen auf die Metadaten durchzuführen [@gridfs2015a].
 
 __Beispiel:__
 
@@ -281,7 +281,7 @@ $id = $gridFS->storeUpload('Filedata', $name);
 		// load file into MongoDB
 ```
 
-Bei der Verwendung von MongoDB ist es sehr einfach, Dateien in GridFS (siehe Beispielcode in Listing \ref{gridfs_example_code}) abzulegen. Die fehlenden Funktionen wie zum Beispiel, ACL oder Versionierung machen den Einsatz in symCloud allerdings schwierig. Auch der starre Aufbau mit nur einem Dateibaum macht die Anpassung der Datenstruktur nahezu unmöglich. Allerdings ist das Chunking der Dateien auch hier zentraler Bestandteil, daher wäre es möglich MongoFS für einen Teil des Speicher-Konzeptes zu verwenden.
+Bei der Verwendung von MongoDB ist es sehr einfach, Dateien in GridFS (siehe Beispielcode in Listing \ref{gridfs_example_code}) abzulegen. Die fehlenden Funktionen, wie zum Beispiel, ACL oder Versionierung machen den Einsatz in symCloud allerdings schwierig. Auch der starre Aufbau mit nur einem Dateibaum macht die Anpassung der Datenstruktur nahezu unmöglich. Allerdings ist das Chunking der Dateien auch hier zentraler Bestandteil, daher wäre es möglich MongoFS für einen Teil des Speicher-Konzeptes zu verwenden.
 
 ## Zusammenfassung
 
@@ -306,7 +306,7 @@ Datenbankgestützte Dateiverwaltung
 
 :   Systeme wie zum Beispiel GridFS sind für den Einsatz in Anwendungen geeignet, die die darunterliegende Datenbank verwenden. Die nötigen Erweiterungen, um Dateien in eine Datenbank zu schreiben, sind aufgrund der Integration sehr einfach umzusetzen. Sie bieten eine gute Schnittstelle, um Dateien zu verwalten. Die fehlenden Möglichkeiten von ACL und Versionierung macht jedoch die Verwendung von GridFS sehr aufwändig. Aufgrund des Aufbaues von GridFS gibt es in der Datenbank einen Dateibaum, indem alle BenutzerInnen ihre Dateien ablegen. Die Anwendung müsste selbst dafür sorgen, dass jede BenutzerIn nur seine Dateien sehen bzw. bearbeiten kann. Allerdings kann, gerade aus GridFS, mit dem Chunking von Dateien (siehe Kapitel \ref{chapter_concept_file_storage}) ein sehr gutes Konzept für eine effiziente Dateihaltung entnommen werden.
 
-Da aufgrund verschiedenster Schwächen keine der Technologien eine umfassende Lösung für die Datenhaltung in symCloud bietet, wird im nächsten Kapitel versucht ein optimales Speicherkonzept für das Projekt zu entwickeln.
+Da aufgrund verschiedenster Schwächen keine der Technologien eine umfassende Lösung für die Datenhaltung in symCloud bietet, wird im nächsten Kapitel versucht, ein optimales Speicherkonzept für das Projekt zu entwickeln.
 
 [^30]: <http://aws.amazon.com/de/s3/>
 [^31]: <http://docs.mongodb.org/manual/core/gridfs/>

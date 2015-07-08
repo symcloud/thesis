@@ -66,19 +66,19 @@ Die Nachteile von ownCloud im Bezug auf die im Kapitel \ref{specification} aufge
 
 Architektur
 
-:   Die Software ist dafür ausgelegt die Anforderungen, auf einem einzigen Server zu erfüllen. Es ermöglicht zwar eine verteilte Architektur, allerdings nur um die Last auf verschiedene Server aufzuteilen. Im Gegensatz dazu versucht symCloud die Daten zwischen verschiedenen Instanzen zu verteilen um die Zusammenarbeit zwischen BenutzerInnen zu ermöglichen, die auf verschiedenen Servern registriert sind.
+:   Die Software ist dafür ausgelegt, die Anforderungen, auf einem einzigen Server zu erfüllen. Es ermöglicht zwar eine verteilte Architektur, allerdings nur, um die Last auf verschiedene Server aufzuteilen. Im Gegensatz dazu versucht symCloud die Daten zwischen verschiedenen Instanzen zu verteilen, um die Zusammenarbeit zwischen BenutzerInnen zu ermöglichen, die auf verschiedenen Servern registriert sind.
 
 Stand der Technik
 
 :   Aufgrund der Tatsache, dass die Entwicklung von ownCloud schon im Jahre 2010 begann und sich die Programmiersprache PHP bzw. dessen Community rasant weiterentwickelt, ist der Kern von ownCloud in einem Stil programmiert der nicht mehr dem heutigen Stand der Technik entspricht.
 
-Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen erfüllen kann, ist das Datenmodell nicht dafür ausgelegt die Daten zu verteilen. Ein weiterer großer Nachteil ist die bereits angesprochene veraltete Codebasis, die eine Erweiterung erschwert.
+Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen erfüllen kann, ist das Datenmodell nicht dafür ausgelegt, die Daten zu verteilen. Ein weiterer großer Nachteil ist die bereits angesprochene veraltete Codebasis, die eine Erweiterung erschwert.
 
 ## Verteilte Daten - Beispiel Diaspora
 
-Diaspora (genauere Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mit Hilfe von standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
+Diaspora (allgemeine Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mit Hilfe von standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
 
-* BenutzerInnen Informationen finden, die auf anderen Servern gespeichert sind.
+* Information zu BenutzerInnen finden, die auf anderen Servern gespeichert sind.
 * Die erstellte Informationen an BenutzerInnen zu versenden, mit denen sie geteilt wurden.
 
 Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Dieses Protokoll wird verwendet, um Informationen über BenutzerInnen oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige URL. Es verwendet den HTTPS-Standard als Transportlayer für eine sichere Verbindung. Als Format für die Antworten wird JSON verwendet [@jones2013webfinger, K. 1].
@@ -97,17 +97,16 @@ Um Informationen über den Benutzer Bob zu erhalten, führt der Pod von Alice ei
 
 Über dieses Protokoll lassen sich die Pods von Alice und Bob verbinden. Die Daten die dabei verteilt werden, werden auf jedem Pod in einer relationalen Datenbank abgelegt [@diaspora2015installation].
 
-Diaspora ist ein gutes Beispiel, wie Daten in einem Dezentralen Netzwerk verteilt werden können. Da allerdings das gesamte Konzept dafür ausgelegt ist, BenutzerInnen miteinander kommunizieren zu lassen, ist die Erweiterung auf ein Dateimodell sehr schwierig. Jedoch könnte eine Kommunikation zwischen Diaspora und symCloud, durch die Abstraktion der API, durch das Webfinger Protokoll, ermöglicht werden (siehe Kapitel \ref{chapter_outlook_protocolls}).
+Diaspora ist ein gutes Beispiel, wie Daten in einem dezentralen Netzwerk verteilt werden können. Da allerdings das gesamte Konzept dafür ausgelegt ist, BenutzerInnen miteinander kommunizieren zu lassen, ist die Erweiterung auf ein Dateimodell sehr schwierig. Jedoch könnte eine Kommunikation zwischen Diaspora und symCloud durch die Abstraktion der API durch das Webfinger Protokoll ermöglicht werden (siehe Kapitel \ref{chapter_outlook_protocolls}).
 
 ## \label{chapter_distributed_datamodel}Verteilte Datenmodelle - Beispiel GIT
 
 GIT[^25] ist eine verteilte Versionsverwaltung, welche ursprünglich entwickelt wurde, um den Source-Code des Linux Kernels zu verwalten.
 
-Die Software ist im Grunde eine Key-Value Datenbank. Die Objekte werden in Form einer Datei abgespeichert wobei der Name bzw. der Pfad aus dem Key des Objektes besteht. In der Datei wird der jeweilige der Inhalt des Objektes abgelegt. Dieser Key wird ermittelt, indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten [@chacon2009pro, K. 9.2]. Das Listing \ref{git_calc_hash} zeigt, wie ein SHA in einem Unix-Terminal berechnet werden kann [@keepers2012git].
+Die Software ist im Grunde eine Key-Value Datenbank. Die Objekte werden in Form einer Datei abgespeichert, wobei der Name bzw. der Pfad aus dem Key des Objektes besteht. In der Datei wird der jeweilige Inhalt des Objektes abgelegt. Dieser Key wird ermittelt, indem ein sogenannter SHA berechnet wird. Der SHA ist ein mittels "Secure-Hash-Algorithm" berechneter Hashwert der Daten [@chacon2009pro, K. 9.2]. Das Listing \ref{git_calc_hash} zeigt, wie ein SHA in einem Unix-Terminal berechnet werden kann [@keepers2012git].
 
 ```{caption="Berechnung des SHA eines Objektes\label{git_calc_hash}"}
-$ OBJECT='blob 46\0{"name": "Johannes Wachter", \
-  "job": "Web-Developer"}'
+$ OBJECT='blob 46\0{"name": "Johannes Wachter", "job": "Web-Developer"}'
 $ echo -e $OBJECT | shasum
 6c01d1dec5cf5221e86600baf77f011ed469b8fe -
 ```
@@ -116,8 +115,7 @@ Im Listing \ref{git_create_object_blob} wird ein GIT-Objekt vom Typ BLOB erstell
 
 ```{caption="Erzeugung eines GIT-BLOB\label{git_create_object_blob}"}
 $ git init
-$ OBJECT='blob 46\0{"name": "Johannes Wachter", \
-  "job": "Web-Developer"}'
+$ OBJECT='blob 46\0{"name": "Johannes Wachter", "job": "Web-Developer"}'
 $ echo -e $OBJECT | git hash-object -w --stdin
 6c01d1dec5cf5221e86600baf77f011ed469b8fe
 $ find .git/objects -type f
@@ -178,7 +176,7 @@ Ein COMMIT Objekt enthält folgende Werte (siehe Listing \ref{git_commit_listing
 __Anmerkungen (zu der Tabelle \ref{commit_properties}):__
 
 * Ein COMMIT kann mehrere Vorgänger haben. Dieser Mechanismus würde zum Beispiel bei einem MERGE verwendet werden, um die beiden Vorgänger zu speichern, die zusammengeführt wurden.
-* AutorIn und ErstellerIn des COMMITs können sich unterscheiden: Wenn zum Beispiel ein BenutzerIn einen PATCH erstellt, ist dieser der AutorIn und damit der Verantwortliche für die Änderungen. Die BenutzerIn, die den Patch nun auflöst und den `git commit` Befehl ausführt, ist die ErstellerIn bzw. der Committer.
+* AutorIn und ErstellerIn des COMMITs können sich unterscheiden: Wenn zum Beispiel eine BenutzerIn einen PATCH erstellt, ist diese BenutzerIn die AutorIn und damit die Verantwortliche für die Änderungen. Die BenutzerIn, die den Patch nun auflöst und den `git commit` Befehl ausführt, ist die ErstellerIn bzw. der Committer.
 
 REFERENCE
 
@@ -186,7 +184,7 @@ REFERENCE
 
 ![Beispiel eines Repositories\label{git_data_model} [@chacon2015git]](images/git-data-model-example.png)
 
-In der Abbildung \ref{git_data_model} wird ein einfaches Beispiel für ein Repository visualisiert. Die Ordnerstruktur die dieses Beispiel enthält, ist im Listing \ref{git_data_model_structure} dargestellt.
+In der Abbildung \ref{git_data_model} wird ein einfaches Beispiel für ein Repository visualisiert. Die Ordnerstruktur, die dieses Beispiel enthält, ist im Listing \ref{git_data_model_structure} dargestellt.
 
 ```{caption="Ordernstruktur zum Repository Beispiel\label{git_data_model_structure}"}
 |-- README (Datei)
@@ -202,9 +200,9 @@ Die Nachteile von GIT im Bezug auf die im Kapitel \ref{specification} aufgezähl
 
 Architektur
 
-:   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu automatisieren. Ein weiteres Problem ist die fehlende Möglichkeit Zugriffsberechtigungen festzulegen.
+:   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu automatisieren. Die Verteilung erfolgt bei GIT immer als bewusste Aktion, also der Ausführung eines `push` oder `pull` Befehls, der BenutzerInnen. Ein weiteres Problem ist die fehlende Möglichkeit Zugriffsberechtigungen festzulegen.
 
-Aufgrund der Fehlenden Verteilungsmechanismen ist die Anwendung GIT für die Verwendung als Datenspeicher für das Projekt ungeeignet. Da es jedoch viele der Anforderungen erfüllt, wird dieses Datenmodell als Grundlage für symCloud herangezogen, siehe dazu Kapitel \ref{chapter_concept_datamodel}. Außerdem wird die Idee der Key-Value Datenbank bei der Konzeption der Datenbank im Kapitel \ref{chapter_concept_database} aufgegriffen.
+Aufgrund der fehlenden Verteilungsmechanismen ist die Anwendung GIT für die Verwendung als Datenspeicher für das Projekt ungeeignet. Da es jedoch viele der Anforderungen erfüllt, wird dieses Datenmodell als Grundlage für symCloud herangezogen, siehe dazu Kapitel \ref{chapter_concept_datamodel}. Außerdem wird die Idee der Key-Value Datenbank bei der Konzeption der Datenbank im Kapitel \ref{chapter_concept_database} aufgegriffen.
 
 ## Zusammenfassung
 
@@ -226,7 +224,7 @@ GIT
 
 :   Aufgrund des Datenmodells von GIT ist diese Versionsverwaltung für die verteilte Anwendung optimal ausgerüstet. Daher wird es als Grundlage für symCloud dienen. Es ermöglicht den verbundenen Servern (Clients) eine schnelle und einfache Synchronisation der Daten.
 
-Fazit: Jedes dieser vier Systeme bieten Ansätze, die für die Entwicklung von symCloud relevant sind. 
+Fazit: Jedes dieser vier Systeme bietet Ansätze, die für die Entwicklung von symCloud relevant sind. Jedoch ist keines dieser Systeme geeignet die Anforderungen aus Kapitel \ref{specification} vollständig zu erfüllen.
 
 [^20]: <https://tools.ietf.org/html/rfc6415#section-6.3>
 [^21]: <https://tools.ietf.org/html/rfc6415#section-2>

@@ -10,7 +10,7 @@ Bibliothek (distributed-storage)
 
 Plattform (symCloud)
 
-:   Die Plattform bietet neben der Rest-API auch eine einfache Benutzungsschnittstelle an, mit der es möglich ist im Browser seine Dateien zu verwalten. Als Basis verwendet symCloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet eine erweiterbare Admin Benutzungsschnittstelle, eine Userverwaltung und ein Rechtesystem. Diese Features ermöglichen symCloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegende Dienste.
+:   Die Plattform bietet neben der Rest-API auch eine einfache Benutzungsschnittstelle an, mit der es möglich ist im Browser seine Dateien zu verwalten. Als Basis verwendet symCloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet eine erweiterbare Admin-Benutzungsschnittstelle, eine Benutzerverwaltung und ein Rechtesystem. Diese Features ermöglichen symCloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegende Dienste.
 
 Synchronisierungsprogramm (jibe)
 
@@ -32,7 +32,7 @@ Session
 
 Manager
 
-:   Verwalten den Lifecycle der Domain-Objekte. Der jeweilige Manager erstellt und verwaltet die Objekte eines bestimmten Typs (zum Beispiel `CommitMananger` verwaltet Commit-Objekte). Die Verwender der Manager sind jeweils gegen die Interfaces der Objekte programmiert (siehe Manager Pattern[^69]). Die Instanzen des Typs sind reine Daten-Container. Die Manager-Schicht ermöglicht eine spezifische Schnittstelle für jeden Objekt-Typ und eine gezielte Kommunikation mit der Datenbank.
+:   Verwalten den Lifecycle der Domain-Objekte. Der jeweilige Manager erstellt und verwaltet die Objekte eines bestimmten Typs (zum Beispiel `CommitMananger` verwaltet Commit-Objekte). Die Clients der Manager sind jeweils gegen die Interfaces der Objekte programmiert (siehe Manager Pattern[^69]). Die Instanzen des Typs sind reine Daten-Container. Die Manager-Schicht ermöglicht eine spezifische Schnittstelle für jeden Objekt-Typ und eine gezielte Kommunikation mit der Datenbank.
 
 Database
 
@@ -76,9 +76,9 @@ Die beiden Abläufe, um Objekte zu speichern und abzurufen, beschreiben eine lok
 
 ### Replikator
 
-Wie schon erwähnt, verwendet der Replikator Events, um die Prozesse des Ladens und Speicherns von Daten zu beeinflussen und damit die verteilten Aspekte für die Datenbank umzusetzen. Dabei implementiert der Replikator eine einfache Version des primärbasierten Protokolls. Für diesen Zweck wird der Replikator mit einer Liste von verfügbaren Servern initialisiert. Auf Basis dieser Liste werden die Backupserver für jedes Objekte ermittelt.
+Der Replikator verwendet Events, um die Prozesse des Ladens und Speicherns von Daten zu beeinflussen und damit die verteilten Aspekte für die Datenbank umzusetzen. Dabei implementiert der Replikator eine einfache Version des primärbasierten Protokolls. Für diesen Zweck wird der Replikator mit einer Liste von verfügbaren Servern initialisiert. Auf Basis dieser Liste werden die Backupserver für jedes Objekte ermittelt.
 
-Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten die Backupserver für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "Lazy"-Nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typs ("Permission" und "Stub").
+Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten, die Backupserver für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "Lazy"-Nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typs ("Permission" und "Stub").
 
 __Full__
 
@@ -124,11 +124,10 @@ Für die Abstrahierung des Speichermediums verwendet die Datenbank das Adapter-P
 
 Storage
 
-:   Der "StorageAdapter" wird verwendet, um serialisierte Objekte lokal zu speichern oder zu laden. Er implementiert im Grunde einen einfachen Befehlssatz: `store`, `fetch`, `contains` und `delete`. Jeder dieser Befehle erhält - neben anderen Parametern - einen Hash und einen Kontext. Der Hash ist sozusagen der Index des Objektes. Der Kontext wird verwendet, um Namensräume für die Hashes zu schaffen. Dies implementiert der Dateisystemadapter, indem er für jeden Kontext einen Ordner erstellt und für jeden Hash eine Datei. So kann schnell auf ein einzelnes Objekt zugegriffen werden.
+:   Der "StorageAdapter" wird verwendet, um serialisierte Objekte lokal zu speichern oder zu laden. Er implementiert im Grunde einen einfachen Befehlssatz: `store`, `fetch`, `contains` und `delete`. Jeder dieser Befehle erhält - neben anderen Parametern - einen Hash und einen Kontext. Der Hash ist sozusagen der Index des Objektes. Der Kontext wird verwendet, um Namensräume für die Hashes zu schaffen. Dies implementiert der Dateisystemadapter, indem er für jeden Kontext einen Ordner erstellt und für jeden Hash eine Datei. So kann schnell auf ein einzelnes Objekt zugegriffen werden.    
 
-__Beispiel:__
- 
-Der Befehl aus Listing \ref{listing_storage_store} erzeugt aus den übergebenen Hash-Key den Pfad `ab/cd/12/34.symcloud.dat`. In dieser Datei werden die serialisierten Daten abgelegt. Bei einer Anfrage der Daten mittels Hash-Key, können die Daten direkt aus der Datei gelesen und retourniert werden. Dieser Mechanismus wird von der Cache-Bibliothek von Doctrine[^70] wiederverwendet.
+:   __Beispiel:__    
+Der Befehl aus Listing \ref{listing_storage_store} erzeugt aus dem übergebenen Hash-Key den Pfad `ab/cd/12/34.symcloud.dat`. In dieser Datei werden die serialisierten Daten abgelegt. Bei einer Anfrage der Daten mittels Hash-Key, können die Daten direkt aus der Datei gelesen und retourniert werden. Dieser Mechanismus wird von der Cache-Bibliothek von Doctrine[^70] wiederverwendet.
 
 ```{caption="Storage-Adapter store\label{listing_storage_store}" .PHP}
 $storageAdapter->store('abcd1234', array('name' => 'Storage-Example'), 'example');
@@ -138,7 +137,7 @@ Search
 
 :   Der "SearchAdapter" wird verwendet, um die Metadaten zu den Objekten zu indexieren. Dies wird benötigt, wenn die Daten durchsucht werden. Jeder "SearchAdapter" implementiert folgende Befehle: `search`, `index` und `deindex`. Wobei auch hier mit Hash und Kontext gearbeitet wird. Über den Suchbefehl, können alle oder bestimmte Kontexte durchsucht werden. Für die Entwicklung des Prototyps wurde die Bibliothek Zend-Search-Lucene[^67] verwendet, da diese ohne weitere Abhängigkeiten verwendet werden kann.
 
-Bei der Verwendung des Replikators gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen mit dem Remoteserver kommunizieren kann. Dieser ApiAdapter implementiert den Befehlssatz: `fetch` und `store`. Diese beiden Methoden werden verwendet, um Remote-Objekte abzufragen oder zu erstellen.
+Bei der Verwendung des Replikators gibt es einen zusätzlichen Adapter, der mithilfe der Server-Informationen mit dem Remoteserver kommunizieren kann. Dieser API-Adapter implementiert den Befehlssatz: `fetch` und `store`. Diese beiden Methoden werden verwendet, um Remote-Objekte abzufragen oder zu erstellen.
 
 Die Adapter sind Klassen, die die Komplexität des Speichermediums bzw. der API von der restlichen Applikation trennen, um dadurch die Bibliothek unabhängig von der Applikation implementieren zu können.
 
@@ -170,13 +169,13 @@ Die Architektur der Benutzungsschnittstelle von SULU ist als "Single-Page-Applic
 
 ![Grundlegender Aufbau des SULU-Admin\label{sulu_basic_ui}](images/screenshots/sulu_basic_ui.png)
 
-In der Abbildung \ref{sulu_basic_ui} ist der Grundlegende Aufbau des Sulu-UI zu erkennen. Im rechten Bereich ist eine erweiterbare Navigation, die bereits den symCloud Punkt "Dateien" enthält, links ist der sogenannte "Content"-Bereich. Dieser Bereich kann von den nachgeladenen Komponenten gefüllt werden. Um das UI einheitlich zu gestalten, bietet SULU vordefinierte Komponenten an, die zum Beispiel eine Liste abstrahieren. Dieser Listen-Komponente wird im Grunde eine URL übergeben, unter welcher die Daten heruntergeladen werden können. Die Liste generiert daraufhin eine Tabelle mit den Daten aus dem Response der angegebenen URL (siehe Abbildung \ref{sulu_symcloud_file_list}).
+In der Abbildung \ref{sulu_basic_ui} ist der grundlegende Aufbau des SULU-UI zu erkennen. Im rechten Bereich ist eine erweiterbare Navigation, die bereits den symCloud Punkt "Dateien" enthält, links ist der sogenannte "Content"-Bereich. Dieser Bereich kann von den nachgeladenen Komponenten gefüllt werden. Um das UI einheitlich zu gestalten, bietet SULU vordefinierte Komponenten an, die zum Beispiel eine Liste abstrahieren. Dieser Listen-Komponente wird im Grunde eine URL übergeben, unter welcher die Daten heruntergeladen werden können. Die Liste generiert daraufhin eine Tabelle mit den Daten aus dem Response der angegebenen URL (siehe Abbildung \ref{sulu_symcloud_file_list}).
 
 ![Dateiliste von symCloud\label{sulu_symcloud_file_list}](images/screenshots/sulu_symcloud_file_list.png)
 
-Über der Liste ist eine Toolbar mit der es möglich ist, neue Dateien zu erstellen. Über die beiden anderen Schaltflächen lassen sich die Reihenfolge und Sichtbarkeit der Spalten umschalten. Um Dateien zu löschen oder zu bearbeiten erscheinen neben dem Namen zwei Schaltflächen, sobald die Maus über den Namen bewegt wird (siehe Abbildung \ref{sulu_symcloud_edit_file}).
+Über der Liste befindet sich eine Toolbar, mit der es möglich ist, neue Dateien zu erstellen. Über die beiden anderen Schaltflächen lassen sich die Reihenfolge und Sichtbarkeit der Spalten umschalten. Um Dateien zu löschen oder zu bearbeiten, erscheinen neben dem Namen zwei Schaltflächen, sobald die Maus über den Namen bewegt wird (siehe Abbildung \ref{sulu_symcloud_edit_file}).
 
-![Schaltfläche um Datei zu bearbeiten oder löschen\label{sulu_symcloud_edit_file}](images/screenshots/sulu_symcloud_edit_file.png)
+![Schaltflächen um eine Datei zu bearbeiten oder zu löschen\label{sulu_symcloud_edit_file}](images/screenshots/sulu_symcloud_edit_file.png)
 
 Das Formular für neue Dateien ist einfach gestaltet (siehe Abbildung \ref{sulu_symcloud_add_form}). Es bietet zwei Formularfelder, mit denen der Name und Inhalt der Datei bearbeitet werden kann. Mit demselben Formular können Dateien auch bearbeitet werden.
 
@@ -190,7 +189,7 @@ Die Plattform ist ein reiner Prototyp der zeigen soll, ob das Konzept (aus dem K
 
 Jibe ist das Synchronisierungsprogramm zu einer symCloud-Installation. Es ist ein einfaches PHP-Konsolen Tool mit dem es möglich ist, Daten aus einer symCloud-Installation mit einem Endgerät zu synchronisieren. Das Programm wurde mithilfe der Symfony Konsole-Komponente[^60] umgesetzt. Diese Komponente ermöglicht eine schnelle und unkomplizierte Entwicklung solcher Konsolen-Programme.
 
-Ausgeliefert wird das Programm in einem sogenannten PHAR-Container[^61]. Dieser Container enthält alle benötigten Source-Code- und Konfigurationsdateien. Das Format ist vergleichbar mit dem JAVA-Container JAR. PHAR-Container werden in der PHP-Community oft verwendet um komplexe Applikationen, wie zum Beispiel PHPUnit[^62] (ein Test Framework für PHP) auszuliefern.
+Ausgeliefert wird das Programm in einem sogenannten PHAR-Container[^61]. Dieser Container enthält alle benötigten Source-Code- und Konfigurationsdateien. Das Format ist vergleichbar mit dem JAVA-Container JAR. PHAR-Container werden in der PHP-Community oft verwendet, um komplexe Applikationen, wie zum Beispiel PHPUnit[^62] (ein Test Framework für PHP) auszuliefern.
 
 Über den ersten Parameter kann spezifiziert werden, welches Kommando ausgeführt werden soll. Alle weiteren Parameter sind Argumente für das angegebene Kommando. Über den Befehl `php jibe.phar sync` kann der Synchronisierungsvorgang gestartet werden.
 
@@ -203,7 +202,7 @@ Username: admin
 Password:
 ```
 
-Im Listing \ref{jibe_configure_listing} ist die Ausführung des "Konfigurieren"-Kommandos dargestellt. Argumente können sowohl an den Befehl angehängt oder durch den Befehl abgefragt werden. Eine Validierung von zum Beispiel der URL, kann direkt in einem Kommando implementiert werden.
+Im Listing \ref{jibe_configure_listing} ist die Ausführung des "Konfigurieren"-Kommandos dargestellt. Argumente können sowohl an den Befehl angehängt oder durch den Befehl abgefragt werden. Eine Validierung, zum Beispiel der URL, kann direkt in einem Kommando implementiert werden.
 
 Diese Kommandos stehen dem Benutzer zur Verfügung:
 
@@ -300,7 +299,7 @@ Die Tabelle \ref{table_jibe_flow} gibt Aufschluss über die Erkennung von Komman
 
   : Legende zu Tabelle \ref{table_jibe_flow}
 
-Nicht angeführte Werte in der Tabelle, sind zu dem Zeitpunkt nicht verfügbar bzw. werden nicht benötigt. Was zum Beispiel bedeutet, dass wenn der lokale Hash nicht angeführt ist, die Datei nicht vorhanden ist (gelöscht oder noch nicht angelegt).
+Nicht angeführte Werte in der Tabelle, sind zu dem Zeitpunkt nicht verfügbar bzw. werden nicht benötigt, was zum Beispiel bedeutet, dass wenn der lokale Hash nicht angeführt ist, die Datei nicht vorhanden ist (gelöscht oder noch nicht angelegt).
 
 Beispiel der Auswertungen anhand des Falles Nummer vier (aus der Tabelle \ref{table_jibe_flow}):
 
@@ -318,9 +317,9 @@ In diesem Beispiel wurde auch die Komplexität des Synchronisierungsprozesses du
 
 ## Zusammenfassung
 
-Die Prototypenimplementierung umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und einer Datenbank, die in der Lage ist die Daten über eine Menge von Servern zu verteilen, auch eine einfache Plattform, mit der man Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren wurde der Client Jibe implementiert, der über ein einfache Rest-API in der Lage ist, die Dateien zu synchronisieren.
+Die Prototypenimplementierung umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und einer Datenbank, die in der Lage ist die Daten über eine Menge von Servern zu verteilen, auch eine einfache Plattform, mit der man Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren, wurde der Client Jibe implementiert, der über ein einfache Rest-API in der Lage ist, die Dateien zu synchronisieren.
 
-Vorgesehene aber nicht implementiert wurden die Bereiche:
+Vorgesehen, aber nicht implementiert, wurden die Bereiche:
 
 * Zugriffskontrolle
 * Replikationen auf Basis von Benutzerberechtigungen
