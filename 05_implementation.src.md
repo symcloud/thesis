@@ -269,35 +269,30 @@ Die Tabelle \ref{table_jibe_flow} gibt Aufschluss über die Erkennung von Komman
 \landscapestart
 
 |   | Hash          | Version | Description                                 | Download | Upload | Del L | Del S | Conflict |
-|---|---------------|---------|---------------------------------------------|----------|--------|-------|-------|----------|
-| 1 | (Z = X) = Y   | n = m   | Nothing to be done                          |          |        |       |       |          |
-| 2 | (Z = X) != Y  | n < m   | Server file changed, download new version   | x        |        |       |       |          |
-| 3 | (Z != X) != Y | n = m   | Client file change, upload new version      |          | x      |       |       |          |
-| 4 | (Z != X) != Y | n < m   | Client and Server file changed, conflict    |          |        |       |       | x        |
-| 5 | (Z = X) = Y   | n < m   | Server file changed but content is the same |          |        |       |       |          |
-| 6 | X             |         | New client file, upload it                  |          | x      |       |       |          |
-| 7 | Y             | m       | New server file, download it                | x        |        |       |       |          |
-| 8 | X             | n       | Server file deleted, remove client version  |          |        | x     |       |          |
-| 9 | Y             | n = m   | Client file deleted, remove server version  |          |        |       | x     |          |
+|---|---------------|---------|---------------------------------------------|:--------:|:------:|:-----:|:-----:|:--------:|
+| 1 | (Z = X) = Y   | n = m   | Nothing to be done                          |    -     |   -    |   -   |   -   |    -     |
+| 2 | (Z = X) != Y  | n < m   | Server file changed, download new version   |    x     |   -    |   -   |   -   |    -     |
+| 3 | (Z != X) != Y | n = m   | Client file change, upload new version      |    -     |   x    |   -   |   -   |    -     |
+| 4 | (Z != X) != Y | n < m   | Client and Server file changed, conflict    |    -     |   -    |   -   |   -   |    x     |
+| 5 | (Z = X) = Y   | n < m   | Server file changed but content is the same |    -     |   -    |   -   |   -   |    -     |
+| 6 | X             |         | New client file, upload it                  |    -     |   x    |   -   |   -   |    -     |
+| 7 | Y             | m       | New server file, download it                |    x     |   -    |   -   |   -   |    -     |
+| 8 | X             | n       | Server file deleted, remove client version  |    -     |   -    |   x   |   -   |    -     |
+| 9 | Y             | n = m   | Client file deleted, remove server version  |    -     |   -    |   -   |   x   |    -     |
 
   : Evaluierung der Zustände\label{table_jibe_flow}
 
-\landscapeend
-
-| Zeichen | Beschreibung |
-|---|---|
-| X | Lokaler Hashwert der Datei |
-| Z | Lokaler Hashwert der Datei |
-|   | bei der letzten Synchronisierung |
-| Y | Remote Hashwert der Datei |
-|   | bei der letzten Synchronisierung |
-| n | Lokale Version der Datei |
-| m | Remote Version der Datei |
-| Del | Delete - Löschen |
-| L | Local - Lokal |
-| S | Server |
+| Zeichen | Beschreibung | Zeichen | Beschreibung |
+|:---:|---|:---:|---|
+| X | Lokaler Hashwert der Datei | n | Lokale Version der Datei |
+| Z | Lokaler Hashwert der Datei | m | Remote Version der Datei |
+|   | bei der letzten Synchronisierung | Del | Delete - Löschen |
+| Y | Remote Hashwert der Datei | L | Local - Lokal |
+|   | bei der letzten Synchronisierung | S | Server |
 
   : Legende zu Tabelle \ref{table_jibe_flow}
+
+\landscapeend
 
 Nicht angeführte Werte in der Tabelle, sind zu dem Zeitpunkt nicht verfügbar bzw. werden nicht benötigt, was zum Beispiel bedeutet, dass wenn der lokale Hash nicht angeführt ist, die Datei nicht vorhanden ist (gelöscht oder noch nicht angelegt).
 
