@@ -3,7 +3,7 @@ seqdiags = $(shell find ./diagrams -type f -iname "*.seqdiag")
 mds = $(shell ls *.src.md)
 pdf_params = --listings --filter pandoc-citeproc --csl csl/fhv.csl --template templates/template.latex --standalone --toc --toc-depth 3 --number-sections --bibliography sources.bib
 
-pdf_vars = -V lang=german -V mainlang=german -V documentclass=scrbook -V classoption=oneside -V fontsize=12pt -V biblio-title=Literaturverzeichnis
+pdf_vars = -V lang=german -V mainlang=german -V documentclass=scrbook -V classoption=twoside -V fontsize=12pt -V biblio-title=Literaturverzeichnis
 lol = -V lol=true 
 lof = -V lof=true
 lot = -V lot=true
