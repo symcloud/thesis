@@ -38,7 +38,7 @@ digraph hierarchy {
 
 	edge[arrowhead="none",arrowtail="none",headlabel="1"]
 	DistributedModel -> PolicyCollection
-	Reference -> Commit[label="currentCommit"]
+	Reference -> Commit[label="commit"]
 	Commit -> Tree[label="rootTree"]
 
 	edge [arrowhead="none",arrowtail="none",headlabel="0..*"]

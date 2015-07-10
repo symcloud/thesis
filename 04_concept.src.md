@@ -14,7 +14,9 @@ Durch die Implementierung (siehe Kapitel \ref{chapter_implementation}) als PHP-B
 
 Das Datenmodell wurde speziell für symCloud entwickelt, um die Anforderungen (siehe Kapitel \ref{specification}) zu erfüllen. Dabei wurde großer Wert darauf gelegt, optimale und effiziente Datenhaltung zu gewährleisten. Abgeleitet wurde das Modell (siehe Abbildung \ref{data_model}) aus dem Modell, welches dem Versionskontrollsystem GIT (siehe Kapitel \ref{chapter_distributed_datamodel}) zugrunde liegt. Dieses Modell unterstützt viele Anforderungen, welche symCloud an seine Daten stellt.
 
-![Datenmodel für "symCloud-Distributed-Storage"\label{data_model}](diagrams/data-model.png)
+![Datenmodel für "symCloud-Distributed-Storage"\label{data_model}](images/data-model.png)
+
+\newpage
 
 ### GIT
 
