@@ -21,7 +21,7 @@ dot:
 	dot -Tpng -o diagrams/distributed-storage.png diagrams/distributed-storage.dot
 
 seqdiags:
-	$(foreach f,$(seqdiags), seqdiag $(f);)
+	$(foreach f,$(seqdiags), seqdiag -f /Users/johannes/Library/Fonts/cour.ttf $(f);)
 
 pdf:
 	pandoc $(pdf_params) $(lol) $(lot) $(lof) $(assertion) $(pdf_vars) -o symcloud-thesis.pdf $(mds) -f $(format)

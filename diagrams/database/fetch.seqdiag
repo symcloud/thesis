@@ -1,5 +1,6 @@
 seqdiag {
-  edge_length = 150;  // default value is 192
+  edge_length = 180;     // default value is 192
+  default_fontsize = 14; // default value is 11
 
   Manager => Database [label = "fetch", return = "model"]{
     Database => MetadataManager [label = "loadByClassname", return = "return metadata"];

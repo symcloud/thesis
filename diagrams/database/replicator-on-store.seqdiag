@@ -1,9 +1,10 @@
 seqdiag {
-	edge_length = 150;  // default value is 192
+	edge_length = 180;     // default value is 192
+	default_fontsize = 14; // default value is 11
 
 	EventDispatcher => Replicator [label = "onStore", return = "data"]{
-		Replicator => Replicator [label = "determine backup server"];
-		Replicator => Replicator [label = "mark current\nserver as primary"];
+		Replicator => Replicator [label = "determine\nbackup server"];
+		Replicator => Replicator [label = "mark current\nserver as\nprimary"];
 
 		Replicator => "Api Server 2" [label = "store as backup", return = "ACK"];
 		Replicator => "Api Server 3" [label = "store as backup", return = "ACK"];
