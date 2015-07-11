@@ -215,7 +215,9 @@ $if(title)$
       \raisebox{-5mm}{
         \makebox[-15mm][l]{
           \begin{minipage}[t][50mm][c]{0.7\textwidth}
-            \large{\textbf{$university$}}
+            $for(university)$
+            \large{\textbf{$university$}}\\
+            $endfor$
           \end{minipage}
           \hfill%
           \begin{minipage}[t][45mm][c]{0.3\textwidth}
@@ -228,7 +230,7 @@ $if(title)$
 
   \begin{center}
 
-    \vspace*{15mm}
+    \vspace*{25mm}
 
     $type$\\
     Fachhochschul-Studiengang\\

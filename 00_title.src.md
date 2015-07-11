@@ -1,7 +1,9 @@
 --- 
 title: symCloud - Entwicklung eines verteilten Speicherkonzeptes als Grundlage für eine Filehostingplattform
 type: Masterarbeit
-university: Vorarlberg University of Applied Sciences
+university: 
+  - Fachhochschule Vorarlberg
+  - University of Applied Sciences
 department: Master Informatik
 supervisor: Prof. (FH) Dipl. Thomas Feilhauer
 submissiontown: Dornbirn

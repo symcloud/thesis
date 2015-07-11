@@ -201,7 +201,7 @@ Um symCloud möglichst schnell auszuprobieren, liegt auf der beiliegenden CD (`/
 
 Das folgende Script initialisiert den ersten Knoten im Ordner `my.symcloud.lo`:
 
-```
+```{caption="my.symcloud.lo initialisieren"}
 cd my.symcloud.lo
 app/console doctrine:database:create
 app/console sulu:build dev
@@ -211,7 +211,7 @@ app/console symcloud:oauth2:create-client jibe www.example.com
 
 Das folgende Script initialisiert den ersten Knoten `your.symcloud.lo`:
 
-```
+```{caption="your.symcloud.lo initialisieren"}
 cd your.symcloud.lo
 app/console doctrine:database:create
 app/console sulu:build dev
@@ -221,14 +221,14 @@ Die beiden Server können mit dem Kommando `app/console server:run my.symcloud.l
 
 Das Beispiel enthält auch einen Ordner `/test-data` indem der Client `jibe.phar` und zwei Testdateien vorbereitet sind. Der Ordner kann mit dem folgenden Script synchronisiert werden:
 
-```
+```{caption="Jibe ausführen"}
 php jibe.phar configure -s http://my.symcloud.lo:8000 -u admin -p admin
 php jibe.phar sync
 ```
 
 Die Daten werden mit dem Server `my.symcloud.lo` synchronisiert und die Daten mit dem zweiten Server geteilt. Dies kann mit dem folgenden Kommandos überprüft werden:
 
-```
+```{caption="Datenbank Größen ausgeben"}
 cd my.symcloud.lo
 du -sh app/data/symcloud/database/*
 cd ../your.symcloud.lo
