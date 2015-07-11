@@ -195,6 +195,48 @@ symcloud_storage:
 
 Im Listing \ref{install_symcloud_distribution} werden die verbundenen Server angegeben. Wobei für den primary Server die URL des aktuellen Servers und unter den Backups eine Liste von weiteren Servern angegeben werden.
 
+## Beispiel von der beiliegenden CD
+
+Um symCloud möglichst schnell auszuprobieren, liegt auf der beiliegenden CD (`/example`) eine Beispiel Installation von zwei Knoten, die ohne weitere Abhängigkeiten verwendet werden können. Um die Installationen zu initialisieren sollte der Ordner `/example` an einen beschreibbaren Ort (zum Beispiel der Benutzerordner) kopiert werden. Beide Installationen enthalten eine Konfigurationsdatei, in der die Zugangsdaten zur Datenbank angepasst werden sollten.
+
+Das folgende Script initialisiert den ersten Knoten im Ordner `my.symcloud.lo`:
+
+```
+cd my.symcloud.lo
+app/console doctrine:database:create
+app/console sulu:build dev
+app/console symcloud:storage:init admin
+app/console symcloud:oauth2:create-client jibe www.example.com
+```
+
+Das folgende Script initialisiert den ersten Knoten `your.symcloud.lo`:
+
+```
+cd your.symcloud.lo
+app/console doctrine:database:create
+app/console sulu:build dev
+```
+
+Die beiden Server können mit dem Kommando `app/console server:run my.symcloud.lo:8000 --router=app/config/router_admin.php` und `app/console server:run your.symcloud.lo:8001 --router=app/config/router_admin.php` gestartet werden.
+
+Das Beispiel enthält auch einen Ordner `/test-data` indem der Client `jibe.phar` und zwei Testdateien vorbereitet sind. Der Ordner kann mit dem folgenden Script synchronisiert werden:
+
+```
+php jibe.phar configure -s http://my.symcloud.lo:8000 -u admin -p admin
+php jibe.phar sync
+```
+
+Die Daten werden mit dem Server `my.symcloud.lo` synchronisiert und die Daten mit dem zweiten Server geteilt. Dies kann mit dem folgenden Kommandos überprüft werden:
+
+```
+cd my.symcloud.lo
+du -sh app/data/symcloud/database/*
+cd ../your.symcloud.lo
+du -sh app/data/symcloud/database/*
+```
+
+Beide Ordner enthalten den Eintrag `app/data/symcloud/database/chunk`, indem die `chunks` der Dateien abgelegt sind.
+
 ## Zusammenfassung
 
 Dieses Kapitel beschreibt den Installationsprozess von symCloud. Es zeigt, dass die Installation ohne große Abhängigkeiten und zeitlicher Aufwand erledigt werden kann. Auch die Konfiguration in einer verteilten Umgebung ist mit nur wenigen Schritten möglich.
