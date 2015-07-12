@@ -168,6 +168,8 @@ Andrew Birrell und Roger Needham setzten sich folgende Entwurfsziele für ihr Un
 
 Aufgrund der Tatsache, dass Festplatten heutzutage nicht mehr so teuer wie in den 1980ern sind, ist das erste Ziel nicht mehr von zentraler Bedeutung. Die Vorstellung von einem Dienst, der die Anforderung verschiedenster Clients mit unterschiedlichen Aufgabenstellungen erfüllt, ist ein zentraler Aspekt der Entwicklung von verteilten (Datei-) Systemen [@coulouris2003verteilte, S. 369ff].
 
+\newpage
+
 ### NFS
 
 Das verteilte Dateisystem Network File System wurde von Sun Microsystems entwickelt. Das grundlegende Prinzip von NFS ist, dass jeder Dateiserver eine standardisierte Dateischnittstelle implementiert. Über diese Schnittstelle werden Dateien des lokalen Speichers den BenutzerInnen zur Verfügung gestellt. Das bedeutet, dass es keine Rolle spielt, welches System dahinter steht. Ursprünglich wurde es für UNIX Systeme entwickelt. Mittlerweile gibt es aber Implementierungen für verschiedenste Betriebssysteme [@tanenbaum2003verteilte, S. 645ff].
