@@ -22,7 +22,7 @@ Der Source-Code dieser drei Komponenten ist auf der beiliegenden CD (`/source`) 
 
 Der Distributed-Storage ist der Kern der Anwendung und kann als Bibliothek in jede beliebige PHP-Anwendung integriert werden. Die Anwendung stellt die Authentifizierung und die Rest-API zur Verfügung, um mit den Kern-Komponenten zu kommunizieren.
 
-![Schichten von "Distributed Storage"\label{architecture_ds}](diagrams/distributed-storage.png)
+![Schichten von "symCloud Distributed-Storage"\label{architecture_ds}](diagrams/distributed-storage.png)
 
 Der interne Aufbau der Bibliothek ist in vier Schichten (siehe Abbildung \ref{architecture_ds}) aufgeteilt.
 
@@ -36,13 +36,13 @@ Manager
 
 Database
 
-:   Die Datenbank benutzt Mechanismen von PHP, um die Objekte zu serialisieren und zu speichern. Dabei kann über Metadaten festgelegt werden, welche Eigenschaften serialisiert bzw. welche Eigenschaften in der Suchmaschine indexiert werden. Beim Laden der Daten aus der Datenbank, können mit Hilfe dieser Metadaten die Objekte wieder deserialisiert werden.
+:   Die Datenbank benutzt Mechanismen von PHP, um die Objekte zu serialisieren und zu speichern. Dabei kann über Metadaten festgelegt werden, welche Eigenschaften serialisiert bzw. welche Eigenschaften in der Suchmaschine indexiert werden. Beim Laden der Daten aus der Datenbank, können mithilfe dieser Metadaten die Objekte wieder deserialisiert werden.
 
 Adapter
 
 :   Die Adapter dienen dazu, das Speichermedium bzw. die Suchmaschine zu abstrahieren. Durch die Implementierung eines Interfaces, kann jede beliebige Speichertechnologie bzw. Suchmaschine verwendet werden.
 
-Die Datenbank ist durch den Einsatz von Events flexibel erweiterbar. Mit Hilfe dieser Events kann zum Beispiel die Replikator-Komponente folgende Abläufe realisieren.
+Die Datenbank ist durch den Einsatz von Events flexibel erweiterbar. Mithilfe dieser Events kann zum Beispiel die Replikator-Komponente folgende Abläufe realisieren.
 
 Verteilung
 
@@ -70,7 +70,7 @@ Die beiden Abläufe, um Objekte zu speichern und abzurufen, beschreiben eine lok
 
 Der Replikator verwendet Events, um die Prozesse des Ladens und Speicherns von Daten zu beeinflussen und damit die verteilten Aspekte für die Datenbank umzusetzen. Dabei implementiert der Replikator eine einfache Version des primärbasierten Protokolls. Für diesen Zweck wird der Replikator mit einer Liste von verfügbaren Servern initialisiert. Auf Basis dieser Liste werden die Backupserver für jedes Objekte ermittelt.
 
-Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten, die Backupserver für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "Lazy"-Nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typs ("Permission" und "Stub").
+Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten, die Backupserver für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "lazy" nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typs ("Permission" und "Stub").
 
 __Full__
 
@@ -98,7 +98,7 @@ Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle be
 
 :   Wie bei 403 ist der angefragte Server, der primary Server des Objektes. Allerdings ist die BenutzerIn berechtigt das Objekt zu lesen und der Server gibt direkt die Daten zurück. Diese Daten dürfen auch gecached werden. Die Berechtigungen für andere Benutzer werden direkt mitgeliefert, um später diesen Prozess nicht noch einmal ausführen zu müssen.
 
-![Replikator "Lazy"-Nachladen\label{replicator_lazy}](images/replicator-on-fetch.png)
+![Replikator "lazy" nachladen\label{replicator_lazy}](images/replicator-on-fetch.png)
 
 \newpage
 
@@ -115,7 +115,7 @@ Storage
 :   __Beispiel:__    
 Der Befehl aus Listing \ref{listing_storage_store} erzeugt aus dem übergebenen Hash-Key den Pfad `ab/cd/12/34.symcloud.dat`. In dieser Datei werden die serialisierten Daten abgelegt. Bei einer Anfrage der Daten mittels Hash-Key, können die Daten direkt aus der Datei gelesen und retourniert werden. Dieser Mechanismus wird von der Cache-Bibliothek von Doctrine[^70] wiederverwendet.
 
-```{caption="Storage-Adapter store\label{listing_storage_store}" .PHP}
+```{caption="Storage-Adapter "store"\label{listing_storage_store}" .PHP}
 $storageAdapter->store('abcd1234', array('name' => 'Storage-Example'), 'example');
 ```
 
@@ -161,11 +161,11 @@ In der Abbildung \ref{sulu_basic_ui} ist der grundlegende Aufbau des SULU-UI zu 
 
 Über der Liste befindet sich eine Toolbar, mit der es möglich ist, neue Dateien zu erstellen. Über die beiden anderen Schaltflächen lassen sich die Reihenfolge und Sichtbarkeit der Spalten umschalten. Um Dateien zu löschen oder zu bearbeiten, erscheinen neben dem Namen zwei Schaltflächen, sobald die Maus über den Namen bewegt wird (siehe Abbildung \ref{sulu_symcloud_edit_file}).
 
-![Schaltflächen um eine Datei zu bearbeiten oder zu löschen\label{sulu_symcloud_edit_file}](images/screenshots/sulu_symcloud_edit_file.png)
+![Schaltflächen, um eine Datei zu bearbeiten oder zu löschen\label{sulu_symcloud_edit_file}](images/screenshots/sulu_symcloud_edit_file.png)
 
 Das Formular für neue Dateien ist einfach gestaltet (siehe Abbildung \ref{sulu_symcloud_add_form}). Es bietet zwei Formularfelder, mit denen der Name und Inhalt der Datei bearbeitet werden kann. Mit demselben Formular können Dateien auch bearbeitet werden.
 
-![Formular um eine neue Datei zu erstellen\label{sulu_symcloud_add_form}](images/screenshots/sulu_symcloud_add_form.png)
+![Formular, um eine neue Datei zu erstellen\label{sulu_symcloud_add_form}](images/screenshots/sulu_symcloud_add_form.png)
 
 ### Kurzfassung
 
@@ -179,7 +179,7 @@ Ausgeliefert wird das Programm in einem sogenannten PHAR-Container[^61]. Dieser 
 
 Über den ersten Parameter kann spezifiziert werden, welches Kommando ausgeführt werden soll. Alle weiteren Parameter sind Argumente für das angegebene Kommando. Über den Befehl `php jibe.phar sync` kann der Synchronisierungsvorgang gestartet werden.
 
-```{caption="Ausführen des 'configure' Befehls\label{jibe_configure_listing}" .bash}
+```{caption="Ausführen des "configure" Befehls\label{jibe_configure_listing}" .bash}
 $ php jibe.phar configure
 Server base URL: http://symcloud.lo
 Client-ID: 9_1442hepr9cpw8wg8s0o40s8gc084wo8ogso8wogowookw8k0sg

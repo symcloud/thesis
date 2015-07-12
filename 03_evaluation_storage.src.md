@@ -35,7 +35,7 @@ Performance
 
 ## Datenhaltung in Cloud-Infrastrukturen
 
-Es gibt unzählige Möglichkeiten  die Datenhaltung in Cloud-Infrastrukturen umzusetzen. In diesem Kapitel werden drei grundlegende Technologien mit Hilfe von Beispielen analysiert.
+Es gibt unzählige Möglichkeiten  die Datenhaltung in Cloud-Infrastrukturen umzusetzen. In diesem Kapitel werden drei grundlegende Technologien mithilfe von Beispielen analysiert.
 
 Objekt-Speicherdienste
 

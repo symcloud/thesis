@@ -76,7 +76,7 @@ Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriff
 
 ## Verteilte Daten - Beispiel Diaspora
 
-Diaspora (allgemeine Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mit Hilfe von standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
+Diaspora (allgemeine Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mithilfe von standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
 
 * Information zu BenutzerInnen finden, die auf anderen Servern gespeichert sind.
 * Die erstellte Informationen an BenutzerInnen zu versenden, mit denen sie geteilt wurden.
@@ -186,7 +186,7 @@ REFERENCE
 
 In der Abbildung \ref{git_data_model} wird ein einfaches Beispiel für ein Repository visualisiert. Die Ordnerstruktur, die dieses Beispiel enthält, ist im Listing \ref{git_data_model_structure} dargestellt.
 
-```{caption="Ordernstruktur zum Repository Beispiel\label{git_data_model_structure}"}
+```{caption="Ordnerstruktur zum Repository Beispiel\label{git_data_model_structure}"}
 |-- README (Datei)
 |-- lib (Ordner)
     |-- inc (Ordner)

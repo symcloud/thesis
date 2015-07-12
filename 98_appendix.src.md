@@ -77,9 +77,9 @@ Scopes
 
 Die Interaktion zwischen Ressourcenserver und Autorisierungsserver ist nicht spezifiziert. Diese beiden Server können in der selben Applikation betrieben werden, aber auch eine verteilte Infrastruktur wäre möglich. Dabei würden die beiden auf verschiedenen Servern betrieben werden. Der Autorisierungsserver könnte in einer verteilten Infrastruktur Tokens für mehrere Ressourcenserver bereitstellen [@hardt2012oauth, Seite 5].
 
-## Protokoll Ablauf
+## Protokollablauf
 
-![Ablaufdiagramm des OAuth\label{oauth_flow} [@hardt2012oauth, Seite 7]](diagrams/oauth2/flow.png)
+![Ablaufdiagramm des OAuth2 Protokolls\label{oauth_flow} [@hardt2012oauth, Seite 7]](diagrams/oauth2/flow.png)
 
 Der Ablauf einer Autorisierung [@hardt2012oauth, Seiten 7ff] mittels Oauth2, der in der Abbildung \ref{oauth_flow} abgebildet ist, enthält folgende Schritte:
 

@@ -12,7 +12,7 @@ Entgegen dieses Trends wurde im Jahre 2012 in Österreich erhoben (siehe \ref{cl
 
 Dieses Bedenken ist seit den Abhörskandalen durch verschiedenste Geheimdienste, wie zum Beispiel die NSA, noch verstärkt worden. Dies zeigt eine Umfrage aus dem Jahre 2014, die in Deutschland durchgeführt wurde (Abbildung \ref{cloud_services_concerns_nsa}) deutlich. Dabei gaben 71% an, dass das Vertrauen zu Cloud-Diensten durch diese Skandale beschädigt worden ist.
 
-![Zustimmung zu der Aussage: "Der NSA-Skandal hat das Vertrauen in Cloud-Dienste beschädigt." [@statista2014nsa]\label{cloud_services_concerns_nsa}](images/statista/cloud-services-concerns-nsa.png)
+![Zustimmung der Aussage: "Der NSA-Skandal hat das Vertrauen in Cloud-Dienste beschädigt." [@statista2014nsa]\label{cloud_services_concerns_nsa}](images/statista/cloud-services-concerns-nsa.png)
 
 ## Alternativen zu kommerziellen Cloud-Diensten
 
@@ -160,7 +160,7 @@ Diese Anforderungen sind, wie schon erwähnt, außerhalb des Fokuses dieser Arbe
 
 Im Kapitel \ref{chapter_state_of_the_art} wird ein Überblick über den aktuellen Stand der Technik gegeben. Dabei werden zuerst einige Begriffe für die weitere Arbeit definiert. Danach werden Anwendungen und Technologien durchleuchtet, die die Bereiche "Cloud-Datenhaltung", "verteilte Daten" und "verteilte Datenmodelle" umfassen.
 
-Anschließend werden in einem Evaluierungskapitel (Kapitel \ref{chapter_evaluation}) Technologien betrachtet, die es ermöglichen, Daten in einer verteilten Architektur zu speichern. Dazu wurden die Bereiche "Objekt-Speicherdienste", "verteilte Dateisysteme" und "Datenbankgestützte Dateisysteme" mit Hilfe von Beispielen analysiert und auf ihre Tauglichkeit als Basis für ein Speicherkonzept evaluiert.
+Anschließend werden in einem Evaluierungskapitel (Kapitel \ref{chapter_evaluation}) Technologien betrachtet, die es ermöglichen, Daten in einer verteilten Architektur zu speichern. Dazu wurden die Bereiche "Objekt-Speicherdienste", "verteilte Dateisysteme" und "Datenbankgestützte Dateisysteme" mithilfe von Beispielen analysiert und auf ihre Tauglichkeit als Basis für ein Speicherkonzept evaluiert.
 
 Das Kapitel \ref{chapter_concept} befasst sich mit der Konzeption von symCloud. Dabei geht es zentral um das Datenmodell und die Datenbank, die diese Daten speichert und verteilt.
 
