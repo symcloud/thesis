@@ -138,6 +138,8 @@ TREE
 
 :   Der TREE beschreibt einen Ordner im Repository. Ein TREE enthält Referenzen  auf andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. Wie auch der BLOB besitzt ein TREE für sich gesehen keinen Namen. Der Name des Objektes wird über die Referenz zu einem TREE oder einem BLOB festgelegt (siehe Listing \ref{git_tree_listing}) [@chacon2009pro, K. 9.2].
 
+\newpage
+
 ```{caption="Inhalt eines TREE Objektes\label{git_tree_listing}"}
 $ git cat-file -p 601a62b205bb497d75a231ec00787f5b2d42c5fc
 040000 tree f4f5562f575ac208eac980a0cd1c46d874e37298  images
@@ -146,8 +148,6 @@ $ git cat-file -p 601a62b205bb497d75a231ec00787f5b2d42c5fc
 100644 blob 5c14fdfdebc8a52b74b529689714a1a6d7d2f4d1  01_introduction.src.md
 ...
 ```
-
-\newpage
 
 COMMIT
 
@@ -177,6 +177,8 @@ Ein COMMIT Objekt enthält folgende Werte (siehe Listing \ref{git_commit_listing
 
   : Eigenschaften eines COMMIT [@chacon2009pro, K. 9.2]\label{commit_properties}
 
+\newpage
+
 __Anmerkungen (zu Tabelle \ref{commit_properties}):__
 
 * Ein COMMIT kann mehrere Vorgänger haben. Dieser Mechanismus würde zum Beispiel bei einem MERGE verwendet werden, um die beiden Vorgänger zu speichern, die zusammengeführt wurden.
@@ -189,6 +191,8 @@ REFERENCE
 ![Beispiel eines Repositories\label{git_data_model} [@chacon2015git]](images/git-data-model-example.png)
 
 In der Abbildung \ref{git_data_model} wird ein einfaches Beispiel für ein Repository visualisiert. Die Ordnerstruktur, die dieses Beispiel enthält, ist im Listing \ref{git_data_model_structure} dargestellt.
+
+\newpage
 
 ```{caption="Ordnerstruktur zum Repository Beispiel\label{git_data_model_structure}"}
 |-- README (Datei)
