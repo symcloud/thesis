@@ -179,7 +179,7 @@ Ausgeliefert wird das Programm in einem sogenannten PHAR-Container[^61]. Dieser 
 
 Über den ersten Parameter kann spezifiziert werden, welches Kommando ausgeführt werden soll. Alle weiteren Parameter sind Argumente für das angegebene Kommando. Über den Befehl `php jibe.phar sync` kann der Synchronisierungsvorgang gestartet werden.
 
-```{caption="Ausführen des "configure" Befehls\label{jibe_configure_listing}" .bash}
+```{caption="Ausführen des \"configure\" Befehls\label{jibe_configure_listing}" .bash}
 $ php jibe.phar configure
 Server base URL: http://symcloud.lo
 Client-ID: 9_1442hepr9cpw8wg8s0o40s8gc084wo8ogso8wogowookw8k0sg
