@@ -10,7 +10,7 @@ Bibliothek (distributed-storage)
 
 Plattform (symCloud)
 
-:   Die Plattform bietet neben der Rest-API auch eine einfache Benutzungsschnittstelle an, mit der es möglich ist im Browser seine Dateien zu verwalten. Als Basis verwendet symCloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet eine erweiterbare Admin-Benutzungsschnittstelle, eine Benutzerverwaltung und ein Rechtesystem. Diese Features ermöglichen symCloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegende Dienste.
+:   Die Plattform bietet neben der Rest-API auch eine einfache Benutzungsschnittstelle an, mit der es möglich ist, im Browser seine Dateien zu verwalten. Als Basis verwendet symCloud die Content-Management-Plattform SULU[^65] der Vorarlberger Firma MASSIVE ART WebServices GmbH[^66] aus Dornbirn. Diese Plattform bietet eine erweiterbare Admin-Benutzungsschnittstelle, eine Benutzerverwaltung und ein Rechtesystem. Diese Features ermöglichen symCloud eine schnelle Entwicklung der Oberfläche und deren zugrundeliegende Dienste.
 
 Synchronisierungsprogramm (jibe)
 
@@ -50,7 +50,7 @@ Verteilung
 
 Nachladen
 
-:   Im Falle eines "fetch" Events, werden fehlende Daten von den bekannten Servern nachgeladen. Dieses Event wird sogar dann geworfen, wenn die Daten im lokalen "StorageAdapter" nicht vorhanden sind. Dies erkennt der Replikator und fragt bei allen bekannten Servern an, ob sie dieses Objekt kennen. Dies gilt für die Replikationstyps "Permission" und "Full". Über einen ähnlichen Mechanismus kann der Replikationstyp "stub" realisiert werden. Der einzige Unterschied ist, dass die Backupserver den primary Server kennen und nicht alle bekannten Server durchsuchen müssen.
+:   Im Falle eines "fetch" Events, werden fehlende Daten von den bekannten Servern nachgeladen. Dieses Event wird sogar dann geworfen, wenn die Daten im lokalen "StorageAdapter" nicht vorhanden sind. Dies erkennt der Replikator und fragt bei allen bekannten Servern an, ob sie dieses Objekt kennen. Dies gilt für die Replikationstypen "Permission" und "Full". Über einen ähnlichen Mechanismus kann der Replikationstyp "Stub" realisiert werden. Der einzige Unterschied ist, dass die Backupserver den primary Server kennen und nicht alle bekannten Server durchsuchen müssen.
 
 ### Objekte speichern
 
@@ -70,7 +70,7 @@ Die beiden Abläufe, um Objekte zu speichern und abzurufen, beschreiben eine lok
 
 Der Replikator verwendet Events, um die Prozesse des Ladens und Speicherns von Daten zu beeinflussen und damit die verteilten Aspekte für die Datenbank umzusetzen. Dabei implementiert der Replikator eine einfache Version des primärbasierten Protokolls. Für diesen Zweck wird der Replikator mit einer Liste von verfügbaren Servern initialisiert. Auf Basis dieser Liste werden die Backupserver für jedes Objekte ermittelt.
 
-Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten, die Backupserver für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "lazy" nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typs ("Permission" und "Stub").
+Wie schon im Kapitel \ref{chapter_concept_database} erwähnt, gibt es verschiedene Arten, die Backupserver für ein Objekt zu ermitteln. Implementiert wurde neben dem Typ "Full" auch ein automatisches "lazy" nachladen für fehlende Objekte. Dieses Nachladen ist ein wesentlicher Bestandteil der beiden anderen Typen ("Permission" und "Stub").
 
 __Full__
 
@@ -92,11 +92,11 @@ Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle be
 
 403
 
-:   Das Objekt ist bekannt und der angefragte Server als primary Server für dieses Objekt markiert. Der Server überprüft die Zugangsberechtigungen, weil diese aber nicht gegeben sind, wird der Zugriff verweigert. Der Replikator erkennt, dass der Benutzer nicht berechtigt ist, die Daten zu lesen und verweigert den Zugriff.
+:   Das Objekt ist bekannt und der angefragte Server als primary Server für dieses Objekt markiert. Der Server überprüft die Zugangsberechtigungen, weil diese aber nicht gegeben sind, wird der Zugriff verweigert. Der Replikator erkennt, dass die BenutzerIn nicht berechtigt ist, die Daten zu lesen und verweigert den Zugriff.
 
 200
 
-:   Wie bei 403 ist der angefragte Server, der primary Server des Objektes. Allerdings ist die BenutzerIn berechtigt das Objekt zu lesen und der Server gibt direkt die Daten zurück. Diese Daten dürfen auch gecached werden. Die Berechtigungen für andere Benutzer werden direkt mitgeliefert, um später diesen Prozess nicht noch einmal ausführen zu müssen.
+:   Wie bei 403 ist der angefragte Server, der primary Server des Objektes. Allerdings ist die BenutzerIn berechtigt das Objekt zu lesen und der Server gibt direkt die Daten zurück. Diese Daten dürfen auch gecached werden. Die Berechtigungen für andere BenutzerInnen werden direkt mitgeliefert, um später diesen Prozess nicht noch einmal ausführen zu müssen.
 
 ![Replikator "lazy" nachladen\label{replicator_lazy}](images/replicator-on-fetch.png)
 
@@ -115,7 +115,7 @@ Storage
 :   __Beispiel:__    
 Der Befehl aus Listing \ref{listing_storage_store} erzeugt aus dem übergebenen Hash-Key den Pfad `ab/cd/12/34.symcloud.dat`. In dieser Datei werden die serialisierten Daten abgelegt. Bei einer Anfrage der Daten mittels Hash-Key, können die Daten direkt aus der Datei gelesen und retourniert werden. Dieser Mechanismus wird von der Cache-Bibliothek von Doctrine[^70] wiederverwendet.
 
-```{caption="Storage-Adapter "store"\label{listing_storage_store}" .PHP}
+```{caption="StorageAdapter \"store\"\label{listing_storage_store}" .PHP}
 $storageAdapter->store('abcd1234', array('name' => 'Storage-Example'), 'example');
 ```
 
@@ -129,11 +129,11 @@ Die Adapter sind Klassen, die die Komplexität des Speichermediums bzw. der API 
 
 ### Manager
 
-Die Manager sind die Schnittstelle, um mit den einzelnen Schichten des Datenmodells zu kommunizieren. Jeder dieser Manager implementiert ein Interface mit dem es möglich ist, mit den jeweiligen Datenobjekten zu interagieren. Grundsätzlich sind dies Befehle, um ein Objekt zu erstellen oder abzufragen. Im Falle des "ReferenceManager" oder "TreeManager" bietet sie auch die Möglichkeit, Objekte zu bearbeiten. Der "ReferenceManager" bearbeitet dabei auch wirklich ein Objekt in der Datenbank, indem er es einfach überschreibt. Diese Operation ist, durch den Replikationstyp Stub, auch in einem verteilten Netzwerk möglich. Der TreeManager klont das Objekt und erstellt unter einem neuen Hash ein neues Objekt, sobald es mit einem Commit zusammen persistiert wird.
+Die Manager sind die Schnittstelle, um mit den einzelnen Schichten des Datenmodells zu kommunizieren. Jeder dieser Manager implementiert ein Interface mit dem es möglich ist, mit den jeweiligen Datenobjekten zu interagieren. Grundsätzlich sind dies Befehle, um ein Objekt zu erstellen oder abzufragen. Im Falle des "ReferenceManager" oder "TreeManager" bietet sie auch die Möglichkeit, Objekte zu bearbeiten. Der "ReferenceManager" bearbeitet dabei auch wirklich ein Objekt in der Datenbank, indem er es einfach überschreibt. Diese Operation ist, durch den Replikationstyp "Stub", auch in einem verteilten Netzwerk möglich. Der TreeManager klont das Objekt und erstellt unter einem neuen Hash ein neues Objekt, sobald es mit einem Commit zusammen persistiert wird.
 
 ### Kurzfassung
 
-Die Bibliothek Distributed-Storage bietet eine einfache und effiziente Implementierung des in Kapitel \ref{chapter_concept} beschriebenen Konzeptes. Es baut auf eine erweiterbare Hash-Value Datenbank auf. Diese Datenbank wird mittels eines Eventhandlers (Replikator) zu einer verteilten Datenbank. Dabei ist es für die Datenbank irrelevant, welcher Transportlayer oder welches Protokoll verwendet wird. Dieser kann neben HTTP, jeden beliebigen anderen Transportlayer verwenden. Der konsistente Zustand der Datenbank kann mittels Bestätigungen bei der Erstellung, blockierenden Vorgängen und nicht löschbaren Objekten garantiert werden. Nicht veränderbare Objekte lassen sich dauerhaft und ohne Updates verteilen. Alle anderen Objekte können so markiert werden, dass sie immer bei einem primary Server angefragt werden müssen und nur für die Datensicherheit an die Backupserver verteilt werden.
+Die Bibliothek Distributed-Storage bietet eine einfache und effiziente Implementierung des in Kapitel \ref{chapter_concept} beschriebenen Konzeptes. Es baut auf eine erweiterbare Hash-Value Datenbank auf. Diese Datenbank wird mittels eines Eventhandlers (Replikator) zu einer verteilten Datenbank. Dabei ist es für die Datenbank irrelevant, welcher Transportlayer oder welches Protokoll verwendet wird. Der konsistente Zustand der Datenbank kann mittels Bestätigungen bei der Erstellung, blockierenden Vorgängen und nicht löschbaren Objekten garantiert werden. Nicht veränderbare Objekte lassen sich dauerhaft und ohne Updates verteilen. Alle anderen Objekte können so markiert werden, dass sie immer bei einem primary Server angefragt werden müssen und nur für die Datensicherheit an die Backupserver verteilt werden.
 
 ## \label{chapter_implementation_platform}Plattform
 
@@ -155,7 +155,7 @@ Die Architektur der Benutzungsschnittstelle von SULU ist als "Single-Page-Applic
 
 ![Grundlegender Aufbau des SULU-Admin\label{sulu_basic_ui}](images/screenshots/sulu_basic_ui.png)
 
-In der Abbildung \ref{sulu_basic_ui} ist der grundlegende Aufbau des SULU-UI zu erkennen. Im rechten Bereich ist eine erweiterbare Navigation, die bereits den symCloud Punkt "Dateien" enthält, links ist der sogenannte "Content"-Bereich. Dieser Bereich kann von den nachgeladenen Komponenten gefüllt werden. Um das UI einheitlich zu gestalten, bietet SULU vordefinierte Komponenten an, die zum Beispiel eine Liste abstrahieren. Dieser Listen-Komponente wird im Grunde eine URL übergeben, unter welcher die Daten heruntergeladen werden können. Die Liste generiert daraufhin eine Tabelle mit den Daten aus dem Response der angegebenen URL (siehe Abbildung \ref{sulu_symcloud_file_list}).
+In der Abbildung \ref{sulu_basic_ui} ist der grundlegende Aufbau des SULU-UI zu erkennen. Im linken Bereich ist eine erweiterbare Navigation, die bereits den symCloud Punkt "Dateien" enthält, rechts ist der sogenannte "Content"-Bereich. Dieser Bereich kann von den nachgeladenen Komponenten gefüllt werden. Um das UI einheitlich zu gestalten, bietet SULU vordefinierte Komponenten an, die zum Beispiel eine Liste abstrahieren. Diese Listen-Komponente wird im Grunde eine URL übergeben, unter welcher die Daten heruntergeladen werden können. Die Liste generiert daraufhin eine Tabelle mit den Daten aus dem Response der angegebenen URL (siehe Abbildung \ref{sulu_symcloud_file_list}).
 
 ![Dateiliste von symCloud\label{sulu_symcloud_file_list}](images/screenshots/sulu_symcloud_file_list.png)
 
@@ -190,7 +190,7 @@ Password:
 
 Im Listing \ref{jibe_configure_listing} ist die Ausführung des "Konfigurieren"-Kommandos dargestellt. Argumente können sowohl an den Befehl angehängt oder durch den Befehl abgefragt werden. Eine Validierung, zum Beispiel der URL, kann direkt in einem Kommando implementiert werden.
 
-Diese Kommandos stehen dem Benutzer zur Verfügung:
+Diese Kommandos stehen der BenutzerIn zur Verfügung:
 
 configure
 
@@ -212,7 +212,7 @@ sync
 
 ![Architektur von Jibe\label{jibe_architecture}](diagrams/jibe/architecture.png)
 
-Der zentrale Bestandteil von Jibe ist eine "CommandQueue" (siehe Abbildung \ref{jibe_architecture}). Sie sammelt alle nötigen Kommandos ein und führt sie nacheinander aus. Diese "Queue" ist nach dem "Command-Pattern" entworfen. Folgende Befehle können dadurch aufgerufen werden:
+Der zentrale Bestandteil von Jibe ist die "CommandQueue" (siehe Abbildung \ref{jibe_architecture}). Sie sammelt alle nötigen Kommandos ein und führt sie nacheinander aus. Diese "Queue" ist nach dem "Command-Pattern" entworfen. Folgende Befehle können dadurch aufgerufen werden:
 
 Upload
 
@@ -228,7 +228,7 @@ DeleteServer
 
 DeleteLocal
 
-:   Die Lokale Datei wird gelöscht.
+:   Die lokale Datei wird gelöscht.
 
 Aus diesen vier Kommandos lässt sich nun ein kompletter Synchronisierungsvorgang abbilden.
 
@@ -282,11 +282,11 @@ Die Tabelle \ref{table_jibe_flow} gibt Aufschluss über die Erkennung von Komman
 
 Nicht angeführte Werte in der Tabelle, sind zu dem Zeitpunkt nicht verfügbar bzw. werden nicht benötigt, was zum Beispiel bedeutet, dass wenn der lokale Hash nicht angeführt ist, die Datei nicht vorhanden ist (gelöscht oder noch nicht angelegt).
 
-Beispiel der Auswertungen anhand des Falles Nummer vier (aus der Tabelle \ref{table_jibe_flow}):
+Beispiel der Auswertungen anhand des Falles Nummer 4 (aus Tabelle \ref{table_jibe_flow}):
 
 1. Lokale Datei hat sich geändert: Alter Hashwert unterscheidet sich zu dem aktuellen Wert.
 2. Serverversion ist größer als lokale Version.
-3. Aktueller und Server-Hashwert stimmen nicht überein.
+3. Aktueller- und Server-Hashwert stimmen nicht überein.
 
 Das bedeutet, dass sich sowohl die Serverdatei als auch die lokale Kopie geändert haben. Dadurch entsteht ein Konflikt, der aufgelöst werden muss. Das Auflösen solcher Konflikte ist nicht Teil dieser Arbeit, er wird allerdings in Kapitel \ref{outlook_conflict} kurz behandelt.
 
@@ -298,14 +298,14 @@ In diesem Beispiel wurde auch die Komplexität des Synchronisierungsprozesses du
 
 ## Zusammenfassung
 
-Die Prototypenimplementierung umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und einer Datenbank, die in der Lage ist die Daten über eine Menge von Servern zu verteilen, auch eine einfache Plattform, mit der man Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren, wurde der Client Jibe implementiert, der über ein einfache Rest-API in der Lage ist, die Dateien zu synchronisieren.
+Der Prototyp umfasst die wichtigsten Punkte des im vorherigen Kapitel verfassten Konzeptes. Es umfasst neben dem Datenmodell und einer Datenbank, die in der Lage ist die Daten über eine Menge von Servern zu verteilen, auch eine einfache Plattform, mit der man Dateien in einer einfachen Weboberfläche bearbeiten kann. Um die Dateien mit einem Endgerät zu synchronisieren, wurde der Client Jibe implementiert, der über ein einfache Rest-API in der Lage ist, die Dateien zu synchronisieren.
 
 Vorgesehen, aber nicht implementiert, wurden die Bereiche:
 
 * Zugriffskontrolle
 * Replikationen auf Basis von Benutzerberechtigungen
 
-Diese Bereiche können als Eventhandler implementiert werden. Alle dafür benötigten Komponenten sind vorhanden. Die Zugriffskontrollliste könnte als Policy zu jedem Objekt gespeichert werden. Auf Basis dieser Policy könnte sowohl der Replikator entscheiden, welche Server Zugriff auf das Objekt besitzen, als auch ein Eventhandler entscheiden, ob das Objekt für den Benutzer, der das Objekt angefragt hat, verfügbar ist.
+Diese Bereiche können als Eventhandler implementiert werden. Alle dafür benötigten Komponenten sind vorhanden. Die Zugriffskontrollliste könnte als Policy zu jedem Objekt gespeichert werden. Auf Basis dieser Policy könnte sowohl der Replikator entscheiden, welche Server Zugriff auf das Objekt besitzen, als auch ein Eventhandler entscheiden, ob das Objekt für die BenutzerIn, die das Objekt angefragt hat, verfügbar ist.
 
 [^60]: <http://symfony.com/doc/current/components/console/introduction.html>
 [^61]: <http://php.net/manual/de/intro.phar.php>
