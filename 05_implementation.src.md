@@ -100,9 +100,9 @@ Um fehlende Daten im lokalen Speicher nachzuladen, werden der Reihe nach alle be
 
 ![Replikator "lazy" nachladen\label{replicator_lazy}](images/replicator-on-fetch.png)
 
-\newpage
-
 Mithilfe dieses einfachen Mechanismuses kann der Replikator Daten von anderen Servern nachladen, ohne zu wissen, wo sich die Daten befinden. Dieser Prozess bringt allerdings Probleme mit sich. Zum Beispiel muss jeder Server angefragt werden, bevor der Replikator endgültig sagen kann, dass das Objekt nicht existiert. Bei einem sehr großen Netzwerk kann dieser Prozess sehr lange dauern. Aufgrund des Datenmodells sollte dieser Fall allerdings nur selten vorkommen, da Daten nicht gelöscht werden und daher keine Deadlinks entstehen können.
+
+\newpage
 
 ### Adapter
 
@@ -148,6 +148,8 @@ Eine Autorisierung zwischen den Servern ist momentan nicht vorgesehen. Dies wurd
 ### Rest-API
 
 Die Rest-API ist, wie schon im Kapitel \ref{chapter_concept_rest_api} beschrieben, in vier verschiedene Schnittstellen aufgeteilt. Dabei werden die SULU-internen Komponenten verwendet, um die Daten für die Übertragung zu serialisieren und RESTful[^68] aufzubereiten. Für eine verteilte Installation implementiert die Plattform den "ApiAdapter", um die Rest-API für die Bibliothek zu abstrahieren.
+
+\newpage
 
 ### Benutzungsschnittstelle
 

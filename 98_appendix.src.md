@@ -141,6 +141,8 @@ sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs uploads/m
 sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs uploads/media web/uploads/media app/data
 ```
 
+\newpage
+
 ```{caption="Berechtigungen setzen in Mac OSX\label{install_symcloud_rights_mac}"}
 rm -rf app/cache/*
 rm -rf app/logs/*
