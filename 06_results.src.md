@@ -2,23 +2,23 @@
 
 Ziel dieser Arbeit war es, ein Konzept für eine verteilte Speicherverwaltung aufzustellen. Aus diesem entstand ein einfacher Prototyp, mit dem die Umsetzbarkeit dieses Konzeptes bewiesen wurde.
 
-Im ersten Teil der Arbeit wurde, neben der Motivation und der Projektbeschreibung, eine Liste der Anforderungen an das Konzept und das Projekt aufgestellt. Diese Anforderungen umfassten die Punkte Datensicherheit, Funktionalitäten und Architektur. Auf diese Anforderungen wurden in den darauf folgenden Kapiteln eingegangen und Lösungsansätze erarbeitet. Das vorliegende Konzept erfüllt alle Anforderungen und ist durch seine Flexibilität auf andere Plattformen portierbar.
+Im ersten Teil der Arbeit wurde, neben der Motivation und der Projektbeschreibung, eine Liste der Anforderungen an das Konzept und das Projekt aufgestellt. Diese Anforderungen umfassten die Bereiche Datensicherheit, Funktionalitäten und Architektur. Auf diese Anforderungen wurden in den darauffolgenden Kapiteln eingegangen und Lösungsansätze erarbeitet. Das vorliegende Konzept erfüllt alle Anforderungen und ist durch seine Flexibilität auf andere Plattformen portierbar.
 
-Verschiedene Applikationen wurden auf die Erfüllbarkeit der Anforderungen untersucht. Dabei wurden die Themen "verteilte Systeme", "Cloud-Datenhaltung", "verteilte Daten" und "verteilte Datenmodelle" jeweils anhand von Beispielen analysiert.
+Verschiedene Applikationen wurden überprüft, ob sie die Anforderungen an das Projekt erfüllen. Dabei wurden die Themen "verteilte Systeme", "Cloud-Datenhaltung", "verteilte Daten" und "verteilte Datenmodelle" jeweils anhand von Beispielen analysiert.
 
 Um eine solide Grundlage für das Konzept zu erarbeiten, wurden im Evaluierungskapitel verschiedene Möglichkeiten der Datenhaltung in verteilten Systemen analysiert und auf die Tauglichkeit als Basis für das Konzept überprüft. Es wurde keine passende Technologie gefunden, jedoch konnten diverse Aspekte der evaluierten Technologien im Konzept verwendet und umgesetzt werden. Ein Beispiel dafür ist die Dateireplikation aus XtreemFS und das dort verwendete primärbasierte Protokoll. Eine vereinfachte Version dieses Protokolls wurde im Konzept eingebaut und später im Prototyp umgesetzt.
 
-In der Konzeptionsphase wurde aus den Vorteilen der analysierten Anwendungen, Technologien und Dienste, auf Basis eines verteilten Datenmodells, das Konzept einer verteilten Anwendung für die Dateiverwaltung erstellt. Als Grundlage für dieses Datenmodell wurde die verteilte Versionsverwaltung GIT herangezogen. GIT ermöglicht eine sichere und effiziente Verteilung der Daten. Für die Datenspeicherung wurde eine eigene Datenbank konzipiert, die es ermöglicht, Objekte anhand eines Hashwertes effizient in verschiedene Speichermedien abzulegen. Um diese Hashwerte schnell zu finden, werden die Metadaten dieser Objekte in einer Suchmaschine indexiert. Dadurch kann die Suche über die Daten effizient ausgeführt werden.
+In der Konzeptionsphase wurde aus den Vorteilen der analysierten Anwendungen, Technologien und Diensten, auf Basis eines verteilten Datenmodells, das Konzept einer verteilten Anwendung für die Dateiverwaltung erstellt. Als Grundlage für dieses Datenmodell wurde die verteilte Versionsverwaltung GIT herangezogen. GIT ermöglicht eine sichere und effiziente Verteilung der Daten. Für die Datenspeicherung wurde eine eigene Datenbank konzipiert, die es ermöglicht, Objekte anhand eines Hashwertes effizient in verschiedene Speichermedien abzulegen. Um diese Hashwerte schnell zu finden, werden die Metadaten dieser Objekte in einer Suchmaschine indexiert. Dadurch kann die Suche über die Daten effizient ausgeführt werden.
 
 Die Implementierung des Prototypen wurde in drei Abschnitte untergliedert. Im ersten Teil wurde eine Bibliothek entwickelt, die das Datenmodell, die Datenbank und eine Zugriffsschicht implementiert. Diese Bibliothek ist unabhängig von der restlichen Anwendung und kann in alle PHP-Applikationen eingebunden werden, die mit dem Netzwerk von symCloud kommunizieren wollen. Der zweite Teil umfasst die Plattform, die als funktionierender Prototyp in die bestehende Plattform SULU eingebunden wurde. Neben der Rest-API bietet die Plattform auch eine einfache Benutzungsoberfläche, mit der Änderungen an den Dateien möglich sind. Über die Authentifizierungsschicht können SULU-BenutzerInnen Dateien in symCloud ablegen und verwalten. Der dritte Teil ist als Beispiel für eine Dritt-Hersteller Applikation konzipiert. Dabei handelt es sich um eine Synchronisierungssoftware, die es ermöglicht, Dateien von einem Rechner mit symCloud zu synchronisieren.
 
-Auch wenn der entwickelte Prototyp nicht alle Facetten des Konzepts umsetzt, ist er ein Beweis für die Funktionstüchtigkeit dieses Konzepts. Einige Punkte wurden im Konzept (siehe \ref{chapter_specification_further_topics}) allerdings nicht betrachtet. Einer dieser Punkte ist die Performance des Systems, welcher in der aktuellen Implementierung die größten Herausforderungen darstellt. Hier könnten weiterführende Analysen und Entwicklungen gerade in der Verteilung der Replikationen erhebliche Fortschritte bringen. Zum Abschluss dieser Arbeit soll noch ein kurzer Ausblick gegeben werden.
+Auch wenn der entwickelte Prototyp nicht alle Facetten des Konzepts umsetzt, ist er ein Beweis für die Funktionstüchtigkeit dieses Konzepts. Einige Punkte wurden (siehe \ref{chapter_specification_further_topics}) allerdings nicht betrachtet. Einer dieser Punkte ist die Performance des Systems, welche in der aktuellen Implementierung die größte Herausforderung darstellt. Hier könnten weiterführende Analysen und Entwicklungen gerade in der Verteilung der Replikationen erhebliche Fortschritte bringen. Zum Abschluss dieser Arbeit soll noch ein kurzer Ausblick gegeben werden.
 
 ## Performance von Replikationen
 
 Die Performance der Replikationen ist stark von der Performance des Übertragungsmediums abhängig. Der Prototyp implementiert einen Prozess, der den eigentlichen Prozess blockiert und dadurch die Antwortzeit an den Client stark beeinflusst.
 
-Um genau diese Verzögerungen zu vermeiden, implementiert das verteilte Konfigurationsmanagement ZooKeeper[^90] das Protokoll Zab. Dieses basiert auf Broadcast-Nachrichten, um die Änderungen in einem Netzwerk zu verteilen. Dabei können alle Replikationen abstimmen, ob die Änderung durchführbar ist. Dieses Votum und die Änderungen auf allen Replikationen laufen parallel ab. Bei Zookeeper kümmert sich ein eigener Prozess um diesen Broadcast, dies vermindert die Antwortzeit an die Clients und erhöht den Durchsatz des Systems [@Reed:2008:STO:1529974.1529978].
+Um genau diese Verzögerungen zu vermeiden, implementiert das verteilte Konfigurationsmanagement ZooKeeper[^90] das Protokoll Zab. Dieses basiert auf Broadcast-Nachrichten, um die Änderungen in einem Netzwerk zu verteilen. Dabei können alle Replikationen abstimmen, ob die Änderungen durchführbar sind. Dieses Votum und die Änderungen auf allen Replikationen laufen parallel ab. Bei Zookeeper kümmert sich ein eigener Prozess um diesen Broadcast, dies vermindert die Antwortzeit an die Clients und erhöht den Durchsatz des Systems [@Reed:2008:STO:1529974.1529978].
 
 ## \label{outlook_file_chunking}Rsync Algorithmus
 
@@ -26,7 +26,7 @@ Algorithmen wie Rsync sind darauf ausgelegt, die Effizienz der Datenhaltung und 
 
 ## \label{lock_mechanism}Lock-Mechanismen
 
-Es gibt diverse Lock-Mechanismen, die auf einem Server optimal funktionieren. Allerdings ist es ungleich schwerer diese Mechanismen über ein Netzwerk zu verteilen. Das Team von XtreemFS entwickelte den sogenannten "Flease"-Algorithmus. Dieser Algorithmus ist ein dezentraler und fehlertolerante Koordination von "lease" also Objekt-Locks in verteilten Systemen. Der Algorithmus arbeitet ohne zentrale Schnittstelle und gewährleistet einen exklusiven Zugriff auf eine Ressource in einem skalierbaren Umfeld [@kolbeck2010flease].
+Es gibt diverse Lock-Mechanismen, die auf einem Server optimal funktionieren. Allerdings ist es ungleich schwerer diese Mechanismen über ein Netzwerk zu verteilen. Das Team von XtreemFS entwickelte den sogenannten "Flease"-Algorithmus. Dieser Algorithmus ist ein dezentraler und fehlertoleranter Koordinator von "lease", Objekt-Locks in verteilten Systemen. Der Algorithmus arbeitet ohne zentrale Schnittstelle und gewährleistet einen exklusiven Zugriff auf eine Ressource in einem skalierbaren Umfeld [@kolbeck2010flease].
 
 ## \label{chapter_outlook_protocolls}Protokolle
 
@@ -42,6 +42,8 @@ PubSubHubbub
 
 Neben der Interoperabilität zwischen verschiedenen Applikationen (Webfinger) bietet gerade das Protokoll PubSubHubbub eine enorme Steigerung der Datensicherheit und Performance.
 
+\newpage
+
 ## \label{outlook_conflict}Konfliktbehandlung
 
 Sowohl die Erkennung von Konflikten als auch die sinnvolle Lösung des Konflikts ist eine wichtige Aufgabe. Unterschieden werden drei Stufen der Konfliktbehandlung [@bleiholder:techniken]:
@@ -52,7 +54,7 @@ Konflikte werden ignoriert
 
 Konflikte werden vermieden
 
-:   Die Unsicherheiten werden beseitigt, Widersprüche können nicht gelöst werden, jedoch durch die geschickte Auswahl von Werten umgangen. Konflikte werden Teilweise zusammengeführt, wenn die Daten es zulassen.
+:   Die Unsicherheiten werden beseitigt, Widersprüche können nicht gelöst werden, jedoch durch die geschickte Auswahl von Werten umgangen. Konflikte werden teilweise zusammengeführt, wenn die Daten es zulassen.
 
 Konflikte werden gelöst
 

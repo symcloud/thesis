@@ -6,6 +6,6 @@ seqdiag {
 	EventDispatcher => Replicator [label = "onFetch", return = "data", note = "data not found in local adapter"]{
  		Replicator => "Api Server 1" [label = "fetch", return = "404 not found"];
  		Replicator => "Api Server 2" [label = "fetch", return = "302 found but redirect to\nprimary server of object"];
- 		Replicator => "Api Primary Server" [label = "fetch", return = "200 return data"];
+ 		Replicator => "Api Primary\nServer" [label = "fetch", return = "200 return data"];
  	}
 }

@@ -10,11 +10,11 @@ Andrew Tanenbaum definiert den Begriff der "verteilten Systeme" in seinem Buch f
 > Computer, die dem Benutzer wie ein einzelnes kohärentes
 > System erscheinen"
 
-Diese Definition beinhaltet zwei Aspekte. Der erste Aspekt besagt, dass die einzelnen Maschinen in einem verteilten System autonom sind. Der zweite Aspekt bezieht sich auf die Software, die die Systeme miteinander verbinden. Durch die Software glaubt die BenutzerIn, dass er es mit einem einzigen System zu tun hat [@tanenbaum2003verteilte, p. 18]. 
+Diese Definition beinhaltet zwei Aspekte. Der erste Aspekt besagt, dass die einzelnen Maschinen in einem verteilten System autonom sind. Der zweite Aspekt bezieht sich auf die Software, die die Systeme miteinander verbinden. Durch die Software glaubt die BenutzerIn, dass sie es mit einem einzigen System zu tun hat [@tanenbaum2003verteilte, S. 18]. 
 
-Eines der besten Beispiele für verteilte Systeme sind Cloud-Computing Dienste. Diese Dienste bieten verschiedenste Technologien. Diese umfassen Rechnerleistungen, Datenspeicher, Datenbanken und Netzwerke. Der Anwender kommuniziert hierbei immer nur mit einem System, allerdings verbirgt sich hinter der Oberfläche ein komplexes System aus vielen Hard- und Softwarekomponenten, welches sehr stark auf Virtualisierung setzt.
+Eines der besten Beispiele für verteilte Systeme sind Cloud-Computing Dienste. Diese Dienste bieten verschiedenste Technologien. Diese umfassen Rechnerleistungen, Datenspeicher, Datenbanken und Netzwerke. Die AnwenderIn kommuniziert hierbei immer nur mit einem System, allerdings verbirgt sich hinter der Oberfläche ein komplexes System aus vielen Hard- und Softwarekomponenten, welche sehr stark auf Virtualisierung setzen.
 
-Gerade im Bereich der verteilten Dateisysteme, bietet sich die Möglichkeit, Dateien über mehrere Server zu verteilen an. Dies ermöglicht die Verbesserung von Datensicherheit, durch Replikation über verschiedene Server und steigert die Effizienz, durch paralleles Lesen der Daten. Diese Dateisysteme trennen meist die Nutzdaten von ihren Metadaten und halten diese, als Daten zu den Daten, in einer effizienten Datenbank gespeichert. Um Informationen zu einer Datei zu erhalten, wird die Datenbank nach den Informationen durchsucht und direkt an den Benutzer weitergeleitet. Dies ermöglicht schnellere Antwortzeiten, da nicht auf die Nutzdaten zugegriffen werden muss und steigert dadurch die Effizienz des Systems [@linux2013dateisystem]. Das Kapitel \ref{chapter_distibuted_fs} befasst sich genauer mit verteilten Dateisystemen.
+Gerade im Bereich der verteilten Dateisysteme, bietet sich die Möglichkeit, Dateien über mehrere Server zu verteilen. Dies ermöglicht die Verbesserung von Datensicherheit, durch Replikation über verschiedene Server und steigert die Effizienz, durch paralleles Lesen der Daten. Diese Dateisysteme trennen meist die Nutzdaten von ihren Metadaten und halten diese, als Daten zu den Daten, in einer effizienten Datenbank gespeichert. Um Informationen zu einer Datei zu erhalten, wird die Datenbank nach den Informationen durchsucht und direkt an die BenutzerIn weitergeleitet. Dies ermöglicht schnellere Antwortzeiten, da nicht auf die Nutzdaten zugegriffen werden muss und steigert dadurch die Effizienz des Systems [@linux2013dateisystem]. Das Kapitel \ref{chapter_distibuted_fs} befasst sich genauer mit verteilten Dateisystemen.
 
 ## Cloud-Datenhaltung
 
@@ -30,11 +30,11 @@ Der Dropbox-Service betreibt verschiedenste Dienste, die sowohl für die Handhab
 
 ![Blockdiagramm der Dropbox Services [@dropbox2015a]\label{db_archtecture}](images/db_archtecture.png)
 
-In der Abbildung \ref{db_archtecture} werden die einzelnen Komponenten in einem Blockdiagramm dargestellt. Wie im Kapitel \ref{verteilte_systeme} beschrieben, trennt Dropbox intern die Dateien von ihren Metadaten. Der Metadata Service speichert die Metadaten und die Informationen zu ihrem Speicherort in einer Datenbank, der Inhalt der Dateien liegt jedoch in einem separaten Storage Service. Dieser Service verteilt die Daten wie ein "Load Balancer" über viele Server.
+In der Abbildung \ref{db_archtecture} werden die einzelnen Komponenten in einem Blockdiagramm dargestellt. Wie im Kapitel \ref{verteilte_systeme} beschrieben, trennt Dropbox intern die Dateien von ihren Metadaten. Der "Metadata Service" speichert die Metadaten und die Informationen zu ihrem Speicherort in einer Datenbank, der Inhalt der Dateien liegt jedoch in einem separaten "Storage Service". Dieser Service verteilt die Daten wie ein "Load Balancer" über viele Server.
 
-Der Storage Service ist wiederum von außen durch einen Application Service abgesichert. Die Authentifizierung erfolgt über das OAuth2 Protokoll [@dropbox2015b]. Diese Authentifizierung wird für alle Services verwendet, auch für den Metadata Service, den Processing Servers und den Notification Service.
+Der "Storage Service" ist wiederum von außen durch einen "Application Service" abgesichert. Die Authentifizierung erfolgt über das OAuth2 Protokoll [@dropbox2015b]. Diese Authentifizierung wird für alle Services verwendet, auch für den "Metadata Service", den "Processing Servers" und den "Notification Service".
 
-Der Processing oder Application Block dient als Zugriffspunkt zu den Daten. Eine Applikation, die auf Daten zugreifen möchte, muss sich an diesen Servern anmelden und bekommt dann Zugriff auf die angefragten Daten. Dies ermöglicht auch Drittherstellern Anwendungen zu entwickeln, die mit Daten aus der Dropbox arbeiten. Für diesen Zweck gibt es im Authentifizierungsprotokoll OAuth2 sogenannte "Scopes" (siehe Kapitel \ref{implementation_oauth}). Eine weitere Aufgabe, die diese Schicht erledigt, ist die Verschlüsselung der Anwendungsdaten [@dropbox2015a].
+Der "Processing" oder "Application Block" dient als Zugriffspunkt zu den Daten. Eine Applikation, die auf Daten zugreifen möchte, muss sich an diesen Servern anmelden und bekommt Zugriff auf die angefragten Daten. Dies ermöglicht auch Drittherstellern Anwendungen zu entwickeln, die mit Daten aus der Dropbox arbeiten. Für diesen Zweck gibt es im Authentifizierungsprotokoll OAuth2 sogenannte "Scopes" (siehe Anhang \ref{implementation_oauth}). Eine weitere Aufgabe, die diese Schicht erledigt, ist die Verschlüsselung der Anwendungsdaten [@dropbox2015a].
 
 Die Nachteile von Dropbox im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
@@ -50,17 +50,17 @@ Alles in allem ist Dropbox als Grundlage für symCloud aufgrund der fehlenden Er
 
 ### ownCloud
 
-Nach den neuesten Entwicklungen arbeitet ownCloud (genauere Beschreibung in Kapitel \ref{chapter_introduction}) an einem ähnlichen Usecase wie symCloud. Unter dem Namen "Remote shares" wurde in der Version sieben eine Erweiterung in den Core übernommen, mit dem es möglich sein sollte, sogenannte "Shares" mittels Link auch in einer anderen Installation einzubinden. Dies ermöglicht es, Dateien auch über die Grenzen des eigenen Servers hinweg miteinander zu teilen [@bizblokes2014ownCloud]. Jedoch ist diese Verteilung nicht in der Architektur verankert und nur über eine Systemerweiterung möglich.
+Nach den neuesten Entwicklungen arbeitet ownCloud (genauere Beschreibung in Kapitel \ref{chapter_introduction}) an einem ähnlichen Usecase wie symCloud. Unter dem Namen "Remote shares" wurde in der Version sieben eine Erweiterung in den Core übernommen, mit dem es möglich sein sollte, sogenannte "Shares" mittels Link auch in einer anderen Installation einzubinden. Dies ermöglicht es, Dateien auch über die Grenzen des eigenen Servers hinweg, miteinander zu teilen [@bizblokes2014ownCloud]. Jedoch ist diese Verteilung nicht in der Architektur verankert und nur über eine Systemerweiterung möglich.
 
 Die kostenpflichtige Variante von ownCloud geht hier noch einen Schritt weiter. In Abbildung \ref{owncloud_architecture} ist dargestellt, wie ownCloud als eine Art Verbindungsschicht zwischen verschiedenen Lokalen- und Cloud-Speichersystemen dienen soll [@owncloud2015architecture, S. 1].
 
 ![ownCloud Enterprise Architektur Übersicht [@owncloud2015architecture]\label{owncloud_architecture}](images/owncloud_architecture.png)
 
-Um die Integration in ein Unternehmen zu erleichtern, bietet ownCloud verschiedenste Dienste an. Unter Anderem ist es möglich, Benutzerdaten über LDAP oder ActiveDirectory zu verwalten und damit ein Doppeltes führen der BenutzerInnen zu vermeiden [@owncloud2015architecture, S. 2].
+Um die Integration in ein Unternehmen zu erleichtern, bietet ownCloud verschiedenste Dienste an. Unter anderem ist es möglich, Benutzerdaten über LDAP oder ActiveDirectory zu verwalten und damit ein doppeltes Führen der BenutzerInnen zu vermeiden [@owncloud2015architecture, S. 2].
 
 ![Bereitstellungsszenario von ownCloud [@owncloud2015architecture]\label{owncloud_deployment}](images/owncloud_deployment.png)
 
-Für einen produktiven Einsatz wird eine skalierbare Architektur, wie in Abbildung \ref{owncloud_deployment}, vorgeschlagen. An erster Stelle steht ein Load-Balancer, der die Last der Anfragen auf mindestens zwei Webserver verteilt. Diese Webserver sind mit einem MySQL-Cluster verbunden, in dem die User-Daten, Anwendungsdaten und Metadaten der Dateien gespeichert sind. Dieser Cluster besteht wiederum aus mindestens zwei redundanten Datenbankservern. Diese Architektur ermöglicht auch bei stark frequentierten Installationen eine horizontale Skalierbarkeit. Zusätzlich sind die Webserver mit dem File-Storage verbunden. Auch hier ist es möglich, diesen redundant bzw. skalierbar aufzubauen, um die Effizienz und Sicherheit zu gewährleisten [@owncloud2015architecture, S. 3-4].
+Für einen produktiven Einsatz wird eine skalierbare Architektur, wie in Abbildung \ref{owncloud_deployment}, vorgeschlagen. An erster Stelle steht ein "Load-Balancer", der die Last der Anfragen auf mindestens zwei Webserver verteilt. Diese Webserver sind mit einem MySQL-Cluster verbunden, in dem die User-Daten, Anwendungsdaten und Metadaten der Dateien gespeichert sind. Dieser Cluster besteht wiederum aus mindestens zwei redundanten Datenbankservern. Diese Architektur ermöglicht auch bei stark frequentierten Installationen eine horizontale Skalierbarkeit. Zusätzlich sind die Webserver mit dem File-Storage verbunden. Auch hier ist es möglich, diesen redundant bzw. skalierbar aufzubauen, um die Effizienz und Sicherheit zu gewährleisten [@owncloud2015architecture, S. 3-4].
 
 Die Nachteile von ownCloud im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
@@ -70,22 +70,22 @@ Architektur
 
 Stand der Technik
 
-:   Aufgrund der Tatsache, dass die Entwicklung von ownCloud schon im Jahre 2010 begann und sich die Programmiersprache PHP bzw. dessen Community rasant weiterentwickelt, ist der Kern von ownCloud in einem Stil programmiert der nicht mehr dem heutigen Stand der Technik entspricht.
+:   Aufgrund der Tatsache, dass die Entwicklung von ownCloud schon im Jahre 2010 begann und sich die Programmiersprache PHP bzw. dessen Community rasant weiterentwickelt, ist der Kern von ownCloud in einem Stil programmiert, der nicht mehr dem heutigen Stand der Technik entspricht.
 
 Obwohl ownCloud viele Anforderungen, wie zum Beispiel Versionierung oder Zugriffsberechtigungen erfüllen kann, ist das Datenmodell nicht dafür ausgelegt, die Daten zu verteilen. Ein weiterer großer Nachteil ist die bereits angesprochene veraltete Codebasis, die eine Erweiterung erschwert.
 
 ## Verteilte Daten - Beispiel Diaspora
 
-Diaspora (allgemeine Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mit Hilfe von standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" verwendet. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
+Diaspora (allgemeine Beschreibung in Kapitel \ref{chapter_introduction}) ist ein gutes Beispiel für Applikationen, die ihre Daten über die Grenzen eines Servers hinweg verteilen können. Diese Daten werden mithilfe von standardisierten Protokollen über einen sicheren Transportlayer versendet. Für diese Kommunikation zwischen den Diaspora Instanzen (Pods genannt) wird ein eigenes Protokoll namens "Federation protocol" eingesetzt. Es ist eine Kombination aus verschiedenen Standards, wie zum Beispiel Webfinger, HTTP und XML [@diaspora2014protocol]. In folgenden Situationen wird dieses Protokoll verwendet:
 
 * Information zu BenutzerInnen finden, die auf anderen Servern gespeichert sind.
-* Die erstellte Informationen an BenutzerInnen zu versenden, mit denen sie geteilt wurden.
+* Die erstellten Informationen an BenutzerInnen zu versenden, mit denen sie geteilt wurden.
 
-Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Dieses Protokoll wird verwendet, um Informationen über BenutzerInnen oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige URL. Es verwendet den HTTPS-Standard als Transportlayer für eine sichere Verbindung. Als Format für die Antworten wird JSON verwendet [@jones2013webfinger, K. 1].
+Diaspora verwendet das Webfinger Protokoll, um zwischen den Servern zu kommunizieren. Dieses Protokoll wird verwendet, um Informationen über BenutzerInnen oder anderen Objekte abfragen zu können. Identifiziert werden diese Objekte über eine eindeutige URL. Es verwendet den HTTPS-Standard als Transportlayer für eine sichere Verbindung. Als Format für die Antworten wird JSON oder XML verwendet [@jones2013webfinger, K. 1].
 
  __Beispiel [@diaspora2014protocol]:__
 
-Alice versucht mit Bob in Kontakt zu treten. Um die nötigen URLs für die weitere Kommunikation zwischen den Servern zu ermitteln führt der Pod von Alice einen Webfinger lookup auf den Pod von Bob aus. Der Response enthält einen ähnlichen Inhalt, wie in Listing \ref{diaspora_host_meta} dargestellt. Dieser Response wird LRDD ("Link-based Resource Descriptor Document"[^20]) genannt und enthält die URL um die Daten von dem Server abzufragen.
+Alice versucht mit Bob in Kontakt zu treten. Um die nötigen URLs für die weitere Kommunikation zwischen den Servern zu ermitteln, führt der Pod von Alice einen Webfinger lookup auf den Pod von Bob aus. Der Response enthält einen ähnlichen Inhalt, wie in Listing \ref{diaspora_host_meta} dargestellt. Dieser Response wird LRDD ("Link-based Resource Descriptor Document"[^20]) genannt und enthält die URL, um die Daten von dem Server abzufragen.
 
 ```{caption="Host-Meta Inhalt von Bob\label{diaspora_host_meta}" .xml}
 <Link rel="lrdd"
@@ -111,6 +111,8 @@ $ echo -e $OBJECT | shasum
 6c01d1dec5cf5221e86600baf77f011ed469b8fe -
 ```
 
+\newpage
+
 Im Listing \ref{git_create_object_blob} wird ein GIT-Objekt vom Typ BLOB erstellt und in den "Objects" Ordner geschrieben. 
 
 ```{caption="Erzeugung eines GIT-BLOB\label{git_create_object_blob}"}
@@ -135,6 +137,8 @@ BLOB
 TREE
 
 :   Der TREE beschreibt einen Ordner im Repository. Ein TREE enthält Referenzen  auf andere TREE bzw. BLOB Objekte und definiert damit eine Ordnerstruktur. Wie auch der BLOB besitzt ein TREE für sich gesehen keinen Namen. Der Name des Objektes wird über die Referenz zu einem TREE oder einem BLOB festgelegt (siehe Listing \ref{git_tree_listing}) [@chacon2009pro, K. 9.2].
+
+\newpage
 
 ```{caption="Inhalt eines TREE Objektes\label{git_tree_listing}"}
 $ git cat-file -p 601a62b205bb497d75a231ec00787f5b2d42c5fc
@@ -167,13 +171,15 @@ Ein COMMIT Objekt enthält folgende Werte (siehe Listing \ref{git_commit_listing
 | 2 | commit | SHA des Objektes |
 | 3 | tree | TREE-SHA des Stammverzeichnisses |
 | 4 | parent(s) | Ein oder mehrere Vorgänger |
-| 5 | author | Verantwortlicher für die Änderungen |
+| 5 | author | Verantwortliche für die Änderungen |
 | 6 | committer | ErstellerIn des COMMITs |
 | 8 | comment | Beschreibung des COMMITs |
 
   : Eigenschaften eines COMMIT [@chacon2009pro, K. 9.2]\label{commit_properties}
 
-__Anmerkungen (zu der Tabelle \ref{commit_properties}):__
+\newpage
+
+__Anmerkungen (zu Tabelle \ref{commit_properties}):__
 
 * Ein COMMIT kann mehrere Vorgänger haben. Dieser Mechanismus würde zum Beispiel bei einem MERGE verwendet werden, um die beiden Vorgänger zu speichern, die zusammengeführt wurden.
 * AutorIn und ErstellerIn des COMMITs können sich unterscheiden: Wenn zum Beispiel eine BenutzerIn einen PATCH erstellt, ist diese BenutzerIn die AutorIn und damit die Verantwortliche für die Änderungen. Die BenutzerIn, die den Patch nun auflöst und den `git commit` Befehl ausführt, ist die ErstellerIn bzw. der Committer.
@@ -186,7 +192,9 @@ REFERENCE
 
 In der Abbildung \ref{git_data_model} wird ein einfaches Beispiel für ein Repository visualisiert. Die Ordnerstruktur, die dieses Beispiel enthält, ist im Listing \ref{git_data_model_structure} dargestellt.
 
-```{caption="Ordernstruktur zum Repository Beispiel\label{git_data_model_structure}"}
+\newpage
+
+```{caption="Ordnerstruktur zum Repository Beispiel\label{git_data_model_structure}"}
 |-- README (Datei)
 |-- lib (Ordner)
     |-- inc (Ordner)
@@ -194,13 +202,13 @@ In der Abbildung \ref{git_data_model} wird ein einfaches Beispiel für ein Repos
     |-- mylib.rb (Datei)
 ```
 
-Der COMMIT (98ca9..) enthält eine Referenz auf den ROOT-TREE (0de24..). Dieser TREE enthält weitere Referenzen zu einem TREE-Objekt (10af9..) mit dem Namen `lib` und dem BLOB-Objekt (e8455..) mit dem Namen README. Diese Struktur wird bis zum TREE-Objekt (b70f8..) fortgesetzt, welches eine Referenz auf den BLOB (0ad1a..) mit dem Namen tricks.rb enthält. Das Beispiel visualisiert, wie komplexe Ordnerstrukturen in GIT verwaltet und gespeichert werden können.
+Der COMMIT (98ca9..) enthält eine Referenz auf den ROOT-TREE (0de24..). Dieser TREE enthält weitere Referenzen zu einem TREE-Objekt (10af9..) mit dem Namen `lib` und dem BLOB-Objekt (e8455..) mit dem Namen `README`. Diese Struktur wird bis zum TREE-Objekt (b70f8..) fortgesetzt, welches eine Referenz auf den BLOB (0ad1a..) mit dem Namen `tricks.rb` enthält. Das Beispiel visualisiert, wie komplexe Ordnerstrukturen in GIT verwaltet und gespeichert werden können.
 
 Die Nachteile von GIT im Bezug auf die im Kapitel \ref{specification} aufgezählten Anforderungen sind:
 
 Architektur
 
-:   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen um die Verteilung zu automatisieren. Die Verteilung erfolgt bei GIT immer als bewusste Aktion, also der Ausführung eines `push` oder `pull` Befehls, der BenutzerInnen. Ein weiteres Problem ist die fehlende Möglichkeit Zugriffsberechtigungen festzulegen.
+:   Die Architektur von GIT ist im Grunde ein ausgezeichnetes Beispiel für die Verteilung der Daten. Auch das Datenmodell ist optimal für die Verteilung ausgelegt. Jedoch besitzt GIT keine Mechanismen, um die Verteilung zu automatisieren. Die Verteilung erfolgt bei GIT immer als bewusste Aktion; der Ausführung eines `push` oder `pull` Befehls durch die BenutzerIn. Ein weiteres Problem ist die fehlende Möglichkeit, Zugriffsberechtigungen festzulegen.
 
 Aufgrund der fehlenden Verteilungsmechanismen ist die Anwendung GIT für die Verwendung als Datenspeicher für das Projekt ungeeignet. Da es jedoch viele der Anforderungen erfüllt, wird dieses Datenmodell als Grundlage für symCloud herangezogen, siehe dazu Kapitel \ref{chapter_concept_datamodel}. Außerdem wird die Idee der Key-Value Datenbank bei der Konzeption der Datenbank im Kapitel \ref{chapter_concept_database} aufgegriffen.
 
@@ -224,7 +232,7 @@ GIT
 
 :   Aufgrund des Datenmodells von GIT ist diese Versionsverwaltung für die verteilte Anwendung optimal ausgerüstet. Daher wird es als Grundlage für symCloud dienen. Es ermöglicht den verbundenen Servern (Clients) eine schnelle und einfache Synchronisation der Daten.
 
-Fazit: Jedes dieser vier Systeme bietet Ansätze, die für die Entwicklung von symCloud relevant sind. Jedoch ist keines dieser Systeme geeignet die Anforderungen aus Kapitel \ref{specification} vollständig zu erfüllen.
+Fazit: Jedes dieser vier Systeme bietet Ansätze, die für die Entwicklung von symCloud relevant sind. Jedoch ist keines dieser Systeme geeignet, die Anforderungen aus Kapitel \ref{specification} vollständig zu erfüllen.
 
 [^20]: <https://tools.ietf.org/html/rfc6415#section-6.3>
 [^21]: <https://tools.ietf.org/html/rfc6415#section-2>

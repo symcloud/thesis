@@ -230,17 +230,17 @@ $if(title)$
 
   \begin{center}
 
-    \vspace*{25mm}
+    \vspace*{30mm}
 
     $type$\\
     Fachhochschul-Studiengang\\
     $department$
     
-    \vspace{15mm}
+    \vspace{20mm}
 
     {\LARGE\bfseries $title$}
 
-    \vspace{15mm}
+    \vspace{20mm}
 
     ausgeführt von
 
@@ -258,11 +258,11 @@ $if(title)$
 
     $degree$
 
-    \vspace{15mm}
+    \vspace{10mm}
 
     $submissiontown$, im $submissionmonth$ $submissionyear$
 
-    \vspace{15mm}
+    \vspace{10mm}
 
     \textbf{Betreuer: $supervisor$}
 
@@ -280,6 +280,8 @@ Ich erkläre hiermit an Eides statt, dass ich vorliegende $type$ selbstständig 
 
 $submissiontown$, am $submissionday$ $submissionmonth$ $submissionyear$\hfill{\hbox{$author$}
 $endif$
+
+\hypersetup{linkcolor=$if(linkcolor)$$linkcolor$$else$magenta$endif$}
 
 $if(zusammenfassung)$
 \addchap*{Zusammenfassung}
@@ -307,6 +309,8 @@ $if(toc)$
 \tableofcontents
 }
 $endif$
+
+\hypersetup{linkcolor=$if(linkcolor)$$linkcolor$$else$black$endif$}
 
 $if(lot)$
 \listoftables
