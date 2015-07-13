@@ -197,7 +197,7 @@ Im Listing \ref{install_symcloud_distribution} werden die verbundenen Server ang
 
 ## Beispiel von der beiliegenden CD
 
-Um symCloud möglichst schnell ausprobieren zu können, ist auf der beiliegenden CD (`/example`) eine Beispiel Installation von zwei Knoten, die ohne weitere Abhängigkeiten verwendet werden können. Der erste Schritt die Installationen zu initialisieren, sollte der Ordner `/example` an einen beschreibbaren Ort (zum Beispiel der Benutzerordner) kopiert werden. Beide Installationen enthalten eine Konfigurationsdatei, in der die Zugangsdaten zur Datenbank angepasst werden sollten.
+Um symCloud möglichst schnell ausprobieren zu können, ist auf der beiliegenden CD (`/example`) eine Beispiel-Installation von zwei Knoten, die ohne weitere Abhängigkeiten verwendet werden können. Der erste Schritt die Installationen zu initialisieren, ist das Kopieren des Ordners `/example` an einen beschreibbaren Ort (zum Beispiel der Benutzerordner). Beide Installationen enthalten eine Konfigurationsdatei, in der die Zugangsdaten zur Datenbank angepasst werden sollten.
 
 Das folgende Script initialisiert den ersten Knoten im Ordner `my.symcloud.lo`:
 
@@ -209,7 +209,7 @@ app/console symcloud:storage:init admin
 app/console symcloud:oauth2:create-client jibe www.example.com
 ```
 
-Das folgende Script initialisiert den ersten Knoten `your.symcloud.lo`:
+Das folgende Script initialisiert den zweiten Knoten `your.symcloud.lo`:
 
 ```{caption="your.symcloud.lo initialisieren"}
 cd your.symcloud.lo

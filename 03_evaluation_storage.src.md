@@ -293,7 +293,11 @@ Am Ende dieses Abschnittes, werden die Vor- und Nachteile der jeweiligen Technol
 
 Amazon S3
 
-:   Speicherdienste, wie Amazon S3 sind für einfache Aufgaben bestens geeignet. Sie bieten alles an, was für ein schnelles Setup der Applikation benötigt wird. Jedoch haben gerade die Open-Source Alternativen wesentliche Mankos in Bereichen, die für das Projekt unbedingt notwendig sind. Zum einen sind es bei den Alternativen die fehlenden Funktionalitäten, wie zum Beispiel ACLs oder Versionierung, zum anderen ist auch Amazon S3 wenig flexibel, um eigene Erweiterungen hinzuzufügen. Jedoch können wesentliche Vorteile bei den Objekt-Speicherdiensten beobachtet werden. Wie zum Beispiel:
+:   Speicherdienste, wie Amazon S3 sind für einfache Aufgaben bestens geeignet. Sie bieten alles an, was für ein schnelles Setup der Applikation benötigt wird. Jedoch haben gerade die Open-Source Alternativen wesentliche Mankos in Bereichen, die für das Projekt unbedingt notwendig sind. Zum einen sind es bei den Alternativen die fehlenden Funktionalitäten, wie zum Beispiel ACLs oder Versionierung, zum anderen ist auch Amazon S3 wenig flexibel, um eigene Erweiterungen hinzuzufügen. Jedoch können wesentliche Vorteile bei den Objekt-Speicherdiensten beobachtet werden.
+
+\newpage
+
+Wie zum Beispiel:
 
 * Rest-Schnittstelle
 * Versionierung
