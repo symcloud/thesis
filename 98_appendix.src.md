@@ -171,7 +171,7 @@ Für den Client muss zuerst folgender Schritt (siehe \ref{install_symcloud_auth2
 app/console symcloud:oauth2:create-client jibe www.example.com
 ```
 
-An die Endgeräte werden dieselben Anforderungen wie an den Server gestellt. Der PHAR Container kann unter der URL <???> heruntergeladen werden. Die Ausgabe des Kommandos aus Listing \ref{install_symcloud_auth2} wird benötigt, um den Client zu konfigurieren (siehe \ref{install_symcloud_jibe}). Die beiden Platzhalter `<hash-algorithm>` und `<hash-key>` werden mit den in der Installation (siehe Listing \ref{install_symcloud_composer_install}) angegeben Werten ersetzt.
+An die Endgeräte werden dieselben Anforderungen wie an den Server gestellt. Der PHAR Container kann unter der URL <https://github.com/symcloud/jibe/releases/download/0.1.0/jibe.phar> heruntergeladen werden. Die Ausgabe des Kommandos aus Listing \ref{install_symcloud_auth2} wird benötigt, um den Client zu konfigurieren (siehe \ref{install_symcloud_jibe}). Die beiden Platzhalter `<hash-algorithm>` und `<hash-key>` werden mit den in der Installation (siehe Listing \ref{install_symcloud_composer_install}) angegeben Werten ersetzt.
 
 ```{caption="Jibe konfigurieren und starten\label{install_symcloud_jibe}"}
 php jibe.phar configure --hash-algorithm <hash-algorithm> --hash-key <hash-key>
