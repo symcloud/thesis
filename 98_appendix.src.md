@@ -226,7 +226,9 @@ php jibe.phar configure -s http://my.symcloud.lo:8000 -u admin -p admin
 php jibe.phar sync
 ```
 
-Die Daten werden mit dem ersten Server `my.symcloud.lo` synchronisiert und die Daten mit dem zweiten Server geteilt. Dies kann mit den folgenden Kommandos überprüft werden:
+\newpage
+
+Die Daten werden mit dem ersten Server `my.symcloud.lo` synchronisiert und mit dem zweiten Server geteilt. Dies kann mit den folgenden Kommandos überprüft werden:
 
 ```{caption="Datenbankgrößen ausgeben"}
 cd my.symcloud.lo
