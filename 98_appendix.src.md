@@ -161,7 +161,7 @@ app/console sulu:build dev
 app/console symcloud:storage:init admin
 ```
 
-Die Ausgabe des letzten Befehls sollte notiert werden, da dies für die Einrichtung des Synchronisierunsclient gebraucht wird. Abschließend kann sich die AdministratorIn über `http://symcloud.lo/admin` einloggen (Benutzername: "admin", Passwort: "admin") und das System benutzen.
+Abschließend kann sich die AdministratorIn über `http://symcloud.lo/admin` einloggen (Benutzername: "admin", Passwort: "admin") und das System benutzen.
 
 ## Jibe
 
@@ -171,7 +171,7 @@ Für den Client muss zuerst folgender Schritt (siehe \ref{install_symcloud_auth2
 app/console symcloud:oauth2:create-client jibe www.example.com
 ```
 
-An die Endgeräte werden dieselben Anforderungen wie an den Server gestellt. Der PHAR Container kann unter der URL <???> heruntergeladen werden. Die Ausgabe der Kommandos aus Listing \ref{install_symcloud_auth2} und \ref{install_symcloud_sulu} werden benötigt, um den Client zu konfigurieren (siehe \ref{install_symcloud_jibe}). Die beiden Platzhalter `<hash-algorithm>` und `<hash-key>` werden mit den in der Installation (siehe Listing \ref{install_symcloud_composer_install}) angegeben Werten ersetzt.
+An die Endgeräte werden dieselben Anforderungen wie an den Server gestellt. Der PHAR Container kann unter der URL <???> heruntergeladen werden. Die Ausgabe des Kommandos aus Listing \ref{install_symcloud_auth2} wird benötigt, um den Client zu konfigurieren (siehe \ref{install_symcloud_jibe}). Die beiden Platzhalter `<hash-algorithm>` und `<hash-key>` werden mit den in der Installation (siehe Listing \ref{install_symcloud_composer_install}) angegeben Werten ersetzt.
 
 ```{caption="Jibe konfigurieren und starten\label{install_symcloud_jibe}"}
 php jibe.phar configure --hash-algorithm <hash-algorithm> --hash-key <hash-key>
@@ -197,7 +197,7 @@ Im Listing \ref{install_symcloud_distribution} werden die verbundenen Server ang
 
 ## Beispiel von der beiliegenden CD
 
-Um symCloud möglichst schnell ausprobieren zu können, ist auf der beiliegenden CD (`/example`) eine Beispiel-Installation von zwei Knoten, die ohne weitere Abhängigkeiten verwendet werden können. Der erste Schritt die Installationen zu initialisieren, ist das Kopieren des Ordners `/example` an einen beschreibbaren Ort (zum Beispiel der Benutzerordner). Beide Installationen enthalten eine Konfigurationsdatei, in der die Zugangsdaten zur Datenbank angepasst werden sollten.
+Um symCloud möglichst schnell ausprobieren zu können, ist auf der beiliegenden CD (`/example`) eine Beispiel-Installation von zwei Knoten, die ohne weitere Abhängigkeiten verwendet werden können. Der erste Schritt die Installationen zu initialisieren, ist das Kopieren des Ordners `/example` an einen beschreibbaren Ort (zum Beispiel der Benutzerordner). Beide Installationen enthalten eine Konfigurationsdatei (`app/config/parameters.yml`), in der die Zugangsdaten zur Datenbank angepasst werden sollten.
 
 Das folgende Script initialisiert den ersten Knoten im Ordner `my.symcloud.lo`:
 
@@ -235,7 +235,7 @@ cd ../your.symcloud.lo
 du -sh app/data/symcloud/database/*
 ```
 
-Beide Ordner enthalten den Eintrag `app/data/symcloud/database/chunk`, indem die `chunks` der Dateien abgelegt sind.
+Beide Ordner enthalten den Eintrag `app/data/symcloud/database/chunk`, indem die `chunks` der Dateien abgelegt sind. Unter der URL `http://my.symcloud.lo:8000/admin` kann sich der `admin` Benutzer anmelden und seine Dateien bearbeiten.
 
 ## Zusammenfassung
 
