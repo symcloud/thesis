@@ -119,7 +119,7 @@ Um eine nicht verteilte Installation von symCloud durchzuführen, müssen folgen
 ```{caption="Herunterladen von symCloud\label{install_symcloud_clone}"}
 git clone git@github.com:symcloud/symcloud-standard.git
 cd symcloud-standard
-git checkout 0.1
+git checkout 0.1.0
 cp app/config/admin/symcloud.yml.dist app/config/admin/symcloud.yml
 cp app/Resources/pages/overview.xml.dist app/Resources/pages/overview.xml
 ```
@@ -130,7 +130,7 @@ Die Konfiguration der Installation erfolgt über die Dateien `app/admin/config/a
 composer install
 ```
 
-Diese beiden Scripts (Listing \ref{install_symcloud_clone} und \ref{install_symcloud_composer_install}) laden die nötigen Quellcode herunter und installieren die Abhängigkeiten. Um die Installation abzuschließen, werden je nach Betriebssystem folgende Scripts ausgeführt, um die richtigen Rechte (siehe Listing \ref{install_symcloud_rights_linux} oder Listing \ref{install_symcloud_rights_mac}) zu setzen.
+Diese beiden Scripts (Listing \ref{install_symcloud_clone} und \ref{install_symcloud_composer_install}) laden den notwendigen Quellcode herunter und installieren die Abhängigkeiten. Um die Installation abzuschließen, werden je nach Betriebssystem folgende Scripts ausgeführt, um die richtigen Rechte (siehe Listing \ref{install_symcloud_rights_linux} für Linux oder Listing \ref{install_symcloud_rights_mac} für Mac OSX) zu setzen.
 
 ```{caption="Berechtigungen setzen unter Linux\label{install_symcloud_rights_linux}"}
 rm -rf app/cache/*
@@ -237,7 +237,7 @@ cd ../your.symcloud.lo
 du -sh app/data/symcloud/database/*
 ```
 
-Beide Ordner enthalten den Eintrag `app/data/symcloud/database/chunk`, indem die `chunks` der Dateien abgelegt sind. Unter der URL `http://my.symcloud.lo:8000/admin` kann sich der `admin` Benutzer anmelden und seine Dateien bearbeiten.
+Beide Ordner enthalten den Eintrag `app/data/symcloud/database/chunk`, indem die `chunks` der Dateien abgelegt sind. Diese beiden Ordner besitzen nach dem Synchronisierungsvorgang dieselbe Größe. Unter der URL `http://my.symcloud.lo:8000/admin` kann sich der `admin` Benutzer anmelden und seine Dateien im Browser bearbeiten.
 
 ## Zusammenfassung
 
